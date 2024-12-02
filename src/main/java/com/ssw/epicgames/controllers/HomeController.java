@@ -1,19 +1,18 @@
 package com.ssw.epicgames.controllers;
 
+import org.springframework.http.MediaType;
 import org.springframework.stereotype.Controller;
+import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.servlet.ModelAndView;
 
-import java.util.Map;
-
 @Controller
+@RequestMapping(value = "/")
 public class HomeController {
-
-    @RequestMapping(value = "/", method = RequestMethod.GET)
-    public ModelAndView home() {
-        ModelAndView modelAndView = new ModelAndView();
-        modelAndView.setViewName("epicgames/home");
-        return modelAndView;
+    @GetMapping(value = "/", produces = MediaType.TEXT_HTML_VALUE)
+    public ModelAndView getIndex() {
+        ModelAndView mav = new ModelAndView();
+        mav.setViewName("/index");
+        return mav;
     }
 }
