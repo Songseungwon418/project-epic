@@ -15,18 +15,19 @@
     <div class="header"><!--헤더 및 동일 모양, 나중에 추가--></div>
     <main class="cart-main" id="cart-main">
         <section id="cart-view">
-            <div class="cart-header">
-                <h1 class="title">장바구니</h1>
-            </div>
-            <div class="cart-container">
-                <div class="cart-wrapper">
-                    <div class="cart-list">
-                        <div class="cart">
-                            <div class="img-container">
-                                <a class="link-image" aria-label="Dragon Age" href="#">
-                                    <img class="image" alt="표지이미지" src="https://cdn1.epicgames.com/offer/4583306dbdc34076ac7ac2bf19bf7096/EGS_DragonAgeTheVeilguard_Bioware_S2_1200x1600-4ec58c5cbb99ee7b1bd41e9f3d3c6c81_1200x1600-4ec58c5cbb99ee7b1bd41e9f3d3c6c81?resize=1&w=360&h=480&quality=medium">
-                                </a>
-                                <span class="logo-wrapper" aria-hidden="true">
+            <div class="cart-view-wrapper">
+                <div class="cart-header">
+                    <h1 class="title">나의 장바구니</h1>
+                </div>
+                <div class="cart-container">
+                    <div class="cart-wrapper">
+                        <div class="cart-list">
+                            <div class="cart">
+                                <div class="img-container">
+                                    <a class="link-image" aria-label="Dragon Age" href="#">
+                                        <img class="image" alt="표지이미지" src="https://cdn1.epicgames.com/offer/4583306dbdc34076ac7ac2bf19bf7096/EGS_DragonAgeTheVeilguard_Bioware_S2_1200x1600-4ec58c5cbb99ee7b1bd41e9f3d3c6c81_1200x1600-4ec58c5cbb99ee7b1bd41e9f3d3c6c81?resize=1&w=360&h=480&quality=medium">
+                                    </a>
+                                    <span class="logo-wrapper" aria-hidden="true">
                                     <ul class="logo-list">
                                         <li class="logo">
                                             <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512">
@@ -38,61 +39,70 @@
                                         </li>
                                     </ul>
                                 </span>
-                            </div>
-                            <div class="title-container">
-                                <div class="tag-wrapper">
-                                    <span class="tag">기본게임</span>
                                 </div>
-                                <span class="title">Dragon Age™: The Veilguard</span>
-                            </div>
-                            <div class="price-container">
-                                <span class="price">₩66,000</span>
-                            </div>
-                            <div class="ratings-container">
-                                <a href="https://www.globalratings.com/ratingsguide.aspx#grac" class="link" referrerpolicy="unsafe-url" rel="noopener noreferrer nofollow external" target="_blank">
-                                    <div class="img-wrapper">
-                                        <img alt="청소년이용불가" src="https://cdn1.epicgames.com/salesEvent/salesEvent/GRAC_19_272_272x272-65537df11aa656d20950e22b4600b8ba">
+                                <div class="title-container">
+                                    <div class="tag-wrapper">
+                                        <div class="tag-box">
+                                            <span class="tag">기본 게임</span>
+                                        </div>
                                     </div>
-                                </a>
-                            </div>
-                            <div class="cartRow">
-                                <div class="refund-container">
-                                    <span class="text">셀프 환불</span>
-                                    <span class="icon-wrapper">
-                                        <svg aria-hidden="true" class="info-icon" width="24" height="24" viewBox="0 0 24 24">
-                                        <path d="M13 16a1 1 0 1 1-2 0 1 1 0 0 1 2 0m-2.75-6.5A1.75 1.75 0 1 1 12 11.25a.75.75 0 0 0-.75.75v1a.75.75 0 0 0 1.5 0v-.337a3.251 3.251 0 1 0-4-3.163.75.75 0 0 0 1.5 0"></path>
-                                        <path d="M2.25 12c0-5.385 4.365-9.75 9.75-9.75s9.75 4.365 9.75 9.75-4.365 9.75-9.75 9.75S2.25 17.385 2.25 12M12 3.75a8.25 8.25 0 1 0 0 16.5 8.25 8.25 0 0 0 0-16.5" clip-rule="evenodd" fill-rule="evenodd"></path>
-                                    </svg>
-                                    </span>
+                                    <a class="title" href="#">Dragon Age™: The Veilguard</a>
                                 </div>
-                                <div class="button-container">
-                                    <button class="cart-btn -remove">제거</button>
-                                    <button class="cart-btn -wishlist">위시리스트로 이동</button>
+                                <div class="price-container">
+                                    <span class="price">₩66,000</span>
+                                </div>
+                                <div class="ratings-container">
+                                    <a href="https://www.globalratings.com/ratingsguide.aspx#grac" class="link" referrerpolicy="unsafe-url" rel="noopener noreferrer nofollow external" target="_blank">
+                                        <div class="link-wrapper">
+                                            <div class="img-wrapper">
+                                                <img alt="청소년이용불가" src="https://cdn1.epicgames.com/salesEvent/salesEvent/GRAC_19_272_272x272-65537df11aa656d20950e22b4600b8ba">
+                                            </div>
+                                            <div class="content-wrapper">
+                                                <span class="title">청소년이용불가</span>
+                                                <span class="subtitle">언어의 부적절성, 폭력성, 선정성</span>
+                                            </div>
+                                        </div>
+
+                                    </a>
+                                </div>
+                                <div class="cartRow">
+                                    <div class="refund-container">
+                                        <span class="text">셀프 환불</span>
+                                        <div class="icon-wrapper">
+                                            <span class="info_text">환불은 72시간 이내에 가능합니다.</span>
+                                            <img src="/purchase/assets/images/help-24.png" height="24"
+                                                 width="24"/>
+                                        </div>
+                                    </div>
+                                    <div class="button-container">
+                                        <button class="cart-btn -remove">제거</button>
+                                        <button class="cart-btn -wishlist">위시리스트로 이동</button>
+                                    </div>
                                 </div>
                             </div>
                         </div>
                     </div>
-                </div>
-                <div class="cart-sidebar">
-                    <div class="cart-sidebar-wrapper">
-                        <span class="title">게임 및 앱 합계</span>
-                        <div class="cart-price -standard">
-                            <span class="title">가격</span>
-                            <span class="content">₩86,700</span>
+                    <div class="cart-sidebar">
+                        <div class="cart-sidebar-wrapper">
+                            <span class="title">게임 및 앱 합계</span>
+                            <div class="cart-price -standard">
+                                <span class="title">가격</span>
+                                <span class="content">₩86,700</span>
+                            </div>
+                            <div class="cart-price -sale">
+                                <span class="title">할인 금액</span>
+                                <span class="content">-₩21,220</span>
+                            </div>
+                            <div class="cart-price -taxes">
+                                <span class="title">세금</span>
+                                <span class="content">결제 시 정산됨</span>
+                            </div>
+                            <div class="cart-price -total">
+                                <span class="title">소계</span>
+                                <span class="content">₩65,480</span>
+                            </div>
+                            <button class="cart-purchase-btn" type="button">구매</button>
                         </div>
-                        <div class="cart-price -sale">
-                            <span class="title">할인 금액</span>
-                            <span class="content">-₩21,220</span>
-                        </div>
-                        <div class="cart-price -taxes">
-                            <span class="title">세금</span>
-                            <span class="content">결제 시 정산됨</span>
-                        </div>
-                        <div class="cart-price -total">
-                            <span class="title">소계</span>
-                            <span class="content">₩65,480</span>
-                        </div>
-                        <button class="cart-purchase-btn" type="button">구매</button>
                     </div>
                 </div>
             </div>
