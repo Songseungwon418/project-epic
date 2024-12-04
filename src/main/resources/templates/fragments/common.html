@@ -355,29 +355,35 @@
     </div>
 </header>
 
-<main id="main" th:fragment="mainSearch">
-    <div class="search-container">
-        <form class="searchForm">
-            <button class="submit-button" type="submit">
-                <svg xmlns="http://www.w3.org/2000/svg" class="icon svg css-uwwqev" viewBox="0 0 21 20" preserveAspectRatio="xMidYMid meet"><g transform="scale(1 -1) rotate(-45 -11.93502884 -2)" stroke="currentColor" stroke-width="1.65" fill="none" fill-rule="evenodd"><circle cx="7.70710678" cy="7.70710678" r="7"></circle><path d="M15.2071068 8.62132034h5.6923881" stroke-linecap="square"></path></g></svg>
-            </button>
-            <label class="label">
-                <input name="keyword" class="search" placeholder="스토어 검색" autocomplete="off" spellcheck="false" type="search">
-            </label>
-        </form>
 
-        <div class="link-container">
-            <ul class="list">
-                <li class="item"><a href="#" target="_self">탐색</a></li>
-                <li class="item"><a href="#" target="_self">찾아보기</a></li>
-                <li class="item"><a href="#" target="_self">새 소식</a></li>
-            </ul>
-        </div>
+<div class="search-container" th:fragment="mainSearch">
+    <form class="searchForm">
+        <button class="submit-button" type="submit">
+            <svg xmlns="http://www.w3.org/2000/svg" class="icon svg css-uwwqev" viewBox="0 0 21 20"
+                 preserveAspectRatio="xMidYMid meet">
+                <g transform="scale(1 -1) rotate(-45 -11.93502884 -2)" stroke="currentColor" stroke-width="1.65"
+                   fill="none" fill-rule="evenodd">
+                    <circle cx="7.70710678" cy="7.70710678" r="7"></circle>
+                    <path d="M15.2071068 8.62132034h5.6923881" stroke-linecap="square"></path>
+                </g>
+            </svg>
+        </button>
+        <label class="label">
+            <input name="keyword" class="search" placeholder="스토어 검색" autocomplete="off" spellcheck="false"
+                   type="search">
+        </label>
+    </form>
 
+    <div class="link-container">
+        <ul class="list">
+            <li class="item"><a href="#" target="_self">탐색</a></li>
+            <li class="item"><a href="#" target="_self">찾아보기</a></li>
+            <li class="item"><a href="#" target="_self">새 소식</a></li>
+        </ul>
     </div>
 
+</div>
 
-</main>
 
 <footer id="footer" th:fragment="footer">
     <div class="social-container">
