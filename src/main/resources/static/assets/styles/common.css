@@ -1,0 +1,97 @@
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+html {
+    font-size: 62.5%;
+    overflow-y: scroll;
+}
+
+html,
+body {
+    width: 100%;
+    height: 100%;
+}
+
+body {
+    font-family: 'Verdana', 'malgun gothic';
+    font-size: 1.4rem;
+    color: #444;
+    line-height: 1;
+    letter-spacing: -0.04em;
+    background-color: #101014;
+}
+
+h1,
+h2,
+h3,
+h4,
+h5,
+h6 {
+    font-size: 100%;
+    font-weight: normal;
+    margin: 0;
+}
+
+a {
+    color: inherit;
+    text-decoration: none;
+}
+
+a:hover,
+a:active {
+    color: inherit;
+    text-decoration: none;
+}
+
+table {
+    table-layout: fixed;
+    word-break: break-all;
+    border-collapse: collapse;
+    border-spacing: 0;
+}
+
+img,
+fieldset,
+hr {
+    border: none;
+}
+
+ul,
+li,
+ol {
+    list-style: none;
+    margin: 0;
+}
+
+address,
+em {
+    font-style: normal;
+}
+
+img,
+video,
+canvas {
+    height: auto;
+}
+
+legend {
+    display: none;
+}
+
+button {
+    background: none;
+    cursor: pointer;
+}
+
+.hide {
+    display: none !important;
+}
+
+.objectFit img:not(.none) {
+    object-fit: cover;
+    width: 100%;
+    height: 100%;
+}
