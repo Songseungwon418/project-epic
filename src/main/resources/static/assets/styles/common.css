@@ -477,8 +477,9 @@ button {
 #main {
     flex-grow: 1;
     width: 100%;
-    height: 100%;
+    height: auto;
     max-width: 153rem;
+    min-height: 100%;
     margin: 0 auto;
 }
 #main > .search-container {
@@ -501,7 +502,7 @@ button {
 #main > .search-container > .searchForm > .submit-button > .icon {
     position: absolute;
     left: 1.8rem;
-    top: 1.3rem;
+    top: 1.45rem;
     color: rgba(255, 255, 255, 0.6470588235);
     width: 1.4rem;
     z-index: 3;
