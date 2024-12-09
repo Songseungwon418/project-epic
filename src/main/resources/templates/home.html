@@ -1,0 +1,292 @@
+<!DOCTYPE html>
+<html lang="ko" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport"
+          content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Epic Games Store | PC 게임, 모드, DLC 등을 다운로드하고 플레이하세요 - 에픽게임즈</title>
+    <link rel="shortcut icon" th:href="@{'/assets/images/favicon.png'}">
+    <link rel="stylesheet" type="text/css" th:href="@{/assets/styles/common.css}">
+    <link rel="stylesheet" type="text/css" th:href="@{/assets/styles/index.css}">
+    <link rel="stylesheet" type="text/css" th:href="@{/assets/styles/home.css}">
+    <script defer type="text/javascript" th:src="@{'/assets/scripts/common.js'}"></script>
+    <script defer type="text/javascript" th:src="@{'/assets/scripts/home.js'}"></script>
+    <script src="https://kit.fontawesome.com/856af35d3d.js" crossorigin="anonymous"></script>
+</head>
+<body>
+<th:block th:replace="~{fragments/common.html :: header}"></th:block>
+
+<main id="main">
+    <th:block th:replace="~{fragments/common.html :: mainSearch}"></th:block>
+
+    <div class="event-container">
+        <div class="event">
+            <a class="link" href="https://store.epicgames.com/ko/p/fortnite" target="_self">
+                <img class="image" alt="이벤트배너1"
+                     src="https://cdn2.unrealengine.com/fnbr-33-00-c6s1-egs-launcher-keyart-breaker-1920x1080-1920x1080-1f740221098e.jpg?resize=1&w=854&h=480&quality=medium">
+            </a>
+        </div>
+        <div class="event">
+            <a class="link" href="https://store.epicgames.com/ko/features/epic-rewards" target="_self">
+                <img class="image" alt="이벤트배너2"
+                     src="https://cdn2.unrealengine.com/ko-rewardsboosted2024-breaker-asset-1920x1080-f21c7d560acc.jpg?resize=1&w=854&h=480&quality=medium">
+            </a></div>
+        <div class="event">
+            <a class="link" href="https://store.epicgames.com/ko/collection/v-bucks" target="_self">
+                <img class="image" alt="이벤트배너3"
+                     src="https://cdn2.unrealengine.com/egs-fortnite-v-bucks-breaker-1920x1080-474255011968.jpg?resize=1&w=854&h=480&quality=medium">
+            </a></div>
+    </div>
+
+    <div class="rolling-banner">
+        <div class="box"></div>
+        <div class="main-banner">
+            <div class="first banner -selected">
+                <a class="link" href="https://store.epicgames.com/ko/p/infinity-nikki-71fc64" target="_self">
+                    <img class="image"
+                         src="https://cdn2.unrealengine.com/egs-carousel-infinity-nikki-carousel-desktop-1920x1080-39ee705eceeb.jpg?resize=1&w=854&h=480&quality=medium"
+                         alt="메인배너">
+                    <span class="filter-effect"></span>
+                    <div class="text-container">
+                        <div class="text-wrapper">
+                            <div class="logo"></div>
+                            <div class="text">
+                                <span class="first">지금 이용 가능</span>
+                                <span class="second">미라랜드에서 옷 짓고 낚시하고 자전거 타는 니키와 모모의 아늑한 일상에 동참하세요!</span>
+                            </div>
+                            <div class="button-container">
+                                <div class="download">
+                                    <span class="text">무료</span>
+                                    <button class="download-button" type="button">지금 플레이</button>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </a>
+            </div>
+
+            <div class="second banner">
+                <a class="link" href="https://store.epicgames.com/ko/p/discord--discord-nitro" target="_self">
+                    <img class="image"
+                         src="https://cdn2.unrealengine.com/egs-discord-nitro-carousel-desktop-1920x1080-1baf7fcd423e.jpg?resize=1&w=1280&h=720&quality=medium"
+                         alt="메인배너">
+                    <span class="filter-effect"></span>
+                    <div class="text-container">
+                        <div class="text-wrapper">
+                            <div class="logo"></div>
+                            <div class="text">
+                                <span class="first">DISCORD NITRO 1개월 이용권</span>
+                                <span class="second">신규 및 복귀 사용자에게 Discord Nitro 1개월<br> 이용권을 드립니다. 몇 가지 간단한 단계를 거치면 <br>프로필 개인화, HD 스트리밍, 커스텀 이모티콘 등을 추가로 즐길 수 있습니다!</span>
+                            </div>
+                            <div class="button-container">
+                                <div class="download">
+                                    <span class="text">무료</span>
+                                    <button class="download-button" type="button">지금 받기</button>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </a>
+            </div>
+
+            <div class="third banner">
+                <a class="link" href="https://discord.com/quests/1308169595055771748" target="_self">
+                    <img class="image"
+                         src="https://cdn2.unrealengine.com/egs-fn-discord-quest1-carousel-desktop-1920x1080-5759f677f966.jpg?resize=1&w=854&h=480&quality=medium"
+                         alt="메인배너">
+                    <span class="filter-effect"></span>
+                    <div class="text-container">
+                        <div class="text-wrapper">
+                            <div class="text">
+                                <span class="first">보상 받기</span>
+                                <span class="second">포트나이트를 15분 동안 플레이하고 Discord 아바타 장식 Rift Butterfly를 획득하세요. 이용 약관을<br> 확인하세요.</span>
+                            </div>
+                            <div class="button-container">
+                                <div class="download">
+                                    <button class="download-button" type="button">퀘스트 참여</button>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </a>
+            </div>
+
+        </div>
+
+        <div class="side-banner">
+            <a class="first side -selected" href="https://store.epicgames.com/ko/p/infinity-nikki-71fc64"
+               target="_self">
+                <div class="bar"></div>
+                <div class="value">
+                    <div class="image">
+                        <img src="https://cdn2.unrealengine.com/egs-carousel-infinity-nikki-carousel-thumb-1200x1600-66d7b3a33991.jpg?resize=1&w=96&h=128&quality=medium"
+                             alt="세로이미지">
+                    </div>
+                    <div class="title">
+                        <span class="text">Infinity Nikki</span>
+                    </div>
+                </div>
+            </a>
+            <a class="second side" href="https://store.epicgames.com/ko/p/discord--discord-nitro" target="_self">
+                <div class="bar"></div>
+                <div class="value">
+                    <div class="image">
+                        <img src="https://cdn2.unrealengine.com/egs-discord-nitro-carousel-thumb-1200x1600-d35835b89f7e.jpg?resize=1&w=96&h=128&quality=medium"
+                             alt="세로이미지">
+                    </div>
+                    <div class="title">
+                        <span class="text">Discord Nitro 증정 행사</span>
+                    </div>
+                </div>
+            </a>
+            <a class="third side" href="https://discord.com/quests/1308169595055771748" target="_self">
+                <div class="bar"></div>
+                <div class="value">
+                    <div class="image">
+                        <img src="https://cdn2.unrealengine.com/egs-fn-discord-quest1-carousel-thumb-1200x1600-17e6fe5cb513.jpg?resize=1&w=96&h=128&quality=medium"
+                             alt="세로이미지">
+                    </div>
+                    <div class="title">
+                        <span class="text">포트나이트 퀘스트</span>
+                    </div>
+                </div>
+            </a>
+        </div>
+
+    </div>
+
+    <div class="newGame">
+        <div class="title-wrapper">
+            <div class="title">
+                <a class="link" href="#" target="_self">
+                    <span class="text">새로운 게임을 발견하세요</span>
+                    <svg class="icon" width="24" height="24"
+                         viewBox="0 0 24 24">
+                        <path d="M8.97 4.47a.75.75 0 0 1 1.06 0L17.56 12l-7.53 7.53a.75.75 0 1 1-1.06-1.06L15.44 12 8.97 5.53a.75.75 0 0 1 0-1.06"
+                              clip-rule="evenodd" fill-rule="evenodd"></path>
+                    </svg>
+                </a>
+            </div>
+            <span class="spring"></span>
+            <div class="button-container">
+                <div class="prev button">
+                    <button type="button">
+                        <svg xmlns="http://www.w3.org/2000/svg" class="icon svg css-uwwqev" viewBox="0 0 5 9">
+                            <path stroke="#ffffff" d="M1 1l3 3.5L1 8" fill="none" fill-rule="evenodd"></path>
+                        </svg>
+                    </button>
+                </div>
+
+                <div class="next button">
+                    <button type="button">
+                        <svg xmlns="http://www.w3.org/2000/svg" class="icon svg css-uwwqev" viewBox="0 0 5 9">
+                            <path stroke="#ffffff" d="M1 1l3 3.5L1 8" fill="none" fill-rule="evenodd"></path>
+                        </svg>
+                    </button>
+                </div>
+
+            </div>
+        </div>
+        <div class="newGame-container">
+            <div class="newGame-wrapper">
+                <a th:href="@{#}" target="_self" th:each="newGame : ${newGames}" class="game">
+                    <div class="main-image">
+                        <img th:src="${newGame.base64Image}" alt="게임포스터">
+                    </div>
+                    <span class="game-type">기본 게임</span>
+                    <span th:text="${newGame.getName()}" class="game-name"></span>
+                    <span th:text="${newGame.getPrice()}" class="game-price"></span>
+                </a>
+
+            </div>
+        </div>
+    </div>
+
+    <div class="saleGame">
+        <div class="title-wrapper">
+            <div class="title">
+                <a class="link" href="#" target="_self">
+                    <span class="text">SPECIAL WINTER SALE❄</span>
+                    <svg class="icon" width="24" height="24"
+                         viewBox="0 0 24 24">
+                        <path d="M8.97 4.47a.75.75 0 0 1 1.06 0L17.56 12l-7.53 7.53a.75.75 0 1 1-1.06-1.06L15.44 12 8.97 5.53a.75.75 0 0 1 0-1.06"
+                              clip-rule="evenodd" fill-rule="evenodd"></path>
+                    </svg>
+                </a>
+            </div>
+            <span class="spring"></span>
+            <div class="button-container">
+                <div class="prevButton">
+                    <button type="button">
+                        <svg xmlns="http://www.w3.org/2000/svg" class="icon svg css-uwwqev" viewBox="0 0 5 9">
+                            <path stroke="#ffffff" d="M1 1l3 3.5L1 8" fill="none" fill-rule="evenodd"></path>
+                        </svg>
+                    </button>
+                </div>
+
+                <div class="nextButton">
+                    <button type="button">
+                        <svg xmlns="http://www.w3.org/2000/svg" class="icon svg css-uwwqev" viewBox="0 0 5 9">
+                            <path stroke="#ffffff" d="M1 1l3 3.5L1 8" fill="none" fill-rule="evenodd"></path>
+                        </svg>
+                    </button>
+                </div>
+
+            </div>
+        </div>
+        <div class="saleGame-container">
+            <div class="saleGame-wrapper">
+                <a th:href="@{#}" target="_self" th:each="saleGame : ${saleGames}" class="sale-game">
+                    <div class="main-image">
+                        <img th:src="${saleGame.base64Image}" alt="게임포스터">
+                    </div>
+                    <span class="game-type">기본 게임</span>
+                    <span class="game-name" th:text="${saleGame.getName()}"></span>
+                    <div class="sale-info">
+                        <div class="sale-percentage">
+                            <span class="text" th:text="${'-' + saleGame.getDiscountPercent() + '%'}"></span>
+                        </div>
+                        <del class="origin-price" th:text="${saleGame.getPrice()}"></del>
+                        <span class="sale-price"
+                              th:text="${saleGame.getPrice() * (1 - (saleGame.getDiscountPercent() / 100.0))}"></span>
+                    </div>
+                </a>
+            </div>
+        </div>
+    </div>
+
+    <section class="dealSection">
+        <div class="deal-container">
+            <div class="first deal">
+                <div class="image-link">
+                    <a class="link" href="#" target="_self">
+                        <img class="img" src="https://cdn2.unrealengine.com/ko-egs-dotw-steep-breaker-1920x1080-606bcbb72da1.jpg?resize=1&w=854&h=480&quality=medium" alt="게임이미지">
+                    </a>
+                </div>
+
+                <div class="text-link">
+                    <a href="#" target="_self">Steep</a>
+                </div>
+
+            </div>
+
+            <div class="second deal">
+                <div class="image-link">
+                    <a class="link" href="#" target="_self">
+                        <img class="image" src="https://cdn2.unrealengine.com/jp-sales-specials-dotw-breaker-asset-1-1920x1080-23af70eec61b.jpg?resize=1&w=854&h=480&quality=medium" alt="게임이미지">
+                    </a>
+                </div>
+
+            </div>
+
+        </div>
+
+    </section>
+
+
+</main>
+
+<th:block th:replace="~{fragments/common.html :: footer}"></th:block>
+</body>
+</html>
