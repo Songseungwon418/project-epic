@@ -1,0 +1,680 @@
+@charset "UTF-8";
+html,
+body {
+  width: 100vw;
+  min-height: 100vh;
+  /*position: relative;*/
+  /*display: flex;*/
+  /*flex-flow: row;*/
+  /*-webkit-box-pack: start;*/
+  /*justify-content: start;*/
+  overflow-x: hidden;
+  color: #ffffff !important;
+}
+
+/* 임시 공간 */
+.header {
+  height: 172px;
+}
+
+.main {
+  font-family: "Inter", sans-serif;
+  font-optical-sizing: auto;
+  font-weight: 400;
+  font-style: normal;
+}
+.main > #view-container {
+  position: relative;
+  width: 75%;
+  max-width: 1600px;
+  margin-left: auto;
+  margin-right: auto;
+}
+.main > #view-container > .view-wrapper {
+  margin: 0 auto;
+  max-width: 1920px;
+  padding-bottom: 90px;
+}
+.main > #view-container > .view-wrapper > .view-header {
+  align-items: center;
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+  box-sizing: border-box;
+  margin-bottom: 50px;
+}
+.main > #view-container > .view-wrapper > .view-header > .title {
+  font-weight: 600;
+  font-size: 40px;
+}
+.main > #view-container > .view-wrapper > .view-content-container {
+  display: flex;
+  flex-flow: wrap;
+}
+.main > #view-container > .view-wrapper > .view-content-container > .view-content-wrapper {
+  flex-grow: 1;
+  margin-bottom: 20px;
+}
+.main > #view-container > .view-wrapper > .view-content-container > .view-content-wrapper > .game-list {
+  position: relative;
+  align-items: stretch;
+  display: flex;
+  flex-direction: column;
+  gap: 15px;
+  justify-content: flex-start;
+}
+.main > #view-container > .view-wrapper > .view-content-container > .view-content-wrapper > .game-list > .game-card {
+  padding: 20px;
+  display: grid;
+  grid-template-columns: auto 1fr auto;
+  grid-template-areas: "image title title" "image price price" "image rating rating" "image ctaRow ctaRow";
+  background-color: #202024;
+  border-radius: 12px;
+}
+.main > #view-container > .view-wrapper > .view-content-container > .view-content-wrapper > .game-list > .game-card > .img-container {
+  grid-area: image;
+  margin-right: 20px;
+  align-items: stretch;
+  display: flex;
+  gap: 10px;
+  flex-direction: column;
+  justify-content: stretch;
+}
+.main > #view-container > .view-wrapper > .view-content-container > .view-content-wrapper > .game-list > .game-card > .img-container > .link-image {
+  width: 60px;
+  position: relative;
+  align-items: stretch;
+  display: flex;
+  flex-direction: column;
+  justify-content: stretch;
+  gap: 10px;
+  background-color: #FFFFFF;
+}
+.main > #view-container > .view-wrapper > .view-content-container > .view-content-wrapper > .game-list > .game-card > .img-container > .link-image > .image-wrapper {
+  width: 100%;
+}
+.main > #view-container > .view-wrapper > .view-content-container > .view-content-wrapper > .game-list > .game-card > .img-container > .link-image > .image-wrapper:hover {
+  opacity: 0.8;
+}
+.main > #view-container > .view-wrapper > .view-content-container > .view-content-wrapper > .game-list > .game-card > .img-container > .link-image > .image-wrapper > .image {
+  width: 100%;
+  height: 100%;
+}
+.main > #view-container > .view-wrapper > .view-content-container > .view-content-wrapper > .game-list > .game-card > .img-container > .logo-wrapper {
+  align-items: stretch;
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-start;
+  flex-grow: 1;
+}
+.main > #view-container > .view-wrapper > .view-content-container > .view-content-wrapper > .game-list > .game-card > .img-container > .logo-wrapper > .logo-list {
+  margin: 0;
+  padding: 0;
+  align-items: stretch;
+  display: flex;
+  flex-direction: row;
+  gap: 1em;
+  justify-content: flex-start;
+}
+.main > #view-container > .view-wrapper > .view-content-container > .view-content-wrapper > .game-list > .game-card > .img-container > .logo-wrapper > .logo-list svg {
+  width: 12px;
+  height: 12px;
+}
+.main > #view-container > .view-wrapper > .view-content-container > .view-content-wrapper > .game-list > .game-card > .title-container {
+  width: 100%;
+  grid-area: title;
+  align-items: stretch;
+  display: flex;
+  flex-direction: column;
+  gap: 5px;
+  justify-content: stretch;
+}
+.main > #view-container > .view-wrapper > .view-content-container > .view-content-wrapper > .game-list > .game-card > .title-container > .tag-wrapper {
+  margin: -5px -2.5px;
+  align-items: stretch;
+  display: flex;
+  flex-direction: row;
+  justify-content: stretch;
+}
+.main > #view-container > .view-wrapper > .view-content-container > .view-content-wrapper > .game-list > .game-card > .title-container > .tag-wrapper > .tag-box {
+  margin: 5px 2.5px;
+  padding: 3px 8px;
+  align-items: stretch;
+  display: flex;
+  justify-content: stretch;
+  letter-spacing: 0.24px;
+  line-height: 18px;
+  overflow-wrap: break-word;
+  text-size-adjust: 100%;
+  background-color: rgba(255, 255, 255, 0.1490196078);
+  border-radius: 4px;
+}
+.main > #view-container > .view-wrapper > .view-content-container > .view-content-wrapper > .game-list > .game-card > .title-container > .tag-wrapper > .tag-box > .tag {
+  align-items: center;
+  display: flex;
+  justify-content: center;
+  font-size: 12px;
+  font-weight: 400;
+  color: whitesmoke !important;
+}
+.main > #view-container > .view-wrapper > .view-content-container > .view-content-wrapper > .game-list > .game-card > .title-container > .title {
+  padding: 0.25rem;
+  font-size: 20px;
+  font-weight: 700;
+  letter-spacing: 0.4px;
+  line-height: 20px;
+  flex-grow: 1;
+  align-items: stretch;
+  display: flex;
+  flex-direction: column;
+  justify-content: stretch;
+  cursor: pointer;
+}
+.main > #view-container > .view-wrapper > .view-content-container > .view-content-wrapper > .game-list > .game-card > .title-container > .title:hover {
+  text-decoration: underline;
+  text-decoration-thickness: 0.0625rem;
+}
+.main > #view-container > .view-wrapper > .view-content-container > .view-content-wrapper > .game-list > .game-card > .price-container {
+  grid-area: price;
+  margin-top: 10px;
+  font-size: 16px;
+  font-weight: 700;
+  letter-spacing: normal;
+  line-height: 24px;
+  overflow-wrap: break-word;
+  text-size-adjust: 100%;
+  align-items: flex-start;
+  display: flex;
+  flex-direction: column;
+  gap: 5px;
+  justify-content: center;
+}
+.main > #view-container > .view-wrapper > .view-content-container > .view-content-wrapper > .game-list > .game-card > .price-container > .info_text {
+  color: rgba(245, 245, 245, 0.6);
+  font-size: 12px;
+  font-weight: 400;
+}
+.main > #view-container > .view-wrapper > .view-content-container > .view-content-wrapper > .game-list > .game-card > .ratings-container {
+  grid-area: rating;
+  width: 100%;
+  margin-top: 20px;
+}
+.main > #view-container > .view-wrapper > .view-content-container > .view-content-wrapper > .game-list > .game-card > .ratings-container > .link > .link-wrapper {
+  margin: 0;
+  width: 100%;
+  flex-flow: row nowrap;
+  border: 1px solid rgba(255, 255, 255, 0.1490196078);
+  border-radius: 10px;
+  padding: 15px;
+  align-items: flex-start;
+  display: flex;
+  flex-direction: row;
+  gap: 15px;
+  justify-content: stretch;
+  transition-duration: 115ms;
+  transition-property: border-color;
+  transition-timing-function: ease;
+}
+.main > #view-container > .view-wrapper > .view-content-container > .view-content-wrapper > .game-list > .game-card > .ratings-container > .link > .link-wrapper:hover {
+  border-color: #FFFFFF;
+}
+.main > #view-container > .view-wrapper > .view-content-container > .view-content-wrapper > .game-list > .game-card > .ratings-container > .link > .link-wrapper > .img-wrapper {
+  max-width: 46px;
+}
+.main > #view-container > .view-wrapper > .view-content-container > .view-content-wrapper > .game-list > .game-card > .ratings-container > .link > .link-wrapper > .img-wrapper > img {
+  transition: opacity 125ms ease-in-out 450ms;
+  max-width: 100%;
+  max-height: 100%;
+  width: auto;
+  height: auto;
+  opacity: 1;
+}
+.main > #view-container > .view-wrapper > .view-content-container > .view-content-wrapper > .game-list > .game-card > .ratings-container > .link > .link-wrapper > .content-wrapper {
+  padding: 0.5px;
+  flex-grow: 1;
+  align-items: flex-start;
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+  justify-content: center;
+}
+.main > #view-container > .view-wrapper > .view-content-container > .view-content-wrapper > .game-list > .game-card > .ratings-container > .link > .link-wrapper > .content-wrapper > .title {
+  font-size: 14px;
+  font-weight: 700;
+  letter-spacing: 0.28px;
+}
+.main > #view-container > .view-wrapper > .view-content-container > .view-content-wrapper > .game-list > .game-card > .ratings-container > .link > .link-wrapper > .content-wrapper > .subtitle {
+  font-size: 12px;
+  letter-spacing: 0.24px;
+  color: rgba(245, 245, 245, 0.6) !important;
+}
+.main > #view-container > .view-wrapper > .view-content-container > .view-content-wrapper > .game-list > .game-card > .content-and-btn {
+  grid-area: ctaRow;
+  margin-top: 20px;
+  width: 100%;
+  align-items: stretch;
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+  justify-content: space-between;
+}
+.main > #view-container > .view-wrapper > .view-content-container > .view-content-wrapper > .game-list > .game-card > .content-and-btn > .refund-container {
+  align-items: center;
+  display: flex;
+  flex-direction: row;
+  gap: 8px;
+  justify-content: flex-start;
+}
+.main > #view-container > .view-wrapper > .view-content-container > .view-content-wrapper > .game-list > .game-card > .content-and-btn > .refund-container > .text {
+  white-space: nowrap;
+}
+.main > #view-container > .view-wrapper > .view-content-container > .view-content-wrapper > .game-list > .game-card > .content-and-btn > .refund-container > .icon-wrapper {
+  margin-top: 6px;
+  cursor: pointer;
+  align-items: center;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+}
+.main > #view-container > .view-wrapper > .view-content-container > .view-content-wrapper > .game-list > .game-card > .content-and-btn > .refund-container > .icon-wrapper:hover > .info_text {
+  display: flex;
+}
+.main > #view-container > .view-wrapper > .view-content-container > .view-content-wrapper > .game-list > .game-card > .content-and-btn > .refund-container > .icon-wrapper > .info_text {
+  margin-bottom: 60px;
+  position: absolute;
+  background-color: #0e0e0e;
+  padding: 10px;
+  font-size: 12px;
+  border-radius: 2.5px;
+  z-index: 5;
+  display: none;
+}
+.main > #view-container > .view-wrapper > .view-content-container > .view-content-wrapper > .game-list > .game-card > .content-and-btn > .button-container {
+  display: flex;
+  flex-direction: row;
+  align-content: stretch;
+  justify-content: flex-start;
+  gap: 15px;
+}
+.main > #view-container > .view-wrapper > .view-content-container > .view-content-wrapper > .game-list > .game-card > .content-and-btn > .button-container > .spring {
+  flex-grow: 1;
+}
+.main > #view-container > .view-wrapper > .view-content-container > .view-content-wrapper > .game-list > .game-card > .content-and-btn > .button-container > .game-card-btn {
+  all: unset;
+  border: none;
+  padding: 4px 12px;
+  cursor: pointer;
+  font-family: inherit;
+  color: rgba(245, 245, 245, 0.6);
+  text-align: center;
+}
+.main > #view-container > .view-wrapper > .view-content-container > .view-content-wrapper > .game-list > .game-card > .content-and-btn > .button-container > .game-card-btn:hover {
+  color: #FFFFFF;
+}
+.main > #view-container > .view-wrapper > .view-content-container > .view-content-wrapper > .game-list > .game-card > .content-and-btn > .button-container > .game-card-btn:hover > .tooltip-text {
+  display: flex;
+  opacity: 1;
+}
+.main > #view-container > .view-wrapper > .view-content-container > .view-content-wrapper > .game-list > .game-card > .content-and-btn > .button-container > .game-card-btn > .tooltip-text {
+  margin-bottom: 60px;
+  position: absolute;
+  background-color: #0e0e0e;
+  padding: 10px;
+  font-size: 12px;
+  border-radius: 2.5px;
+  z-index: 5;
+  display: none;
+}
+.main > #view-container > .view-wrapper > .view-content-container > .view-content-wrapper > .game-list > .game-card > .content-and-btn > .button-container > .game-card-btn.-cart-add {
+  padding: 4px 12px;
+  border: none;
+  border-radius: 6px;
+  background-color: #26bbff;
+  color: #000000;
+  text-align: center;
+  align-items: center;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+}
+.main > #view-container > .view-wrapper > .view-content-container > .view-content-wrapper > .game-list > .game-card > .content-and-btn > .button-container > .game-card-btn.-cart-add > .text {
+  flex-grow: 1;
+  font-size: 14px;
+  font-weight: 500;
+  line-height: 24px;
+  letter-spacing: 0.276px;
+}
+.main > #view-container > .view-wrapper > .view-content-container > .cart-sidebar {
+  width: 100%;
+  flex-shrink: 0;
+  align-items: stretch;
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-start;
+}
+.main > #view-container > .view-wrapper > .view-content-container > .cart-sidebar > .cart-sidebar-wrapper {
+  flex-grow: 1;
+  align-items: stretch;
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-start;
+}
+.main > #view-container > .view-wrapper > .view-content-container > .cart-sidebar > .cart-sidebar-wrapper > .title {
+  margin-bottom: 20px;
+  font-size: 24px;
+  font-weight: 900;
+}
+.main > #view-container > .view-wrapper > .view-content-container > .cart-sidebar > .cart-sidebar-wrapper > .cart-price {
+  margin-top: 15px;
+}
+.main > #view-container > .view-wrapper > .view-content-container > .cart-sidebar > .cart-sidebar-wrapper > .cart-price > .price-wrapper {
+  align-items: stretch;
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+  font-size: 14px;
+}
+.main > #view-container > .view-wrapper > .view-content-container > .cart-sidebar > .cart-sidebar-wrapper > .cart-price > .price-wrapper > span {
+  letter-spacing: 0.28px;
+  line-height: 23.1px;
+}
+.main > #view-container > .view-wrapper > .view-content-container > .cart-sidebar > .cart-sidebar-wrapper > .cart-price > .price-wrapper.-total {
+  margin-top: 20px;
+  padding-top: 20px;
+  border-top: 1px solid rgba(255, 255, 255, 0.1490196078);
+  font-weight: 700;
+}
+.main > #view-container > .view-wrapper > .view-content-container > .cart-sidebar > .cart-sidebar-wrapper > .btn-wrapper {
+  margin-top: 40px;
+  width: 100%;
+  height: 3rem;
+  flex-grow: 1;
+  align-items: flex-start;
+  display: flex;
+  justify-content: stretch;
+}
+.main > #view-container > .view-wrapper > .view-content-container > .cart-sidebar > .cart-sidebar-wrapper > .btn-wrapper > .cart-purchase-btn {
+  flex-grow: 1;
+  padding: 1.2rem 2rem;
+  font-size: 14px;
+  border: none;
+  border-radius: 10px;
+  background-color: #26bbff;
+  color: #333;
+  text-align: center;
+}
+.main > #view-container > .view-wrapper > .view-content-container > .wishlist-filter-sidebar {
+  width: 245px;
+  padding-left: 15px;
+}
+.main > #view-container > .view-wrapper > .view-content-container > .wishlist-filter-sidebar > .filter-sidebar-container {
+  width: 100%;
+  position: relative;
+  color: #f5f5f5;
+  background: #121212;
+  font-size: 1rem;
+  line-height: normal;
+  overflow: hidden;
+}
+.main > #view-container > .view-wrapper > .view-content-container > .wishlist-filter-sidebar > .filter-sidebar-container > .filter-title > .filter-title-line > .title-wrapper {
+  height: 44px;
+  padding-top: 0;
+  align-items: center;
+  display: flex;
+  justify-content: space-between;
+}
+.main > #view-container > .view-wrapper > .view-content-container > .wishlist-filter-sidebar > .filter-sidebar-container > .filter-title > .filter-title-line > .title-wrapper > .title {
+  padding: 0 12px;
+  color: #f5f5f5 !important;
+  font-size: 16px;
+  font-weight: 700;
+}
+.main > #view-container > .view-wrapper > .view-content-container > .wishlist-filter-sidebar > .filter-sidebar-container > .filter-title > .filter-title-line::after {
+  content: "";
+  background-color: rgba(255, 255, 255, 0.1490196078);
+  display: block;
+  height: 1px;
+  margin: 6px 14px;
+  opacity: 1;
+}
+.main > #view-container > .view-wrapper > .view-content-container > .wishlist-filter-sidebar > .filter-sidebar-container > .filter-list > .filter-list-title {
+  align-items: center;
+  cursor: pointer;
+  display: flex;
+  justify-content: space-between;
+}
+.main > #view-container > .view-wrapper > .view-content-container > .wishlist-filter-sidebar > .filter-sidebar-container > .filter-list > .filter-list-title > .filter-toggle-button {
+  width: 100%;
+  padding: 20px 12px;
+  align-items: center;
+  display: flex;
+  justify-content: space-between;
+  color: rgba(245, 245, 245, 0.6);
+  border: 1px solid transparent;
+  border-radius: 4px;
+  font-family: inherit;
+}
+.main > #view-container > .view-wrapper > .view-content-container > .wishlist-filter-sidebar > .filter-sidebar-container > .filter-list > .filter-list-title > .filter-toggle-button:hover {
+  color: #f5f5f5;
+}
+.main > #view-container > .view-wrapper > .view-content-container > .wishlist-filter-sidebar > .filter-sidebar-container > .filter-list > .filter-list-title > .filter-toggle-button > .list-name {
+  font-size: 14px;
+  font-weight: 400;
+}
+.main > #view-container > .view-wrapper > .view-content-container > .wishlist-filter-sidebar > .filter-sidebar-container > .filter-list > .filter-list-title > .filter-toggle-button > .arrow-icon {
+  transition: transform 0.3s ease;
+  fill: currentcolor;
+  width: 20px;
+  height: 20px;
+}
+.main > #view-container > .view-wrapper > .view-content-container > .wishlist-filter-sidebar > .filter-sidebar-container > .filter-list > .filter-list-title > .filter-toggle-button[aria-expanded=true] > .arrow-icon {
+  transform: rotate(180deg);
+}
+.main > #view-container > .view-wrapper > .view-content-container > .wishlist-filter-sidebar > .filter-sidebar-container > .filter-list > .filter-list-title > .filter-toggle-button[aria-expanded=true] + .filter-list-content {
+  display: block;
+}
+.main > #view-container > .view-wrapper > .view-content-container > .wishlist-filter-sidebar > .filter-sidebar-container > .filter-list > .filter-list-content {
+  display: none;
+  transition: all 0.3s ease;
+  padding-left: 1rem;
+}
+.main > #view-container > .view-wrapper > .view-content-container > .wishlist-filter-sidebar > .filter-sidebar-container > .filter-list > .filter-list-content > .filter-option > .checkbox {
+  margin-bottom: 5px;
+  padding: 12px;
+  border: 1px solid transparent;
+  border-radius: 3px;
+  align-items: center;
+  display: flex;
+  justify-content: space-between;
+  pointer-events: all;
+  color: rgba(245, 245, 245, 0.6);
+}
+.main > #view-container > .view-wrapper > .view-content-container > .wishlist-filter-sidebar > .filter-sidebar-container > .filter-list > .filter-list-content > .filter-option > .checkbox:hover {
+  background-color: rgba(145, 141, 141, 0.2196078431);
+}
+.main > #view-container > .view-wrapper > .view-content-container > .wishlist-filter-sidebar > .filter-sidebar-container > .filter-list > .filter-list-content > .filter-option > .checkbox:focus {
+  border-color: whitesmoke;
+  outline: none;
+}
+.main > #view-container > .view-wrapper > .view-content-container > .wishlist-filter-sidebar > .filter-sidebar-container > .filter-list > .filter-list-content > .filter-option > .checkbox[aria-checked=true] > .check-icon {
+  display: block;
+}
+.main > #view-container > .view-wrapper > .view-content-container > .wishlist-filter-sidebar > .filter-sidebar-container > .filter-list > .filter-list-content > .filter-option > .checkbox > .checkbox-label {
+  font-size: 14px;
+  font-weight: 400;
+  line-height: 19.6px;
+  letter-spacing: 0.28px;
+  cursor: pointer;
+}
+.main > #view-container > .view-wrapper > .view-content-container > .wishlist-filter-sidebar > .filter-sidebar-container > .filter-list > .filter-list-content > .filter-option > .checkbox > .check-icon {
+  display: none;
+  line-height: 0;
+  color: #f5f5f5;
+  height: 8px;
+  width: 10px;
+}
+.main > #view-container > .view-wrapper > .view-content-container > .wishlist-filter-sidebar > .filter-sidebar-container > .filter-list > .filter-list-line::after {
+  content: "";
+  background-color: rgba(255, 255, 255, 0.1490196078);
+  display: block;
+  height: 1px;
+  margin: 6px 14px;
+  opacity: 1;
+}
+
+/* 결재 페이지 모달창 */
+#cart-pay-modal {
+  display: none; /* 초기 상태에서는 보이지 않음 */
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  width: 100%;
+  height: 100%;
+  background-color: rgba(0, 0, 0, 0.5);
+  opacity: 1;
+  z-index: 998;
+  /* 모달창 콘텐츠 */
+}
+#cart-pay-modal > .modal-content {
+  background: #1e1e1e;
+  border: 2px solid #4d4d4d;
+  height: auto;
+  max-height: none;
+  margin-left: auto;
+  margin-right: auto;
+  margin-top: 10vh;
+  max-width: 1200px;
+  width: 100vw;
+  z-index: 999;
+  /* 닫기 버튼 */
+}
+#cart-pay-modal > .modal-content > iframe {
+  width: 100%;
+  height: 100%;
+  border: none;
+}
+#cart-pay-modal > .modal-content > .close-modal-btn {
+  position: absolute;
+  top: 10px;
+  right: 10px;
+  background-color: #ff4747;
+  color: white;
+  font-size: 20px;
+  border: none;
+  border-radius: 50%;
+  padding: 5px 10px;
+  cursor: pointer;
+}
+#cart-pay-modal > .modal-content > .close-modal-btn:hover {
+  background-color: #cc0000;
+}
+
+@media (max-width: 430px) {
+  .game-card {
+    grid-template-areas: "image title title" "image rating rating" "image price price" "image ctaRow ctaRow" !important;
+  }
+  .game-card .title {
+    display: -webkit-box !important;
+    overflow: hidden !important;
+    word-break: break-word !important;
+    -webkit-box-orient: vertical !important;
+    -webkit-line-clamp: 2 !important;
+  }
+  .game-card .subtitle {
+    display: -webkit-box !important;
+    overflow: hidden !important;
+    word-break: break-word !important;
+    -webkit-box-orient: vertical !important;
+    -webkit-line-clamp: 1 !important;
+  }
+  .game-card .button-container > .spring {
+    flex-grow: 0 !important;
+  }
+  .game-card .button-container > .game-card-btn {
+    flex-grow: 1 !important;
+    flex-shrink: 0;
+    max-width: 100%;
+    flex-wrap: nowrap !important;
+    white-space: nowrap !important;
+    overflow: hidden !important;
+    text-overflow: ellipsis !important;
+  }
+}
+@media (min-width: 430px) {
+  .view-content-container .game-card {
+    grid-template-areas: "image title title" "image price price" "image rating rating" "image ctaRow ctaRow" !important;
+  }
+}
+@media (min-width: 768px) {
+  .view-content-container {
+    flex-wrap: wrap;
+  }
+  .view-content-container .link-image {
+    width: 83px !important;
+  }
+  .view-content-container .game-card {
+    justify-items: normal;
+    grid-template-areas: "image title price" "image rating rating" "image ctaRow ctaRow" !important;
+  }
+}
+@media (min-width: 1024px) and (max-width: 1279px) {
+  .view-content-container {
+    flex-wrap: nowrap;
+  }
+  .view-content-container .view-content-wrapper {
+    margin-bottom: 0 !important;
+  }
+  .view-content-container .view-content-wrapper .game-card {
+    grid-template-areas: "image title title" "image price price" "image rating rating" "image ctaRow ctaRow" !important;
+  }
+  .view-content-container .cart-sidebar {
+    margin-left: 32px;
+    width: 256px !important;
+  }
+}
+@media (min-width: 1280px) {
+  .game-card {
+    justify-items: normal;
+    grid-template-columns: auto 1fr fit-content(50%) !important;
+    grid-template-areas: "image title price" "image rating rating" "image ctaRow ctaRow" !important;
+  }
+  .game-card .price-container {
+    align-items: flex-end !important;
+  }
+  .game-card .link-image {
+    width: 128px !important;
+  }
+  .cart-sidebar {
+    margin-left: 36px;
+    width: 296px !important;
+  }
+}
+@media (min-width: 1440px) {
+  .link-image {
+    width: 131px !important;
+  }
+}
+/* 모달창 관련 미디어쿼리 */
+@media screen and (max-height: 1200px) {
+  .modal-content {
+    height: 94% !important;
+    margin: 3vh auto auto !important;
+    max-height: 1200px !important;
+  }
+}
+@media screen and (max-width: 1023px) {
+  #view-container {
+    width: 90% !important;
+  }
+}
+@media screen and (max-height: 961px) {
+  .modal-content {
+    height: 100% !important;
+    margin-top: 0 !important;
+    max-height: 961px !important;
+  }
+}
+
+/*# sourceMappingURL=cart_wishlist.css.map */
