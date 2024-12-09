@@ -1,3 +1,4 @@
+@charset "UTF-8";
 @import url('https://fonts.googleapis.com/css2?family=Inter:ital,opsz,wght@0,14..32,100..900;1,14..32,100..900&display=swap');
 
 * {
@@ -20,6 +21,7 @@ body {
 body {
     font-family: "Inter", sans-serif;
     font-optical-sizing: auto;
+    font-weight: 400;
     font-style: normal;
     font-size: 1.4rem;
     color: #444;
@@ -169,6 +171,7 @@ button {
     backdrop-filter: blur(3.125rem);
     box-shadow: rgba(0, 0, 0, 0.1) 0 32px 16px, rgba(0, 0, 0, 0.1) 0 16px 8px, rgba(0, 0, 0, 0.1) 0 8px 4px, rgba(0, 0, 0, 0.1) 0 4px 2px, rgba(0, 0, 0, 0.1) 0 2px 1px;
     padding: 2.5rem;
+    z-index: 999;
 }
 #header > .header-container > .menu-toggle > .menu .menu-wrapper {
     color: #ffffff;
