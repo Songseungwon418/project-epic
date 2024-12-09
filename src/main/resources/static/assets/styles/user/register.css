@@ -1,0 +1,225 @@
+body {
+  width: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 30px 0;
+}
+
+#cover {
+  width: 100%;
+  height: 100%;
+  backdrop-filter: blur(2.5rem);
+  background-color: inherit;
+  opacity: 0;
+  pointer-events: none;
+  position: fixed;
+  transition: opacity 0.5s ease;
+}
+
+.license {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  position: fixed;
+  max-width: 470px;
+  width: 80%;
+  background-color: #26262b;
+  border-radius: 30px;
+  padding: 30px 40px;
+}
+.license.remove {
+  display: none;
+}
+.license > .label-container {
+  width: 100%;
+  height: 100%;
+  border-radius: 3rem;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: flex-start;
+}
+.license > .label-container > .titleLabel {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  justify-content: space-between;
+  width: 100%;
+  margin-bottom: 40px;
+}
+.license > .label-container > .titleLabel > .license-title {
+  color: #ffffff;
+  font-size: 2rem;
+  font-weight: 900;
+}
+.license > .label-container > .license-label {
+  width: 100%;
+  justify-content: space-between;
+  margin-bottom: 20px;
+}
+.license > .label-container > .license-label > .text {
+  line-height: 1.4;
+}
+.license > .label-container > .license-label > .text > a {
+  color: #ffffff;
+  border-bottom: 0.0625rem solid #ffffff;
+}
+.license > .label-container > .btnsWrap {
+  display: flex;
+  gap: 0 15px;
+  width: 100%;
+}
+.license > .label-container > .btnsWrap > .not-button {
+  width: 100%;
+  border: 0.0625rem solid #303034;
+  background-color: #303034;
+  border-radius: 2rem;
+  padding: 1.5rem;
+  color: #ffffff;
+}
+.license > .label-container > .btnsWrap > .not-button:hover {
+  background-color: rgb(60.24, 60.24, 65.26);
+}
+.license > .label-container > .btnsWrap > .not-button:active {
+  background-color: rgb(72.48, 72.48, 78.52);
+}
+.license > .label-container > .btnsWrap > .button {
+  width: 100%;
+  border: 0.0625rem solid #656565;
+  background-color: #656565;
+  border-radius: 2rem;
+  padding: 1.5rem;
+}
+.license > .label-container > .btnsWrap > .button:hover {
+  background-color: rgb(113.75, 113.75, 113.75);
+}
+.license > .label-container > .btnsWrap > .button:active {
+  background-color: rgb(126.5, 126.5, 126.5);
+}
+
+.agree {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  width: 60%;
+  height: 60%;
+  background-color: #26262b;
+  border-radius: 10px;
+  padding: 20px;
+  color: white;
+  z-index: 10;
+  display: none;
+}
+.agree.visible {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  justify-content: flex-start;
+}
+.agree h1 {
+  font-size: 24px;
+  font-weight: bold;
+}
+.agree p {
+  margin-top: 10px;
+  font-size: 14px;
+  line-height: 1.5;
+}
+.agree .back-button {
+  margin-bottom: 20px;
+  color: #65caf8;
+  text-decoration: none;
+}
+
+.register-content {
+  max-width: 500px;
+  width: 90%;
+  max-height: 100%;
+  border: 0.0625rem solid #18181c;
+  border-radius: 1.5rem;
+  padding: 48px;
+  background-color: #18181c;
+  overflow: auto;
+}
+.register-content > .register-form {
+  display: flex;
+  align-items: center;
+  justify-content: flex-start;
+  flex-direction: column;
+  gap: 2.2rem;
+}
+.register-content > .register-form > .logo {
+  width: 50px;
+  height: 50px;
+  text-align: center;
+}
+.register-content > .register-form > .title {
+  font-size: 24px;
+  font-weight: 100;
+}
+.register-content > .register-form > .label {
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  justify-content: flex-start;
+  gap: 0.5rem;
+}
+.register-content > .register-form > .label > .text {
+  text-align: left;
+  font-size: 1.2rem;
+  font-weight: 400;
+  letter-spacing: 0.02em;
+}
+.register-content > .register-form > .label > .input {
+  width: 100%;
+  background-color: #262626;
+  border: 0.0625rem solid #262626;
+  border-radius: 1.2rem;
+  padding: 13px 20px 12px;
+  transition: border-color 0.3s;
+  color: #ffffff;
+}
+.register-content > .register-form > .label > .input::placeholder {
+  color: #ffffff;
+}
+.register-content > .register-form > .label > .input.invalid {
+  border-color: red;
+}
+.register-content > .register-form > .label > .input::placeholder {
+  color: #101014;
+}
+.register-content > .register-form > .label > .-warning {
+  display: none;
+  color: red;
+  font-size: 1.2rem;
+}
+.register-content > .register-form > .label > .-warning.active {
+  display: inline;
+}
+.register-content > .register-form > .button {
+  width: 100%;
+  border: 0.0625rem solid #656565;
+  background-color: #656565;
+  border-radius: 1rem;
+  box-sizing: border-box;
+  padding: 1.2rem;
+  margin-top: 2rem;
+}
+.register-content > .register-form > .checkLabel {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-direction: column;
+  gap: 4rem;
+}
+.register-content > .register-form > .checkLabel > .link {
+  color: #65caf8;
+}
+.register-content > .register-form > .checkLabel > span > .link {
+  color: #65caf8;
+}
+
+/*# sourceMappingURL=register.css.map */
