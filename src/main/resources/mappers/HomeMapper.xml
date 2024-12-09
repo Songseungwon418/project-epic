@@ -14,4 +14,24 @@
         LIMIT 8
     </select>
 
+    <select id="selectSaleGames" resultType="com.ssw.epicgames.entities.HomeEntity">
+        SELECT
+            g.`index` AS `index`,
+            g.`name` AS `name`,
+            g.`price` AS `price`,
+            g.`main_image` AS `mainImage`,
+            d.`discount_percent` AS `discountPercent`,
+            d.`start_date` AS `startDate`,
+            d.`end_date` AS `endDate`,
+            d.`active` AS `active`
+        FROM
+            `epic_games`.`game` g
+                JOIN `epic_games`.`game_discounts_mapping` gdm ON g.`index` = gdm.`game_index`
+                JOIN `epic_games`.`discounts` d ON gdm.`discounts_id` = d.`id`
+        WHERE
+            gdm.`discounts_id` = 1
+          AND d.`active` = 1 AND g.`price` != 0
+        ORDER BY `open_date`;
+    </select>
+
 </mapper>

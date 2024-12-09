@@ -23,8 +23,10 @@ public class HomeController {
     @GetMapping(value = "/", produces = MediaType.TEXT_HTML_VALUE)
     public ModelAndView getIndex() {
         ModelAndView modelAndView = new ModelAndView();
-        HomeEntity[] games = this.homeService.getNewGames();
-        modelAndView.addObject("games", games);
+        HomeEntity[] newGames = this.homeService.getNewGames();
+        HomeEntity[] saleGames = this.homeService.getSaleGames();
+        modelAndView.addObject("newGames", newGames);
+        modelAndView.addObject("saleGames", saleGames);
         modelAndView.setViewName("home");
         return modelAndView;
     }

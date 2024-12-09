@@ -4,6 +4,7 @@ import lombok.EqualsAndHashCode;
 import lombok.Getter;
 import lombok.Setter;
 
+import java.time.LocalDateTime;
 import java.util.Base64;
 import java.util.Date;
 
@@ -12,26 +13,14 @@ import java.util.Date;
 @EqualsAndHashCode(of = {"index"})
 public class HomeEntity {
     private int index;
-    private String grGrac;
     private String name;
     private int price;
-    private String summary;
-    private String description;
-    private String company;
     private Date openDate;
     private byte[] mainImage;
-    private byte[] logo;
-    private String min0s;
-    private String minCpu;
-    private String minRam;
-    private String minStorage;
-    private String minGpu;
-    private String rec0s;
-    private String recCpu;
-    private String recRam;
-    private String recStorage;
-    private String recGpu;
-
+    private int discountPercent;
+    private LocalDateTime startDate;
+    private LocalDateTime endDate;
+    private boolean active;
 
     public String getBase64Image() {
         if (mainImage != null) {

@@ -18,4 +18,8 @@ public class HomeService {
     public HomeEntity[] getNewGames() {
         return this.homeMapper.selectNewGames();
     }
+
+    public HomeEntity[] getSaleGames() {
+        return this.homeMapper.selectSaleGames();
+    }
 }
