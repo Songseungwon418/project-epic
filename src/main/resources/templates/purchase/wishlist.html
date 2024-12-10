@@ -22,27 +22,26 @@
             <section class="view-header">
                 <h1 class="title">나의 위시리스트</h1>
             </section>
-            <section class="view-content-container">
+            <section class="view-content-container" th:if="${wishlists != null}">
                 <div class="view-content-wrapper">
                     <div class="game-list">
-                        <div class="game-card">
+                        <div class="game-card" th:each="wishlist : ${wishlists}">
                             <div class="img-container">
                                 <a class="link-image" aria-label="Dragon Age" href="#">
                                     <div class="image-wrapper">
-                                        <img class="image" alt="표지이미지"
-                                             src="https://cdn1.epicgames.com/spt-assets/9064453daae04c92b5734d2b1d47188d/under-the-thorns-db4ql.jpg?resize=1&w=360&h=480&quality=medium">
+                                        <img class="image" th:src="${wishlist.getGame().base64Image}" alt="표지이미지">
                                     </div>
                                 </a>
                                 <span class="logo-wrapper" aria-hidden="true">
                                     <ul class="logo-list">
-                                        <li class="logo">
+                                        <li class="logo" th:if="${#strings.containsIgnoreCase(wishlist.getGame().getMinOs(), 'window')}">
                                             <svg xmlns="http://www.w3.org/2000/svg"
                                                  viewBox="0 0 512 512"><title>Windows</title><g><path
                                                     fill="currentColor"
                                                     d="M0.175 256l-0.175-156.037 192-26.072v182.109zM224 69.241l255.936-37.241v224h-255.936zM479.999 288l-0.063 224-255.936-36.008v-187.992zM192 471.918l-191.844-26.297-0.010-157.621h191.854z"></path></g>
                                             </svg>
                                         </li>
-                                        <li class="logo">
+                                        <li class="logo" th:if="${#strings.containsIgnoreCase(wishlist.getGame().getMinOs(), 'mac')}">
                                             <svg xmlns="http://www.w3.org/2000/svg" class="svg css-uwwqev"
                                                  viewBox="0 0 105 43"><title>macOS</title><g><path
                                                     d="M40.152 39.6706H34.5029V10.4623H34.3002L22.3433 39.3667H17.7834L5.80114 10.4623H5.59848V39.6706H0V0H7.11843L19.962 31.3109H20.19L32.9829 0H40.1267V39.6706H40.152Z"
@@ -61,11 +60,11 @@
                                         <span class="tag">기본 게임</span>
                                     </div>
                                 </div>
-                                <a class="title" href="#">Under The Thorns</a>
+                                <a class="title" href="#" th:text="${wishlist.getGame().getName()}"></a>
                             </div>
                             <div class="price-container">
-                                <span class="price">무료</span>
-                                <span class="info_text">앱 내 구매가 포함될 수도 있습니다</span>
+                                <span class="price" th:text="${wishlist.getGame().getPrice() == 0 ? '무료' : wishlist.getGame().getPrice()}"></span>
+                                <span class="info_text" th:if="${wishlist.getGame().getPrice() == 0}">앱 내 구매가 포함될 수도 있습니다</span>
                             </div>
                             <div class="ratings-container">
                                 <a href="https://www.globalratings.com/ratingsguide.aspx#grac" class="link"
@@ -73,18 +72,17 @@
                                    target="_blank">
                                     <div class="link-wrapper">
                                         <div class="img-wrapper">
-                                            <img alt="12세"
-                                                 src="https://cdn1.epicgames.com/gameRating/gameRating/GRAC_12_192_192x192-2873c81e2512ccd4d3fb02a00458ab19">
+                                            <img th:alt="${wishlist.getGameRating().getTitle()}" th:src="${wishlist.getGameRating().base64Logo}">
                                         </div>
                                         <div class="content-wrapper">
-                                            <span class="title">12세</span>
-                                            <span class="subtitle">범죄, 공포, 선정성, 폭력성</span>
+                                            <span class="title" th:text="${wishlist.getGameRating().getTitle()}"></span>
+                                            <span class="subtitle" th:text="${wishlist.getGameRating().getSubTitle()}"></span>
                                         </div>
                                     </div>
                                 </a>
                             </div>
                             <div class="content-and-btn">
-                                <div class="refund-container" style="display: none">
+                                <div class="refund-container" th:if="${wishlist.getGame().getPrice() != 0}">
                                     <span class="text">셀프 환불</span>
                                     <div class="icon-wrapper">
                                         <span class="info_text">환불은 72시간 이내에 가능합니다.</span>
@@ -92,66 +90,6 @@
                                              width="24"/>
                                     </div>
                                 </div>
-                                <div class="button-container">
-                                    <div class="spring"></div>
-                                    <button class="game-card-btn -remove">제거</button>
-                                    <button class="game-card-btn -cart-add">
-                                        <span class="text">장바구니에 담기</span>
-                                    </button>
-                                </div>
-                            </div>
-                        </div>
-                        <div class="game-card">
-                            <div class="img-container">
-                                <a class="link-image" aria-label="Dragon Age" href="#">
-                                    <div class="image-wrapper">
-                                        <img class="image" alt="표지이미지"
-                                             src="https://cdn1.epicgames.com/offer/4583306dbdc34076ac7ac2bf19bf7096/EGS_DragonAgeTheVeilguard_Bioware_S2_1200x1600-4ec58c5cbb99ee7b1bd41e9f3d3c6c81_1200x1600-4ec58c5cbb99ee7b1bd41e9f3d3c6c81?resize=1&w=360&h=480&quality=medium">
-                                    </div>
-                                </a>
-                                <span class="logo-wrapper" aria-hidden="true">
-                                    <ul class="logo-list">
-                                        <li class="logo">
-                                            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512">
-                                    <title>Windows</title>
-                                    <g>
-                                        <path fill="currentColor"
-                                              d="M0.175 256l-0.175-156.037 192-26.072v182.109zM224 69.241l255.936-37.241v224h-255.936zM479.999 288l-0.063 224-255.936-36.008v-187.992zM192 471.918l-191.844-26.297-0.010-157.621h191.854z"></path>
-                                    </g>
-                                </svg>
-                                        </li>
-                                    </ul>
-                                </span>
-                            </div>
-                            <div class="title-container">
-                                <div class="tag-wrapper">
-                                    <div class="tag-box">
-                                        <span class="tag">기본 게임</span>
-                                    </div>
-                                </div>
-                                <a class="title" href="#">Dragon Age™: The Veilguard</a>
-                            </div>
-                            <div class="price-container">
-                                <span class="price">₩66,000</span>
-                            </div>
-                            <div class="ratings-container">
-                                <a href="https://www.globalratings.com/ratingsguide.aspx#grac" class="link"
-                                   referrerpolicy="unsafe-url" rel="noopener noreferrer nofollow external"
-                                   target="_blank">
-                                    <div class="link-wrapper">
-                                        <div class="img-wrapper">
-                                            <img alt="청소년이용불가"
-                                                 src="https://cdn1.epicgames.com/salesEvent/salesEvent/GRAC_19_272_272x272-65537df11aa656d20950e22b4600b8ba">
-                                        </div>
-                                        <div class="content-wrapper">
-                                            <span class="title">청소년이용불가</span>
-                                            <span class="subtitle">언어의 부적절성, 폭력성, 선정성</span>
-                                        </div>
-                                    </div>
-
-                                </a>
-                            </div>
-                            <div class="content-and-btn">
                                 <div class="button-container">
                                     <div class="spring"></div>
                                     <button class="game-card-btn -remove">제거</button>
@@ -258,8 +196,30 @@
                     </div>
                 </aside>
             </section>
+            <section class="view-content-container" th:if="${wishlists == null}">
+                <div class="view-content-wrapper empty">
+                    <div class="empty-wrapper">
+                            <span class="logo">
+                                <svg xmlns="http://www.w3.org/2000/svg" class="svg" viewBox="0 0 45 52">
+                                    <g fill="none" fill-rule="evenodd"><path d="M4.058 0C1.094 0 0 1.098 0 4.075v35.922c0 .338.013.65.043.94.068.65-.043 1.934 2.285 2.96 1.553.683 7.62 3.208 18.203 7.573 1.024.428 1.313.529 2.081.529.685.013 1.137-.099 2.072-.53 10.59-4.227 16.66-6.752 18.213-7.573 2.327-1.23 2.097-3.561 2.097-3.899V4.075C44.994 1.098 44.13 0 41.166 0H4.058z" fill="#404044"></path><path stroke="#FFF" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" d="M14 18l4.91 2.545-2.455 4M25.544 28.705c-1.056-.131-1.806-.14-2.25-.025-.444.115-1.209.514-2.294 1.197M29.09 21.727L25 19.5l2.045-3.5"></path></g>
+                                </svg>
+                            </span>
+                        <h1 class="info_text">
+                            <span class="text">위시리스트가 비어 있습니다.</span>
+                        </h1>
+                        <div class="info_link">
+                            <a type="button" role="link" class="link" href="/">
+                                    <span class="link_text">
+                                        <span class="text">게임 및 앱 구매</span>
+                                    </span>
+                            </a>
+                        </div>
+                    </div>
+                </div>
+            </section>
         </div>
     </div>
+
 </main>
 <th:block th:replace="~{fragments/common.html :: footer}"></th:block>
 </body>

@@ -1,6 +1,5 @@
 package com.ssw.epicgames.entities;
 
-import com.ssw.epicgames.enums.GracEnum;
 import lombok.EqualsAndHashCode;
 import lombok.Getter;
 import lombok.Setter;
@@ -13,7 +12,7 @@ import java.util.Date;
 @EqualsAndHashCode(of = {"index"})
 public class GameEntity {
     private int index;
-    private GracEnum grGrac;
+    private String grGrac;
     private String name;
     private int price;
     private String summary;
@@ -38,6 +37,10 @@ public class GameEntity {
         if (mainImage != null) {
             return "data:image/jpeg;base64," + Base64.getEncoder().encodeToString(mainImage);
         }
+        return null;
+    }
+
+    public String getBase64Logo() {
         if (mainLogo != null) {
             return "data:image/jpeg;base64," + Base64.getEncoder().encodeToString(mainLogo);
         }
