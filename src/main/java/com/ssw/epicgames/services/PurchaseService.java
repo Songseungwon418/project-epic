@@ -36,15 +36,12 @@ public class PurchaseService {
         for (int i = 0; i < carts.length; i++) {
             CartEntity cart = carts[i]; // 각 장바구니
             games[i] = this.gameService.getGameByIndex(cart.getGameIndex()); // 각 장바구니에 해당하는 게임 번호로 게임 정보 조회
-            System.out.println(games[i].getGrGrac());
-
             gameRatings[i] = this.gameRatingMapper.selectGameRatingByGrac(games[i].getGrGrac()); // 각 게임에 해당하는 등급 조회
             cartDTOS[i] = CartDTO.builder()
                     .cart(cart)
                     .game(games[i])
                     .gameRating(gameRatings[i])
                     .build(); // 보낼 장바구니 하나씩 집어넣기
-        System.out.println(cartDTOS[i]);
         }
         return cartDTOS; // 장바구니들 반환
     }
