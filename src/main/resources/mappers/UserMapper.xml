@@ -1,0 +1,65 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "https://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.ssw.epicgames.mappers.UserMapper">
+
+
+    <insert id="insertUser" parameterType="com.ssw.epicgames.entities.UserEntity">
+        INSERT INTO `epic_games`.`user`(`email`, `password`, `name`, `birthdate`, `nickname`, `phone`, `addr`,
+                                        `register_date`, `updated_at`, `deleted_date`, is_verified)
+        VALUES (#{email}, #{password}, #{name}, #{birthdate}, #{nickname}, #{phone}, #{addr}, #{registerDate},
+                #{updatedAt}, #{deletedDate}, #{isVerified})
+    </insert>
+
+    <select id="selectUserByEmail" resultType="com.ssw.epicgames.entities.UserEntity">
+        SELECT `email` AS `email`,
+               `password` AS `password`,
+               `name` AS `Name`,
+               `birthdate` AS `birthdate`,
+               `nickname` AS `nickname`,
+               `phone` AS `phone`,
+               `addr` AS `addr`,
+               `register_date` AS `registerDate`,
+               `updated_at` AS `updatedAt`,
+               `deleted_date` AS `deletedDate`,
+               `is_verified` AS `isVerified`
+        FROM `epic_games`.`user`
+        WHERE `email` = #{email}
+        LIMIT 1
+    </select>
+
+    <select id="selectUserByPhone" resultType="com.ssw.epicgames.entities.UserEntity">
+        SELECT `email` AS `email`,
+               `password` AS `password`,
+               `name` AS `Name`,
+               `birthdate` AS `birthdate`,
+               `nickname` AS `nickname`,
+               `phone` AS `phone`,
+               `addr` AS `addr`,
+               `register_date` AS `registerDate`,
+               `updated_at` AS `updatedAt`,
+               `deleted_date` AS `deletedDate`,
+               `is_verified` AS `isVerified`
+        FROM `epic_games`.`user`
+        WHERE `phone` = #{phone}
+        LIMIT 1
+    </select>
+
+    <select id="selectUserByNickname" resultType="com.ssw.epicgames.entities.UserEntity">
+        SELECT `email` AS `email`,
+               `password` AS `password`,
+               `name` AS `Name`,
+               `birthdate` AS `birthdate`,
+               `nickname` AS `nickname`,
+               `phone` AS `phone`,
+               `addr` AS `addr`,
+               `register_date` AS `registerDate`,
+               `updated_at` AS `updatedAt`,
+               `deleted_date` AS `deletedDate`,
+               `is_verified` AS `isVerified`
+        FROM `epic_games`.`user`
+        WHERE `nickname` = #{nickname}
+        LIMIT 1
+    </select>
+</mapper>

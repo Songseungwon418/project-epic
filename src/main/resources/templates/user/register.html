@@ -1,0 +1,172 @@
+<!doctype html>
+<html lang="ko">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport"
+          content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>에픽게임즈 계정 등록 | 에픽게임즈</title>
+    <link rel="shortcut icon" th:href="@{'/assets/images/favicon.png'}">
+    <link rel="stylesheet" th:href="@{'/assets/styles/common.css'}" type="text/css">
+    <link rel="stylesheet" th:href="${'/assets/styles/user/register.css'}" type="text/css">
+    <script src="https://code.jquery.com/jquery-3.7.1.js"></script>
+    <script defer th:src="@{'/assets/scripts/user/register.js'}" type="text/javascript"></script>
+</head>
+<body>
+<div id="cover"></div>
+<div class="license" id="license" style="display: none;">
+    <div class="label-container">
+        <label class="titleLabel">
+            <span class="license-title">최종 이용자 라이선스 계약</span>
+            <span style="color: crimson">*필수</span>
+        </label>
+        <label class="license-label">
+            <input class="check" name="license1" type="checkbox">
+            <span class="text"><a href="#">이용약관</a>을 읽어보았으며, 이를 이해하며 동의합니다,<span style="color: red">*</span></span>
+        </label>
+        <label class="license-label">
+            <input class="check" name="license2" type="checkbox">
+            <span class="text">이 항목을 체크하면 <a href="#">개인 정보의 수집 및 사용 동의</a>에 대해 읽었으며 이에 동의함을 승인하는 것입니다.<span style="color: red">*</span></span>
+        </label>
+        <label class="license-label">
+            <input class="check" name="license3" type="checkbox">
+            <span class="text"><a href="#">개인정보 해외 정송 동의서</a>를 읽어보았으며, 이를 이해하며 동의합니다.<span style="color: red">*</span></span>
+        </label>
+        <label class="license-label">
+            <input class="check" name="license4" type="checkbox">
+            <span class="text"><a href="#">홍보성 알림 이메일 수신 동의서</a>를 읽어보았으며, 이를 이해하며 동의합니다.</span>
+        </label>
+        <div class="btnsWrap">
+            <button class="not-button" type="button">동의하지 않습니다</button>
+            <button class="button" type="button">동의합니다.</button>
+        </div>
+    </div>
+</div>
+<div class="agree agree1">
+    <a href="#" class="back-button">뒤로</a>
+    <h1>서비스 이용약관</h1>
+    <h2>서비스 이용약관의 수락</h2>
+    <p>본 서비스 이용약관(이하 “본 약관”)은 귀하가 방문자 또는 등록된 이용자로서 Epic Games, Inc. 및 그 계열회사들(이하 “에픽” 또는 “회사”)의 웹사이트 및 제공되는 콘텐츠, 기능, 제품
+        및 서비스(이하 총칭하여 “웹사이트”)를 이용할 때 적용됩니다. 본 약관은 본 약관을 표시하거나 포함하고 있는 기타 회사 서비스(이하 “부가서비스”)를 이용할 경우에도 적용됩니다. 본 약관에서는
+        웹사이트 및 부가서비스를 총칭하여 “본건 서비스”로 지칭합니다.
+        <br>
+        <br>
+        본건 서비스를 이용하기 전에 본 약관을 주의 깊게 읽어주시기 바랍니다. 귀하는 본건 서비스를 이용함으로써 본 약관의 적용을 받고 이를 준수하는 것에 동의합니다. 본 약관에 동의하지 않는 경우에는 본건 서비스를 이용하여서는 아니 됩니다.
+        <br>
+        <br>
+        본건 서비스에 포함되거나 본건 서비스를 통해 귀하에게 제공되는 소프트웨어 또는 서비스는, 본 약관뿐만 아니라 최종이용자 라이선스계약과 같은 귀하와 회사 간에 체결한 별도의 계약에 의거하여 규율될 수 있습니다. 본 약관의 내용이 위 계약과 일치하지 않는 경우, 위 계약의 내용이 우선합니다.
+        <br>
+    </p>
+    <button type="button">동의합니다.</button>
+</div>
+<div class="agree agree2">
+    <a href="#" class="back-button">뒤로</a>
+    <br>
+    <strong>개인정보 수집 및 이용에 대한 동의</strong>
+    <br>
+    <br>
+    Epic Games Inc.(이하 “Epic Games”)는 귀하의 다음과 같은 개인정보를 수집하여 업무 수행, 제품 개선, 서비스 제공, 고객에게 발송된 안내 및 고지 등을 위해 사용합니다. Epic Games의 개인정보 수집 방식은 귀하가 선택한 서비스 이용 방식에 따라 상이할 수 있습니다. 이용자는 동의를 거부할 수 있습니다. 단, 웹사이트 및 게임 서비스 제공을 위해서는 동의가 필수이며, 거부하시면 서비스를 이용할 수 없습니다.
+    <br>
+    <br>
+    <strong>수집된 개인정보의 범주</strong>
+    <br>
+    <br>
+    이용자의 이름, 생일, 성별, 이용자 ID, 계정 비밀번호, 이메일 주소, 휴대폰 번호, 중복 가입 확인 정보(DI), IP 주소, 국적, 소재지, 이동 통신 서비스 사업자, 서비스 등록 및 이용을 위한 쿠키, 결제 정보, 이용 정보, 기기 정보.
+    <br>
+    <br>
+    <strong>개인정보 수집 및 사용 목적</strong>
+    <br>
+    <br>
+    - 이용자 계정 생성, 검증 및 특이 사항 관리(연령이 제한되는 서비스 제공을 위한 이용자의 연령 검증, 중복 가입 확인 등)
+    <br>
+    - Epic Services 보호(부정행위를 감지하고 그 밖에 Epic 및 기타 이용자들을 위법하거나 유해한 행위로부터 보호하는 등)
+    <button type="button">동의합니다.</button>
+</div>
+<div class="agree agree3">
+    <a href="#" class="back-button">뒤로</a>
+    <strong>제3자에 대한 개인정보의 이전에 대한 동의</strong>
+    <br>
+    <br>
+    Epic Games Inc.(이하 “Epic Games”)는 고객에게 서비스를 제공하기 위해서 다음과 같은 제3자들에게 수집된 개인정보를 제공합니다. 귀하는 동의를 거부할 수 있습니다. 단, 웹사이트 및 게임 서비스 제공을 위해서는 동의가 필수이며, 거부하시면 서비스 이용이 제한될 수 있습니다.
+    <strong>개인정보를 제공받는 당사자들:
+    <u>Epic Games의 자회사 및 계열사들(Epic Games Korea, Epic Games Entertainment International GmbH, Epic Games Commerce GmbH, Life on Air, Inc., Psyonix LLC, Mediatonic Ltd)과, 귀하가 게임 서비스를 통해 상호작용하고 귀하의 계정 연결 목록에 있는 업체들(예: 콘솔 및 플랫폼 제휴사들, 게임 개발사들)</u>
+    </strong>
+    <button type="button">동의합니다</button>
+</div>
+<div class="agree agree4">
+    <a href="#" class="back-button">뒤로</a>
+    <strong>마케팅을 위한 개인정보 이용에 대한 동의</strong>
+    <br>
+    <br>
+    <strong><u>마케팅 또는 홍보 자료 배포를 위해</u></strong>
+    개인정보를 수집 및 사용합니다. 귀하는 개인정보의 수집 및 사용에 대한 동의를 거부할 수 있습니다. 단, 거부하시면 Epic Games에서 유용한 정보를 수신하지 못할 수 있습니다.
+    <br>
+    <br>
+    <strong>개인정보 수집 및 사용 목적</strong>
+    <br>
+    • 이메일 또는 문자 메시지를 통한 마케팅 및 홍보 자료 배포
+    <br>
+    • Epic Games 서비스 홍보(당사의 광고, 판촉 제안, 설문조사, 이벤트를 관리하고, 맞춤화하고, 효과를 측정하는 등)
+    <br>
+    <br>
+    • Epic Games 서비스 홍보(당사의 광고, 판촉 제안, 설문조사, 이벤트를 관리하고, 맞춤화하고, 효과를 측정하는 등)
+    <strong>개인정보의 보유 기간 및 이용</strong>
+    <br>
+    <strong><u>이용자가 가입을 중단하고 서비스 계약을 해지할 때까지(단, 법에서 개인정보를 보유하도록 요구하는 경우는 예외)</u></strong>
+    <button  type="button">동의합니다</button>
+</div>
+<div class="register-content" id="register-content">
+    <form novalidate class="register-form" id="registerForm">
+        <img alt="" class="logo" th:src="@{'/assets/images/index.unsigned/epic_logo.png'}">
+        <h2 class="title">가입</h2>
+        <label class="label">
+            <span class="text">국가</span>
+            <input class="input" type="text" placeholder="Korea, Republic of" disabled style="cursor: no-drop;">
+            <span class="-warning">*필수</span>
+        </label>
+        <label class="label">
+            <span class="text">이메일 주소</span>
+            <input autofocus autocomplete="email" class="input" maxlength="50" name="email" spellcheck="false"
+                   type="email">
+            <span class="-warning">*필수</span>
+        </label>
+        <label class="label">
+            <span class="text">성명</span>
+            <input class="input" maxlength="10" minlength="1" name="name" type="text">
+            <span class="-warning">*필수</span>
+        </label>
+        <label class="label">
+            <span class="text">표시명</span>
+            <input class="input" maxlength="16" minlength="3" name="nickname" type="text">
+            <span class="-warning">*필수</span>
+        </label>
+        <label class="label">
+            <span class="text">생년월일</span>
+            <input class="input" name="birthdate" type="date">
+            <span class="-warning">*필수</span>
+        </label>
+        <label class="label">
+            <span class="text">주소</span>
+            <input class="input" maxlength="100" minlength="5" name="addr" type="text">
+            <span class="-warning">*필수</span>
+        </label>
+        <label class="label">
+            <span class="text">전화번호</span>
+            <input class="input" maxlength="11" minlength="11" name="phone" type="text">
+            <span class="-warning">*필수</span>
+        </label>
+        <label class="label">
+            <span class="text">비밀번호</span>
+            <input autocomplete="password" class="input" maxlength="50" minlength="8" name="password" spellcheck="false"
+                   type="password">
+            <span class="-warning">*필수</span>
+        </label>
+        <button class="button" type="submit">회원가입</button>
+        <label class="checkLabel">
+            <span>이미 계정이 있으신가요?<a class="link" th:href="@{'/user/'}">로그인</a></span>
+            <a class="link" href="https://www.epicgames.com/site/ko/privacypolicy?lang=ko">개인정보처리방침</a>
+        </label>
+    </form>
+</div>
+</body>
+</html>

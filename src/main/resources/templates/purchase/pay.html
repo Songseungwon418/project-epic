@@ -1,0 +1,198 @@
+<!DOCTYPE html>
+<html lang="ko" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport"
+          content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Epic Games Purchase - Payment Methods</title>
+    <link rel="shortcut icon" th:href="@{'/assets/images/favicon.png'}">
+    <link rel="stylesheet" th:href="@{'/purchase/assets/styles/pay.css'}">
+    <link rel="stylesheet" th:href="@{'/assets/styles/common.css'}">
+    <script defer th:src="@{/purchase/assets/scripts/pay.js}"></script>
+</head>
+<body>
+<section class="pay-page">
+    <div class="pay-container">
+        <section class="loading-container">
+            <div id="loading" class="loading-message">
+                <div class="loading-close-btn-container">
+                    <div class="loading-close" role="button" onclick="attemptCancel();">×</div>
+                </div>
+                <img src="https://static-assets-prod.epicgames.com/payment-web/static/assets/logo-epic-2de7f988e4229d74524cbe146a320be7.png">
+                <span class="text -loading">
+                        <span class="_text">주문을 불러오는 중</span>
+                        <img class="_img" src="/purchase/assets/images/dotsLoading.gif">
+                    </span>
+
+            </div>
+            <div id="network-error" class="loading-message">
+                <div class="loading-close-btn-container">
+                    <div class="loading-close" role="button" onclick="attemptCancel();">×</div>
+                </div>
+                <img src="https://static-assets-prod.epicgames.com/payment-web/static/assets/logo-epic-2de7f988e4229d74524cbe146a320be7.png">
+                <span class="text">죄송합니다. 페이지를 불러오는 데 문제가 있습니다.</span>
+                <span class="text">다시 시도하세요.</span>
+            </div>
+            <div id="network-slow" class="loading-message">
+                <div class="loading-close-btn-container">
+                    <div class="loading-close" role="button" onclick="attemptCancel();">×</div>
+                </div>
+                <div class="spinner"></div>
+                <span class="text">콘텐츠를 로드하려는 중 인터넷 속도가 느린 것이 감지되었습니다.</span>
+            </div>
+        </section>
+        <section class="main-container">
+            <button class="payment-purchase-close" aria-label="close">
+                <svg class="payment-icon" width="24" height="24" viewBox="0 0 24 24" fill="none"
+                     xmlns="http://www.w3.org/2000/svg">
+                    <path d="M19 6.02369L17.9763 5L12 10.9835L6.02369 5L5 6.02369L10.9835 12L5 17.9763L6.02369 19L12 13.0165L17.9763 19L19 17.9763L13.0165 12L19 6.02369Z"></path>
+                </svg>
+            </button>
+            <div class="payment-content-container" id="payment-content-container">
+                <div class="payment-title">
+                    <h1 class="title">결제</h1>
+                    <div class="account-info">
+                        <div class="account-icon">
+                            <svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg"
+                                 class="payment-icon">
+                                <path d="M8.25205 24C9.39178 24 10.6411 24 11.4082 24C11.6712 24 11.8904 24 12 24C12.1096 24 12.3288 24 12.5918 24C13.3589 24 14.6082 24 15.7479 24C19.0795 24 20 22.7872 20 21.5277C20 19.7551 15.0904 17.4694 15.0904 15.8601C15.0904 12.9213 18.3562 11.6851 18.3562 7.23032C18.4 3.24198 15.6384 0 12.2411 0C12.1534 0 11.8466 0 11.7589 0C8.38356 0 5.62192 3.24198 5.62192 7.25364C5.62192 11.7318 8.88767 12.9446 8.88767 15.8834C8.90959 17.4927 4 19.7551 4 21.551C4 22.7872 4.94247 24 8.25205 24Z"></path>
+                            </svg>
+                        </div>
+                        <span class="account-name">mnuw2626</span>
+                    </div>
+                </div>
+                <div class="payment-methods">
+                    <div class="payment-methods-container">
+                        <h2 class="payment-methods-title">
+                            <span>지불 방법</span>
+                        </h2>
+                        <span class="payment-methods-subtitle">* 더 많은 결제수단이 향후 추가될 예정입니다.</span>
+                        <div class="payment-method -active" tabindex="0">
+                            <div class="payment-method__trigger" tabindex="-1">
+                                <div class="payment-method__content">
+                                    <div class="payment-radio payment-radio--active">
+                                        <input name="payment method" class="payment-radio__input" type="radio" tabindex="-1" aria-label="KAKAOPAY">
+                                        <span class="payment-radio__inner"></span>
+                                    </div>
+                                    <div class="payment-method-icon__wrap payment-method-icon__wrap--KR">
+                                        <div class="payment-method-icon payment-method-icon--kakaopay payment-method-icon--KR" aria-label="KAKAOPAY" role="img"></div>
+                                    </div>
+                                    <div class="payment-method__name">
+                                        <h2 class="payment-method__title">
+                                            <span>KakaoPay</span>
+                                        </h2>
+                                    </div>
+                                </div>
+                                <div class="payment-method__actions"></div>
+                            </div>
+                            <div class="payment-method__form">
+                                <div class="payment-tpp-info payment-tpp-info--with-content">
+                                    <div class="payment-tpp-info__external">
+                                        <span class="payment-tpp-info__redirect-note">구매를 안전하게 완료하기 위해 KakaoPay(으)로 이동합니다.</span>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="payment-summaries">
+                <h2 class="title">주문 요약</h2>
+                <div class="pay-summaries-container" id="pay-summaries-container">
+<!--       장바구니에 담아둔 게임 목록들 - 서버에서 가져와야함           -->
+                    <div class="pay-content">
+                        <div class="pay-content-info">
+                            <h2 class="pay-title">Scarf </h2>
+                            <p class="pay-author">Handy Games</p>
+                            <div class="pay-prices">
+                                <div class="discount-container">
+                                    <span class="discount-pct">-67%</span>
+                                </div>
+                                <span class="origin-price">₩15,000</span>
+                                <span class="current-price">₩4,950</span>
+                            </div>
+                        </div>
+                        <div class="img-wrapper">
+                            <img alt="Scarf"
+                                 src="https://cdn1.epicgames.com/spt-assets/c33a42729a684055919243f22c5cbe7d/download-scarf-offer-vhjod.jpg"
+                                 width="12%">
+                        </div>
+                    </div>
+                    <div class="pay-content">
+                        <div class="pay-content-info">
+                            <h2 class="pay-title">Scarf </h2>
+                            <p class="pay-author">Handy Games</p>
+                            <div class="pay-prices">
+                                <span class="current-price">₩15,000</span>
+                            </div>
+                        </div>
+                        <div class="img-wrapper">
+                            <img alt="Scarf"
+                                 src="https://cdn1.epicgames.com/spt-assets/c33a42729a684055919243f22c5cbe7d/download-scarf-offer-vhjod.jpg"
+                                 width="12%">
+                        </div>
+                    </div>
+                    <div class="pay-content">
+                        <div class="pay-content-info">
+                            <h2 class="pay-title">Scarf </h2>
+                            <p class="pay-author">Handy Games</p>
+                            <div class="pay-prices">
+                                <div class="discount-container">
+                                    <span class="discount-pct">-67%</span>
+                                </div>
+                                <span class="origin-price">₩15,000</span>
+                                <span class="current-price">₩4,950</span>
+                            </div>
+                        </div>
+                        <div class="img-wrapper">
+                            <img alt="Scarf"
+                                 src="https://cdn1.epicgames.com/spt-assets/c33a42729a684055919243f22c5cbe7d/download-scarf-offer-vhjod.jpg"
+                                 width="12%">
+                        </div>
+                    </div>
+<!--       장바구니에 담아둔 게임 목록들 끝             -->
+                    <div class="pay-order-prices">
+                        <div class="payment-price">
+                            <span class="payment-price-label">가격</span>
+                            <span class="payment-price-value">₩81,000</span>
+                        </div>
+                        <div class="payment-price">
+                            <span class="payment-price-label">할인 금액</span>
+                            <span class="payment-price-value">-₩10,050</span>
+                        </div>
+                        <span class="payment-price-label-text">해당하는 경우 VAT 포함</span>
+                        <hr class="payment-order-summary-divider">
+                        <div class="payment-price">
+                            <span class="payment-price-label -total">합계</span>
+                            <span class="payment-price-value -total">₩70,950</span>
+                        </div>
+                    </div>
+                    <div class="payment-order-paymentMethods">
+                        <span>결제 정보:</span>
+                        <div class="payment-price">
+                            <span class="payment-price-label">KakaoPay</span>
+                            <span class="payment-price-value">₩70,950</span>
+                        </div>
+                    </div>
+                    <footer class="payment-contact-us">
+                        <span>도움이 필요하신가요?&nbsp;
+                            <!-- 고객문의 게시판으로 -->
+                            <a href="#" target="_blank">문의하기</a>
+                        </span>
+                    </footer>
+                </div>
+                <div class="payment-confirm-container">
+                    <div class="payment-order-confirm">
+                        <!-- 최종 사용자 라이선스 계약페이지 구현? 생략? -->
+                        <span class="payment-order-confirm-eula">아래 "주문하기"을(를) 클릭하면 본인은 만 19세가 넘는 성인이자 해당 결제 수단을 사용할 권리가 있으며 <a target="_blank" class="highlight" href="#">최종 사용자 라이선스 계약</a>에 동의한다는 뜻입니다.
+                        </span>
+                        <button class="payment-btn">주문하기</button>
+                    </div>
+                </div>
+            </div>
+        </section>
+    </div>
+</section>
+</body>
+</html>
