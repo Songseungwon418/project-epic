@@ -10,10 +10,14 @@
     </insert>
 
     <select id="selectEmailTokenByUserEmailAndKey" resultType="com.ssw.epicgames.entities.EmailTokenEntity">
-        SELECT *
+        SELECT `user_email` AS `userEmail`,
+               `key` AS `key`,
+               `created_at` AS `createdAt`,
+               `expires_at` AS `expiresAt`,
+               `is_used` AS `isUsed`
         FROM `epic_games`.`email_tokens`
         WHERE `user_email` = #{userEmail}
-        AND `key` = #{key}
+          AND `key` = #{key}
         LIMIT 1
     </select>
 

@@ -15,7 +15,7 @@
     <select id="selectUserByEmail" resultType="com.ssw.epicgames.entities.UserEntity">
         SELECT `email` AS `email`,
                `password` AS `password`,
-               `name` AS `Name`,
+               `name` AS `name`,
                `birthdate` AS `birthdate`,
                `nickname` AS `nickname`,
                `phone` AS `phone`,
@@ -32,7 +32,7 @@
     <select id="selectUserByPhone" resultType="com.ssw.epicgames.entities.UserEntity">
         SELECT `email` AS `email`,
                `password` AS `password`,
-               `name` AS `Name`,
+               `name` AS `name`,
                `birthdate` AS `birthdate`,
                `nickname` AS `nickname`,
                `phone` AS `phone`,
@@ -49,7 +49,7 @@
     <select id="selectUserByNickname" resultType="com.ssw.epicgames.entities.UserEntity">
         SELECT `email` AS `email`,
                `password` AS `password`,
-               `name` AS `Name`,
+               `name` AS `name`,
                `birthdate` AS `birthdate`,
                `nickname` AS `nickname`,
                `phone` AS `phone`,
@@ -62,4 +62,20 @@
         WHERE `nickname` = #{nickname}
         LIMIT 1
     </select>
+
+    <update id="updateUser" parameterType="com.ssw.epicgames.entities.UserEntity">
+        UPDATE `epic_games`.`user`
+        SET `password`      = #{password},
+            `name`          = #{name},
+            `birthdate`     = #{birthdate},
+            `nickname`      = #{nickname},
+            `phone`         = #{phone},
+            `addr`          = #{addr},
+            `register_date` = #{registerDate},
+            `updated_at`    = #{updatedAt},
+            `deleted_date`  = #{deletedDate},
+            `is_verified`   = #{isVerified}
+        WHERE `email` = #{email}
+        LIMIT 1
+    </update>
 </mapper>

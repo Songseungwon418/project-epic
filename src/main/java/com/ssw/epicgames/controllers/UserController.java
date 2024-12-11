@@ -1,8 +1,13 @@
 package com.ssw.epicgames.controllers;
 
+import com.ssw.epicgames.entities.EmailTokenEntity;
 import com.ssw.epicgames.entities.UserEntity;
+import com.ssw.epicgames.resutls.CommonResult;
 import com.ssw.epicgames.resutls.Result;
 import com.ssw.epicgames.services.UserService;
+import jakarta.mail.MessagingException;
+import jakarta.servlet.http.HttpServletRequest;
+import jakarta.servlet.http.HttpSession;
 import org.json.JSONObject;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.MediaType;
@@ -29,6 +34,18 @@ public class UserController {
         return modelAndView;
     }
 
+    @RequestMapping(value = "/login", method = RequestMethod.GET, produces = MediaType.APPLICATION_JSON_VALUE)
+    @ResponseBody
+    public String getLogin(HttpSession session, UserEntity user) {
+        Result result = this.userService.login(user);
+        if(result == CommonResult.SUCCESS) {
+            session.setAttribute("user", user);
+        }
+        JSONObject response = new JSONObject();
+        response.put(Result.NAME, result.nameToLower());
+        return response.toString();
+    }
+
     @RequestMapping(value="/register", method = RequestMethod.GET, produces = MediaType.TEXT_HTML_VALUE)
     public ModelAndView getRegister() {
         ModelAndView modelAndView = new ModelAndView();
@@ -38,10 +55,19 @@ public class UserController {
 
     @RequestMapping(value = "/register", method = RequestMethod.POST, produces = MediaType.APPLICATION_JSON_VALUE)
     @ResponseBody
-    public String register(UserEntity user) {
-        Result result = this.userService.register(user);
+    public String register(HttpServletRequest request, UserEntity user) throws MessagingException {
+        Result result = this.userService.register(request, user);
         JSONObject response = new JSONObject();
         response.put(Result.NAME, result.nameToLower());
         return response.toString();
+    }
+
+    @RequestMapping(value = "/validate-email-token", method = RequestMethod.GET, produces = MediaType.TEXT_HTML_VALUE)
+    public ModelAndView getValidateEmailToken(EmailTokenEntity emailToken) {
+        Result result = this.userService.validateEmailToken(emailToken);
+        ModelAndView modelAndView = new ModelAndView();
+        modelAndView.addObject(Result.NAME, result.nameToLower());
+        modelAndView.setViewName("/user/validateEmailToken");
+        return modelAndView;
     }
 }

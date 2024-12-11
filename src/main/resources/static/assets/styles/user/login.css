@@ -63,6 +63,18 @@ body {
   border: 0.0625rem solid #656565;
   border-radius: 1.2rem;
   padding: 13px 20px 12px;
+  transition: border-color 0.3s;
+}
+.login-content > .login-form > .label > .-warning {
+  display: none;
+  color: red;
+  font-size: 1rem;
+}
+.login-content > .login-form > .label.error > .input {
+  border-color: red;
+}
+.login-content > .login-form > .label.error > .-warning {
+  display: block;
 }
 .login-content > .login-form > .link {
   width: 100%;
@@ -70,11 +82,17 @@ body {
 }
 .login-content > .login-form > .button {
   width: 100%;
-  border: 0.0625rem solid #656565;
-  background-color: #656565;
+  border: 0.0625rem solid #26baff;
+  background-color: #26baff;
   border-radius: 1rem;
   box-sizing: border-box;
   padding: 1.2rem;
+}
+.login-content > .login-form > .button:hover {
+  background-color: rgb(63.5, 194.1082949309, 255);
+}
+.login-content > .login-form > .button:active {
+  background-color: rgb(89, 202.2165898618, 255);
 }
 .login-content > .login-form > .underline {
   width: 100%;
