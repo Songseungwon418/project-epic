@@ -45,6 +45,71 @@ body {
   flex-grow: 1;
   margin-bottom: 20px;
 }
+.main > #view-container > .view-wrapper > .view-content-container > .view-content-wrapper > .sorting-filter-container {
+  margin-bottom: 20px;
+  align-items: center;
+  display: flex;
+  flex-direction: row;
+  gap: 10px;
+  justify-content: flex-start;
+}
+.main > #view-container > .view-wrapper > .view-content-container > .view-content-wrapper > .sorting-filter-container > .text {
+  color: rgba(245, 245, 245, 0.6);
+  line-height: 14px;
+}
+.main > #view-container > .view-wrapper > .view-content-container > .view-content-wrapper > .sorting-filter-container > .sorting-filter-btn {
+  height: 30px;
+  padding: 0 5px;
+  align-items: center;
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+  gap: 5px;
+  text-align: center;
+  color: #f5f5f5;
+  line-height: 20px;
+  letter-spacing: 0.2px;
+  border: 1px solid transparent;
+  border-radius: 5px;
+  outline: none;
+  cursor: pointer;
+  transition: rotate, color, border 200ms ease;
+}
+.main > #view-container > .view-wrapper > .view-content-container > .view-content-wrapper > .sorting-filter-container > .sorting-filter-btn:focus-within {
+  color: #ffffff;
+  border: 1px solid #ffffff;
+}
+.main > #view-container > .view-wrapper > .view-content-container > .view-content-wrapper > .sorting-filter-container > .sorting-filter-btn[aria-expanded=true] > .filter-icon-wrapper > .filter-icon {
+  transform: rotate(360deg);
+}
+.main > #view-container > .view-wrapper > .view-content-container > .view-content-wrapper > .sorting-filter-container > .sorting-filter-btn > .filter-text {
+  flex-grow: 2;
+  align-items: center;
+  display: flex;
+  flex-direction: row;
+  justify-content: stretch;
+  font-size: 14px;
+  text-align: center;
+  line-height: 20px;
+  letter-spacing: 0.2px;
+}
+.main > #view-container > .view-wrapper > .view-content-container > .view-content-wrapper > .sorting-filter-container > .sorting-filter-btn > .filter-icon-wrapper {
+  width: 18px;
+  fill: currentColor;
+  align-items: center;
+  display: flex;
+  flex-direction: row;
+  justify-content: stretch;
+  flex-grow: 1;
+}
+.main > #view-container > .view-wrapper > .view-content-container > .view-content-wrapper > .sorting-filter-container > .sorting-filter-btn > .filter-icon-wrapper > .filter-icon {
+  width: 100%;
+  flex-grow: 1;
+  display: flex;
+  align-items: center;
+  justify-content: stretch;
+  transform: rotate(180deg);
+}
 .main > #view-container > .view-wrapper > .view-content-container > .view-content-wrapper > .game-list {
   position: relative;
   align-items: stretch;
@@ -334,6 +399,74 @@ body {
   line-height: 24px;
   letter-spacing: 0.276px;
 }
+.main > #view-container > .view-wrapper > .view-content-container > .view-content-wrapper > .game-list > .remove-game-card {
+  width: 100%;
+  padding: 0;
+  margin-bottom: 15px;
+  align-items: center;
+  display: flex;
+  list-style: none outside none;
+}
+.main > #view-container > .view-wrapper > .view-content-container > .view-content-wrapper > .game-list > .remove-game-card > .remove-container {
+  width: 100%;
+  height: 100%;
+  align-items: center;
+  display: flex;
+  justify-content: space-between;
+  background: #202024;
+  border-radius: 6px;
+  min-height: 56px;
+  padding: 12px 16px 12px 18px;
+}
+.main > #view-container > .view-wrapper > .view-content-container > .view-content-wrapper > .game-list > .remove-game-card > .remove-container > .remove-wrapper {
+  align-items: center;
+  display: flex;
+  flex-direction: row;
+  gap: 8px;
+  justify-content: flex-start;
+}
+.main > #view-container > .view-wrapper > .view-content-container > .view-content-wrapper > .game-list > .remove-game-card > .remove-container > .remove-wrapper > .icon-wrapper {
+  display: flex;
+}
+.main > #view-container > .view-wrapper > .view-content-container > .view-content-wrapper > .game-list > .remove-game-card > .remove-container > .remove-wrapper > .icon-wrapper > svg {
+  width: 24px;
+  height: 24px;
+  color: #ff6173;
+  fill: currentcolor;
+}
+.main > #view-container > .view-wrapper > .view-content-container > .view-content-wrapper > .game-list > .remove-game-card > .remove-container > .remove-wrapper > .text {
+  font-size: 16px;
+  font-weight: 500;
+  color: #f5f5f5;
+}
+.main > #view-container > .view-wrapper > .view-content-container > .view-content-wrapper > .game-list > .remove-game-card > .remove-container > .cancel-btn-wrapper {
+  margin-left: 20px;
+  align-items: center;
+  display: flex;
+  flex-direction: row;
+  justify-content: center;
+  color: whitesmoke;
+  font-size: 16px;
+}
+.main > #view-container > .view-wrapper > .view-content-container > .view-content-wrapper > .game-list > .remove-game-card > .remove-container > .cancel-btn-wrapper > .cancel-btn {
+  color: whitesmoke;
+  border: 1px solid rgba(245, 245, 245, 0.3490196078);
+  border-radius: 6px;
+  padding: 3px 11px;
+  font-size: 14px;
+  font-weight: 500;
+  height: 32px;
+  text-decoration: none;
+  outline: none;
+  background-color: rgba(0, 0, 0, 0);
+  cursor: pointer;
+  text-align: center;
+  transition: 0.15s ease;
+}
+.main > #view-container > .view-wrapper > .view-content-container > .view-content-wrapper > .game-list > .remove-game-card > .remove-container > .cancel-btn-wrapper > .cancel-btn:hover {
+  border-color: white;
+  background-color: rgb(76.5, 76.5, 76.5);
+}
 .main > #view-container > .view-wrapper > .view-content-container > .view-content-wrapper.empty {
   padding: 20px;
   width: 100%;
@@ -578,6 +711,51 @@ body {
   height: 1px;
   margin: 6px 14px;
   opacity: 1;
+}
+.main > #view-container > .view-wrapper > .order-filter-container {
+  display: none;
+  position: absolute;
+  inset: 0 auto auto 0;
+  margin: 0;
+  min-width: 83px;
+  transform: translate(76px, 130px);
+}
+.main > #view-container > .view-wrapper > .order-filter-container > .order-filter-list {
+  width: 100%;
+  height: fit-content;
+  list-style: outside none none;
+  margin: 0;
+  padding: 4px;
+  align-items: stretch;
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-start;
+  border-radius: 12px;
+  background-color: #303034;
+}
+.main > #view-container > .view-wrapper > .order-filter-container > .order-filter-list > .order-filter-item {
+  width: 100%;
+  border: none;
+  font: inherit;
+  background-color: inherit;
+  align-items: center;
+  display: flex;
+  flex-direction: row;
+  justify-content: stretch;
+  white-space: nowrap;
+  border-radius: 8px;
+  min-height: 40px;
+  padding: 10px 12px;
+  transition: background-color 125ms ease-in-out;
+  position: relative;
+  color: whitesmoke;
+  cursor: pointer;
+}
+.main > #view-container > .view-wrapper > .order-filter-container > .order-filter-list > .order-filter-item:hover {
+  background-color: #404044;
+}
+.main > #view-container > .view-wrapper > .order-filter-container > .order-filter-list > .order-filter-item.selected {
+  background-color: #404044;
 }
 
 /* 결재 페이지 모달창 */

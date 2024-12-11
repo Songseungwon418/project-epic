@@ -26,6 +26,10 @@
                     <div class="view-content-wrapper">
                         <div class="game-list">
                             <div class="game-card" th:each="cart : ${carts}">
+                                <div hidden="hidden" class="info-data">
+                                    <span class="cart-index" th:text="${cart.getCart().getIndex()}"></span>
+                                    <span class="game-index">[[${cart.getGame().getIndex()}]]</span>
+                                </div>
                                 <div class="img-container">
                                     <a class="link-image" href="#">
                                         <div class="image-wrapper">

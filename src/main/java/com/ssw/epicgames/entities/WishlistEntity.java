@@ -14,4 +14,5 @@ public class WishlistEntity {
     private String userEmail;
     private int gameIndex;
     private LocalDateTime addAt;
+    private boolean isDeleted;
 }

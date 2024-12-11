@@ -28,3 +28,38 @@ window.addEventListener('message', function(event) {
         document.body.style.overflow = 'hidden auto';
     }
 });
+
+//region 제거 버튼 누를 시
+const $removeBtns = document.querySelectorAll(' .game-card-btn.-remove');
+
+
+$removeBtns.forEach(btn => btn.addEventListener('click', () => {
+    const $gameCard = btn.closest('.game-card');
+    const $cartIndexTag = $gameCard.querySelector(':scope > .info-data > .cart-index');
+    const $gameIndexTag = $gameCard.querySelector(':scope > .info-data > .game-index');
+
+    const cartIndex = $cartIndexTag.innerText;
+    const gameIndex = $gameIndexTag.innerText;
+
+    const formData = new FormData();
+    formData.append('index', cartIndex);
+    formData.append('gameIndex', gameIndex);
+
+    const xhr = new XMLHttpRequest();
+    xhr.onreadystatechange = () => {
+        if(xhr.readyState !== XMLHttpRequest.DONE){
+            return;
+        }
+        if (xhr.status < 200 || xhr.status >= 300){
+            //요청 실패 로직 구현
+            return;
+        }
+        //요청 성공 로직 구현
+        const response = JSON.parse(xhr.responseText);
+        console.log(response);
+    };
+    xhr.open('DELETE', '/purchase/cart/delete');
+    xhr.send(formData);
+    })
+);
+//endregion

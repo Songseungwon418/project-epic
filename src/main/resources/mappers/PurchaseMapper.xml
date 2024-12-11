@@ -3,7 +3,7 @@
         PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
         "https://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.ssw.epicgames.mappers.PurchaseMapper">
-    <!--  region 장바구니 관련 -->
+<!--  region 장바구니 관련 -->
     <!--  장바구니 삽입  -->
     <insert id="insertCart"
             useGeneratedKeys="true"
@@ -14,7 +14,7 @@
         VALUES (#{userEmail}, #{gameIndex}, #{addAt})
     </insert>
     <!--  장바구니 삭제  -->
-    <delete id="deleteCartByIndex" parameterType="com.ssw.epicgames.entities.CartEntity">
+    <delete id="deleteCartByIndex" parameterType="_int">
         DELETE FROM `epic_games`.`cart`
         WHERE `index` = #{index}
     </delete>
@@ -26,6 +26,7 @@
                `add_at`     AS `addAt`
         FROM `epic_games`.`cart`
         WHERE `user_email` = #{userEmail}
+        ORDER BY `add_at` DESC
     </select>
 
     <!--  유저 이메일과 게임 번호에 해당하는 장바구니 조회  -->
@@ -38,9 +39,10 @@
         WHERE `user_email` = #{userEmail}
           AND `game_index` = #{gameIndex}
     </select>
-    <!-- endregion -->
+<!-- endregion -->
 
-    <!--  region 위시리스트 관련 -->
+<!--  region 위시리스트 관련 -->
+    <!--  위시리스트 삽입  -->
     <insert id="insertWishlist"
             useGeneratedKeys="true"
             keyColumn="index"
@@ -50,11 +52,16 @@
         VALUES (#{userEmail}, #{gameIndex}, #{addAt})
     </insert>
 
-    <!--  위시리스트 삭제  -->
-    <delete id="deleteWishlistByIndex" parameterType="com.ssw.epicgames.entities.WishlistEntity">
-        DELETE FROM `epic_games`.`wishlist`
+    <!--  위시리스트 업데이트(삭제 포함) -->
+    <update id="updateWishlistByIndex" parameterType="com.ssw.epicgames.entities.WishlistEntity">
+        UPDATE `epic_games`.`wishlist`
+        SET `user_email` = #{userEmail},
+            `game_index` = #{gameIndex},
+            `add_at`     = #{addAt},
+            `is_deleted` = #{isDeleted}
         WHERE `index` = #{index}
-    </delete>
+        LIMIT 1
+    </update>
 
     <!-- 유저에 해당하는 위시리스트 목록들 조회  -->
     <select id="selectWishlistByUserEmail" resultType="com.ssw.epicgames.entities.WishlistEntity">
@@ -63,7 +70,7 @@
                `game_index` AS `gameIndex`,
                `add_at`     AS `addAt`
         FROM `epic_games`.`wishlist`
-        WHERE `user_email` = #{userEmail}
+        WHERE `user_email` = #{userEmail} AND `is_deleted` = false
     </select>
 
     <!--  유저 이메일과 게임 번호에 해당하는 위시리스트 조회  -->
@@ -75,13 +82,13 @@
         FROM `epic_games`.`wishlist`
         WHERE `user_email` = #{userEmail}
           AND `game_index` = #{gameIndex}
+          AND `is_deleted` = false
     </select>
+<!-- endregion -->
 
-    <!-- endregion -->
+<!--  region 결제 관련 -->
+<!-- endregion -->
 
-    <!--  region 결제 관련 -->
-    <!-- endregion -->
-
-    <!--  region 결제 관련 -->
-    <!-- endregion -->
+<!--  region 결제 관련 -->
+<!-- endregion -->
 </mapper>
