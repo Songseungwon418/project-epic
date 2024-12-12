@@ -217,29 +217,29 @@ public class UserService {
 //        return CommonResult.SUCCESS;
 //    }
 //
-//    @Transactional
-//    public Result validateEmailToken(EmailTokenEntity emailToken) {
-//        if(emailToken == null ||
-//        emailToken.getUserEmail() == null || emailToken.getUserEmail().length() < 8 || emailToken.getUserEmail().length() > 50 ||
-//        emailToken.getKey() == null || emailToken.getKey().length() != 128) {
-//            return CommonResult.FAILURE;
-//        }
-//        EmailTokenEntity dbEmailToken = this.emailTokenMapper.selectEmailTokenByUserEmailAndKey(emailToken.getUserEmail(), emailToken.getKey());
-//        if(dbEmailToken == null || dbEmailToken.isUsed()) {
-//            return CommonResult.FAILURE;
-//        }
-//        if (dbEmailToken.getExpiresAt().isBefore(LocalDateTime.now())) {
-//            return ValidateEmailTokenResult.FAILURE_EXPIRED;
-//        }
-//        dbEmailToken.setUsed(true);
-//        if(this.emailTokenMapper.updateEmailToken(dbEmailToken) == 0) {
-//            throw new TransactionException();
-//        }
-//        UserEntity user = this.userMapper.selectUserByEmail(emailToken.getUserEmail());
-//        user.setVerified(true);
-//        if(this.userMapper.updateUser(user) == 0) {
-//            throw new TransactionException();
-//        }
-//        return CommonResult.SUCCESS;
-//    }
+    @Transactional
+    public Result validateEmailToken(EmailTokenEntity emailToken) {
+        if(emailToken == null ||
+        emailToken.getUserEmail() == null || emailToken.getUserEmail().length() < 8 || emailToken.getUserEmail().length() > 50 ||
+        emailToken.getKey() == null || emailToken.getKey().length() != 128) {
+            return CommonResult.FAILURE;
+        }
+        EmailTokenEntity dbEmailToken = this.emailTokenMapper.selectEmailTokenByUserEmailAndKey(emailToken.getUserEmail(), emailToken.getKey());
+        if(dbEmailToken == null || dbEmailToken.isUsed()) {
+            return CommonResult.FAILURE;
+        }
+        if (dbEmailToken.getExpiresAt().isBefore(LocalDateTime.now())) {
+            return ValidateEmailTokenResult.FAILURE_EXPIRED;
+        }
+        dbEmailToken.setUsed(true);
+        if(this.emailTokenMapper.updateEmailToken(dbEmailToken) == 0) {
+            throw new TransactionException();
+        }
+        UserEntity user = this.userMapper.selectUserByEmail(emailToken.getUserEmail());
+        user.setVerified(true);
+        if(this.userMapper.updateUser(user) == 0) {
+            throw new TransactionException();
+        }
+        return CommonResult.SUCCESS;
+    }
 }
