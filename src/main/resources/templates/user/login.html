@@ -29,7 +29,7 @@
                    type="password">
             <span class="-warning">*필수</span>
         </label>
-        <a class="link" href="#">이메일 또는 비밀번호를 잊으셨나요?</a> <!-- href를 비밀번호 재설정 페이지로 지정해야함 -->
+        <a class="link" th:href="@{'/user/forgot-password'}">이메일 또는 비밀번호를 잊으셨나요?</a>
         <button class="button" type="submit">로그인</button>
         <div class="underline">
             <div class="line"></div>
@@ -39,44 +39,6 @@
         <div class="create">
             <a th:href="@{'/user/register'}" class="link">계정 생성</a> <!--회원가입 링크 걸면됨-->
             <a th:href="@{'https://www.epicgames.com/site/ko/privacypolicy?lang=ko'}" class="link">개인정보처리방침</a>
-        </div>
-    </form>
-    <form novalidate class="recover-form -visible" id="recoverForm">
-        <h2>EPIC 계정 찾기</h2>
-        <div class="mode-container">
-            <label class="label">
-                <input class="input" name="mode" type="radio" value="email">
-                <span class="title">이메일 찾기</span>
-                <span class="text">입력하신 연락처로 이메일을 찾습니다.</span>
-            </label>
-            <label class="label">
-                <input class="input" name="mode" type="radio" value="password">
-                <span class="title">비밀번호 재설정</span>
-                <span class="text">이메일로 비밀번호를 재설정 할 수 있는 링크를 전송합니다</span>
-            </label>
-        </div>
-        <div class="content email">
-            <span class="text">이메일을 찾기 위해 아래 정보를 입력해 주세요.</span>
-            <label class="label" data-id="contact">
-                <span class="_text">연락처</span>
-                <input autofocus autocomplete="contact" class="input" maxlength="11" minlength="10" name="phone"
-                       spellcheck="false" type="tel">
-                <span id="reEmail"></span>
-                <span class="_warning">올바른 연락처를 입력해 주세요.</span>
-            </label>
-        </div>
-        <div class="content password">
-            <span class="text">비밀번호를 재설정하기 위해 아래 정보를 입력해 주세요.</span>
-            <label class="label" data-id="email">
-                <span class="_text">이메일</span>
-                <input autofocus autocomplete="email" class="input" maxlength="50" minlength="8" name="email"
-                       spellcheck="false" type="email">
-                <span class="_warning">올바른 이메일을 입력해 주세요.</span>
-            </label>
-        </div>
-        <div class="btnsWrap">
-            <button class="cancel-button" name="cancel" type="button">취소</button>
-            <button class="button" type="submit">계정 찾기</button>
         </div>
     </form>
 </div>
