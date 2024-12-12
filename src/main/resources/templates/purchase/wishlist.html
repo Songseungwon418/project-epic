@@ -22,7 +22,7 @@
             <section class="view-header">
                 <h1 class="title">나의 위시리스트</h1>
             </section>
-            <section class="view-content-container" th:if="${wishlists != null}">
+            <section class="view-content-container" th:if="${wishlists != null && wishlists.length > 0}">
                 <div class="view-content-wrapper">
                     <div class="sorting-filter-container">
                         <span class="text">정렬 기준: </span>
@@ -40,7 +40,7 @@
                         </button>
                     </div>
                     <div class="game-list">
-                        <div class="remove-game-card">
+                        <div class="remove-game-card" id="remove-game-card">
                             <div class="remove-container">
                                 <div class="remove-wrapper">
                                     <div class="icon-wrapper">
@@ -48,16 +48,20 @@
                                         <path d="m17.012 3.954.574 2.296H21a.75.75 0 0 1 0 1.5H3a.75.75 0 0 1 0-1.5h3.414l.574-2.296A2.25 2.25 0 0 1 9.171 2.25h5.658a2.25 2.25 0 0 1 2.183 1.704m-8.568.364a.75.75 0 0 1 .727-.568h5.658a.75.75 0 0 1 .727.568l.483 1.932H7.961z" clip-rule="evenodd" fill-rule="evenodd"></path><path d="M6.11 19.74 5.067 10h1.508l1.027 9.58a.75.75 0 0 0 .746.67h7.304a.75.75 0 0 0 .746-.67L17.424 10h1.509l-1.044 9.74a2.25 2.25 0 0 1-2.237 2.01H8.348a2.25 2.25 0 0 1-2.238-2.01"></path>
                                     </svg>
                                     </div>
-                                    <span class="text">FINAL FANTASY XVI 제거됨</span>
+                                    <span class="text">[[${wishlist.getGame().getName()}]] 제거됨</span>
                                 </div>
                                 <div class="cancel-btn-wrapper">
-                                    <button type="button" title="FINAL FANTASY XVI 제거됨" class="cancel-btn">
+                                    <button type="button" class="cancel-btn">
                                         <span class="text">실행 취소</span>
                                     </button>
                                 </div>
                             </div>
                         </div>
                         <div class="game-card" th:each="wishlist : ${wishlists}">
+                            <div hidden="hidden" class="info-data">
+                                <span class="wishlist-index" th:text="${wishlist.getWishlist().getIndex()}"></span>
+                                <span class="game-index" th:text="${wishlist.getGame().getIndex()}"></span>
+                            </div>
                             <div class="img-container">
                                 <a class="link-image" aria-label="Dragon Age" href="#">
                                     <div class="image-wrapper">
@@ -228,7 +232,7 @@
                     </div>
                 </aside>
             </section>
-            <section class="view-content-container" th:if="${wishlists == null}">
+            <section class="view-content-container" th:if="${wishlists == null || wishlists.length == 0}">
                 <div class="view-content-wrapper empty">
                     <div class="empty-wrapper">
                             <span class="logo">

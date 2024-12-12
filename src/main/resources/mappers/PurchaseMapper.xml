@@ -13,11 +13,13 @@
         INSERT INTO `epic_games`.`cart` (`user_email`, `game_index`, `add_at`)
         VALUES (#{userEmail}, #{gameIndex}, #{addAt})
     </insert>
+
     <!--  장바구니 삭제  -->
     <delete id="deleteCartByIndex" parameterType="_int">
         DELETE FROM `epic_games`.`cart`
         WHERE `index` = #{index}
     </delete>
+
     <!-- 유저에 해당하는 장바구니 목록들 조회  -->
     <select id="selectCartByUserEmail" resultType="com.ssw.epicgames.entities.CartEntity">
         SELECT `index`      AS `index`,
@@ -38,6 +40,17 @@
         FROM `epic_games`.`cart`
         WHERE `user_email` = #{userEmail}
           AND `game_index` = #{gameIndex}
+        LIMIT 1
+    </select>
+
+    <!--  장바구니 index로 장바구니 조회  -->
+    <select id="selectCartByIndex" resultType="com.ssw.epicgames.entities.CartEntity">
+        SELECT `index`      AS `index`,
+               `user_email` AS `userEmail`,
+               `game_index` AS `gameIndex`,
+               `add_at`     AS `addAt`
+        FROM `epic_games`.`cart`
+        WHERE `index` = #{index}
         LIMIT 1
     </select>
 <!-- endregion -->
@@ -86,7 +99,19 @@
           AND `is_deleted` = false
         LIMIT 1
     </select>
-<!-- endregion -->
+
+    <!--  위시리스트 index로 위시리스트 조회  -->
+    <select id="selectWishlistByIndex" resultType="com.ssw.epicgames.entities.WishlistEntity">
+        SELECT `index`      AS `index`,
+               `user_email` AS `userEmail`,
+               `game_index` AS `gameIndex`,
+               `add_at`     AS `addAt`
+        FROM `epic_games`.`wishlist`
+        WHERE `index` = #{index}
+          AND `is_deleted` = false
+        LIMIT 1
+    </select>
+    <!-- endregion -->
 
 <!--  region 결제 관련 -->
 <!-- endregion -->

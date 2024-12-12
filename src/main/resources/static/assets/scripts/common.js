@@ -17,11 +17,16 @@ document.addEventListener('DOMContentLoaded', () => {
 //endregion
 
 // region footer 화살표 누르면 페이지 상단으로 바로 이동
-
 const $pageup = document.body.querySelector('[name="pageup"]');
 
 $pageup.onclick = () => {
-    window.scrollTo(0, 0);
+    window.scrollTo(0, 0);  // 페이지 맨 위로 이동
+    console.log("Scroll position: ", window.scrollY); // 스크롤 위치 출력
+
+    const topElement = document.getElementById('main');
+    if (topElement) {
+        topElement.scrollIntoView({ behavior: 'smooth' });  // 해당 요소로 부드럽게 이동
+    }
 }
 //endregion
 

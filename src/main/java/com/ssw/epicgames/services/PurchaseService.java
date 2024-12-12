@@ -73,16 +73,19 @@ public class PurchaseService {
 
     /** 장바구니 제거 */
     @Transactional
-    public Result deleteFromCart(UserEntity user, int gameIndex, int index) {
-        if (user == null || gameIndex < 1 || index < 1) {
+    public Result deleteFromCart(int index) {
+        if ( index < 1) {
             return CommonResult.FAILURE;
         }
-        // 유저 이메일과 게임 번호로 장바구니 조회
-        CartEntity dbCart = this.purchaseMapper.selectCartByEmailANDGameIndex(user.getEmail(), gameIndex);
+
+        // 장바구니 조회
+        CartEntity dbCart = this.purchaseMapper.selectCartByIndex(index);
+
         //장바구니에 없으면
         if (dbCart == null) {
             return PurchaseResult.FAILURE_NOT_FOUND;
         }
+
         // 장바구니에 있으면 장바구니 삭제 진행
         if (this.purchaseMapper.deleteCartByIndex(index) <= 0){
             throw new TransactionalException("오류: 장바구니 삭제 실패");
@@ -141,18 +144,17 @@ public class PurchaseService {
 
     /** 위시리스트 제거 */
     @Transactional
-    public Result deleteFromWishlist(WishlistEntity wishlist) {
-        if (wishlist == null || wishlist.getUserEmail() == null || wishlist.getIndex() < 1 || wishlist.getGameIndex() < 1
-        ) {
+    public Result deleteFromWishlist(int index) {
+        if (index < 1) {
             return CommonResult.FAILURE;
         }
-        WishlistEntity dbWishlist = this.purchaseMapper.selectWishlistByEmailANDGameIndex(wishlist.getUserEmail(), wishlist.getGameIndex());
+        WishlistEntity dbWishlist = this.purchaseMapper.selectWishlistByIndex(index);
         if (dbWishlist == null || dbWishlist.isDeleted()) { //위시리스트에 없거나 삭제됨
             return PurchaseResult.FAILURE_NOT_FOUND;
         }
 
-        wishlist.setDeleted(true); // 삭제됨
-        if (this.purchaseMapper.updateWishlistByIndex(wishlist) <= 0){
+        dbWishlist.setDeleted(true); // 삭제됨
+        if (this.purchaseMapper.updateWishlistByIndex(dbWishlist) <= 0){
             throw new TransactionalException("오류: 위시리스트 삭제 실패");
         }
         return CommonResult.SUCCESS;

@@ -30,6 +30,9 @@ public interface PurchaseMapper {
     CartEntity selectCartByEmailANDGameIndex(@Param("userEmail") String userEmail,
                                                @Param("gameIndex") int gameIndex);
 
+    /** 장바구니 index로 장바구니 조회 */
+    CartEntity selectCartByIndex(@Param("index") int index);
+
     //endregion
 
     //region 위시리스트 관련
@@ -54,6 +57,9 @@ public interface PurchaseMapper {
      */
     WishlistEntity selectWishlistByEmailANDGameIndex(@Param("userEmail") String userEmail,
                                                        @Param("gameIndex") int gameIndex);
+
+    /** 위시리스트 index로 위시리스트 조회 */
+    WishlistEntity selectWishlistByIndex(@Param("index") int index);
 
     // endregion
 }

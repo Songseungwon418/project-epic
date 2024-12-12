@@ -5,6 +5,7 @@ body {
   width: 100vw;
   min-height: 100vh;
   overflow-x: hidden;
+  overflow-y: auto;
   color: #ffffff !important;
 }
 
@@ -121,7 +122,6 @@ body {
               }
             }
           }
-
           //endregion
 
           > .game-list {
@@ -469,13 +469,16 @@ body {
               margin-bottom: 15px;
               align-items: center;
               display: flex;
+              flex-direction: column;
+              gap: 15px;
+              justify-content: stretch;
               list-style: none outside none;
 
               > .remove-container {
                 width: 100%;
                 height: 100%;
                 align-items: center;
-                display: flex;
+                display: none;
                 justify-content: space-between;
                 background: #202024FF;
                 border-radius: 6px;
@@ -703,7 +706,7 @@ body {
             background: #121212;
             font-size: 1rem;
             line-height: normal;
-            overflow: hidden;
+            overflow: hidden auto;
 
             > .filter-title {
               > .filter-title-line {

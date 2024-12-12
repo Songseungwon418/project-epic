@@ -54,12 +54,8 @@ public class PurchaseController {
     /** 장바구니 제거 */
     @DeleteMapping(value = "/cart/delete", produces = MediaType.APPLICATION_JSON_VALUE)
     @ResponseBody
-    public String deleteToCart(
-            @SessionAttribute(value = "user", required = false) UserEntity user,
-            @RequestParam(value = "gameIndex", required = false) int gameIndex,
-            @RequestParam(value = "index", required = false) int index
-    ){
-        Result result = this.purchaseService.deleteFromCart(user, gameIndex, index);
+    public String deleteToCart(@RequestParam(value = "index", required = false) int index){
+        Result result = this.purchaseService.deleteFromCart(index);
         JSONObject response = new JSONObject();
         response.put(Result.NAME, result.nameToLower());
         return response.toString();
@@ -94,8 +90,8 @@ public class PurchaseController {
     /** 위시리스트 제거 */
     @PatchMapping(value = "/wishlist/delete", produces = MediaType.APPLICATION_JSON_VALUE)
     @ResponseBody
-    public String deleteToWishlist(@RequestParam(value = "wishlist", required = false) WishlistEntity wishlist){
-        Result result = this.purchaseService.deleteFromWishlist(wishlist);
+    public String deleteToWishlist(@RequestParam(value = "index", required = false) int index){
+        Result result = this.purchaseService.deleteFromWishlist(index);
         JSONObject response = new JSONObject();
         response.put(Result.NAME, result.nameToLower());
         return response.toString();
