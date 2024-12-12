@@ -377,6 +377,7 @@ button {
     padding: 1rem;
     box-sizing: border-box;
     color: #ffffff;
+    z-index: 999;
 }
 #header .header-nav > .release > .item-container > .item > .list {
     border-radius: 1rem;
@@ -482,27 +483,36 @@ button {
     width: 100%;
     height: auto;
     max-width: 153rem;
-    min-height: 100%;
+    min-height: 100vh;
     margin: 0 auto;
 }
 #main > .search-container {
+    width: 100%;
     position: sticky;
     height: 10.5rem;
     background-color: #101014;
+    z-index: 990;
+    top: 0;
+}
+#main > .search-container > .area {
+    width: 75%;
+    height: 100%;
+    max-width: 1600px;
+    margin-left: auto;
+    margin-right: auto;
     display: flex;
     flex-direction: row;
     align-items: center;
     justify-content: flex-start;
-    z-index: 990;
-    top: 0;
 }
-#main > .search-container > .searchForm {
+
+#main > .search-container > .area > .searchForm {
     position: relative;
 }
-#main > .search-container > .searchForm > .submit-button {
+#main > .search-container > .area > .searchForm > .submit-button {
     border: none;
 }
-#main > .search-container > .searchForm > .submit-button > .icon {
+#main > .search-container > .area > .searchForm > .submit-button > .icon {
     position: absolute;
     left: 1.8rem;
     top: 1.45rem;
@@ -510,10 +520,10 @@ button {
     width: 1.4rem;
     z-index: 3;
 }
-#main > .search-container > .searchForm > .label {
+#main > .search-container > .area > .searchForm > .label {
     position: relative;
 }
-#main > .search-container > .searchForm > .label > .search {
+#main > .search-container > .area > .searchForm > .label > .search {
     background-color: #202024;
     height: 4.3rem;
     width: 24.5rem;
@@ -526,23 +536,23 @@ button {
     outline: none;
     border: none;
 }
-#main > .search-container > .searchForm > .label > .search::placeholder {
+#main > .search-container > .area > .searchForm > .label > .search::placeholder {
     font-weight: bolder;
 }
-#main > .search-container > .searchForm > .label > .search:hover {
+#main > .search-container > .area > .searchForm > .label > .search:hover {
     background-color: #404040;
     outline: none;
     border: none;
 }
-#main > .search-container > .searchForm > .label > .search:focus-within {
+#main > .search-container > .area > .searchForm > .label > .search:focus-within {
     background-color: #404040;
     outline: none;
     border: none;
 }
-#main > .search-container > .link-container {
+#main > .search-container > .area > .link-container {
     margin-left: 1.5rem;
 }
-#main > .search-container > .link-container > .list {
+#main > .search-container > .area > .link-container > .list {
     display: flex;
     flex-direction: row;
     align-items: center;
@@ -550,15 +560,15 @@ button {
     gap: 1.8rem;
     color: rgba(255, 255, 255, 0.6470588235);
 }
-#main > .search-container > .link-container > .list > .item {
+#main > .search-container > .area > .link-container > .list > .item {
     padding: 1rem;
     box-sizing: border-box;
     border-radius: 0.5rem;
 }
-#main > .search-container > .link-container > .list > .item:hover {
+#main > .search-container > .area > .link-container > .list > .item:hover {
     color: #FFFFFF;
 }
-#main > .search-container > .link-container > .list > .item:active {
+#main > .search-container > .area > .link-container > .list > .item:active {
     border: 0.0625rem solid #ffffff;
     transition-property: border;
     transition-duration: 250ms;

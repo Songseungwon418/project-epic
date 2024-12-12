@@ -1,14 +1,17 @@
 package com.ssw.epicgames.mappers;
 
 import com.ssw.epicgames.entities.GameEntity;
+import com.ssw.epicgames.entities.GenreEntity;
+import com.ssw.epicgames.vos.GameVo;
 import org.apache.ibatis.annotations.Mapper;
+import org.apache.ibatis.annotations.Param;
 
 @Mapper
 public interface GameMapper {
 
-    /** 모든 게임들 */
-    GameEntity[] selectAllGames();
+    GameVo[] selectAllGames();
 
-    /** index에 해당하는 게임 한 개 */
-    GameEntity selectGameByIndex(int index);
+    GameVo[] selectGamesByKeyword(@Param("keyword") String keyword);
+
+    GenreEntity[] selectGenres();
 }
