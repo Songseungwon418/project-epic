@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "https://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.ssw.epicgames.mappers.GameRatingMapper">
+
+    <select id="selectGameRatingByGrac" resultType="com.ssw.epicgames.entities.GameRatingEntity">
+        SELECT `grac`        AS `grac`,
+               `title`       AS `title`,
+               `sub_title`   AS `subTitle`,
+               `description` AS `description`,
+               `logo`        AS `logo`
+        FROM `epic_games`.`game_rating`
+        WHERE grac = #{grac}
+    </select>
+</mapper>

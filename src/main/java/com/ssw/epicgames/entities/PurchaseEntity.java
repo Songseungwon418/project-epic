@@ -9,10 +9,14 @@ import java.time.LocalDateTime;
 @Getter
 @Setter
 @EqualsAndHashCode(of = {"index"})
-public class WishlistEntity {
+public class PurchaseEntity {
     private int index;
     private String userEmail;
-    private int gameIndex;
-    private LocalDateTime addAt;
-    private boolean isDeleted;
+    private String gameId;
+    private LocalDateTime date;
+    private int gamePrice;
+    private int discountAmount;
+    private int finalPrice;
+    private String addr;
+    private LocalDateTime deletedAt;
 }
