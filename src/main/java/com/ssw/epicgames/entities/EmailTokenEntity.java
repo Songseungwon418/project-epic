@@ -14,5 +14,5 @@ public class EmailTokenEntity {
     private String key;
     private LocalDateTime createdAt;
     private LocalDateTime expiresAt;
-    private Boolean isUsed;
+    private boolean isUsed;
 }

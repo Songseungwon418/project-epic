@@ -4,6 +4,7 @@ import lombok.EqualsAndHashCode;
 import lombok.Getter;
 import lombok.Setter;
 
+import java.time.LocalDate;
 import java.time.LocalDateTime;
 
 @Getter
@@ -12,13 +13,13 @@ import java.time.LocalDateTime;
 public class UserEntity {
     private String email;
     private String password;
-    private String Name;
-    private LocalDateTime birthdate;
+    private String name;
+    private LocalDate birthdate;
     private String nickname;
     private String phone;
     private String addr;
     private LocalDateTime registerDate;
     private LocalDateTime updatedAt;
     private LocalDateTime deletedDate;
-    private int isVerified;
+    private boolean isVerified;
 }
