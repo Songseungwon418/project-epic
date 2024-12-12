@@ -24,3 +24,14 @@ $pageup.onclick = () => {
     window.scrollTo(0, 0);
 }
 //endregion
+
+// region 필터 관련 함수(게임 분류 서버에서 불러옴)
+/**
+ * @Param element - 서버(DB)에서 가져온 값들을 사용할 HTML 요소
+ * */
+function filterGenre(element) {
+
+}
+
+
+//endregion
