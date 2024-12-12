@@ -72,6 +72,13 @@ public class UserController {
         return modelAndView;
     }
 
+    @RequestMapping(value = "/forgot-password", method = RequestMethod.GET, produces = MediaType.TEXT_HTML_VALUE)
+    public ModelAndView getForgotPassword() {
+        ModelAndView modelAndView = new ModelAndView();
+        modelAndView.setViewName("/user/forgotPassword");
+        return modelAndView;
+    }
+
 //    @RequestMapping(value = "/recover-email", method = RequestMethod.GET, produces = MediaType.APPLICATION_JSON_VALUE)
 //    @ResponseBody
 //    public String getRecoverEmail(UserEntity user) {
