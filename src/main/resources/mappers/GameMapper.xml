@@ -23,8 +23,14 @@
                `price`                                                       AS `price`,
                `main_image`                                                  AS `mainImage`,
                GROUP_CONCAT(`game_genre_mapping`.`genre_tag` SEPARATOR ', ') AS `genre`
-    <!--   index에 해당하는 게임 한 개 선택   -->
-    <select id="selectGameByIndex" resultType="com.ssw.epicgames.entities.GameEntity">
+        FROM `epic_games`.`game`
+                 LEFT JOIN `epic_games`.`game_genre_mapping`
+                           ON `game`.`index` = `game_genre_mapping`.`game_index`
+        WHERE `name` LIKE CONCAT('%', #{keyword}, '%')
+    </select>
+
+    <!--   모든 게임들 선택   -->
+    <select id="selectAllGameInfo" resultType="com.ssw.epicgames.entities.GameEntity">
         SELECT `index`       AS `index`,
                `gr_grac`     AS `grGrac`,
                `name`        AS `name`,
@@ -46,14 +52,31 @@
                `rec_storage` AS `recStorage`,
                `rec_gpu`     AS `recGpu`
         FROM `epic_games`.`game`
-                 LEFT JOIN `epic_games`.`game_genre_mapping`
-                           ON `game`.`index` = `game_genre_mapping`.`game_index`
-        WHERE `name` LIKE CONCAT('%', #{keyword}, '%')
     </select>
 
-    <select id="selectGenres" resultType="com.ssw.epicgames.entities.GenreEntity">
-        SELECT tag AS `tag`,
-               name AS `name`
-        FROM `epic_games`.`genre`
+    <!--   index에 해당하는 게임 한 개 선택   -->
+    <select id="selectGameInfoByIndex" resultType="com.ssw.epicgames.entities.GameEntity">
+        SELECT `index`       AS `index`,
+               `gr_grac`     AS `grGrac`,
+               `name`        AS `name`,
+               `price`       AS `price`,
+               `summary`     AS `summary`,
+               `description` AS `description`,
+               `company`     AS `company`,
+               `open_date`   AS `openDate`,
+               `main_image`  AS `mainImage`,
+               `logo`        AS `mainLogo`,
+               `min_os`      AS `minOs`,
+               `min_cpu`     AS `minCpu`,
+               `min_ram`     AS `minRam`,
+               `min_storage` AS `minStorage`,
+               `min_gpu`     AS `minGpu`,
+               `rec_os`      AS `recOs`,
+               `rec_cpu`     AS `recCpu`,
+               `rec_ram`     AS `recRam`,
+               `rec_storage` AS `recStorage`,
+               `rec_gpu`     AS `recGpu`
+        FROM `epic_games`.`game`
+        WHERE `index` = #{index}
     </select>
 </mapper>

@@ -28,6 +28,7 @@ public class PurchaseController {
     public ModelAndView getCart(
             @SessionAttribute(value = "user", required = false) UserEntity user
     ) {
+        System.out.println(user);
         CartDTO[] carts = this.purchaseService.getCarts(user);
         ModelAndView mav = new ModelAndView();
         if (carts != null) {

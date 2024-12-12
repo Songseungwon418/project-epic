@@ -31,6 +31,7 @@ public class PurchaseService {
         if (user == null) {
             return null;
         }
+
         // 유저의 장바구니 목록들
         CartEntity[] carts = this.purchaseMapper.selectCartByUserEmail(user.getEmail());
         CartDTO[] cartDTOS = new CartDTO[carts.length]; //보낼 객체들 생성
