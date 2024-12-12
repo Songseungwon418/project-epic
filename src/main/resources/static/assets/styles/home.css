@@ -1,0 +1,784 @@
+@keyframes anim {
+  0% {
+    transform: translate3d(-100%, 0, 0);
+  }
+  100% {
+    transform: translate3d(0, 0, 0);
+    background-color: #404044;
+  }
+}
+@keyframes grow-shrink {
+  0% {
+    transform: scale(1);
+  }
+  50% {
+    transform: scale(1.05);
+  }
+  100% {
+    transform: scale(1);
+  }
+}
+@keyframes slide-effect {
+  from {
+    opacity: 0;
+    transform: translateX(3rem);
+  }
+  to {
+    opacity: 1;
+    transform: translateX(0);
+  }
+}
+#main > .mainSection {
+  width: 75%;
+  max-width: 1600px;
+  margin-left: auto;
+  margin-right: auto;
+}
+#main > .mainSection > .event-container {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  justify-content: flex-start;
+  gap: 2.5rem;
+  user-select: none;
+}
+#main > .mainSection > .event-container > .event {
+  width: calc(33.3333333333% - 1rem);
+  height: 20rem;
+  border-radius: 1.3rem;
+  position: relative;
+  overflow: hidden;
+}
+#main > .mainSection > .event-container > .event:hover {
+  filter: brightness(1.1);
+}
+#main > .mainSection > .event-container > .event > .link > .image {
+  position: absolute;
+  width: 100%;
+  height: 100%;
+  object-position: center;
+  object-fit: cover;
+}
+#main > .mainSection > .rolling-banner {
+  position: relative;
+  height: 55rem;
+  display: flex;
+  flex-direction: row;
+  align-items: flex-start;
+  justify-content: flex-start;
+  margin-top: 5rem;
+  margin-bottom: 7rem;
+  user-select: none;
+}
+#main > .mainSection > .rolling-banner > .box {
+  position: absolute;
+  top: 0;
+  left: 0;
+  height: 100%;
+  width: 82%;
+  background-color: #101014;
+  z-index: 8;
+}
+#main > .mainSection > .rolling-banner > .main-banner {
+  width: 79.5%;
+  height: 100%;
+  border-radius: 1.6rem;
+  position: relative;
+  overflow: hidden;
+  z-index: 9;
+}
+#main > .mainSection > .rolling-banner > .main-banner > .first.banner {
+  display: none;
+}
+#main > .mainSection > .rolling-banner > .main-banner > .first.banner > .link > .image {
+  border-radius: 1.6rem;
+  position: absolute;
+  width: 100%;
+  height: 100%;
+  object-position: center;
+  object-fit: cover;
+}
+#main > .mainSection > .rolling-banner > .main-banner > .first.banner > .link > .filter-effect {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 80%;
+  height: 100%;
+  opacity: 0.6;
+  background: linear-gradient(270deg, rgba(11, 11, 11, 0) 0%, #0B0B0B 100%, #0B0B0B 100%);
+}
+#main > .mainSection > .rolling-banner > .main-banner > .first.banner > .link > .text-container {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  justify-content: flex-start;
+  gap: 0.5rem;
+}
+#main > .mainSection > .rolling-banner > .main-banner > .first.banner > .link > .text-container > .text-wrapper > .logo {
+  position: absolute;
+  width: 24.5rem;
+  height: 16rem;
+  top: 13rem;
+  left: 5.5rem;
+  background-image: url("https://cdn2.unrealengine.com/egs-carousel-infinity-nikki-carousel-logo-2-350x100-0886945c55a9.png");
+  z-index: 8;
+  background-position: bottom left;
+  background-repeat: no-repeat;
+  background-size: contain;
+}
+#main > .mainSection > .rolling-banner > .main-banner > .first.banner > .link > .text-container > .text-wrapper > .text {
+  position: absolute;
+  top: 33rem;
+  left: 5.5rem;
+  width: 37rem;
+  color: #ffffff;
+  letter-spacing: normal;
+  line-height: 2.5rem;
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  justify-content: flex-start;
+  gap: 0.8rem;
+}
+#main > .mainSection > .rolling-banner > .main-banner > .first.banner > .link > .text-container > .text-wrapper > .text > .first {
+  font-size: 1.2rem;
+  font-weight: 500;
+}
+#main > .mainSection > .rolling-banner > .main-banner > .first.banner > .link > .text-container > .text-wrapper > .text > .second {
+  font-size: 1.6rem;
+}
+#main > .mainSection > .rolling-banner > .main-banner > .first.banner > .link > .text-container > .text-wrapper > .button-container {
+  position: absolute;
+  top: 44rem;
+  left: 5.5rem;
+  color: #ffffff;
+  letter-spacing: normal;
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  justify-content: flex-end;
+}
+#main > .mainSection > .rolling-banner > .main-banner > .first.banner > .link > .text-container > .text-wrapper > .button-container > .download {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  justify-content: center;
+  gap: 0.9rem;
+}
+#main > .mainSection > .rolling-banner > .main-banner > .first.banner > .link > .text-container > .text-wrapper > .button-container > .download > .download-button {
+  border: none;
+  background-color: #ffffff;
+  color: #000000;
+  padding: 1.5rem 6rem;
+  box-sizing: border-box;
+  border-radius: 1rem;
+  font-size: 1.4rem;
+}
+#main > .mainSection > .rolling-banner > .main-banner > .first.banner.-selected {
+  display: flex;
+  animation-name: slide-effect;
+  animation-duration: 0.5s;
+  animation-timing-function: linear;
+}
+#main > .mainSection > .rolling-banner > .main-banner > .second.banner {
+  display: none;
+}
+#main > .mainSection > .rolling-banner > .main-banner > .second.banner > .link > .image {
+  border-radius: 1.6rem;
+  position: absolute;
+  width: 100%;
+  height: 100%;
+  object-position: center;
+  object-fit: cover;
+}
+#main > .mainSection > .rolling-banner > .main-banner > .second.banner > .link > .filter-effect {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 80%;
+  height: 100%;
+  opacity: 0.6;
+  background: linear-gradient(270deg, rgba(11, 11, 11, 0) 0%, #0B0B0B 100%, #0B0B0B 100%);
+}
+#main > .mainSection > .rolling-banner > .main-banner > .second.banner > .link > .text-container {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  justify-content: flex-start;
+  gap: 0.5rem;
+}
+#main > .mainSection > .rolling-banner > .main-banner > .second.banner > .link > .text-container > .text-wrapper > .logo {
+  position: absolute;
+  width: 23rem;
+  height: 16rem;
+  top: 7rem;
+  left: 5.5rem;
+  background-image: url("https://cdn2.unrealengine.com/egs-discord-nitro-carousel-logo-350x145-7103016370cd.png");
+  z-index: 8;
+  background-position: bottom left;
+  background-repeat: no-repeat;
+  background-size: contain;
+}
+#main > .mainSection > .rolling-banner > .main-banner > .second.banner > .link > .text-container > .text-wrapper > .text {
+  position: absolute;
+  top: 27rem;
+  left: 5.5rem;
+  width: 35rem;
+  color: #ffffff;
+  letter-spacing: normal;
+  line-height: 2.5rem;
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  justify-content: flex-start;
+  gap: 0.8rem;
+}
+#main > .mainSection > .rolling-banner > .main-banner > .second.banner > .link > .text-container > .text-wrapper > .text > .first {
+  font-weight: 500;
+}
+#main > .mainSection > .rolling-banner > .main-banner > .second.banner > .link > .text-container > .text-wrapper > .text > .second {
+  font-size: 1.5rem;
+}
+#main > .mainSection > .rolling-banner > .main-banner > .second.banner > .link > .text-container > .text-wrapper > .button-container {
+  position: absolute;
+  top: 44rem;
+  left: 5.5rem;
+  color: #ffffff;
+  letter-spacing: normal;
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  justify-content: flex-end;
+}
+#main > .mainSection > .rolling-banner > .main-banner > .second.banner > .link > .text-container > .text-wrapper > .button-container > .download {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  justify-content: center;
+  gap: 0.9rem;
+}
+#main > .mainSection > .rolling-banner > .main-banner > .second.banner > .link > .text-container > .text-wrapper > .button-container > .download > .download-button {
+  border: none;
+  background-color: #ffffff;
+  color: #000000;
+  padding: 1.5rem 6rem;
+  box-sizing: border-box;
+  border-radius: 1rem;
+  font-size: 1.4rem;
+}
+#main > .mainSection > .rolling-banner > .main-banner > .second.banner.-selected {
+  display: flex;
+  animation-name: slide-effect;
+  animation-duration: 0.5s;
+  animation-timing-function: linear;
+}
+#main > .mainSection > .rolling-banner > .main-banner > .third.banner {
+  display: none;
+}
+#main > .mainSection > .rolling-banner > .main-banner > .third.banner > .link > .image {
+  border-radius: 1.6rem;
+  position: absolute;
+  width: 100%;
+  height: 100%;
+  object-position: center;
+  object-fit: cover;
+}
+#main > .mainSection > .rolling-banner > .main-banner > .third.banner > .link > .filter-effect {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 80%;
+  height: 100%;
+  opacity: 0.6;
+  background: linear-gradient(270deg, rgba(11, 11, 11, 0) 0%, #0B0B0B 100%, #0B0B0B 100%);
+}
+#main > .mainSection > .rolling-banner > .main-banner > .third.banner > .link > .text-container {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  justify-content: flex-start;
+  gap: 0.5rem;
+}
+#main > .mainSection > .rolling-banner > .main-banner > .third.banner > .link > .text-container > .text-wrapper > .text {
+  position: absolute;
+  top: 30rem;
+  left: 5.5rem;
+  width: 37rem;
+  color: #ffffff;
+  letter-spacing: normal;
+  line-height: 2.5rem;
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  justify-content: flex-start;
+  gap: 0.8rem;
+}
+#main > .mainSection > .rolling-banner > .main-banner > .third.banner > .link > .text-container > .text-wrapper > .text > .first {
+  font-size: 1.2rem;
+  font-weight: 500;
+}
+#main > .mainSection > .rolling-banner > .main-banner > .third.banner > .link > .text-container > .text-wrapper > .text > .second {
+  font-size: 1.6rem;
+}
+#main > .mainSection > .rolling-banner > .main-banner > .third.banner > .link > .text-container > .text-wrapper > .button-container {
+  position: absolute;
+  top: 44rem;
+  left: 5.5rem;
+  color: #ffffff;
+  letter-spacing: normal;
+}
+#main > .mainSection > .rolling-banner > .main-banner > .third.banner > .link > .text-container > .text-wrapper > .button-container > .download {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  justify-content: center;
+  gap: 0.9rem;
+}
+#main > .mainSection > .rolling-banner > .main-banner > .third.banner > .link > .text-container > .text-wrapper > .button-container > .download > .download-button {
+  border: none;
+  background-color: #ffffff;
+  color: #000000;
+  padding: 1.5rem 3.5rem;
+  box-sizing: border-box;
+  border-radius: 1rem;
+  font-size: 1.4rem;
+}
+#main > .mainSection > .rolling-banner > .main-banner > .third.banner.-selected {
+  display: flex;
+  animation-name: slide-effect;
+  animation-duration: 0.5s;
+  animation-timing-function: linear;
+}
+#main > .mainSection > .rolling-banner > .side-banner {
+  width: 18%;
+  height: 100%;
+  border-radius: 1.6rem;
+  position: relative;
+  margin-left: 3rem;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: flex-start;
+  gap: 0.5rem;
+}
+#main > .mainSection > .rolling-banner > .side-banner > .side {
+  width: 100%;
+  height: 33.3333333333%;
+  border-radius: 1rem;
+  position: relative;
+  overflow: hidden;
+  background-color: transparent;
+}
+#main > .mainSection > .rolling-banner > .side-banner > .side > .value {
+  position: absolute;
+  left: 10%;
+  top: 27%;
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  justify-content: center;
+  gap: 1.5rem;
+  z-index: 7;
+}
+#main > .mainSection > .rolling-banner > .side-banner > .side > .value > .image > img {
+  height: 8.5rem;
+  border-radius: 0.75rem;
+}
+#main > .mainSection > .rolling-banner > .side-banner > .side > .value > .title {
+  color: #ffffff;
+  font-size: 1.4rem;
+  letter-spacing: normal;
+}
+#main > .mainSection > .rolling-banner > .side-banner > .side > .value > .title > .text {
+  overflow-wrap: break-word;
+  white-space: normal;
+}
+#main > .mainSection > .rolling-banner > .side-banner > .side:hover {
+  background-color: #28282c;
+}
+#main > .mainSection > .rolling-banner > .side-banner > .side.-selected {
+  background-color: #28282c;
+  border: 0.0625rem solid #28282c;
+  z-index: 5;
+}
+#main > .mainSection > .rolling-banner > .side-banner > .side.-selected > .bar {
+  animation-name: anim;
+  animation-duration: 7s;
+  animation-timing-function: linear;
+  z-index: 6;
+  width: 100%;
+  height: 100%;
+  border-radius: 1rem;
+}
+#main > .mainSection > .rolling-banner > .side-banner > .side.-selected > .value .image > img {
+  animation-name: grow-shrink;
+  animation-duration: 1s;
+  animation-timing-function: ease;
+}
+#main > .mainSection > .newGame {
+  overflow: hidden;
+  position: relative;
+  width: 100%;
+  margin-bottom: 3rem;
+}
+#main > .mainSection > .newGame > .title-wrapper {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  justify-content: flex-start;
+  margin-bottom: 1.5rem;
+}
+#main > .mainSection > .newGame > .title-wrapper > .title > .link {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  justify-content: center;
+  font-size: 2.5rem;
+}
+#main > .mainSection > .newGame > .title-wrapper > .title > .link > .text {
+  font-size: 2rem;
+  font-weight: 600;
+  letter-spacing: 0.1rem;
+  color: #ffffff;
+  text-align: center;
+}
+#main > .mainSection > .newGame > .title-wrapper > .title > .link > .icon {
+  fill: #ffffff;
+  vertical-align: middle;
+  padding-bottom: 0.2rem;
+  margin-left: 0;
+  transition-property: margin-left;
+  transition-duration: 0.1s;
+  transition-timing-function: linear;
+}
+#main > .mainSection > .newGame > .title-wrapper > .title > .link > .icon:hover {
+  margin-left: 0.5rem;
+}
+#main > .mainSection > .newGame > .title-wrapper > .spring {
+  flex-grow: 1;
+}
+#main > .mainSection > .newGame > .title-wrapper > .button-container {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  justify-content: flex-start;
+  gap: 1rem;
+}
+#main > .mainSection > .newGame > .title-wrapper > .button-container > .button > button {
+  width: 3.5rem;
+  height: 3.5rem;
+  border-radius: 999rem;
+  outline: none;
+  background-color: #202024;
+  border: none;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+#main > .mainSection > .newGame > .title-wrapper > .button-container > .button > button > .icon {
+  width: 1.5rem;
+  height: 1.5rem;
+}
+#main > .mainSection > .newGame > .title-wrapper > .button-container > .button > button:hover {
+  background-color: #656565;
+}
+#main > .mainSection > .newGame > .title-wrapper > .button-container > .button.prev {
+  transform: scaleX(-1);
+}
+#main > .mainSection > .newGame > .title-wrapper > .button-container > .button.next > button > .icon {
+  padding-left: 0.3rem;
+  box-sizing: border-box;
+}
+#main > .mainSection > .newGame > .newGame-container {
+  overflow: hidden;
+}
+#main > .mainSection > .newGame > .newGame-container > .newGame-wrapper {
+  display: flex;
+  gap: 1.8rem;
+  transition-property: transform;
+  transition-duration: 0.5s;
+  transition-timing-function: ease-in-out;
+}
+#main > .mainSection > .newGame > .newGame-container > .newGame-wrapper > .game {
+  flex: 0 0 calc((100% - 7.2rem) / 5);
+  height: 40rem;
+  background-color: transparent;
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  justify-content: flex-start;
+  color: #ffffff;
+  font-size: 1.2rem;
+  position: relative;
+}
+#main > .mainSection > .newGame > .newGame-container > .newGame-wrapper > .game > .main-image {
+  width: 100%;
+  height: 73%;
+  overflow: hidden;
+  border-radius: 1.1rem;
+}
+#main > .mainSection > .newGame > .newGame-container > .newGame-wrapper > .game > .main-image:hover {
+  filter: brightness(1.1);
+}
+#main > .mainSection > .newGame > .newGame-container > .newGame-wrapper > .game > .main-image > img {
+  width: 100%;
+  height: 100%;
+  object-position: center;
+  object-fit: cover;
+}
+#main > .mainSection > .newGame > .newGame-container > .newGame-wrapper > .game > .game-type {
+  color: rgba(255, 255, 255, 0.6509803922);
+  font-size: 1.3rem;
+  letter-spacing: normal;
+  margin-top: 1rem;
+}
+#main > .mainSection > .newGame > .newGame-container > .newGame-wrapper > .game > .game-name {
+  color: #ffffff;
+  font-size: 1.6rem;
+  font-weight: bold;
+  letter-spacing: normal;
+  margin-top: 1rem;
+}
+#main > .mainSection > .newGame > .newGame-container > .newGame-wrapper > .game > .game-price {
+  color: #ffffff;
+  font-size: 1.4rem;
+  margin-top: 1.8rem;
+}
+#main > .mainSection > .saleGame {
+  overflow: hidden;
+  position: relative;
+  width: 100%;
+  margin-bottom: 5rem;
+}
+#main > .mainSection > .saleGame > .title-wrapper {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  justify-content: flex-start;
+  margin-bottom: 1.5rem;
+}
+#main > .mainSection > .saleGame > .title-wrapper > .title > .link {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  justify-content: center;
+  font-size: 2.5rem;
+}
+#main > .mainSection > .saleGame > .title-wrapper > .title > .link > .text {
+  font-size: 2rem;
+  font-weight: 600;
+  letter-spacing: 0.1rem;
+  color: #ffffff;
+  text-align: center;
+}
+#main > .mainSection > .saleGame > .title-wrapper > .title > .link > .icon {
+  fill: #ffffff;
+  vertical-align: middle;
+  padding-bottom: 0.2rem;
+  margin-left: 0;
+  transition-property: margin-left;
+  transition-duration: 0.1s;
+  transition-timing-function: linear;
+}
+#main > .mainSection > .saleGame > .title-wrapper > .title > .link > .icon:hover {
+  margin-left: 0.5rem;
+}
+#main > .mainSection > .saleGame > .title-wrapper > .spring {
+  flex-grow: 1;
+}
+#main > .mainSection > .saleGame > .title-wrapper > .button-container {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  justify-content: flex-start;
+  gap: 1rem;
+}
+#main > .mainSection > .saleGame > .title-wrapper > .button-container > .prevButton {
+  transform: scaleX(-1);
+}
+#main > .mainSection > .saleGame > .title-wrapper > .button-container > .prevButton > button,
+#main > .mainSection > .saleGame > .title-wrapper > .button-container > .nextButton > button {
+  width: 3.5rem;
+  height: 3.5rem;
+  border-radius: 999rem;
+  outline: none;
+  background-color: #202024;
+  border: none;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+#main > .mainSection > .saleGame > .title-wrapper > .button-container > .prevButton > button > .icon,
+#main > .mainSection > .saleGame > .title-wrapper > .button-container > .nextButton > button > .icon {
+  width: 1.5rem;
+  height: 1.5rem;
+}
+#main > .mainSection > .saleGame > .title-wrapper > .button-container > .prevButton > button:hover,
+#main > .mainSection > .saleGame > .title-wrapper > .button-container > .nextButton > button:hover {
+  background-color: #656565;
+}
+#main > .mainSection > .saleGame > .saleGame-container {
+  overflow: hidden;
+}
+#main > .mainSection > .saleGame > .saleGame-container > .saleGame-wrapper {
+  display: flex;
+  gap: 1.8rem;
+  transition-property: transform;
+  transition-duration: 0.5s;
+  transition-timing-function: ease-in-out;
+}
+#main > .mainSection > .saleGame > .saleGame-container > .saleGame-wrapper > .sale-game {
+  flex: 0 0 calc((100% - 7.2rem) / 5);
+  height: 40rem;
+  background-color: transparent;
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  justify-content: flex-start;
+  color: #ffffff;
+  font-size: 1.2rem;
+  position: relative;
+}
+#main > .mainSection > .saleGame > .saleGame-container > .saleGame-wrapper > .sale-game > .main-image {
+  width: 100%;
+  height: 73%;
+  overflow: hidden;
+  border-radius: 1.1rem;
+}
+#main > .mainSection > .saleGame > .saleGame-container > .saleGame-wrapper > .sale-game > .main-image:hover {
+  filter: brightness(1.1);
+}
+#main > .mainSection > .saleGame > .saleGame-container > .saleGame-wrapper > .sale-game > .main-image > img {
+  width: 100%;
+  height: 100%;
+  object-position: center;
+  object-fit: cover;
+}
+#main > .mainSection > .saleGame > .saleGame-container > .saleGame-wrapper > .sale-game > .game-type {
+  color: rgba(255, 255, 255, 0.6509803922);
+  font-size: 1.3rem;
+  letter-spacing: normal;
+  margin-top: 1rem;
+}
+#main > .mainSection > .saleGame > .saleGame-container > .saleGame-wrapper > .sale-game > .game-name {
+  color: #ffffff;
+  font-size: 1.6rem;
+  font-weight: bold;
+  letter-spacing: normal;
+  margin-top: 1rem;
+}
+#main > .mainSection > .saleGame > .saleGame-container > .saleGame-wrapper > .sale-game > .sale-info {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  justify-content: center;
+  margin-top: 1.5rem;
+  gap: 1rem;
+}
+#main > .mainSection > .saleGame > .saleGame-container > .saleGame-wrapper > .sale-game > .sale-info > .sale-percentage {
+  width: 5rem;
+  height: 2rem;
+  border-radius: 2rem;
+  background-color: #26BBFF;
+  text-align: center;
+  line-height: 1.6;
+}
+#main > .mainSection > .saleGame > .saleGame-container > .saleGame-wrapper > .sale-game > .sale-info > .sale-percentage > .text {
+  color: #000000;
+  font-weight: 500;
+  letter-spacing: 0.05rem;
+}
+#main > .mainSection > .saleGame > .saleGame-container > .saleGame-wrapper > .sale-game > .sale-info > .origin-price {
+  color: rgba(255, 255, 255, 0.6509803922);
+  font-size: 1.38rem;
+}
+#main > .mainSection > .saleGame > .saleGame-container > .saleGame-wrapper > .sale-game > .sale-info > .sale-price {
+  color: #ffffff;
+  font-size: 1.38rem;
+  font-weight: bold;
+}
+#main > .mainSection > .dealSection {
+  margin-bottom: 6rem;
+}
+#main > .mainSection > .dealSection > .deal-container {
+  display: flex;
+  flex-direction: row;
+  align-items: flex-start;
+  justify-content: flex-start;
+  gap: 2.5rem;
+  width: 100%;
+  height: 42rem;
+}
+#main > .mainSection > .dealSection > .deal-container > .deal {
+  width: calc(50% - 1rem);
+  height: 100%;
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  justify-content: flex-start;
+  gap: 3rem;
+}
+#main > .mainSection > .dealSection > .deal-container > .deal > .imageLink {
+  height: 70%;
+  width: 100%;
+  border-radius: 1rem;
+}
+#main > .mainSection > .dealSection > .deal-container > .deal > .imageLink > .link > .image {
+  position: absolute;
+  width: 100%;
+  object-position: center;
+  object-fit: cover;
+  border-radius: 1rem;
+}
+#main > .mainSection > .dealSection > .deal-container > .deal > .text-wrapper {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  justify-content: flex-start;
+  gap: 1.5rem;
+  margin-top: 1rem;
+  user-select: none;
+}
+#main > .mainSection > .dealSection > .deal-container > .deal > .text-wrapper > .game-name {
+  color: #ffffff;
+  font-size: 2.3rem;
+  font-weight: 600;
+}
+#main > .mainSection > .dealSection > .deal-container > .deal > .text-wrapper > .gamePrice {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  justify-content: flex-start;
+  gap: 1rem;
+}
+#main > .mainSection > .dealSection > .deal-container > .deal > .text-wrapper > .gamePrice > .percentage {
+  color: #000000;
+  width: 5rem;
+  height: 2rem;
+  border-radius: 2rem;
+  background-color: #26BBFF;
+  text-align: center;
+  font-size: 1.3rem;
+  line-height: 1.5;
+}
+#main > .mainSection > .dealSection > .deal-container > .deal > .text-wrapper > .gamePrice > .originPrice {
+  color: rgba(255, 255, 255, 0.6274509804);
+  font-size: 1.38rem;
+}
+#main > .mainSection > .dealSection > .deal-container > .deal > .text-wrapper > .gamePrice > .salePrice {
+  color: #ffffff;
+  font-size: 1.38rem;
+}
+#main > .mainSection > .dealSection > .deal-container > .deal > .text-wrapper > button {
+  outline: none;
+  color: #ffffff;
+  font-size: 1.4rem;
+  background-color: rgba(255, 255, 255, 0.1490196078);
+  border: none;
+  border-radius: 1rem;
+  padding: 1.2rem 1.8rem;
+  box-sizing: border-box;
+}
+
+/*# sourceMappingURL=home.css.map */

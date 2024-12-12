@@ -8,12 +8,11 @@ import java.util.Base64;
 
 @Getter
 @Setter
-@EqualsAndHashCode(of = {"grac"})
-public class GameRatingEntity {
-    private String grac;
-    private String title;
-    private String subTitle;
-    private String description;
+@EqualsAndHashCode(of = {"id"})
+public class AchievementEntity {
+    private int id;
+    private String name;
+    private int reward;
     private byte[] logo;
 
     public String getBase64Logo() {

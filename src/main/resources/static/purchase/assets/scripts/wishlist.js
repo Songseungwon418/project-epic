@@ -37,5 +37,45 @@ $checkboxs.forEach((checkbox) => {
         $checkIcon.style.display = !isChecked ? 'block' : 'none';
     });
 });
+//endregion
 
+//region 정렬 필터 관련
+// 필터 항목을 클릭했을 때 선택된 항목을 처리하는 함수
+function selectFilter(element) {
+    const $filterListContainer = document.querySelector('.order-filter-container');
+    const $filterItems = $filterListContainer.querySelectorAll(' :scope > .order-filter-list > .order-filter-item');
+    const $sortingFilterBtn = document.querySelector('.sorting-filter-btn');
+
+    // 모든 필터 항목에서 'selected' 클래스를 제거
+    $filterItems.forEach(item => item.classList.remove('selected'));
+
+    // 클릭된 항목에 'selected' 클래스를 추가
+    element.classList.add('selected');
+
+    // 'filter-text' 부분의 텍스트를 선택된 항목의 텍스트로 변경
+    const $filterText = document.querySelector('.filter-text .text');
+    $filterText.textContent = element.textContent;
+
+    // 목록 닫기
+    toggleFilterList($sortingFilterBtn);
+
+    // 서버로 name 값 전송 (예시로 콘솔 출력)
+    const filterName = element.getAttribute('name') || element.textContent;
+    console.log('선택된 필터 name:', filterName);
+}
+
+// 필터 목록의 표시/숨김을 토글하는 함수
+function toggleFilterList(btn) {
+    const $filterListContainer = document.querySelector('.order-filter-container');
+
+    // 해당 버튼에 대한 'aria-expanded' 속성 가져오기
+    const isExpanded = btn.getAttribute('aria-expanded') === 'true';
+
+    // aria-expanded 값 변경 (열리거나 닫히도록)
+    btn.setAttribute('aria-expanded', !isExpanded);
+
+    if($filterListContainer) {
+        $filterListContainer.style.display = isExpanded ? 'none' : 'block';
+    }
+}
 //endregion
