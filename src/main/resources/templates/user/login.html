@@ -1,0 +1,84 @@
+<!doctype html>
+<html lang="ko" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport"
+          content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>에픽게임즈 계정에 로그인 | 에픽게임즈</title>
+    <link rel="shortcut icon" th:href="@{'/assets/images/favicon.png'}">
+    <link rel="stylesheet" th:href="@{'/assets/styles/common.css'}" type="text/css">
+    <link rel="stylesheet" th:href="@{'/assets/styles/user/login.css'}" type="text/css">
+    <script defer th:src="@{'/assets/scripts/user/login.js'}" type="text/javascript"></script>
+</head>
+<body>
+<div class="cover" id="cover"></div>
+<div class="login-content">
+    <form class="login-form" id="loginForm">
+        <img alt="EpicGames" class="logo" th:src="@{'/assets/images/index.unsigned/epic_logo.png'}">
+        <h2 class="title">로그인</h2>
+        <label class="label" data-id="email">
+            <span class="_text">이메일 주소</span>
+            <input autofocus autocomplete="email" class="input" maxlength="50" name="email" spellcheck="false"
+                   type="email">
+            <span class="-warning">*필수</span>
+        </label>
+        <label class="label" data-id="password">
+            <span class="_text">비밀번호</span>
+            <input autocomplete="password" class="input" maxlength="50" minlength="8" name="password" spellcheck="false"
+                   type="password">
+            <span class="-warning">*필수</span>
+        </label>
+        <a class="link" href="#">이메일 또는 비밀번호를 잊으셨나요?</a> <!-- href를 비밀번호 재설정 페이지로 지정해야함 -->
+        <button class="button" type="submit">로그인</button>
+        <div class="underline">
+            <div class="line"></div>
+            <span class="_text">또 다른 계정으로 로그인</span>
+            <div class="line"></div>
+        </div>
+        <div class="create">
+            <a th:href="@{'/user/register'}" class="link">계정 생성</a> <!--회원가입 링크 걸면됨-->
+            <a th:href="@{'https://www.epicgames.com/site/ko/privacypolicy?lang=ko'}" class="link">개인정보처리방침</a>
+        </div>
+    </form>
+    <form novalidate class="recover-form -visible" id="recoverForm">
+        <h2>EPIC 계정 찾기</h2>
+        <div class="mode-container">
+            <label class="label">
+                <input class="input" name="mode" type="radio" value="email">
+                <span class="title">이메일 찾기</span>
+                <span class="text">입력하신 연락처로 이메일을 찾습니다.</span>
+            </label>
+            <label class="label">
+                <input class="input" name="mode" type="radio" value="password">
+                <span class="title">비밀번호 재설정</span>
+                <span class="text">이메일로 비밀번호를 재설정 할 수 있는 링크를 전송합니다</span>
+            </label>
+        </div>
+        <div class="content email">
+            <span class="text">이메일을 찾기 위해 아래 정보를 입력해 주세요.</span>
+            <label class="label" data-id="contact">
+                <span class="_text">연락처</span>
+                <input autofocus autocomplete="contact" class="input" maxlength="11" minlength="10" name="phone"
+                       spellcheck="false" type="tel">
+                <span id="reEmail"></span>
+                <span class="_warning">올바른 연락처를 입력해 주세요.</span>
+            </label>
+        </div>
+        <div class="content password">
+            <span class="text">비밀번호를 재설정하기 위해 아래 정보를 입력해 주세요.</span>
+            <label class="label" data-id="email">
+                <span class="_text">이메일</span>
+                <input autofocus autocomplete="email" class="input" maxlength="50" minlength="8" name="email"
+                       spellcheck="false" type="email">
+                <span class="_warning">올바른 이메일을 입력해 주세요.</span>
+            </label>
+        </div>
+        <div class="btnsWrap">
+            <button class="cancel-button" name="cancel" type="button">취소</button>
+            <button class="button" type="submit">계정 찾기</button>
+        </div>
+    </form>
+</div>
+</body>
+</html>
