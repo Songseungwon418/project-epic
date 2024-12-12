@@ -35,6 +35,10 @@ body {
     flex-direction: column;
     gap: 2.2rem;
 
+    &.remove {
+      display: none;
+    }
+
     > .logo {
       width: 50px;
       height: 50px;
@@ -135,6 +139,190 @@ body {
 
       > .link {
         color: #65caf8;
+      }
+    }
+  }
+}
+
+.recover-form {
+  top: 50%;
+  left: 50%;
+  width: 60rem;
+  max-width: 100%;
+  max-height: 100vh;
+  background-color: #2b2b2b;
+  border-radius: 2rem;
+  box-sizing: border-box;
+  color: #ffffff;
+  opacity: 0;
+  overflow: auto;
+  padding: 2.5rem;
+  pointer-events: none;
+  position: fixed;
+  transform: scale(95%) translate(-50%, -50%);
+  transform-origin: top left;
+  transition-duration: 375ms;
+  transition-property: opacity, transform;
+  transition-timing-function: ease;
+  z-index: 9;
+
+  &.-visible {
+    opacity: 1;
+    pointer-events: all;
+    transform: scale(100%) translate(-50%, -50%);
+  }
+
+  &.remove {
+    display: none;
+  }
+
+  > h2 {
+    font-size: 2.3rem;
+    font-weight: 700;
+    margin-bottom: 1rem;
+  }
+
+  > .mode-container {
+    display: grid;
+    gap: 0.5rem;
+    grid-template-columns: 1fr 1fr;
+    grid-template-rows: 1fr;
+
+    &:has(input[type="radio"][value="email"]:checked) ~ .content.email,
+    &:has(input[type="radio"][value="password"]:checked) ~ .content.password {
+        display: flex;
+    }
+
+    > .label {
+      $border_color: #202024;
+      display: flex;
+      flex-direction: column;
+      align-items: flex-start;
+      justify-content: flex-start;
+      gap: 0.25rem;
+      border: 0.0625rem solid $border_color;
+      background-color: $border_color;
+      border-radius: 2rem;
+      padding: 1.7rem;
+      margin-bottom: 1.5rem;
+      user-select: none;
+
+      &:hover {
+        background-color: lighten($border_color, 5%);
+      }
+
+      &:active {
+        background-color: lighten($border_color, 10%);
+      }
+
+      &:has(input[type="radio"]:checked) {
+        border-color: #000000;
+      }
+
+      > .input {
+        display: none;
+      }
+
+      > .title {
+        font-size: 1.6rem;
+        font-weight: 700;
+        margin-bottom: 1.5rem;
+      }
+
+      > .text {
+        font-size: 1.2rem;
+        text-align: justify;
+      }
+    }
+  }
+
+  > .content {
+    display: none;
+    flex-direction: column;
+    align-items: stretch;
+    justify-content: flex-start;
+    gap: 0.375rem;
+
+    > .text {
+      font-size: 1.5rem;
+      font-weight: 600;
+      margin-bottom: 2.3rem;
+      margin-top: 1rem;
+    }
+
+    > .label {
+      display: flex;
+      flex-direction: column;
+      align-items: stretch;
+      justify-content: flex-start;
+      gap: 1rem;
+
+      > ._text {
+        font-size: 1.3rem;
+        font-weight: 700;
+      }
+
+      > input {
+        $background_color: #656565;
+        border: 0.0625rem solid #656565;
+        border-radius: 2rem;
+        background-color: $background_color;
+        padding: 1.2rem;
+        margin-bottom: 1.2rem;
+        color: inherit;
+      }
+
+      > ._warning {
+        display: none;
+
+        &.-visible {
+          display: flex;
+          color: red;
+          margin-bottom: 1.2rem;
+        }
+      }
+    }
+  }
+
+  .btnsWrap {
+    display: flex;
+    gap: 0 15px;
+    width: 100%;
+    margin-top: 1.3rem;
+
+    > .button {
+      $background_color: #65caf8;
+      width: 100%;
+      border: 0.0625rem solid $background_color;
+      background-color: $background_color;
+      border-radius: 2rem;
+      padding: 1.5rem;
+      color: inherit;
+
+      &:hover {
+        background-color: lighten($background_color, 5%);
+      }
+
+      &:active {
+        background-color: lighten($background_color, 10%);
+      }
+    }
+
+    > .cancel-button {
+      $background_color: #535454;
+      width: 100%;
+      border: 0.0625rem solid $background_color;
+      background-color: $background_color;
+      border-radius: 2rem;
+      padding: 1.5rem;
+      color: #ffffff;
+
+      &:hover {
+        background-color: lighten($background_color, 5%);
+      }
+
+      &:active {
+        background-color: lighten($background_color, 10%);
       }
     }
   }

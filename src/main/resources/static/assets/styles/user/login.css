@@ -32,6 +32,9 @@ body {
   flex-direction: column;
   gap: 2.2rem;
 }
+.login-content > .login-form.remove {
+  display: none;
+}
 .login-content > .login-form > .logo {
   width: 50px;
   height: 50px;
@@ -115,6 +118,159 @@ body {
 }
 .login-content > .login-form > .create > .link {
   color: #65caf8;
+}
+
+.recover-form {
+  top: 50%;
+  left: 50%;
+  width: 60rem;
+  max-width: 100%;
+  max-height: 100vh;
+  background-color: #2b2b2b;
+  border-radius: 2rem;
+  box-sizing: border-box;
+  color: #ffffff;
+  opacity: 0;
+  overflow: auto;
+  padding: 2.5rem;
+  pointer-events: none;
+  position: fixed;
+  transform: scale(95%) translate(-50%, -50%);
+  transform-origin: top left;
+  transition-duration: 375ms;
+  transition-property: opacity, transform;
+  transition-timing-function: ease;
+  z-index: 9;
+}
+.recover-form.-visible {
+  opacity: 1;
+  pointer-events: all;
+  transform: scale(100%) translate(-50%, -50%);
+}
+.recover-form.remove {
+  display: none;
+}
+.recover-form > h2 {
+  font-size: 2.3rem;
+  font-weight: 700;
+  margin-bottom: 1rem;
+}
+.recover-form > .mode-container {
+  display: grid;
+  gap: 0.5rem;
+  grid-template-columns: 1fr 1fr;
+  grid-template-rows: 1fr;
+}
+.recover-form > .mode-container:has(input[type=radio][value=email]:checked) ~ .content.email, .recover-form > .mode-container:has(input[type=radio][value=password]:checked) ~ .content.password {
+  display: flex;
+}
+.recover-form > .mode-container > .label {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  justify-content: flex-start;
+  gap: 0.25rem;
+  border: 0.0625rem solid #202024;
+  background-color: #202024;
+  border-radius: 2rem;
+  padding: 1.7rem;
+  margin-bottom: 1.5rem;
+  user-select: none;
+}
+.recover-form > .mode-container > .label:hover {
+  background-color: rgb(44, 44, 49.5);
+}
+.recover-form > .mode-container > .label:active {
+  background-color: #38383f;
+}
+.recover-form > .mode-container > .label:has(input[type=radio]:checked) {
+  border-color: #000000;
+}
+.recover-form > .mode-container > .label > .input {
+  display: none;
+}
+.recover-form > .mode-container > .label > .title {
+  font-size: 1.6rem;
+  font-weight: 700;
+  margin-bottom: 1.5rem;
+}
+.recover-form > .mode-container > .label > .text {
+  font-size: 1.2rem;
+  text-align: justify;
+}
+.recover-form > .content {
+  display: none;
+  flex-direction: column;
+  align-items: stretch;
+  justify-content: flex-start;
+  gap: 0.375rem;
+}
+.recover-form > .content > .text {
+  font-size: 1.5rem;
+  font-weight: 600;
+  margin-bottom: 2.3rem;
+  margin-top: 1rem;
+}
+.recover-form > .content > .label {
+  display: flex;
+  flex-direction: column;
+  align-items: stretch;
+  justify-content: flex-start;
+  gap: 1rem;
+}
+.recover-form > .content > .label > ._text {
+  font-size: 1.3rem;
+  font-weight: 700;
+}
+.recover-form > .content > .label > input {
+  border: 0.0625rem solid #656565;
+  border-radius: 2rem;
+  background-color: #656565;
+  padding: 1.2rem;
+  margin-bottom: 1.2rem;
+  color: inherit;
+}
+.recover-form > .content > .label > ._warning {
+  display: none;
+}
+.recover-form > .content > .label > ._warning.-visible {
+  display: flex;
+  color: red;
+  margin-bottom: 1.2rem;
+}
+.recover-form .btnsWrap {
+  display: flex;
+  gap: 0 15px;
+  width: 100%;
+  margin-top: 1.3rem;
+}
+.recover-form .btnsWrap > .button {
+  width: 100%;
+  border: 0.0625rem solid #65caf8;
+  background-color: #65caf8;
+  border-radius: 2rem;
+  padding: 1.5rem;
+  color: inherit;
+}
+.recover-form .btnsWrap > .button:hover {
+  background-color: rgb(125.3913043478, 210.3944099379, 249.1086956522);
+}
+.recover-form .btnsWrap > .button:active {
+  background-color: rgb(149.7826086957, 218.7888198758, 250.2173913043);
+}
+.recover-form .btnsWrap > .cancel-button {
+  width: 100%;
+  border: 0.0625rem solid #535454;
+  background-color: #535454;
+  border-radius: 2rem;
+  padding: 1.5rem;
+  color: #ffffff;
+}
+.recover-form .btnsWrap > .cancel-button:hover {
+  background-color: rgb(95.6736526946, 96.8263473054, 96.8263473054);
+}
+.recover-form .btnsWrap > .cancel-button:active {
+  background-color: rgb(108.3473053892, 109.6526946108, 109.6526946108);
 }
 
 /*# sourceMappingURL=login.css.map */

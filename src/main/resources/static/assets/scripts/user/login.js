@@ -1,3 +1,32 @@
+HTMLElement.prototype.hide = function () {      // 모든 html 요소에 hide라는 함수가 붙는다
+    this.classList.remove('-visible');
+    return this;
+}
+
+HTMLElement.prototype.show = function () {
+    this.classList.add('-visible');
+    return this;
+}
+
+HTMLElement.prototype.removeHide = function () {
+    this.classList.remove('remove');
+    return this;
+}
+
+HTMLElement.prototype.removeShow = function () {
+    this.classList.add('remove');
+    return this;
+}
+
+/**
+ * @param{string} dataId
+ * @returns {HTMLLabelElement}
+ */
+HTMLFormElement.prototype.findLabel = function (dataId) {
+    return this.querySelector(`label.--obj-label[data-id="${dataId}"]`);
+}
+
+//region login
 const $loginForm = document.getElementById("loginForm");
 
 $loginForm.onsubmit = (e) => {
@@ -39,3 +68,4 @@ $loginForm.onsubmit = (e) => {
     xhr.open('GET', url.toString());
     xhr.send();
 }
+//endregion
