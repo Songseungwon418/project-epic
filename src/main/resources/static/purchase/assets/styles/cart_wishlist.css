@@ -39,7 +39,6 @@ body {
 }
 .main > #view-container > .view-wrapper > .view-content-container {
   display: flex;
-  flex-flow: wrap;
 }
 .main > #view-container > .view-wrapper > .view-content-container > .view-content-wrapper {
   flex-grow: 1;
@@ -808,27 +807,34 @@ body {
 }
 
 @media (max-width: 430px) {
-  .game-card {
+  .view-content-container {
+    flex-wrap: wrap;
+    flex-direction: column;
+  }
+  .view-content-container .view-content-wrapper {
+    max-width: 430px;
+  }
+  .view-content-container .view-content-wrapper .game-card {
     grid-template-areas: "image title title" "image rating rating" "image price price" "image ctaRow ctaRow" !important;
   }
-  .game-card .title {
+  .view-content-container .view-content-wrapper .game-card .title {
     display: -webkit-box !important;
     overflow: hidden !important;
     word-break: break-word !important;
     -webkit-box-orient: vertical !important;
     -webkit-line-clamp: 2 !important;
   }
-  .game-card .subtitle {
+  .view-content-container .view-content-wrapper .game-card .subtitle {
     display: -webkit-box !important;
     overflow: hidden !important;
     word-break: break-word !important;
     -webkit-box-orient: vertical !important;
     -webkit-line-clamp: 1 !important;
   }
-  .game-card .button-container > .spring {
+  .view-content-container .view-content-wrapper .game-card .button-container > .spring {
     flex-grow: 0 !important;
   }
-  .game-card .button-container > .game-card-btn {
+  .view-content-container .view-content-wrapper .game-card .button-container > .game-card-btn {
     flex-grow: 1 !important;
     flex-shrink: 0;
     max-width: 100%;
@@ -837,8 +843,14 @@ body {
     overflow: hidden !important;
     text-overflow: ellipsis !important;
   }
+  .view-content-container .cart-sidebar {
+    width: 100%;
+  }
 }
 @media (min-width: 430px) {
+  .view-content-container {
+    flex-wrap: wrap;
+  }
   .view-content-container .game-card {
     grid-template-areas: "image title title" "image price price" "image rating rating" "image ctaRow ctaRow" !important;
   }
@@ -867,6 +879,7 @@ body {
   }
   .view-content-container .view-content-wrapper {
     margin-bottom: 0 !important;
+    max-width: 70%;
   }
   .view-content-container .view-content-wrapper.empty > .empty-wrapper {
     max-width: 65%;
@@ -876,22 +889,28 @@ body {
   }
   .view-content-container .cart-sidebar {
     margin-left: 32px;
-    width: 256px !important;
+    width: 296px !important;
   }
 }
 @media (min-width: 1280px) {
-  .game-card {
+  .view-content-container {
+    flex-wrap: nowrap;
+  }
+  .view-content-container .view-content-wrapper {
+    max-width: 80%;
+  }
+  .view-content-container .view-content-wrapper .game-card {
     justify-items: normal;
     grid-template-columns: auto 1fr fit-content(50%) !important;
     grid-template-areas: "image title price" "image rating rating" "image ctaRow ctaRow" !important;
   }
-  .game-card .price-container {
+  .view-content-container .view-content-wrapper .game-card .price-container {
     align-items: flex-end !important;
   }
-  .game-card .link-image {
+  .view-content-container .view-content-wrapper .game-card .link-image {
     width: 128px !important;
   }
-  .cart-sidebar {
+  .view-content-container .cart-sidebar {
     margin-left: 36px;
     width: 296px !important;
   }

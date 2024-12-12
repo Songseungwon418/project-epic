@@ -38,6 +38,7 @@
         FROM `epic_games`.`cart`
         WHERE `user_email` = #{userEmail}
           AND `game_index` = #{gameIndex}
+        LIMIT 1
     </select>
 <!-- endregion -->
 
@@ -83,6 +84,7 @@
         WHERE `user_email` = #{userEmail}
           AND `game_index` = #{gameIndex}
           AND `is_deleted` = false
+        LIMIT 1
     </select>
 <!-- endregion -->
 

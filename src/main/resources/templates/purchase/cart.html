@@ -22,7 +22,7 @@
                 <section class="view-header">
                     <h1 class="title">나의 장바구니</h1>
                 </section>
-                <section class="view-content-container" th:if="${carts != null}">
+                <section class="view-content-container" th:if="${carts != null && carts.length > 0}">
                     <div class="view-content-wrapper">
                         <div class="game-list">
                             <div class="game-card" th:each="cart : ${carts}">
@@ -61,7 +61,7 @@
                                     <span class="info_text" th:if="${cart.getGame().getPrice() == 0}">앱 내 구매가 포함될 수도 있습니다</span>
                                 </div>
                                 <div class="ratings-container">
-                                    <a href="https://www.globalratings.com/ratingsguide.aspx#grac" class="link" referrerpolicy="unsafe-url" target="_blank">
+                                    <div class="link">
                                         <div class="link-wrapper">
                                             <div class="img-wrapper">
                                                 <img th:alt="${cart.getGameRating().getTitle()}" th:src="${cart.getGameRating().base64Logo}">
@@ -71,7 +71,7 @@
                                                 <span class="subtitle" th:text="${cart.getGameRating().getSubTitle()}"></span>
                                             </div>
                                         </div>
-                                    </a>
+                                    </div>
                                 </div>
                                 <div class="content-and-btn">
                                     <div class="refund-container" th:if="${cart.getGame().getPrice() != 0}">
@@ -129,7 +129,7 @@
                         </div>
                     </div>
                 </section>
-                <section class="view-content-container" th:if="${carts == null}">
+                <section class="view-content-container" th:if="${carts == null || carts.length == 0}">
                     <div class="view-content-wrapper empty">
                         <div class="empty-wrapper">
                             <span class="logo">

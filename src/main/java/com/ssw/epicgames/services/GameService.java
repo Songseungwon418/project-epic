@@ -11,12 +11,10 @@ import org.springframework.stereotype.Service;
 @Service
 public class GameService {
     private final GameMapper gameMapper;
-    private final GenreMapper genreMapper;
 
     @Autowired
-    public GameService(GameMapper gameMapper, GenreMapper genreMapper) {
+    public GameService(GameMapper gameMapper) {
         this.gameMapper = gameMapper;
-        this.genreMapper = genreMapper;
     }
 
     public GameVo[] getAllGames() {
@@ -28,10 +26,6 @@ public class GameService {
             keyword = "";
         }
         return this.gameMapper.selectGamesByKeyword(keyword);
-    }
-
-    public GenreEntity[] getGenres() {
-        return this.genreMapper.selectGenres();
     }
 
     // 게임 index에 해당하는 게임 정보 조회

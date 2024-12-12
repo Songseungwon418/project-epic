@@ -42,7 +42,6 @@ body {
 
       > .view-content-container {
         display: flex;
-        flex-flow: wrap;
 
         > .view-content-wrapper {
           flex-grow: 1;
@@ -954,49 +953,64 @@ body {
 
 
 @media (max-width: 430px) {
-  .game-card {
-    grid-template-areas:
+  .view-content-container {
+    flex-wrap: wrap;
+    flex-direction: column;
+
+    .view-content-wrapper {
+      max-width: 430px;
+
+      .game-card {
+        grid-template-areas:
         'image title title'
         'image rating rating'
         'image price price'
         'image ctaRow ctaRow' !important;
 
-    .title {
-      display: -webkit-box !important;
-      overflow: hidden !important;
-      word-break: break-word !important;
-      -webkit-box-orient: vertical !important;
-      -webkit-line-clamp: 2 !important;
+        .title {
+          display: -webkit-box !important;
+          overflow: hidden !important;
+          word-break: break-word !important;
+          -webkit-box-orient: vertical !important;
+          -webkit-line-clamp: 2 !important;
+        }
+
+        .subtitle {
+          display: -webkit-box !important;
+          overflow: hidden !important;
+          word-break: break-word !important;
+          -webkit-box-orient: vertical !important;
+          -webkit-line-clamp: 1 !important;
+        }
+
+        .button-container {
+          > .spring {
+            flex-grow: 0 !important;
+          }
+
+          > .game-card-btn {
+            flex-grow: 1 !important;
+            flex-shrink: 0;
+            max-width: 100%;
+            flex-wrap: nowrap !important;
+            white-space: nowrap !important;
+            overflow: hidden !important;
+            text-overflow: ellipsis !important;
+          }
+        }
+      }
     }
 
-    .subtitle {
-      display: -webkit-box !important;
-      overflow: hidden !important;
-      word-break: break-word !important;
-      -webkit-box-orient: vertical !important;
-      -webkit-line-clamp: 1 !important;
-    }
-
-    .button-container {
-      > .spring {
-        flex-grow: 0 !important;
-      }
-
-      > .game-card-btn {
-        flex-grow: 1 !important;
-        flex-shrink: 0;
-        max-width: 100%;
-        flex-wrap: nowrap !important;
-        white-space: nowrap !important;
-        overflow: hidden !important;
-        text-overflow: ellipsis !important;
-      }
+    .cart-sidebar {
+      width: 100%;
     }
   }
 }
 
 @media (min-width: 430px) {
   .view-content-container {
+    flex-wrap: wrap;
+
     .game-card {
       grid-template-areas:
         'image title title'
@@ -1041,11 +1055,11 @@ body {
 
     .view-content-wrapper {
       margin-bottom: 0 !important;
+      max-width: 70%;
 
       &.empty > .empty-wrapper {
           max-width: 65%;
       }
-
 
       .game-card {
         grid-template-areas:
@@ -1055,37 +1069,45 @@ body {
         'image ctaRow ctaRow' !important;
       }
     }
-
     .cart-sidebar {
       margin-left: 32px;
-      width: 256px !important;
+      width: 296px !important;
     }
   }
-
 }
 
 @media (min-width: 1280px) {
-  .game-card {
-    justify-items: normal;
-    grid-template-columns: auto 1fr fit-content(50%) !important;
-    grid-template-areas:
+  .view-content-container {
+    flex-wrap: nowrap;
+
+    .view-content-wrapper {
+      max-width: 80%;
+
+      .game-card {
+        justify-items: normal;
+        grid-template-columns: auto 1fr fit-content(50%) !important;
+        grid-template-areas:
         'image title price'
         'image rating rating'
         'image ctaRow ctaRow' !important;
 
-    .price-container {
-      align-items: flex-end !important;
+        .price-container {
+          align-items: flex-end !important;
+        }
+
+        .link-image {
+          width: 128px !important;
+        }
+      }
     }
 
-    .link-image {
-      width: 128px !important;
+    .cart-sidebar {
+      margin-left: 36px;
+      width: 296px !important;
     }
   }
 
-  .cart-sidebar {
-    margin-left: 36px;
-    width: 296px !important;
-  }
+
 }
 
 @media (min-width: 1440px) {

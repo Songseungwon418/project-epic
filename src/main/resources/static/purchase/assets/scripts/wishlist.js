@@ -1,4 +1,11 @@
 //region 필터관련
+// 장르 목록 서버에서 가져오기
+if(document.querySelector('.filter-list-content') != null) {
+    const $genreList = document.querySelector('.filter-list-content');
+    filterGenre($genreList);
+}
+
+// 필터 목록들 접고 펴기
 document.addEventListener('DOMContentLoaded', function() {
     const $buttons = document.querySelectorAll('.filter-toggle-button');
 

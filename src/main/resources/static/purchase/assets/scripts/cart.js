@@ -34,7 +34,6 @@ if($openModalBtn !== null){
 //region 제거 버튼 누를 시
 const $removeBtns = document.querySelectorAll(' .game-card-btn.-remove');
 
-
 $removeBtns.forEach(btn => btn.addEventListener('click', () => {
     const $gameCard = btn.closest('.game-card');
     const $cartIndexTag = $gameCard.querySelector(':scope > .info-data > .cart-index');
@@ -52,6 +51,7 @@ $removeBtns.forEach(btn => btn.addEventListener('click', () => {
         if(xhr.readyState !== XMLHttpRequest.DONE){
             return;
         }
+        Loading.hide();
         if (xhr.status < 200 || xhr.status >= 300){
             alert('서버가 알 수 없는 응답을 반환하였습니다. 잠시 후 시도해 주세요.');
             return;
@@ -64,6 +64,7 @@ $removeBtns.forEach(btn => btn.addEventListener('click', () => {
     };
     xhr.open('DELETE', '/purchase/cart/delete');
     xhr.send(formData);
+    Loading.show(0);
     })
 );
 //endregion

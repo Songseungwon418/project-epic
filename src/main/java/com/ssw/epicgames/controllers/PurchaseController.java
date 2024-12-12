@@ -8,6 +8,7 @@ import com.ssw.epicgames.entities.WishlistEntity;
 import com.ssw.epicgames.resutls.Result;
 import com.ssw.epicgames.services.PurchaseService;
 import org.json.JSONObject;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.MediaType;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
@@ -18,6 +19,7 @@ import org.springframework.web.servlet.ModelAndView;
 public class PurchaseController {
     private final PurchaseService purchaseService;
 
+    @Autowired
     public PurchaseController(PurchaseService purchaseService) {
         this.purchaseService = purchaseService;
     }
@@ -32,6 +34,7 @@ public class PurchaseController {
         CartDTO[] carts = this.purchaseService.getCarts(user);
         ModelAndView mav = new ModelAndView();
         if (carts != null) {
+            mav.addObject("user", user);
             mav.addObject("carts", carts);
         }
         mav.setViewName("purchase/cart");
