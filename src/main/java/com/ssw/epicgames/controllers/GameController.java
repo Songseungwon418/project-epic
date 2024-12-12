@@ -1,6 +1,7 @@
 package com.ssw.epicgames.controllers;
 
 import com.ssw.epicgames.entities.GameEntity;
+import com.ssw.epicgames.entities.GenreEntity;
 import com.ssw.epicgames.services.GameService;
 import com.ssw.epicgames.vos.GameVo;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -27,6 +28,8 @@ public class GameController {
     @RequestMapping(value = "/genre", method = RequestMethod.GET, produces = MediaType.TEXT_HTML_VALUE)
     public ModelAndView getGenre(@RequestParam(value = "tag", required = false) String tag) {
         ModelAndView modelAndView = new ModelAndView();
+        GenreEntity[] genres = this.gameService.getGenres();
+        modelAndView.addObject("genres", genres);
         modelAndView.setViewName("game/genre");
         return modelAndView;
     }

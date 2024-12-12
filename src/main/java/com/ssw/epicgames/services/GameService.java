@@ -28,7 +28,6 @@ public class GameService {
     }
 
     public GenreEntity[] getGenres() {
-
         return this.gameMapper.selectGenres();
     }
 }

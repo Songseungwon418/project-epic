@@ -29,7 +29,9 @@
         WHERE `name` LIKE CONCAT('%', #{keyword}, '%')
     </select>
 
-    <select id="selectGenres" resultType="">
-
+    <select id="selectGenres" resultType="com.ssw.epicgames.entities.GenreEntity">
+        SELECT tag AS `tag`,
+               name AS `name`
+        FROM `epic_games`.`genre`
     </select>
 </mapper>
