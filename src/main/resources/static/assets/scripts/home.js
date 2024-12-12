@@ -2,8 +2,8 @@
 
 {
     document.addEventListener("DOMContentLoaded", () => {
-        const $sideBanners = document.querySelectorAll(".side-banner > a"); // side-banner의 <a> 요소들
-        const $mainBanners = document.querySelectorAll(".main-banner > div"); // main-banner의 <div> 요소들
+        const $sideBanners = document.querySelectorAll(".side-banner > a");
+        const $mainBanners = document.querySelectorAll(".main-banner > div");
         let currentSelected = 0; // 초기 선택된 항목 (first side)
         let canNavigate = false; // 첫 번째 클릭에서는 이동하지 않도록 설정
         let timer; // 타이머 변수
@@ -45,6 +45,7 @@
                     $mainBanners[currentSelected].classList.add("-selected");
 
                     canNavigate = false; // 첫 번째 클릭 시에는 href로 이동하지 않음
+                    
                 } else {
                     // -selected가 있는 항목을 클릭한 경우
                     if (canNavigate) {
@@ -146,20 +147,20 @@
 
 //endregion
 
-//region 새로움게임 가격 양식
+//region 새로운게임 가격 양식
 {
     document.addEventListener("DOMContentLoaded", function () {
         // 모든 .game-price 요소를 선택
-        const priceElements = document.querySelectorAll('.game-price');
+        const $gamePrices = document.querySelectorAll('.game-price');
 
-        priceElements.forEach(priceElement => {
-            const rawPrice = parseInt(priceElement.textContent.trim(), 10); // 현재 텍스트를 정수로 변환
+        $gamePrices.forEach(gamePrice => {
+            const rawPrice = parseInt(gamePrice.textContent.trim(), 10); // 현재 텍스트를 정수로 변환
 
             // 가격이 0이면 "무료" 표시, 아니면 천 단위 포맷 추가
             if (rawPrice === 0) {
-                priceElement.textContent = "무료";
+                gamePrice.textContent = "무료";
             } else if (!isNaN(rawPrice)) {
-                priceElement.textContent = `￦${rawPrice.toLocaleString()}`; // 천 단위 쉼표 추가 및 \ 기호 붙이기
+                gamePrice.textContent = `￦${rawPrice.toLocaleString()}`; // 천 단위 쉼표 추가 및 \ 기호 붙이기
             }
         });
     });
@@ -169,12 +170,12 @@
 //region 할인게임 정상가 천단위 표시
 {
     document.addEventListener("DOMContentLoaded", function () {
-        const priceElements = document.querySelectorAll('.origin-price');
+        const $gamePrices = document.querySelectorAll('.origin-price');
 
-        priceElements.forEach(priceElement => {
-            const rawPrice = parseInt(priceElement.textContent.trim(), 10);
+        $gamePrices.forEach(gamePrice => {
+            const rawPrice = parseInt(gamePrice.textContent.trim(), 10);
 
-            priceElement.textContent = `￦${rawPrice.toLocaleString()}`;
+            gamePrice.textContent = `￦${rawPrice.toLocaleString()}`;
         });
     });
 }
@@ -183,12 +184,12 @@
 //region 할인게임 할인가 천단위 표시
 {
     document.addEventListener("DOMContentLoaded", function () {
-        const priceElements = document.querySelectorAll('.sale-price');
+        const $gamePrices = document.querySelectorAll('.sale-price');
 
-        priceElements.forEach(priceElement => {
-            const rawPrice = parseInt(priceElement.textContent.trim(), 10);
+        $gamePrices.forEach(gamePrice => {
+            const rawPrice = parseInt(gamePrice.textContent.trim(), 10);
 
-            priceElement.textContent = `￦${rawPrice.toLocaleString()}`;
+            gamePrice.textContent = `￦${rawPrice.toLocaleString()}`;
         });
     });
 }
@@ -206,7 +207,7 @@
 
     const saleGames = document.querySelectorAll('.sale-game');
     const gap = parseFloat(getComputedStyle($gameWrapper).gap); // .game-wrapper의 gap 값을 가져오기
-    let visibleGames = 6; // 한 번에 보여지는 게임 카드 개수
+    let visibleGames = 5; // 한 번에 보여지는 게임 카드 개수
     let currentIndex = 0; // 현재 슬라이드 위치
 
     // 초기화 함수

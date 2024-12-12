@@ -1,0 +1,35 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "https://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.ssw.epicgames.mappers.GameMapper">
+
+    <select id="selectAllGames" resultType="com.ssw.epicgames.vos.GameVo">
+        SELECT `game`.`index`                                                AS `index`,
+               `game`.`gr_grac`                                              AS `grGrac`,
+               `game`.`name`                                                 AS `name`,
+               `game`.`price`                                                AS `price`,
+               `game`.`main_image`                                           AS `mainImage`,
+               GROUP_CONCAT(`game_genre_mapping`.`genre_tag` SEPARATOR ', ') AS `genre`
+        FROM `epic_games`.`game`
+        LEFT JOIN `epic_games`.`game_genre_mapping`
+        ON `game`.`index` = `game_genre_mapping`.`game_index`
+        GROUP BY `game`.`index`
+    </select>
+
+    <select id="selectGamesByKeyword" resultType="com.ssw.epicgames.vos.GameVo">
+        SELECT `index`                                                       AS `index`,
+               `name`                                                        AS `name`,
+               `price`                                                       AS `price`,
+               `main_image`                                                  AS `mainImage`,
+               GROUP_CONCAT(`game_genre_mapping`.`genre_tag` SEPARATOR ', ') AS `genre`
+        FROM `epic_games`.`game`
+                 LEFT JOIN `epic_games`.`game_genre_mapping`
+                           ON `game`.`index` = `game_genre_mapping`.`game_index`
+        WHERE `name` LIKE CONCAT('%', #{keyword}, '%')
+    </select>
+
+    <select id="selectGenres" resultType="">
+
+    </select>
+</mapper>

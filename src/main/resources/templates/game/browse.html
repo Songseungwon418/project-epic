@@ -1,0 +1,467 @@
+<!DOCTYPE html>
+<html lang="ko" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport"
+          content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Epic Games Store | Official Site</title>
+    <link rel="shortcut icon" th:href="@{'/assets/images/favicon.png'}">
+    <link rel="stylesheet" type="text/css" th:href="@{/assets/styles/common.css}">
+    <link rel="stylesheet" type="text/css" th:href="@{/assets/styles/home.css}">
+    <link rel="stylesheet" type="text/css" th:href="@{/game/assets/styles/browse.css}">
+    <script defer type="text/javascript" th:src="@{'/game/assets/scripts/browse.js'}"></script>
+    <script defer type="text/javascript" th:src="@{'/assets/scripts/common.js'}"></script>
+    <script defer type="text/javascript" th:src="@{'/assets/scripts/home.js'}"></script>
+    <script src="https://kit.fontawesome.com/856af35d3d.js" crossorigin="anonymous"></script>
+</head>
+<body>
+<th:block th:replace="~{fragments/common.html :: header}"></th:block>
+
+<main id="main">
+    <th:block th:replace="~{fragments/common.html :: mainSearch}"></th:block>
+
+    <div class="mainSection">
+        <div class="popularGenre">
+            <span class="mainTitle">인기 장르</span>
+
+            <div class="gameGenre">
+                <a class="first genre" href="#" target="_self">
+                    <div class="gameImage">
+                        <img class="poster"
+                             src="https://cdn1.epicgames.com/offer/602a0ef0aceb46cca62445439661d712/EGS_STALKER2HeartofChornobyl_GSCGameWorld_S2_1200x1600-3729b87388aa1a01fbd98c7d289d4c80?resize=1&w=360&h=480&quality=medium"
+                             alt="게임포스터 1">
+                        <img class="poster"
+                             src="https://cdn1.epicgames.com/spt-assets/eb15454c010f4a748498cd3a62096a52/marvel-rivals-wq3mr.png?resize=1&w=360&h=480&quality=medium"
+                             alt="게임포스터 2">
+                        <img class="poster"
+                             src="https://cdn1.epicgames.com/offer/bdb4adaa3874491bbafe9a16b2764200/EGS_LEGOHorizonAdventures_GuerrillaStudioGobo_S2_1200x1600-49af89f88628760d1285e30b2a00680f?resize=1&w=360&h=480&quality=medium"
+                             alt="게임포스터 3">
+                    </div>
+                    <div class="gameName">
+                        액션 게임
+                    </div>
+                </a>
+
+                <a class="second genre">
+                    <div class="gameImage">
+                        <img class="poster"
+                             src="https://cdn1.epicgames.com/spt-assets/4a298029bee14b97bac3dfe8aeb72863/starsim-1jpq6.png?resize=1&w=360&h=480&quality=medium"
+                             alt="게임포스터 1">
+                        <img class="poster"
+                             src="https://cdn1.epicgames.com/spt-assets/8d6db22e08f34ac29247bfbef5ba97a9/infinity-nikki-95h3d.jpg?resize=1&w=360&h=480&quality=medium"
+                             alt="게임포스터 2">
+                        <img class="poster"
+                             src="https://cdn1.epicgames.com/offer/975d251af0384c88a898a996bda4881d/EGS_PathfinderWotRGameoftheYearEdition_OwlcatGames_Editions_S2_1200x1600-c0fcec3a4f89518e84c82557eabecea2?resize=1&w=360&h=480&quality=medium"
+                             alt="게임포스터 3">
+                    </div>
+                    <div class="gameName">
+                        RPG 게임
+                    </div>
+                </a>
+
+                <a class="third genre">
+                    <div class="gameImage">
+                        <img class="poster"
+                             src="https://cdn1.epicgames.com/spt-assets/2d02bff7f771451d95df945f4e09fdfa/two-falls--nishu-takuatshina-1o14i.png?resize=1&w=360&h=480&quality=medium"
+                             alt="게임포스터 1">
+                        <img class="poster"
+                             src="https://cdn1.epicgames.com/spt-assets/25da1d05381345f6b50cca947a2fc2fc/empyrion--galactic-survival-1r2cw.jpg?resize=1&w=360&h=480&quality=medium"
+                             alt="게임포스터 2">
+                        <img class="poster"
+                             src="https://cdn1.epicgames.com/spt-assets/ff549245a1da48a7b60f865c9a36665e/universe-has-no-favorites-xgxn4.png?resize=1&w=360&h=480&quality=medium"
+                             alt="게임포스터 3">
+                    </div>
+                    <div class="gameName">
+                        오픈 월드
+                    </div>
+                </a>
+
+                <a class="forth genre">
+                    <div class="gameImage">
+                        <img class="poster"
+                             src="https://cdn1.epicgames.com/spt-assets/9618212ee65745f8b61c932898b151dd/manor-lords-9hoxy.jpg?resize=1&w=360&h=480&quality=medium"
+                             alt="게임포스터 1">
+                        <img class="poster"
+                             src="https://cdn1.epicgames.com/spt-assets/1213d3f00c01436e8239d18ee4157dd3/thewatch-127z9.png?resize=1&w=360&h=480&quality=medium"
+                             alt="게임포스터 2">
+                        <img class="poster"
+                             src="https://cdn1.epicgames.com/spt-assets/f806243372d04ec5b5bbbd2545235f23/smelogs-playground-1dtf3.jpg?resize=1&w=360&h=480&quality=medium"
+                             alt="게임포스터 3">
+                    </div>
+                    <div class="gameName">
+                        RTS 게임
+                    </div>
+                </a>
+
+                <a class="fifth genre">
+                    <div class="gameImage">
+                        <img class="poster"
+                             src="https://cdn1.epicgames.com/spt-assets/29586d03c1c147569a1991a8616c1413/legion-td-2-d1xu1.png?resize=1&w=360&h=480&quality=medium"
+                             alt="게임포스터 1">
+                        <img class="poster"
+                             src="https://cdn1.epicgames.com/offer/e3d6ed480866452c82f0baeea0dae04f/CT_Store_Portrait_1200x1600-0e92f0d863b8f88eabc14eebd0564a46?resize=1&w=360&h=480&quality=medium"
+                             alt="게임포스터 2">
+                        <img class="poster"
+                             src="https://cdn1.epicgames.com/spt-assets/683b6385907c42c2bbd3e549f05f925f/breachway-s4ia0.png?resize=1&w=360&h=480&quality=medium"
+                             alt="게임포스터 3">
+                    </div>
+                    <div class="gameName">
+                        전략
+                    </div>
+                </a>
+
+                <a class="sixth genre">
+                    <div class="gameImage">
+                        <img class="poster"
+                             src="https://cdn1.epicgames.com/spt-assets/8971b32d67404ba59060099f92283cb6/carpathian-survival-db4sf.jpg?resize=1&w=360&h=480&quality=medium"
+                             alt="게임포스터 1">
+                        <img class="poster"
+                             src="https://cdn1.epicgames.com/spt-assets/a8f9651d1f324f1caa114eedf45f80d9/captain-bones-1ei7o.png?resize=1&w=360&h=480&quality=medium"
+                             alt="게임포스터 2">
+                        <img class="poster"
+                             src="https://cdn1.epicgames.com/spt-assets/f9c07b53a65b483a88f6cf2004cbe399/forge-qi4vl.png?resize=1&w=360&h=480&quality=medium"
+                             alt="게임포스터 3">
+                    </div>
+                    <div class="gameName">
+                        생존
+                    </div>
+                </a>
+
+            </div>
+
+        </div>
+
+        <div class="game-container">
+            <div class="allGame">
+
+                <div class="arrayFilter">
+                    <span class="text">표시 :</span>
+                    <div class="cont-select">
+                        <button class="btn-select">정렬 기준</button>
+                        <ul class="list-member">
+                            <li>
+                                <button type="button">이름순</button>
+                            </li>
+                            <li>
+                                <button type="button">가격 내림차순</button>
+                            </li>
+                            <li>
+                                <button type="button">가격 오름차순</button>
+                            </li>
+                        </ul>
+                    </div>
+                </div>
+
+                <div class="game-wrapper" id="gameWrapper">
+                    <a class="game" th:each="game : ${games}" th:href="@{#}" target="_self">
+                        <div class="mainImage">
+                            <img th:src="${game.base64Image}" alt="게임포스터">
+                        </div>
+                        <div class="text-wrapper">
+                            <span style="margin-top: -0.5rem">기본 게임</span>
+                            <span class="gameName" th:text="${game.getName()}"></span>
+                            <span class="gamePrice" th:text="${game.getPrice()}"></span>
+                            <span class="gameGenre" th:text="${game.getGenre}" style="display: none"></span>
+                            <span class="gameAge" th:text="${game.getGrGrac()}" style="display: none"></span>
+
+                        </div>
+                    </a>
+                </div>
+
+            </div>
+
+            <div class="filter-container">
+                <h3 class="text">필터</h3>
+
+                <form class="keywordForm" id="keywordForm">
+                    <button class="submit-button" type="submit">
+                        <svg xmlns="http://www.w3.org/2000/svg" class="icon svg css-uwwqev" viewBox="0 0 21 20"
+                             preserveAspectRatio="xMidYMid meet">
+                            <g transform="scale(1 -1) rotate(-45 -11.93502884 -2)" stroke="currentColor"
+                               stroke-width="1.65"
+                               fill="none" fill-rule="evenodd">
+                                <circle cx="7.70710678" cy="7.70710678" r="7"></circle>
+                                <path d="M15.2071068 8.62132034h5.6923881" stroke-linecap="square"></path>
+                            </g>
+                        </svg>
+                    </button>
+                    <label class="label">
+                        <input name="keyword" class="keyword" placeholder="키워드" autocomplete="off" spellcheck="false"
+                               type="search">
+                    </label>
+                </form>
+
+                <aside class="filter-bar">
+                    <div class="filter-wrapper">
+                        <div class="filter-list">
+                            <span class="line"></span>
+                            <div class="title">
+                                <button class="filter-toggle-button" aria-expanded="false">
+                                    <span class="list-name">게임 연령</span>
+                                    <svg aria-hidden="true" class="arrow-icon" width="24" height="24"
+                                         viewBox="0 0 24 24">
+                                        <path d="M19.53 8.97a.75.75 0 0 1 0 1.06L12 17.56l-7.53-7.53a.75.75 0 1 1 1.06-1.06L12 15.44l6.47-6.47a.75.75 0 0 1 1.06 0"
+                                              clip-rule="evenodd" fill-rule="evenodd"></path>
+                                    </svg>
+                                </button>
+                            </div>
+                            <div class="filter-list-content">
+                                <div class="filter-option">
+                                    <div class="checkbox" aria-checked="false" role="checkbox" tabindex="0">
+                                        <span class="checkbox-label">전체이용가</span>
+                                        <span class="check-icon">
+                                            <svg xmlns="http://www.w3.org/2000/svg" class="svg css-uwwqev"
+                                                 viewBox="0 0 10 8"><g stroke="none" stroke-width="1" fill="none"
+                                                                       fill-rule="evenodd"><g
+                                                    transform="translate(-320.000000, -202.000000)"
+                                                    stroke="currentColor" stroke-width="2"><polyline
+                                                    points="321 205.569101 323.596499 208 329 203"></polyline></g></g>
+                                            </svg>
+                                        </span>
+                                    </div>
+                                </div>
+
+                                <div class="filter-option">
+                                    <div class="checkbox" aria-checked="false" role="checkbox" tabindex="0">
+                                        <span class="checkbox-label">12세이용가</span>
+                                        <span class="check-icon">
+                                            <svg xmlns="http://www.w3.org/2000/svg" class="svg css-uwwqev"
+                                                 viewBox="0 0 10 8"><g stroke="none" stroke-width="1" fill="none"
+                                                                       fill-rule="evenodd"><g
+                                                    transform="translate(-320.000000, -202.000000)"
+                                                    stroke="currentColor" stroke-width="2"><polyline
+                                                    points="321 205.569101 323.596499 208 329 203"></polyline></g></g>
+                                            </svg>
+                                        </span>
+                                    </div>
+                                </div>
+
+                                <div class="filter-option">
+                                    <div class="checkbox" aria-checked="false" role="checkbox" tabindex="0">
+                                        <span class="checkbox-label">15세이용가</span>
+                                        <span class="check-icon">
+                                            <svg xmlns="http://www.w3.org/2000/svg" class="svg css-uwwqev"
+                                                 viewBox="0 0 10 8"><g stroke="none" stroke-width="1" fill="none"
+                                                                       fill-rule="evenodd"><g
+                                                    transform="translate(-320.000000, -202.000000)"
+                                                    stroke="currentColor" stroke-width="2"><polyline
+                                                    points="321 205.569101 323.596499 208 329 203"></polyline></g></g>
+                                            </svg>
+                                        </span>
+                                    </div>
+                                </div>
+
+                                <div class="filter-option">
+                                    <div class="checkbox" aria-checked="false" role="checkbox" tabindex="0">
+                                        <span class="checkbox-label">청소년 이용불가</span>
+                                        <span class="check-icon">
+                                            <svg xmlns="http://www.w3.org/2000/svg" class="svg css-uwwqev"
+                                                 viewBox="0 0 10 8"><g stroke="none" stroke-width="1" fill="none"
+                                                                       fill-rule="evenodd"><g
+                                                    transform="translate(-320.000000, -202.000000)"
+                                                    stroke="currentColor" stroke-width="2"><polyline
+                                                    points="321 205.569101 323.596499 208 329 203"></polyline></g></g>
+                                            </svg>
+                                        </span>
+                                    </div>
+                                </div>
+                            </div>
+
+
+                            <span class="line"></span>
+                            <div class="title">
+                                <button class="filter-toggle-button" aria-expanded="false">
+                                    <span class="list-name">가격</span>
+                                    <svg aria-hidden="true" class="arrow-icon" width="24" height="24"
+                                         viewBox="0 0 24 24">
+                                        <path d="M19.53 8.97a.75.75 0 0 1 0 1.06L12 17.56l-7.53-7.53a.75.75 0 1 1 1.06-1.06L12 15.44l6.47-6.47a.75.75 0 0 1 1.06 0"
+                                              clip-rule="evenodd" fill-rule="evenodd"></path>
+                                    </svg>
+                                </button>
+                            </div>
+                            <div class="filter-list-content">
+                                <div class="filter-option">
+                                    <div class="checkbox" aria-checked="false" role="checkbox" tabindex="0">
+                                        <span class="checkbox-label">무료</span>
+                                        <span class="check-icon">
+                                            <svg xmlns="http://www.w3.org/2000/svg" class="svg css-uwwqev"
+                                                 viewBox="0 0 10 8"><g stroke="none" stroke-width="1" fill="none"
+                                                                       fill-rule="evenodd"><g
+                                                    transform="translate(-320.000000, -202.000000)"
+                                                    stroke="currentColor" stroke-width="2"><polyline
+                                                    points="321 205.569101 323.596499 208 329 203"></polyline></g></g>
+                                            </svg>
+                                        </span>
+                                    </div>
+                                </div>
+                                <div class="filter-option">
+                                    <div class="checkbox" aria-checked="false" role="checkbox" tabindex="0">
+                                        <span class="checkbox-label">￦11,000원 미만</span>
+                                        <span class="check-icon">
+                                            <svg xmlns="http://www.w3.org/2000/svg" class="svg css-uwwqev"
+                                                 viewBox="0 0 10 8"><g stroke="none" stroke-width="1" fill="none"
+                                                                       fill-rule="evenodd"><g
+                                                    transform="translate(-320.000000, -202.000000)"
+                                                    stroke="currentColor" stroke-width="2"><polyline
+                                                    points="321 205.569101 323.596499 208 329 203"></polyline></g></g>
+                                            </svg>
+                                        </span>
+                                    </div>
+                                </div>
+
+                                <div class="filter-option">
+                                    <div class="checkbox" aria-checked="false" role="checkbox" tabindex="0">
+                                        <span class="checkbox-label">￦22,000원 미만</span>
+                                        <span class="check-icon">
+                                            <svg xmlns="http://www.w3.org/2000/svg" class="svg css-uwwqev"
+                                                 viewBox="0 0 10 8"><g stroke="none" stroke-width="1" fill="none"
+                                                                       fill-rule="evenodd"><g
+                                                    transform="translate(-320.000000, -202.000000)"
+                                                    stroke="currentColor" stroke-width="2"><polyline
+                                                    points="321 205.569101 323.596499 208 329 203"></polyline></g></g>
+                                            </svg>
+                                        </span>
+                                    </div>
+                                </div>
+
+                                <div class="filter-option">
+                                    <div class="checkbox" aria-checked="false" role="checkbox" tabindex="0">
+                                        <span class="checkbox-label">￦33,000원 미만</span>
+                                        <span class="check-icon">
+                                            <svg xmlns="http://www.w3.org/2000/svg" class="svg css-uwwqev"
+                                                 viewBox="0 0 10 8"><g stroke="none" stroke-width="1" fill="none"
+                                                                       fill-rule="evenodd"><g
+                                                    transform="translate(-320.000000, -202.000000)"
+                                                    stroke="currentColor" stroke-width="2"><polyline
+                                                    points="321 205.569101 323.596499 208 329 203"></polyline></g></g>
+                                            </svg>
+                                        </span>
+                                    </div>
+                                </div>
+
+                                <div class="filter-option">
+                                    <div class="checkbox" aria-checked="false" role="checkbox" tabindex="0">
+                                        <span class="checkbox-label">￦33,000원 이상</span>
+                                        <span class="check-icon">
+                                            <svg xmlns="http://www.w3.org/2000/svg" class="svg css-uwwqev"
+                                                 viewBox="0 0 10 8"><g stroke="none" stroke-width="1" fill="none"
+                                                                       fill-rule="evenodd"><g
+                                                    transform="translate(-320.000000, -202.000000)"
+                                                    stroke="currentColor" stroke-width="2"><polyline
+                                                    points="321 205.569101 323.596499 208 329 203"></polyline></g></g>
+                                            </svg>
+                                        </span>
+                                    </div>
+                                </div>
+                            </div>
+                            <span class="line"></span>
+                            <div class="title">
+                                <button class="filter-toggle-button" aria-expanded="false">
+                                    <span class="list-name">장르</span>
+                                    <svg aria-hidden="true" class="arrow-icon" width="24" height="24"
+                                         viewBox="0 0 24 24">
+                                        <path d="M19.53 8.97a.75.75 0 0 1 0 1.06L12 17.56l-7.53-7.53a.75.75 0 1 1 1.06-1.06L12 15.44l6.47-6.47a.75.75 0 0 1 1.06 0"
+                                              clip-rule="evenodd" fill-rule="evenodd"></path>
+                                    </svg>
+                                </button>
+                            </div>
+                            <div class="filter-list-content">
+                                <div class="filter-option">
+                                    <div class="checkbox" aria-checked="false" role="checkbox" tabindex="0">
+                                        <span class="checkbox-label">액션 게임</span>
+                                        <span class="check-icon">
+                                            <svg xmlns="http://www.w3.org/2000/svg" class="svg css-uwwqev"
+                                                 viewBox="0 0 10 8"><g stroke="none" stroke-width="1" fill="none"
+                                                                       fill-rule="evenodd"><g
+                                                    transform="translate(-320.000000, -202.000000)"
+                                                    stroke="currentColor" stroke-width="2"><polyline
+                                                    points="321 205.569101 323.596499 208 329 203"></polyline></g></g>
+                                            </svg>
+                                        </span>
+                                    </div>
+                                </div>
+                                <div class="filter-option">
+                                    <div class="checkbox" aria-checked="false" role="checkbox" tabindex="0">
+                                        <span class="checkbox-label">RPG 게임</span>
+                                        <span class="check-icon">
+                                            <svg xmlns="http://www.w3.org/2000/svg" class="svg css-uwwqev"
+                                                 viewBox="0 0 10 8">
+                                                <g stroke="none" stroke-width="1" fill="none" fill-rule="evenodd"><g
+                                                        transform="translate(-320.000000, -202.000000)"
+                                                        stroke="currentColor" stroke-width="2"><polyline
+                                                        points="321 205.569101 323.596499 208 329 203"></polyline></g></g>
+                                            </svg>
+                                        </span>
+                                    </div>
+                                </div>
+                                <div class="filter-option">
+                                    <div class="checkbox" aria-checked="false" role="checkbox" tabindex="0">
+                                        <span class="checkbox-label">오픈 월드</span>
+                                        <span class="check-icon">
+                                            <svg xmlns="http://www.w3.org/2000/svg" class="svg css-uwwqev"
+                                                 viewBox="0 0 10 8"><g stroke="none" stroke-width="1" fill="none"
+                                                                       fill-rule="evenodd"><g
+                                                    transform="translate(-320.000000, -202.000000)"
+                                                    stroke="currentColor" stroke-width="2"><polyline
+                                                    points="321 205.569101 323.596499 208 329 203"></polyline></g></g>
+                                            </svg>
+                                        </span>
+                                    </div>
+                                </div>
+                                <div class="filter-option">
+                                    <div class="checkbox" aria-checked="false" role="checkbox" tabindex="0">
+                                        <span class="checkbox-label">RTS 게임</span>
+                                        <span class="check-icon">
+                                            <svg xmlns="http://www.w3.org/2000/svg" class="svg css-uwwqev"
+                                                 viewBox="0 0 10 8"><g stroke="none" stroke-width="1" fill="none"
+                                                                       fill-rule="evenodd"><g
+                                                    transform="translate(-320.000000, -202.000000)"
+                                                    stroke="currentColor" stroke-width="2"><polyline
+                                                    points="321 205.569101 323.596499 208 329 203"></polyline></g></g>
+                                            </svg>
+                                        </span>
+                                    </div>
+                                </div>
+                                <div class="filter-option">
+                                    <div class="checkbox" aria-checked="false" role="checkbox" tabindex="0">
+                                        <span class="checkbox-label">전략</span>
+                                        <span class="check-icon">
+                                            <svg xmlns="http://www.w3.org/2000/svg" class="svg css-uwwqev"
+                                                 viewBox="0 0 10 8">
+                                                <g stroke="none" stroke-width="1" fill="none" fill-rule="evenodd"><g
+                                                        transform="translate(-320.000000, -202.000000)"
+                                                        stroke="currentColor" stroke-width="2"><polyline
+                                                        points="321 205.569101 323.596499 208 329 203"></polyline></g></g>
+                                            </svg>
+                                        </span>
+                                    </div>
+                                </div>
+                                <div class="filter-option">
+                                    <div class="checkbox" aria-checked="false" role="checkbox" tabindex="0">
+                                        <span class="checkbox-label">생존</span>
+                                        <span class="check-icon">
+                                            <svg xmlns="http://www.w3.org/2000/svg" class="svg css-uwwqev"
+                                                 viewBox="0 0 10 8"><g stroke="none" stroke-width="1" fill="none"
+                                                                       fill-rule="evenodd"><g
+                                                    transform="translate(-320.000000, -202.000000)"
+                                                    stroke="currentColor" stroke-width="2"><polyline
+                                                    points="321 205.569101 323.596499 208 329 203"></polyline></g></g>
+                                            </svg>
+                                        </span>
+                                    </div>
+                                </div>
+                            </div>
+                            <span class="line"></span>
+                            <span class="line"></span>
+                        </div>
+                    </div>
+                </aside>
+            </div>
+        </div>
+    </div>
+</main>
+
+<th:block th:replace="~{fragments/common.html :: footer}"></th:block>
+</body>
+</html>

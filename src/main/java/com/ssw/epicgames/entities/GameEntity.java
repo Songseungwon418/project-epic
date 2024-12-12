@@ -13,7 +13,7 @@ import java.util.Date;
 @EqualsAndHashCode(of = {"index"})
 public class GameEntity {
     private int index;
-    private GracEnum grGrac;
+    private String grGrac;
     private String name;
     private int price;
     private String summary;
