@@ -72,7 +72,7 @@ public class PurchaseService {
         return CommonResult.SUCCESS;
     }
 
-    // 위시리스트로 이동 눌렀을 경우
+    // 장바구니에서 위시리스트로 이동 눌렀을 경우
     @Transactional
     public Result addToWishlist(UserEntity user, int gameIndex, int index, String userEmail) {
         if (user == null || user.getEmail() == null || gameIndex < 1 || index < 1 ||

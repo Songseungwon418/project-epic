@@ -4,8 +4,76 @@
         "https://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.ssw.epicgames.mappers.GenreMapper">
     <select id="selectGenres" resultType="com.ssw.epicgames.entities.GenreEntity">
-        SELECT tag AS `tag`,
+        SELECT tag  AS `tag`,
                name AS `name`
         FROM `epic_games`.`genre`
     </select>
+    <select id="selectGenreByTag" resultType="com.ssw.epicgames.entities.GenreEntity">
+        SELECT tag  AS `tag`,
+               name AS `name`
+        FROM `epic_games`.`genre`
+        WHERE `tag` = #{tag}
+    </select>
+    <select id="selectGamesByGenre" resultType="com.ssw.epicgames.vos.GameVo">
+        SELECT `index`       AS `index`,
+               `gr_grac`     AS `grGrac`,
+               `name`        AS `name`,
+               `price`       AS `price`,
+               `summary`     AS `summary`,
+               `description` AS `description`,
+               `company`     AS `company`,
+               `open_date`   AS `openDate`,
+               `main_image`  AS `mainImage`,
+               `logo`        AS `mainLogo`,
+               `min_os`      AS `minOs`,
+               `min_cpu`     AS `minCpu`,
+               `min_ram`     AS `minRam`,
+               `min_storage` AS `minStorage`,
+               `min_gpu`     AS `minGpu`,
+               `rec_os`      AS `recOs`,
+               `rec_cpu`     AS `recCpu`,
+               `rec_ram`     AS `recRam`,
+               `rec_storage` AS `recStorage`,
+               `rec_gpu`     AS `recGpu`,
+               `game_index`  AS `gameIndex`,
+               `genre_tag`   AS `genreTag`
+        FROM `epic_games`.`game` AS `g`
+                 JOIN `epic_games`.`game_genre_mapping` AS `ggm` ON g.`index` = ggm.`game_index`
+        WHERE `genre_tag` = #{tag};
+    </select>
+    <select id="selectGamesByGenreAndKeyword" resultType="com.ssw.epicgames.vos.GameVo">
+        SELECT
+        `index`       AS `index`,
+        `gr_grac`     AS `grGrac`,
+        `name`        AS `name`,
+        `price`       AS `price`,
+        `summary`     AS `summary`,
+        `description` AS `description`,
+        `company`     AS `company`,
+        `open_date`   AS `openDate`,
+        `main_image`  AS `mainImage`,
+        `logo`        AS `mainLogo`,
+        `min_os`      AS `minOs`,
+        `min_cpu`     AS `minCpu`,
+        `min_ram`     AS `minRam`,
+        `min_storage` AS `minStorage`,
+        `min_gpu`     AS `minGpu`,
+        `rec_os`      AS `recOs`,
+        `rec_cpu`     AS `recCpu`,
+        `rec_ram`     AS `recRam`,
+        `rec_storage` AS `recStorage`,
+        `rec_gpu`     AS `recGpu`,
+        `game_index`  AS `gameIndex`,
+        `genre_tag`   AS `genreTag`
+        FROM
+        `epic_games`.`game` AS `g`
+        JOIN `epic_games`.`game_genre_mapping` AS `ggm`
+        ON g.`index` = ggm.`game_index`
+        WHERE
+        `genre_tag` = #{tag}
+        <if test="keyword != null and keyword != ''">
+            AND `name` LIKE CONCAT('%', #{keyword}, '%')
+        </if>
+    </select>
+
 </mapper>

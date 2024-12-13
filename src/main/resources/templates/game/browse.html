@@ -14,19 +14,26 @@
     <script defer type="text/javascript" th:src="@{'/assets/scripts/common.js'}"></script>
     <script defer type="text/javascript" th:src="@{'/assets/scripts/home.js'}"></script>
     <script src="https://kit.fontawesome.com/856af35d3d.js" crossorigin="anonymous"></script>
+    <style>
+        .browse {
+            color: #ffffff;
+        }
+
+    </style>
 </head>
 <body>
 <th:block th:replace="~{fragments/common.html :: header}"></th:block>
 
 <main id="main">
     <th:block th:replace="~{fragments/common.html :: mainSearch}"></th:block>
+    <th:block th:replace="~{fragments/common.html :: logout}"></th:block>
 
     <div class="mainSection">
         <div class="popularGenre">
             <span class="mainTitle">인기 장르</span>
 
             <div class="gameGenre">
-                <a class="first genre" href="#" target="_self">
+                <a class="first genre" th:href="@{'/game/genre' (tag='ACT')}" target="_self">
                     <div class="gameImage">
                         <img class="poster"
                              src="https://cdn1.epicgames.com/offer/602a0ef0aceb46cca62445439661d712/EGS_STALKER2HeartofChornobyl_GSCGameWorld_S2_1200x1600-3729b87388aa1a01fbd98c7d289d4c80?resize=1&w=360&h=480&quality=medium"
@@ -43,7 +50,7 @@
                     </div>
                 </a>
 
-                <a class="second genre">
+                <a class="second genre" th:href="@{'/game/genre' (tag='RPG')}" target="_self">
                     <div class="gameImage">
                         <img class="poster"
                              src="https://cdn1.epicgames.com/spt-assets/4a298029bee14b97bac3dfe8aeb72863/starsim-1jpq6.png?resize=1&w=360&h=480&quality=medium"
@@ -60,7 +67,7 @@
                     </div>
                 </a>
 
-                <a class="third genre">
+                <a class="third genre" th:href="@{'/game/genre' (tag='OW')}" target="_self">
                     <div class="gameImage">
                         <img class="poster"
                              src="https://cdn1.epicgames.com/spt-assets/2d02bff7f771451d95df945f4e09fdfa/two-falls--nishu-takuatshina-1o14i.png?resize=1&w=360&h=480&quality=medium"
@@ -77,7 +84,7 @@
                     </div>
                 </a>
 
-                <a class="forth genre">
+                <a class="forth genre" th:href="@{'/game/genre' (tag='RTS')}" target="_self">
                     <div class="gameImage">
                         <img class="poster"
                              src="https://cdn1.epicgames.com/spt-assets/9618212ee65745f8b61c932898b151dd/manor-lords-9hoxy.jpg?resize=1&w=360&h=480&quality=medium"
@@ -94,7 +101,7 @@
                     </div>
                 </a>
 
-                <a class="fifth genre">
+                <a class="fifth genre" th:href="@{'/game/genre' (tag='STR')}" target="_self">
                     <div class="gameImage">
                         <img class="poster"
                              src="https://cdn1.epicgames.com/spt-assets/29586d03c1c147569a1991a8616c1413/legion-td-2-d1xu1.png?resize=1&w=360&h=480&quality=medium"
@@ -111,7 +118,7 @@
                     </div>
                 </a>
 
-                <a class="sixth genre">
+                <a class="sixth genre" th:href="@{'/game/genre' (tag='SG')}" target="_self">
                     <div class="gameImage">
                         <img class="poster"
                              src="https://cdn1.epicgames.com/spt-assets/8971b32d67404ba59060099f92283cb6/carpathian-survival-db4sf.jpg?resize=1&w=360&h=480&quality=medium"
@@ -154,7 +161,7 @@
                 </div>
 
                 <div class="game-wrapper" id="gameWrapper">
-                    <a class="game" th:each="game : ${games}" th:href="@{#}" target="_self">
+                    <a class="game" th:each="game : ${games}" th:href="@{'/game/page' (index=${game.getIndex()})}" target="_self">
                         <div class="mainImage">
                             <img th:src="${game.base64Image}" alt="게임포스터">
                         </div>

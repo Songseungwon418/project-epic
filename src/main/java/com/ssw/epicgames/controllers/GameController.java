@@ -1,5 +1,6 @@
 package com.ssw.epicgames.controllers;
 
+import com.ssw.epicgames.DTO.GameDTO;
 import com.ssw.epicgames.entities.GameEntity;
 import com.ssw.epicgames.entities.GenreEntity;
 import com.ssw.epicgames.services.GameService;
@@ -26,17 +27,35 @@ public class GameController {
         this.genreService = genreService;
     }
 
-
-    //region 장르별 페이지
-    @RequestMapping(value = "/genre", method = RequestMethod.GET, produces = MediaType.TEXT_HTML_VALUE)
-    public ModelAndView getGenre(@RequestParam(value = "tag", required = false) String tag) {
+    //region 게임 상세 페이지
+    @RequestMapping(value = "/page", method = RequestMethod.GET, produces = MediaType.TEXT_HTML_VALUE)
+    public ModelAndView getPage(@RequestParam(value = "index") int index) {
         ModelAndView modelAndView = new ModelAndView();
-        GenreEntity[] genres = this.genreService.getGenres();
-        modelAndView.addObject("genres", genres);
-        modelAndView.setViewName("game/genre");
+        GameDTO gameDetails = this.gameService.getGameDetails(index);
+        modelAndView.addObject("gameDetails", gameDetails);
+        modelAndView.setViewName("game/page");
         return modelAndView;
     }
 
+    //region 장르별 페이지
+    @RequestMapping(value = "/genre", method = RequestMethod.GET, produces = MediaType.TEXT_HTML_VALUE)
+    public ModelAndView getGenre(@RequestParam(value = "tag", required = false) String tag,
+                                 @RequestParam(value = "keyword", required = false) String keyword) {
+        ModelAndView modelAndView = new ModelAndView();
+
+        GenreEntity[] genres = this.genreService.getGenres();
+        GenreEntity genre = this.genreService.getGenreByTag(tag);
+
+        modelAndView.addObject("genres", genres);
+        modelAndView.addObject("genre", genre);
+        if (keyword == null) {
+            modelAndView.addObject("games", this.genreService.getGamesByGenre(tag));
+        } else {
+            modelAndView.addObject("games", this.genreService.getGamesByGenreAndKeyword(tag, keyword));
+        }
+        modelAndView.setViewName("game/genre");
+        return modelAndView;
+    }
     //endregion
 
     //region 찾아보기 페이지

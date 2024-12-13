@@ -105,7 +105,6 @@ public class PurchaseController {
         else {
             result = this.purchaseService.addToWishlist(user, gameIndex, index, userEmail);
         }
-
         JSONObject response = new JSONObject();
         response.put(Result.NAME, result.nameToLower());
         return response.toString();

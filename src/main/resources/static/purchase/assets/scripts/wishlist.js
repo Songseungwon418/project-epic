@@ -94,11 +94,11 @@ function toggleFilterList(btn) {
 
     $removeBtns.forEach(btn => btn.addEventListener('click', () => {
         const $gameCard = btn.closest('.game-card');
-        const $wishlistIndexTag = $gameCard.querySelector(':scope > .info-data > .cart-index');
+        const $wishlistIndexTag = $gameCard.querySelector(':scope > .info-data > .wishlist-index');
+        const $gameNameTag = $gameCard.querySelector('.title');  // 게임 이름
+        const gameName = $gameNameTag.innerText;
 
         const wishlistIndex = $wishlistIndexTag.innerText;
-
-        const gameName = $gameCard.querySelector(':scope > .title-container > .title').value; // 게임이름
 
         const formData = new FormData();
         formData.append('index', wishlistIndex);
@@ -122,8 +122,45 @@ function toggleFilterList(btn) {
                 alert('오류: 이미 위시리스트에 없어서 제거에 실패하였습니다.');
             }
             else if(response.result === 'success'){
+                const $removeContainer = document.createElement('div');
+                $removeContainer.classList.add('remove-container');
+                const $removeWrapper = document.createElement('div');
+                $removeWrapper.classList.add('remove-wrapper');
+
+                const $iconWrapper = document.createElement('div');
+                $iconWrapper.classList.add('icon-wrapper');
+                $iconWrapper.innerHTML = `<svg aria-hidden="true" width="24" height="24" viewBox="0 0 24 24">
+                <path d="m17.012 3.954.574 2.296H21a.75.75 0 0 1 0 1.5H3a.75.75 0 0 1 0-1.5h3.414l.574-2.296A2.25 2.25 0 0 1 9.171 2.25h5.658a2.25 2.25 0 0 1 2.183 1.704m-8.568.364a.75.75 0 0 1 .727-.568h5.658a.75.75 0 0 1 .727.568l.483 1.932H7.961z" clip-rule="evenodd" fill-rule="evenodd"></path>
+                <path d="M6.11 19.74 5.067 10h1.508l1.027 9.58a.75.75 0 0 0 .746.67h7.304a.75.75 0 0 0 .746-.67L17.424 10h1.509l-1.044 9.74a2.25 2.25 0 0 1-2.237 2.01H8.348a2.25 2.25 0 0 1-2.238-2.01"></path></svg>`;
+
+                const $text = document.createElement('span');
+                $text.classList.add('text');
+                $text.textContent = `${gameName} 제거됨`;
+
+                const $cancelBtnWrapper = document.createElement('div');
+                $cancelBtnWrapper.classList.add('cancel-btn-wrapper');
+
+                const $cancelBtn = document.createElement('button');
+                $cancelBtn.classList.add('cancel-btn');
+                $cancelBtn.type = 'button';
+                $cancelBtn.innerHTML = `<span class="text">실행 취소</span>`;
+
+                $cancelBtn.addEventListener('click', () => {
+                    // 취소 버튼을 누르면 해당 메시지를 삭제하고, 게임을 복원하는 로직을 추가할 수 있음
+                    $removeContainer.remove();
+                    // 게임 복원 로직 추가
+                    // 예: 복원 API 호출하여 위시리스트에 다시 추가
+                });
+
+                $removeWrapper.appendChild($iconWrapper);
+                $removeWrapper.appendChild($text);
+                $removeContainer.appendChild($removeWrapper);
+                $cancelBtnWrapper.appendChild($cancelBtn);
+                $removeContainer.appendChild($cancelBtnWrapper);
+                $removeGameCard.append($removeContainer);
+
+                // 게임 카드 삭제
                 $gameCard.remove();
-                // 위시리스트 삭제 시 위에 카드 없어지고 해당카드 실행취소하는 취소란 나오게 구현 필요
             }
         };
         xhr.open('PATCH', '/purchase/wishlist/delete');

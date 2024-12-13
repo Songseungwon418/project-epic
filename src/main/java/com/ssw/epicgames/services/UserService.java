@@ -2,6 +2,7 @@ package com.ssw.epicgames.services;
 
 import com.ssw.epicgames.entities.EmailTokenEntity;
 import com.ssw.epicgames.entities.UserEntity;
+import com.ssw.epicgames.exceptions.TransactionalException;
 import com.ssw.epicgames.mappers.EmailTokenMapper;
 import com.ssw.epicgames.mappers.UserMapper;
 import com.ssw.epicgames.resutls.CommonResult;
@@ -41,6 +42,7 @@ public class UserService {
         this.templateEngine = templateEngine;
     }
 
+    //region 로그인
     public Result login(UserEntity user) {
         if(user == null ||
         user.getEmail() == null || user.getEmail().length() < 8 || user.getEmail().length() > 50 ||
@@ -69,7 +71,9 @@ public class UserService {
         user.setVerified(dbUser.isVerified());
         return CommonResult.SUCCESS;
     }
+    //endregion
 
+    //region 회원가입
     @Transactional
     public Result register(HttpServletRequest request, UserEntity user) throws MessagingException {
         if (user == null ||
@@ -134,89 +138,80 @@ public class UserService {
         this.mailSender.send(mimeMessage);
         return CommonResult.SUCCESS;
     }
+    //endregion
 
-//    @Transactional
-//    public Result provokeRecoverPassword(HttpServletRequest request, String email) throws MessagingException {
-//        if (email == null || email.length() < 8 || email.length() > 50) {
-//            return CommonResult.FAILURE;
-//        }
-//        UserEntity user = this.userMapper.selectUserByEmail(email);
-//        if(user == null || user.getDeletedDate() != null) {
-//            return CommonResult.FAILURE;
-//        }
-//        EmailTokenEntity emailToken = new EmailTokenEntity();
-//        emailToken.setUserEmail(user.getEmail());
-//        emailToken.setKey(CryptoUtils.hashSha512(String.format("%s%s%f%f",
-//                user.getEmail(),
-//                user.getPassword(),
-//                Math.random(),
-//                Math.random())));
-//        emailToken.setCreatedAt(LocalDateTime.now());
-//        emailToken.setExpiresAt(LocalDateTime.now().plusHours(24));     // 현재시간에서 24시간을 더하겠다.
-//        emailToken.setUsed(false);
-//        if(this.emailTokenMapper.insertEmailToken(emailToken) == 0) {
-//            throw new TransactionException();
-//        }
-//        String validationLink = String.format("%s://%s:%d/user/recover-password?userEmail=%s&key=%s",
-//                request.getScheme(),
-//                request.getServerName(),
-//                request.getServerPort(),
-//                emailToken.getUserEmail(),
-//                emailToken.getKey());
-//        Context context = new Context();
-//        context.setVariable("validationLink", validationLink);
-//        String mailText = this.templateEngine.process("email/recoverPassword", context);  //"<!DOCTYPE . . ."
-//        MimeMessage mimeMessage = this.mailSender.createMimeMessage();
-//        MimeMessageHelper mimeMessageHelper = new MimeMessageHelper(mimeMessage);
-//        mimeMessageHelper.setFrom("ttig0614@gmail.com");
-//        mimeMessageHelper.setTo(emailToken.getUserEmail());
-//        mimeMessageHelper.setSubject("[EPIC] 비밀번호 재설정 인증 링크");
-//        mimeMessageHelper.setText(mailText, true);
-//        this.mailSender.send(mimeMessage);
-//        return CommonResult.SUCCESS;
-//    }
+    //region 비밀번호 재설정 인증 링크 보내기
+    @Transactional
+    public Result provokeForgotPassword(HttpServletRequest request, String email) throws MessagingException {
+        if(email == null || email.length() < 8 || email.length() > 50) {
+            return CommonResult.FAILURE;
+        }
+        UserEntity user = this.userMapper.selectUserByEmail(email);
+        if(user == null || user.getDeletedDate() != null) {
+            return CommonResult.FAILURE;
+        }
+        EmailTokenEntity emailToken = new EmailTokenEntity();
+        emailToken.setUserEmail(user.getEmail());
+        emailToken.setKey(CryptoUtils.hashSha512(String.format("%s%s%f%f",
+                user.getEmail(),
+                user.getPassword(),
+                Math.random(),
+                Math.random())));
+        emailToken.setCreatedAt(LocalDateTime.now());
+        emailToken.setExpiresAt(LocalDateTime.now().plusHours(24));
+        emailToken.setUsed(false);
+        if(this.emailTokenMapper.insertEmailToken(emailToken) == 0) {
+            throw new TransactionException();
+        }
+        String validationLink = String.format("%s://%s:%d/user/recover-password?userEmail=%s&key=%s",
+                request.getScheme(),
+                request.getServerName(),
+                request.getServerPort(),
+                emailToken.getUserEmail(),
+                emailToken.getKey());
+        Context context = new Context();
+        context.setVariable("validationLink", validationLink);
+        String mailText = this.templateEngine.process("email/recoverPassword", context);
+        MimeMessage mimeMessage = this.mailSender.createMimeMessage();
+        MimeMessageHelper mimeMessageHelper = new MimeMessageHelper(mimeMessage);
+        mimeMessageHelper.setFrom("ttig0614@gamil.com");
+        mimeMessageHelper.setTo(emailToken.getUserEmail());
+        mimeMessageHelper.setSubject("[EPIC] 비밀번호 재설정 인증 링크");
+        mimeMessageHelper.setText(mailText, true);
+        this.mailSender.send(mimeMessage);
 
-//    public Result recoverEmail(UserEntity user) {
-//        if(user == null ||
-//                user.getPhone() == null || user.getPhone().length() < 10 || user.getPhone().length() > 12) {
-//            return CommonResult.FAILURE;
-//        }
-//        UserEntity dbUser = this.userMapper.selectUserByPhone(user.getPhone());
-//        if(dbUser == null || dbUser.getDeletedDate() != null) {
-//            return CommonResult.FAILURE;
-//        }
-//        user.setEmail(dbUser.getEmail());
-//        return CommonResult.SUCCESS;
-//    }
-//
-//    @Transactional
-//    public Result resolveRecoverPassword(EmailTokenEntity emailToken, String password) {
-//        if (emailToken == null ||
-//                emailToken.getUserEmail() == null || emailToken.getUserEmail().length() < 8 || emailToken.getUserEmail().length() > 50 ||
-//                emailToken.getKey() == null || emailToken.getKey().length() != 128 ||
-//                password == null || password.length() < 6 || password.length() > 50) {
-//            return CommonResult.FAILURE;
-//        }
-//        EmailTokenEntity dbEmailToken = this. emailTokenMapper.selectEmailTokenByUserEmailAndKey(emailToken.getUserEmail(), emailToken.getKey());
-//        if (dbEmailToken == null || dbEmailToken.isUsed()) {
-//            return CommonResult.FAILURE;
-//        }
-//        if(dbEmailToken.getExpiresAt().isBefore(LocalDateTime.now())) {     // 완료일이 지났다(현재시각이 지났다?)
-//            return ResolveRecoverPasswordResult.FAILURE_EXPIRED;
-//        }
-//        dbEmailToken.setUsed(true);
-//        if (this.emailTokenMapper.updateEmailToken(dbEmailToken) == 0) {
-//            throw new TransactionException();
-//        }
-//        BCryptPasswordEncoder encoder = new BCryptPasswordEncoder();
-//        UserEntity user = this.userMapper.selectUserByEmail(emailToken.getUserEmail());
-//        user.setPassword(encoder.encode(password));     // 니가 사용할 신규 비밀번호
-//        if(this.userMapper.updateUser(user) == 0) {
-//            throw new TransactionException();
-//        }
-//        return CommonResult.SUCCESS;
-//    }
-//
+        return CommonResult.SUCCESS;
+    }
+    //endregion
+
+    @Transactional
+    public Result resolveRecoverPassword(EmailTokenEntity emailToken, String password) {
+        if (emailToken == null ||
+                emailToken.getUserEmail() == null || emailToken.getUserEmail().length() < 8 || emailToken.getUserEmail().length() > 50 ||
+                emailToken.getKey() == null || emailToken.getKey().length() != 128 ||
+                password == null || password.length() < 6 || password.length() > 50) {
+            return CommonResult.FAILURE;
+        }
+        EmailTokenEntity dbEmailToken = this. emailTokenMapper.selectEmailTokenByUserEmailAndKey(emailToken.getUserEmail(), emailToken.getKey());
+        if (dbEmailToken == null || dbEmailToken.isUsed()) {
+            return CommonResult.FAILURE;
+        }
+        if(dbEmailToken.getExpiresAt().isBefore(LocalDateTime.now())) {     // 완료일이 지났다(현재시각이 지났다?)
+            return ResolveRecoverPasswordResult.FAILURE_EXPIRED;
+        }
+        dbEmailToken.setUsed(true);
+        if (this.emailTokenMapper.updateEmailToken(dbEmailToken) == 0) {
+            throw new TransactionalException();
+        }
+        BCryptPasswordEncoder encoder = new BCryptPasswordEncoder();
+        UserEntity user = this.userMapper.selectUserByEmail(emailToken.getUserEmail());
+        user.setPassword(encoder.encode(password));     // 니가 사용할 신규 비밀번호
+        if(this.userMapper.updateUser(user) == 0) {
+            throw new TransactionalException();
+        }
+        return CommonResult.SUCCESS;
+    }
+
     @Transactional
     public Result validateEmailToken(EmailTokenEntity emailToken) {
         if(emailToken == null ||

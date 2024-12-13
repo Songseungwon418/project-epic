@@ -85,6 +85,7 @@
                `add_at`     AS `addAt`
         FROM `epic_games`.`wishlist`
         WHERE `user_email` = #{userEmail} AND `is_deleted` = false
+        ORDER BY `add_at` DESC
     </select>
 
     <!--  유저 이메일과 게임 번호에 해당하는 위시리스트 조회  -->

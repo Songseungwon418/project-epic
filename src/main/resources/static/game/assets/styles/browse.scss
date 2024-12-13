@@ -220,6 +220,10 @@
                 object-fit: contain;
                 object-position: center;
                 border-radius: 1rem;
+
+                &:hover {
+                  filter: brightness(1.1);
+                }
               }
             }
 
@@ -439,62 +443,62 @@
   }
 
 
-//  @media screen and (max-width: 108rem) {
-//    #main > .mainSection > .game-container > .allGame > .game-wrapper {
-//      grid-template-rows: repeat(3, 1fr);
-//      grid-template-columns: repeat(5, 1fr);
-//      grid-gap: 1.5rem;
-//    }
-//
-//  }
-//
-//  @media screen and (max-width: 90rem) {
-//    #main > .mainSection > .game-container > .allGame > .game-wrapper {
-//      grid-template-rows: repeat(4, 1fr);
-//      grid-template-columns: repeat(4, 1fr);
-//      grid-gap: 1.5rem;
-//    }
-//
-//    #main > .mainSection > .popularGenre > .gameGenre > .genre {
-//      width: calc(100% / 5 - 1rem);
-//    }
-//
-//    #main > .mainSection > .popularGenre > .gameGenre > .genre:nth-of-type(6) {
-//      display: none;
-//    }
-//  }
-//}
-//
-//@media screen and (max-width: 72rem) {
-//  #main > .mainSection > .game-container > .allGame > .game-wrapper {
-//    grid-template-rows: repeat(5, 1fr);
-//    grid-template-columns: repeat(3, 1fr);
-//    grid-gap: 1.5rem;
-//  }
-//
-//  #main > .mainSection > .popularGenre > .gameGenre > .genre {
-//    width: calc(100% / 4 - 1rem);
-//  }
-//
-//  #main > .mainSection > .popularGenre > .gameGenre > .genre:nth-of-type(5) {
-//    display: none;
-//  }
-//}
-//
-//@media screen and (max-width: 54rem) {
-//  #main > .mainSection > .game-container > .allGame > .game-wrapper {
-//    grid-template-rows: repeat(6, 1fr);
-//    grid-template-columns: repeat(2, 1fr);
-//    grid-gap: 1.5rem;
-//  }
-//
-//  #main > .mainSection > .popularGenre > .gameGenre > .genre {
-//    width: calc(100% / 3 - 1rem);
-//  }
-//
-//  #main > .mainSection > .popularGenre > .gameGenre > .genre:nth-of-type(4) {
-//    display: none;
-//  }
+  //  @media screen and (max-width: 108rem) {
+  //    #main > .mainSection > .game-container > .allGame > .game-wrapper {
+  //      grid-template-rows: repeat(3, 1fr);
+  //      grid-template-columns: repeat(5, 1fr);
+  //      grid-gap: 1.5rem;
+  //    }
+  //
+  //  }
+  //
+  //  @media screen and (max-width: 90rem) {
+  //    #main > .mainSection > .game-container > .allGame > .game-wrapper {
+  //      grid-template-rows: repeat(4, 1fr);
+  //      grid-template-columns: repeat(4, 1fr);
+  //      grid-gap: 1.5rem;
+  //    }
+  //
+  //    #main > .mainSection > .popularGenre > .gameGenre > .genre {
+  //      width: calc(100% / 5 - 1rem);
+  //    }
+  //
+  //    #main > .mainSection > .popularGenre > .gameGenre > .genre:nth-of-type(6) {
+  //      display: none;
+  //    }
+  //  }
+  //}
+  //
+  //@media screen and (max-width: 72rem) {
+  //  #main > .mainSection > .game-container > .allGame > .game-wrapper {
+  //    grid-template-rows: repeat(5, 1fr);
+  //    grid-template-columns: repeat(3, 1fr);
+  //    grid-gap: 1.5rem;
+  //  }
+  //
+  //  #main > .mainSection > .popularGenre > .gameGenre > .genre {
+  //    width: calc(100% / 4 - 1rem);
+  //  }
+  //
+  //  #main > .mainSection > .popularGenre > .gameGenre > .genre:nth-of-type(5) {
+  //    display: none;
+  //  }
+  //}
+  //
+  //@media screen and (max-width: 54rem) {
+  //  #main > .mainSection > .game-container > .allGame > .game-wrapper {
+  //    grid-template-rows: repeat(6, 1fr);
+  //    grid-template-columns: repeat(2, 1fr);
+  //    grid-gap: 1.5rem;
+  //  }
+  //
+  //  #main > .mainSection > .popularGenre > .gameGenre > .genre {
+  //    width: calc(100% / 3 - 1rem);
+  //  }
+  //
+  //  #main > .mainSection > .popularGenre > .gameGenre > .genre:nth-of-type(4) {
+  //    display: none;
+  //  }
 }
 
 
