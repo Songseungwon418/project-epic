@@ -44,8 +44,19 @@ public class PurchaseController {
     /** 장바구니 담기 */
     @PostMapping(value = "/cart/add", produces = MediaType.APPLICATION_JSON_VALUE)
     @ResponseBody
-    public String addToCart(@RequestParam(value = "cart", required = false) CartEntity cart){
-        Result result = this.purchaseService.addToCart(cart);
+    public String addToCart(
+            @SessionAttribute(value = "user", required = true) UserEntity user,
+            @RequestParam(value = "gameIndex", required = true) int gameIndex,
+            @RequestParam(value = "index", required = false) int index,
+            @RequestParam(value = "userEmail", required = false) String userEmail
+    ){
+        Result result;
+        if (index <= 0) {
+            result = this.purchaseService.addToCart(user, gameIndex);
+        }
+        else {
+            result = this.purchaseService.addToCart(user, gameIndex, index, userEmail);
+        }
         JSONObject response = new JSONObject();
         response.put(Result.NAME, result.nameToLower());
         return response.toString();
@@ -54,7 +65,7 @@ public class PurchaseController {
     /** 장바구니 제거 */
     @DeleteMapping(value = "/cart/delete", produces = MediaType.APPLICATION_JSON_VALUE)
     @ResponseBody
-    public String deleteToCart(@RequestParam(value = "index", required = false) int index){
+    public String deleteToCart(@RequestParam(value = "index", required = true) int index){
         Result result = this.purchaseService.deleteFromCart(index);
         JSONObject response = new JSONObject();
         response.put(Result.NAME, result.nameToLower());
@@ -71,6 +82,7 @@ public class PurchaseController {
         WishlistDTO[] wishlists =this.purchaseService.getWishlists(user);
         ModelAndView mav = new ModelAndView();
         if (wishlists != null) {
+            mav.addObject("user", user);
             mav.addObject("wishlists", wishlists);
         }
         mav.setViewName("purchase/wishlist");
@@ -80,8 +92,20 @@ public class PurchaseController {
     /** 위시리스트 담기 */
     @PostMapping(value = "/wishlist/add", produces = MediaType.APPLICATION_JSON_VALUE)
     @ResponseBody
-    public String addToWishlist(@RequestParam(value = "wishlist", required = false) WishlistEntity wishlist){
-        Result result = this.purchaseService.addToWishlist(wishlist);
+    public String addToWishlist(
+            @SessionAttribute(value = "user", required = true) UserEntity user,
+            @RequestParam(value = "gameIndex", required = true) int gameIndex,
+            @RequestParam(value = "index", required = false) int index,
+            @RequestParam(value = "userEmail", required = false) String userEmail
+    ) {
+        Result result;
+        if (index <= 0) {
+            result = this.purchaseService.addToWishlist(user, gameIndex);
+        }
+        else {
+            result = this.purchaseService.addToWishlist(user, gameIndex, index, userEmail);
+        }
+
         JSONObject response = new JSONObject();
         response.put(Result.NAME, result.nameToLower());
         return response.toString();
@@ -90,13 +114,12 @@ public class PurchaseController {
     /** 위시리스트 제거 */
     @PatchMapping(value = "/wishlist/delete", produces = MediaType.APPLICATION_JSON_VALUE)
     @ResponseBody
-    public String deleteToWishlist(@RequestParam(value = "index", required = false) int index){
+    public String deleteToWishlist(@RequestParam(value = "index", required = true) int index){
         Result result = this.purchaseService.deleteFromWishlist(index);
         JSONObject response = new JSONObject();
         response.put(Result.NAME, result.nameToLower());
         return response.toString();
     }
-
     //endregion
 
     //region 결제 관련

@@ -88,82 +88,102 @@ function toggleFilterList(btn) {
 //endregion
 
 //region 제거 버튼 누를 시
-const $removeBtns = document.querySelectorAll('.game-card-btn.-remove');
-const $removeGameCard = document.getElementById('remove-game-card');
+{
+    const $removeBtns = document.querySelectorAll('.game-card-btn.-remove');
+    const $removeGameCard = document.getElementById('remove-game-card');
 
-$removeBtns.forEach(btn => btn.addEventListener('click', () => {
-    const $gameCard = btn.closest('.game-card');
-    const $wishlistIndexTag = $gameCard.querySelector(':scope > .info-data > .cart-index');
+    $removeBtns.forEach(btn => btn.addEventListener('click', () => {
+        const $gameCard = btn.closest('.game-card');
+        const $wishlistIndexTag = $gameCard.querySelector(':scope > .info-data > .cart-index');
 
-    const wishlistIndex = $wishlistIndexTag.innerText;
+        const wishlistIndex = $wishlistIndexTag.innerText;
 
-    const gameName = $gameCard.querySelector(':scope > .title-container > .title').value; // 게임이름
+        const gameName = $gameCard.querySelector(':scope > .title-container > .title').value; // 게임이름
 
-    const formData = new FormData();
-    formData.append('index', wishlistIndex);
+        const formData = new FormData();
+        formData.append('index', wishlistIndex);
 
-    const xhr = new XMLHttpRequest();
-    xhr.onreadystatechange = () => {
-        if(xhr.readyState !== XMLHttpRequest.DONE){
-            return;
-        }
-        if (xhr.status < 200 || xhr.status >= 300){
-            alert('서버가 알 수 없는 응답을 반환하였습니다. 잠시 후 시도해 주세요.');
-            return;
-        }
-        //요청 성공 로직 구현
-        const response = JSON.parse(xhr.responseText);
-        if (response.result === 'failure'){
-            alert('오류: 제거에 실패하였습니다.');
-        }
-        else if(response.result === 'failure_not_found'){
-            alert('오류: 이미 위시리스트에 없어서 제거에 실패하였습니다.');
-        }
-        else if(response.result === 'success'){
-            $gameCard.remove();
-            // 위시리스트 삭제 시 위에 카드 없어지고 해당카드 실행취소하는 취소란 나오게 구현 필요
-        }
-    };
-    xhr.open('PATCH', '/purchase/wishlist/delete');
-    xhr.send(formData);
-    document.body.style.cursor = 'not-allowed';
-}));
+        const xhr = new XMLHttpRequest();
+        xhr.onreadystatechange = () => {
+            if(xhr.readyState !== XMLHttpRequest.DONE){
+                return;
+            }
+            document.body.style.cursor = 'default';
+            if (xhr.status < 200 || xhr.status >= 300){
+                alert('서버가 알 수 없는 응답을 반환하였습니다. 잠시 후 시도해 주세요.');
+                return;
+            }
+            //요청 성공 로직 구현
+            const response = JSON.parse(xhr.responseText);
+            if (response.result === 'failure'){
+                alert('오류: 제거에 실패하였습니다.');
+            }
+            else if(response.result === 'failure_not_found'){
+                alert('오류: 이미 위시리스트에 없어서 제거에 실패하였습니다.');
+            }
+            else if(response.result === 'success'){
+                $gameCard.remove();
+                // 위시리스트 삭제 시 위에 카드 없어지고 해당카드 실행취소하는 취소란 나오게 구현 필요
+            }
+        };
+        xhr.open('PATCH', '/purchase/wishlist/delete');
+        xhr.send(formData);
+        document.body.style.cursor = 'not-allowed';
+    }));
+}
+
 //endregion
 
 
 //region 장바구니 담기 버튼을 누를 시
-const $cartAddBtns = document.querySelectorAll('.game-card-btn.-cart-add');
-$cartAddBtns.forEach(btn => btn.addEventListener('click', () => {
-    const $gameCard = btn.closest('.game-card');
-    const $wishlistIndexTag = $gameCard.querySelector(':scope > .info-data > .cart-index');
+{
+    const $cartAddBtns = document.querySelectorAll('.game-card-btn.-cart-add.-add');
+    $cartAddBtns.forEach(btn => btn.onclick = () => {
+        const $gameCard = btn.closest('.game-card');
+        const $wishlistIndexTag = $gameCard.querySelector(':scope > .info-data > .wishlist-index');
+        const $gameIndexTag = $gameCard.querySelector(':scope > .info-data > .game-index');
+        const $userEmail = $gameCard.querySelector(':scope > .info-data > .user-email');
 
-    const wishlistIndex = $wishlistIndexTag.innerText;
-    const xhr = new XMLHttpRequest();
-    xhr.onreadystatechange = () => {
-        if(xhr.readyState !== XMLHttpRequest.DONE){
-            return;
-        }
-        if (xhr.status < 200 || xhr.status >= 300){
-            alert('서버가 알 수 없는 응답을 반환하였습니다. 잠시 후 시도해 주세요.');
-            return;
-        }
-        //요청 성공 로직 구현
-        const response = JSON.parse(xhr.responseText);
-        if (response.result === 'failure'){
-            alert('오류: 제거에 실패하였습니다.');
-        }
-        else if(response.result === 'failure_not_found'){
-            alert('오류: 이미 위시리스트에 없어서 제거에 실패하였습니다.');
-        }
-        else if(response.result === 'success'){
-            $gameCard.remove();
+        const index = $wishlistIndexTag.innerText;
+        const gameIndex = $gameIndexTag.innerText;
+        const userEmail = $userEmail.innerText;
 
-        }
-    };
-    xhr.open('PATCH', '/purchase/cart/add'); // 장바구니에 추가
-    xhr.send(formData);
-    document.body.style.cursor = 'not-allowed';
-}));
+        const formData = new FormData();
+        formData.append('index', index);
+        formData.append('gameIndex', gameIndex);
+        formData.append('userEmail', userEmail);
 
-
+        const xhr = new XMLHttpRequest();
+        xhr.onreadystatechange = () => {
+            if(xhr.readyState !== XMLHttpRequest.DONE){
+                return;
+            }
+            document.body.style.cursor = 'default';
+            if (xhr.status < 200 || xhr.status >= 300){
+                alert('서버가 알 수 없는 응답을 반환하였습니다. 잠시 후 시도해 주세요.');
+                return;
+            }
+            //요청 성공 로직 구현
+            const response = JSON.parse(xhr.responseText);
+            if (response.result === 'failure'){
+                alert('오류: 장바구니 담기에 실패하였습니다.');
+            }
+            else if(response.result === 'failure_duplicate_cart'){
+                alert('오류: 이미 장바구니에 있습니다.');
+            }
+            else if(response.result === 'failure_not_found'){
+                alert('오류: 찾을 수 없습니다.');
+            }
+            else if(response.result === 'success'){
+                btn.querySelector(':scope > .text').innerText = '장바구니 보기';
+                btn.onclick = () => {
+                    window.location.href = '/purchase/cart';
+                };
+            }
+        };
+        xhr.open('POST', '/purchase/cart/add'); // 장바구니에 추가
+        xhr.send(formData);
+        document.body.style.cursor = 'not-allowed';
+    });
+}
 //endregion

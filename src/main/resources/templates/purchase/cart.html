@@ -87,9 +87,13 @@
                                     <button class="game-card-btn -remove">제거
                                         <span class="tooltip-text">제거</span>
                                     </button>
-                                    <button class="game-card-btn -wishlist">위시리스트로 이동
+                                    <button class="game-card-btn -wishlist -add" th:if="${cart.duplicateWishlist == false}">위시리스트로 이동
                                         <span class="tooltip-text">위시리스트로 이동</span>
                                     </button>
+                                    <a class="game-card-btn -wishlist" th:if="${cart.duplicateWishlist == true}" th:href="@{/purchase/wishlist}">
+                                        <span class="text">위시리스트 보기</span>
+                                        <span class="tooltip-text">위시리스트 보기</span>
+                                    </a>
                                 </div>
                             </div>
                         </div>

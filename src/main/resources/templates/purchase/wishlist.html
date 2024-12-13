@@ -22,7 +22,7 @@
             <section class="view-header">
                 <h1 class="title">나의 위시리스트</h1>
             </section>
-            <section class="view-content-container" th:if="${wishlists != null && wishlists.length > 0}">
+            <section class="view-content-container" th:if="${wishlists != null}">
                 <div class="view-content-wrapper">
                     <div class="sorting-filter-container">
                         <span class="text">정렬 기준: </span>
@@ -48,7 +48,7 @@
                                         <path d="m17.012 3.954.574 2.296H21a.75.75 0 0 1 0 1.5H3a.75.75 0 0 1 0-1.5h3.414l.574-2.296A2.25 2.25 0 0 1 9.171 2.25h5.658a2.25 2.25 0 0 1 2.183 1.704m-8.568.364a.75.75 0 0 1 .727-.568h5.658a.75.75 0 0 1 .727.568l.483 1.932H7.961z" clip-rule="evenodd" fill-rule="evenodd"></path><path d="M6.11 19.74 5.067 10h1.508l1.027 9.58a.75.75 0 0 0 .746.67h7.304a.75.75 0 0 0 .746-.67L17.424 10h1.509l-1.044 9.74a2.25 2.25 0 0 1-2.237 2.01H8.348a2.25 2.25 0 0 1-2.238-2.01"></path>
                                     </svg>
                                     </div>
-                                    <span class="text">[[${wishlist.getGame().getName()}]] 제거됨</span>
+                                    <span class="text">게임 이름 제거됨</span>
                                 </div>
                                 <div class="cancel-btn-wrapper">
                                     <button type="button" class="cancel-btn">
@@ -130,9 +130,12 @@
                                 <div class="button-container">
                                     <div class="spring"></div>
                                     <button class="game-card-btn -remove">제거</button>
-                                    <button class="game-card-btn -cart-add">
+                                    <button class="game-card-btn -cart-add -add" th:if="${wishlist.duplicateCart == false}">
                                         <span class="text">장바구니에 담기</span>
                                     </button>
+                                    <a class="game-card-btn -cart-add" th:if="${wishlist.duplicateCart == true}" th:href="@{/purchase/cart}">
+                                        <span class="text">장바구니 보기</span>
+                                    </a>
                                 </div>
                             </div>
                         </div>
@@ -233,7 +236,7 @@
                     </div>
                 </aside>
             </section>
-            <section class="view-content-container" th:if="${wishlists == null || wishlists.length == 0}">
+            <section class="view-content-container" th:if="${wishlists == null}">
                 <div class="view-content-wrapper empty">
                     <div class="empty-wrapper">
                             <span class="logo">
@@ -265,7 +268,6 @@
             </section>
         </div>
     </div>
-
 </main>
 <th:block th:replace="~{fragments/common.html :: footer}"></th:block>
 </body>

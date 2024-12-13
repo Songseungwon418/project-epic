@@ -12,4 +12,5 @@ public class CartDTO {
     CartEntity cart;
     GameEntity game;
     GameRatingEntity gameRating;
+    boolean duplicateWishlist; // 위시리스트에 이미 있는지
 }

@@ -47,6 +47,7 @@ public class PurchaseService {
                     .cart(cart)
                     .game(games[i])
                     .gameRating(gameRatings[i])
+                    .duplicateWishlist(DuplicationCheckWishlist(user.getEmail(), games[i].getIndex())) // 위시리스트에 있음 true
                     .build(); // 보낼 장바구니 하나씩 집어넣기
         }
         return cartDTOS; // 장바구니들 반환
@@ -54,19 +55,47 @@ public class PurchaseService {
 
     /** 유저에 해당하는 장바구니 목록 삽입 */
     @Transactional
-    public Result addToCart(CartEntity cart) {
-        if (cart == null || cart.getUserEmail() == null || cart.getIndex() < 1 || cart.getGameIndex() < 1) {
+    public Result addToCart(UserEntity user, int gameIndex) {
+        if (user == null || user.getEmail() == null || gameIndex < 1 ) {
+            return CommonResult.FAILURE;
+        }
+        // 장바구니에 존재하는 지 중복 체크
+        if(DuplicationCheckCart(user.getEmail(), gameIndex)) {
+            return PurchaseResult.FAILURE_DUPLICATE_CART;
+        }
+        // 장바구니에 없다면 CartEntity 생성해서 값 셋팅
+        CartEntity cart = new CartEntity(user.getEmail(), gameIndex, LocalDateTime.now());
+        // db에 삽입
+        if(this.purchaseMapper.insertCart(cart) <= 0) {
+            throw new TransactionalException("오류: 장바구니 삽입 실패");
+        }
+        return CommonResult.SUCCESS;
+    }
+
+    // 위시리스트로 이동 눌렀을 경우
+    @Transactional
+    public Result addToWishlist(UserEntity user, int gameIndex, int index, String userEmail) {
+        if (user == null || user.getEmail() == null || gameIndex < 1 || index < 1 ||
+                userEmail == null || userEmail.isEmpty() || !userEmail.equals(user.getEmail())) {
             return CommonResult.FAILURE;
         }
 
-        CartEntity dbCart = this.purchaseMapper.selectCartByEmailANDGameIndex(cart.getUserEmail(), cart.getGameIndex());
-        if (dbCart != null) { //장바구니에 이미 있음
-            return PurchaseResult.FAILURE_DUPLICATE_CART;
+        // 요청한 index가 실제로 장바구니에 있는 index인지 확인
+        CartEntity dbCart = this.purchaseMapper.selectCartByIndex(index);
+        if (dbCart == null) {
+            return PurchaseResult.FAILURE_NOT_FOUND; // 존재하지않는 index
         }
-        cart.setAddAt(LocalDateTime.now());
 
-        if(this.purchaseMapper.insertCart(cart) <= 0) {
-            throw new TransactionalException("오류: 장바구니 삽입 실패");
+        // 위시리스트에 이동하기 전에 위시리스트에 있는지 중복 확인
+        if (DuplicationCheckWishlist(user.getEmail(), gameIndex)) {
+            return PurchaseResult.FAILURE_DUPLICATE_WISHLIST; // 위시리스트에 이미 있음
+        }
+
+        // 위시리스트에 없을 경우, 데이터를 담을 객체 생성하여 셋팅
+        WishlistEntity wishlist = new WishlistEntity(user.getEmail(), gameIndex, LocalDateTime.now());
+        // DB에 삽입
+        if(this.purchaseMapper.insertWishlist(wishlist) <= 0) {
+            throw new TransactionalException("오류: 위시리스트 삽입 실패");
         }
         return CommonResult.SUCCESS;
     }
@@ -93,7 +122,6 @@ public class PurchaseService {
 
         return CommonResult.SUCCESS;
     }
-
     //endregion
 
     //region 위시리스트 관련
@@ -111,13 +139,14 @@ public class PurchaseService {
 
         // 위시리스트에 담긴 게임의 정보 및 등급 저장
         for (int i = 0; i < wishlists.length; i++) {
-            WishlistEntity wishlist = wishlists[i]; // 각 장바구니
+            WishlistEntity wishlist = wishlists[i]; // 각 위시리스트
             games[i] = this.gameService.getGameByIndex(wishlist.getGameIndex()); // 각 위시리스트에 해당하는 게임 번호로 게임 정보 조회
             gameRatings[i] = this.gameRatingMapper.selectGameRatingByGrac(games[i].getGrGrac()); // 각 게임에 해당하는 등급 조회
             wishlistDTOS[i] = WishlistDTO.builder()
                     .wishlist(wishlist)
                     .game(games[i])
                     .gameRating(gameRatings[i])
+                    .duplicateCart(DuplicationCheckCart(user.getEmail(), games[i].getIndex())) // 장바구니 존재하면 true
                     .build(); // 보낼 위시리스트 하나씩 집어넣기
         }
         return wishlistDTOS; // 위시리스트들 반환
@@ -125,19 +154,45 @@ public class PurchaseService {
 
     /** 유저에 해당하는 위시리스트 목록 삽입 */
     @Transactional
-    public Result addToWishlist(WishlistEntity wishlist) {
-        if (wishlist == null || wishlist.getUserEmail() == null || wishlist.getIndex() < 1 || wishlist.getGameIndex() < 1) {
+    public Result addToWishlist(UserEntity user, int gameIndex) {
+        if (user == null || user.getEmail() == null || gameIndex < 1 ) {
             return CommonResult.FAILURE;
         }
 
-        WishlistEntity dbWishlist = this.purchaseMapper.selectWishlistByEmailANDGameIndex(wishlist.getUserEmail(), wishlist.getGameIndex());
-        if (dbWishlist != null || !dbWishlist.isDeleted()) { //위시리스트에 이미 있음(삭제도 안됨)
+        //위시리스트에 이미 있음(삭제도 안됨)
+        if (DuplicationCheckWishlist(user.getEmail(), gameIndex)) {
             return PurchaseResult.FAILURE_DUPLICATE_CART;
         }
-        wishlist.setAddAt(LocalDateTime.now());
+        WishlistEntity wishlist = new WishlistEntity(user.getEmail(), gameIndex, LocalDateTime.now());
 
         if(this.purchaseMapper.insertWishlist(wishlist) <= 0) {
             throw new TransactionalException("오류: 위시리스트 삽입 실패");
+        }
+        return CommonResult.SUCCESS;
+    }
+
+    // 위시리스트에서 장바구니에 담기 눌렀을 경우
+    @Transactional
+    public Result addToCart(UserEntity user, int gameIndex, int index, String userEmail) {
+        if (user == null || user.getEmail() == null || gameIndex < 1 || index < 1 ||
+                userEmail == null || userEmail.isEmpty() || !userEmail.equals(user.getEmail())) {
+            return CommonResult.FAILURE;
+        }
+
+        // 실제로 위시리스트에 존재하는 index 확인
+        WishlistEntity dbWishlist = this.purchaseMapper.selectWishlistByIndex(index);
+        if (dbWishlist == null || dbWishlist.isDeleted()) { //위시리스트에 없거나 삭제됨
+            return PurchaseResult.FAILURE_NOT_FOUND;
+        }
+        // 장바구니에 존재하는 지 중복 체크
+        if(DuplicationCheckCart(userEmail, gameIndex)) {
+            return PurchaseResult.FAILURE_DUPLICATE_CART;
+        }
+        // 장바구니에 없다면 CartEntity 생성해서 값 셋팅
+        CartEntity cart = new CartEntity(user.getEmail(), gameIndex, LocalDateTime.now());
+        // db에 삽입
+        if(this.purchaseMapper.insertCart(cart) <= 0) {
+            throw new TransactionalException("오류: 장바구니 삽입 실패");
         }
         return CommonResult.SUCCESS;
     }
@@ -161,4 +216,23 @@ public class PurchaseService {
     }
     //endregion
 
+    /** 실제로 유저와 게임이 장바구니에 있는 지(중복인지) 체크 */
+    private boolean DuplicationCheckCart(String userEmail, int gameIndex) {
+        // 장바구니에 있는 지 확인
+        CartEntity dbCart = this.purchaseMapper.selectCartByEmailANDGameIndex(userEmail, gameIndex);
+        return dbCart != null; // 장바구니가 있음 true 반환
+    }
+
+    /** 실제로 유저와 게임이 장바구니에 있는 지(중복인지) 체크 */
+    private boolean DuplicationCheckWishlist(String userEmail, int gameIndex) {
+        // 위시리스트에 있는 지
+         WishlistEntity dbWishlist = this.purchaseMapper.selectWishlistByEmailANDGameIndex(userEmail, gameIndex);
+
+         if (dbWishlist != null) {
+             if (!dbWishlist.isDeleted()) {
+                 return true; // 위시리스트에 있음
+             }
+         }
+        return false;
+    }
 }
