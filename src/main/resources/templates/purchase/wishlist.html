@@ -8,9 +8,9 @@
     <title>나의 위시리스트</title>
     <link rel="shortcut icon" th:href="@{'/assets/images/favicon.png'}">
     <link rel="stylesheet" th:href="@{'/assets/styles/common.css'}">
+    <script defer th:src="@{'/assets/scripts/common.js'}"></script>
     <link rel="stylesheet" th:href="@{'/purchase/assets/styles/cart_wishlist.css'}">
-    <script defer type="text/javascript" th:src="@{'/assets/scripts/common.js'}"></script>
-    <script defer th:src="@{/purchase/assets/scripts/wishlist.js}"></script>
+    <script defer th:src="@{'/purchase/assets/scripts/wishlist.js'}"></script>
 </head>
 <body>
 <th:block th:replace="~{fragments/common.html :: header}"></th:block>
@@ -61,6 +61,7 @@
                             <div hidden="hidden" class="info-data">
                                 <span class="wishlist-index" th:text="${wishlist.getWishlist().getIndex()}"></span>
                                 <span class="game-index" th:text="${wishlist.getGame().getIndex()}"></span>
+                                <span class="user-email" th:text="${wishlist.getWishlist().getUserEmail()}"></span>
                             </div>
                             <div class="img-container">
                                 <a class="link-image" aria-label="Dragon Age" href="#">

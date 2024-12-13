@@ -8,8 +8,8 @@
     <title>장바구니</title>
     <link rel="shortcut icon" th:href="@{'/assets/images/favicon.png'}">
     <link rel="stylesheet" th:href="@{'/assets/styles/common.css'}">
-    <link rel="stylesheet" th:href="@{'/purchase/assets/styles/cart_wishlist.css'}">
     <script defer th:src="@{'/assets/scripts/common.js'}"></script>
+    <link rel="stylesheet" th:href="@{'/purchase/assets/styles/cart_wishlist.css'}">
     <script defer th:src="@{'/purchase/assets/scripts/cart.js'}"></script>
 </head>
 <body>
@@ -17,140 +17,141 @@
 <main class="main" id="main">
     <th:block th:replace="~{fragments/common.html :: mainSearch}"></th:block>
     <div id="view-container">
-            <div class="view-wrapper">
-                <section class="view-header">
-                    <h1 class="title">나의 장바구니</h1>
-                </section>
-                <section class="view-content-container" th:if="${carts != null && carts.length > 0}">
-                    <div class="view-content-wrapper">
-                        <div class="game-list">
-                            <div class="game-card" th:each="cart : ${carts}">
-                                <div hidden="hidden" class="info-data">
-                                    <span class="cart-index" th:text="${cart.getCart().getIndex()}"></span>
-                                    <span class="game-index" th:text="${cart.getGame().getIndex()}"></span>
-                                </div>
-                                <div class="img-container">
-                                    <a class="link-image" href="#">
-                                        <div class="image-wrapper">
-                                            <img class="image" th:src="${cart.getGame().base64Image}" alt="표지이미지">
-                                        </div>
-                                    </a>
-                                    <span class="logo-wrapper" aria-hidden="true">
-                                    <ul class="logo-list">
-                                        <li class="logo" th:if="${#strings.containsIgnoreCase(cart.getGame().getMinOs(), 'window')}">
-                                            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512"><title>Windows</title><g><path fill="currentColor" d="M0.175 256l-0.175-156.037 192-26.072v182.109zM224 69.241l255.936-37.241v224h-255.936zM479.999 288l-0.063 224-255.936-36.008v-187.992zM192 471.918l-191.844-26.297-0.010-157.621h191.854z"></path></g>
-                                            </svg>
-                                        </li>
-                                        <li class="logo" th:if="${#strings.containsIgnoreCase(cart.getGame().getMinOs(), 'mac')}">
-                                            <svg xmlns="http://www.w3.org/2000/svg" class="svg css-uwwqev" viewBox="0 0 105 43"><title>macOS</title><g><path d="M40.152 39.6706H34.5029V10.4623H34.3002L22.3433 39.3667H17.7834L5.80114 10.4623H5.59848V39.6706H0V0H7.11843L19.962 31.3109H20.19L32.9829 0H40.1267V39.6706H40.152Z" fill="currentColor"></path><path d="M46.2617 31.4377C46.2617 26.3459 50.1376 23.4327 57.2814 23.002L64.9571 22.5207V20.3421C64.9571 17.1249 62.8292 15.377 59.08 15.377C55.9641 15.377 53.7095 16.9729 53.2535 19.4048H47.6803C47.8577 14.2623 52.6962 10.5385 59.232 10.5385C66.2744 10.5385 70.8596 14.2117 70.8596 19.9368V39.6708H65.1598V34.9083H65.0078C63.3865 38.0242 59.8146 39.9748 55.9387 39.9748C50.2643 39.9748 46.2617 36.5549 46.2617 31.4377ZM64.9571 28.9045V26.6752L58.1173 27.1312C54.2668 27.3845 52.2655 28.8032 52.2655 31.3111C52.2655 33.743 54.3681 35.3136 57.636 35.3136C61.7905 35.2629 64.9571 32.603 64.9571 28.9045Z" fill="currentColor"></path><path d="M96.5139 20.798C95.9819 17.7328 93.626 15.4528 89.7501 15.4528C85.2156 15.4528 82.201 19.278 82.201 25.2312C82.201 31.387 85.2409 35.0602 89.8008 35.0602C93.4486 35.0602 95.8806 33.2362 96.5645 29.8923H102.264C101.631 35.9975 96.7672 40 89.7754 40C81.5424 40 76.1719 34.4015 76.1719 25.2312C76.1719 16.2888 81.5677 10.4877 89.7248 10.4877C97.1218 10.4877 101.707 15.1235 102.214 20.7727H96.5139V20.798Z" fill="currentColor"></path></g></svg>
-                                        </li>
-                                    </ul>
-                                </span>
-                                </div>
-                                <div class="title-container">
-                                    <div class="tag-wrapper">
-                                        <div class="tag-box">
-                                            <span class="tag">기본 게임</span>
-                                        </div>
+        <div class="view-wrapper">
+            <section class="view-header">
+                <h1 class="title">나의 장바구니</h1>
+            </section>
+            <section class="view-content-container" th:if="${carts != null && carts.length > 0}">
+                <div class="view-content-wrapper">
+                    <div class="game-list">
+                        <div class="game-card" th:each="cart : ${carts}">
+                            <div hidden="hidden" class="info-data">
+                                <span class="cart-index" th:text="${cart.getCart().getIndex()}"></span>
+                                <span class="game-index" th:text="${cart.getGame().getIndex()}"></span>
+                                <span class="user-email" th:text="${cart.getCart().getUserEmail()}"></span>
+                            </div>
+                            <div class="img-container">
+                                <a class="link-image" href="#">
+                                    <div class="image-wrapper">
+                                        <img class="image" th:src="${cart.getGame().base64Image}" alt="표지이미지">
                                     </div>
-                                    <a class="title" th:text="${cart.getGame().getName()}" href="#"></a>
-                                </div>
-                                <div class="price-container">
-                                    <span class="price" th:text="${cart.getGame().getPrice() == 0 ? '무료' : cart.getGame().getPrice()}"></span>
-                                    <span class="info_text" th:if="${cart.getGame().getPrice() == 0}">앱 내 구매가 포함될 수도 있습니다</span>
-                                </div>
-                                <div class="ratings-container">
-                                    <div class="link">
-                                        <div class="link-wrapper">
-                                            <div class="img-wrapper">
-                                                <img th:alt="${cart.getGameRating().getTitle()}" th:src="${cart.getGameRating().base64Logo}">
-                                            </div>
-                                            <div class="content-wrapper">
-                                                <span class="title" th:text="${cart.getGameRating().getTitle()}"></span>
-                                                <span class="subtitle" th:text="${cart.getGameRating().getSubTitle()}"></span>
-                                            </div>
-                                        </div>
-                                    </div>
-                                </div>
-                                <div class="content-and-btn">
-                                    <div class="refund-container" th:if="${cart.getGame().getPrice() != 0}">
-                                        <span class="text">셀프 환불</span>
-                                        <div class="icon-wrapper">
-                                            <span class="info_text">환불은 72시간 이내에 가능합니다.</span>
-                                            <img src="/purchase/assets/images/help-24.png" height="24"
-                                                 width="24"/>
-                                        </div>
-                                    </div>
-                                    <div class="button-container" >
-                                        <div class="spring"></div>
-                                        <button class="game-card-btn -remove">제거
-                                            <span class="tooltip-text">제거</span>
-                                        </button>
-                                        <button class="game-card-btn -wishlist">위시리스트로 이동
-                                            <span class="tooltip-text">위시리스트로 이동</span>
-                                        </button>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="cart-sidebar">
-                        <div class="cart-sidebar-wrapper">
-                            <span class="title">게임 및 앱 합계</span>
-                            <div class="cart-price">
-                                <div class="price-wrapper -standard">
-                                    <span class="title">가격</span>
-                                    <span class="content">₩86,700</span>
-                                </div>
-
-                            </div>
-                            <div class="cart-price">
-                                <div class="price-wrapper -sale">
-                                    <span class="title">할인 금액</span>
-                                    <span class="content">-₩21,220</span>
-                                </div>
-                            </div>
-                            <div class="cart-price">
-                                <div class="price-wrapper -taxes">
-                                    <span class="title">세금</span>
-                                    <span class="content">결제 시 정산됨</span>
-                                </div>
-                            </div>
-                            <div class="cart-price">
-                                <div class="price-wrapper -total">
-                                    <span class="title">소계</span>
-                                    <span class="content">₩65,480</span>
-                                </div>
-                            </div>
-                            <div class="btn-wrapper">
-                                <button class="cart-purchase-btn" id="openModalBtn" type="button">구매</button>
-                            </div>
-                        </div>
-                    </div>
-                </section>
-                <section class="view-content-container" th:if="${carts == null || carts.length == 0}">
-                    <div class="view-content-wrapper empty">
-                        <div class="empty-wrapper">
-                            <span class="logo">
-                                <svg xmlns="http://www.w3.org/2000/svg" class="svg" viewBox="0 0 45 52">
-                                    <g fill="none" fill-rule="evenodd"><path d="M4.058 0C1.094 0 0 1.098 0 4.075v35.922c0 .338.013.65.043.94.068.65-.043 1.934 2.285 2.96 1.553.683 7.62 3.208 18.203 7.573 1.024.428 1.313.529 2.081.529.685.013 1.137-.099 2.072-.53 10.59-4.227 16.66-6.752 18.213-7.573 2.327-1.23 2.097-3.561 2.097-3.899V4.075C44.994 1.098 44.13 0 41.166 0H4.058z" fill="#404044"></path><path stroke="#FFF" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" d="M14 18l4.91 2.545-2.455 4M25.544 28.705c-1.056-.131-1.806-.14-2.25-.025-.444.115-1.209.514-2.294 1.197M29.09 21.727L25 19.5l2.045-3.5"></path></g>
-                                </svg>
-                            </span>
-                            <h1 class="info_text">
-                                <span class="text">장바구니가 비어 있습니다.</span>
-                            </h1>
-                            <div class="info_link">
-                                <a type="button" role="link" class="link" href="/">
-                                    <span class="link_text">
-                                        <span class="text">게임 및 앱 구매</span>
-                                    </span>
                                 </a>
+                                <span class="logo-wrapper" aria-hidden="true">
+                                <ul class="logo-list">
+                                    <li class="logo" th:if="${#strings.containsIgnoreCase(cart.getGame().getMinOs(), 'window')}">
+                                        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512"><title>Windows</title><g><path fill="currentColor" d="M0.175 256l-0.175-156.037 192-26.072v182.109zM224 69.241l255.936-37.241v224h-255.936zM479.999 288l-0.063 224-255.936-36.008v-187.992zM192 471.918l-191.844-26.297-0.010-157.621h191.854z"></path></g>
+                                        </svg>
+                                    </li>
+                                    <li class="logo" th:if="${#strings.containsIgnoreCase(cart.getGame().getMinOs(), 'mac')}">
+                                        <svg xmlns="http://www.w3.org/2000/svg" class="svg css-uwwqev" viewBox="0 0 105 43"><title>macOS</title><g><path d="M40.152 39.6706H34.5029V10.4623H34.3002L22.3433 39.3667H17.7834L5.80114 10.4623H5.59848V39.6706H0V0H7.11843L19.962 31.3109H20.19L32.9829 0H40.1267V39.6706H40.152Z" fill="currentColor"></path><path d="M46.2617 31.4377C46.2617 26.3459 50.1376 23.4327 57.2814 23.002L64.9571 22.5207V20.3421C64.9571 17.1249 62.8292 15.377 59.08 15.377C55.9641 15.377 53.7095 16.9729 53.2535 19.4048H47.6803C47.8577 14.2623 52.6962 10.5385 59.232 10.5385C66.2744 10.5385 70.8596 14.2117 70.8596 19.9368V39.6708H65.1598V34.9083H65.0078C63.3865 38.0242 59.8146 39.9748 55.9387 39.9748C50.2643 39.9748 46.2617 36.5549 46.2617 31.4377ZM64.9571 28.9045V26.6752L58.1173 27.1312C54.2668 27.3845 52.2655 28.8032 52.2655 31.3111C52.2655 33.743 54.3681 35.3136 57.636 35.3136C61.7905 35.2629 64.9571 32.603 64.9571 28.9045Z" fill="currentColor"></path><path d="M96.5139 20.798C95.9819 17.7328 93.626 15.4528 89.7501 15.4528C85.2156 15.4528 82.201 19.278 82.201 25.2312C82.201 31.387 85.2409 35.0602 89.8008 35.0602C93.4486 35.0602 95.8806 33.2362 96.5645 29.8923H102.264C101.631 35.9975 96.7672 40 89.7754 40C81.5424 40 76.1719 34.4015 76.1719 25.2312C76.1719 16.2888 81.5677 10.4877 89.7248 10.4877C97.1218 10.4877 101.707 15.1235 102.214 20.7727H96.5139V20.798Z" fill="currentColor"></path></g></svg>
+                                    </li>
+                                </ul>
+                            </span>
+                            </div>
+                            <div class="title-container">
+                                <div class="tag-wrapper">
+                                    <div class="tag-box">
+                                        <span class="tag">기본 게임</span>
+                                    </div>
+                                </div>
+                                <a class="title" th:text="${cart.getGame().getName()}" href="#"></a>
+                            </div>
+                            <div class="price-container">
+                                <span class="price" th:text="${cart.getGame().getPrice() == 0 ? '무료' : cart.getGame().getPrice()}"></span>
+                                <span class="info_text" th:if="${cart.getGame().getPrice() == 0}">앱 내 구매가 포함될 수도 있습니다</span>
+                            </div>
+                            <div class="ratings-container">
+                                <div class="link">
+                                    <div class="link-wrapper">
+                                        <div class="img-wrapper">
+                                            <img th:alt="${cart.getGameRating().getTitle()}" th:src="${cart.getGameRating().base64Logo}">
+                                        </div>
+                                        <div class="content-wrapper">
+                                            <span class="title" th:text="${cart.getGameRating().getTitle()}"></span>
+                                            <span class="subtitle" th:text="${cart.getGameRating().getSubTitle()}"></span>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="content-and-btn">
+                                <div class="refund-container" th:if="${cart.getGame().getPrice() != 0}">
+                                    <span class="text">셀프 환불</span>
+                                    <div class="icon-wrapper">
+                                        <span class="info_text">환불은 72시간 이내에 가능합니다.</span>
+                                        <img src="/purchase/assets/images/help-24.png" height="24"
+                                             width="24"/>
+                                    </div>
+                                </div>
+                                <div class="button-container" >
+                                    <div class="spring"></div>
+                                    <button class="game-card-btn -remove">제거
+                                        <span class="tooltip-text">제거</span>
+                                    </button>
+                                    <button class="game-card-btn -wishlist">위시리스트로 이동
+                                        <span class="tooltip-text">위시리스트로 이동</span>
+                                    </button>
+                                </div>
                             </div>
                         </div>
                     </div>
-                </section>
-            </div>
+                </div>
+                <div class="cart-sidebar">
+                    <div class="cart-sidebar-wrapper">
+                        <span class="title">게임 및 앱 합계</span>
+                        <div class="cart-price">
+                            <div class="price-wrapper -standard">
+                                <span class="title">가격</span>
+                                <span class="content">₩86,700</span>
+                            </div>
+
+                        </div>
+                        <div class="cart-price">
+                            <div class="price-wrapper -sale">
+                                <span class="title">할인 금액</span>
+                                <span class="content">-₩21,220</span>
+                            </div>
+                        </div>
+                        <div class="cart-price">
+                            <div class="price-wrapper -taxes">
+                                <span class="title">세금</span>
+                                <span class="content">결제 시 정산됨</span>
+                            </div>
+                        </div>
+                        <div class="cart-price">
+                            <div class="price-wrapper -total">
+                                <span class="title">소계</span>
+                                <span class="content">₩65,480</span>
+                            </div>
+                        </div>
+                        <div class="btn-wrapper">
+                            <button class="cart-purchase-btn" id="openModalBtn" type="button">구매</button>
+                        </div>
+                    </div>
+                </div>
+            </section>
+            <section class="view-content-container" th:if="${carts == null || carts.length == 0}">
+                <div class="view-content-wrapper empty">
+                    <div class="empty-wrapper">
+                        <span class="logo">
+                            <svg xmlns="http://www.w3.org/2000/svg" class="svg" viewBox="0 0 45 52">
+                                <g fill="none" fill-rule="evenodd"><path d="M4.058 0C1.094 0 0 1.098 0 4.075v35.922c0 .338.013.65.043.94.068.65-.043 1.934 2.285 2.96 1.553.683 7.62 3.208 18.203 7.573 1.024.428 1.313.529 2.081.529.685.013 1.137-.099 2.072-.53 10.59-4.227 16.66-6.752 18.213-7.573 2.327-1.23 2.097-3.561 2.097-3.899V4.075C44.994 1.098 44.13 0 41.166 0H4.058z" fill="#404044"></path><path stroke="#FFF" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" d="M14 18l4.91 2.545-2.455 4M25.544 28.705c-1.056-.131-1.806-.14-2.25-.025-.444.115-1.209.514-2.294 1.197M29.09 21.727L25 19.5l2.045-3.5"></path></g>
+                            </svg>
+                        </span>
+                        <h1 class="info_text">
+                            <span class="text">장바구니가 비어 있습니다.</span>
+                        </h1>
+                        <div class="info_link">
+                            <a type="button" role="link" class="link" href="/">
+                                <span class="link_text">
+                                    <span class="text">게임 및 앱 구매</span>
+                                </span>
+                            </a>
+                        </div>
+                    </div>
+                </div>
+            </section>
         </div>
+    </div>
 </main>
     <!-- 모달창 -->
     <div class="cart-pay-modal" id="cart-pay-modal">

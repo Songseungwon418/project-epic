@@ -21,7 +21,6 @@ const $pageup = document.body.querySelector('[name="pageup"]');
 
 $pageup.onclick = () => {
     window.scrollTo(0, 0);  // 페이지 맨 위로 이동
-    console.log("Scroll position: ", window.scrollY); // 스크롤 위치 출력
 
     const topElement = document.getElementById('main');
     if (topElement) {

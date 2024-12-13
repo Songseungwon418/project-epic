@@ -4,11 +4,12 @@ function attemptCancel() {
     window.parent.postMessage('closeModal', '*');
 
     //TODO 폼제출 및 통신 취소하는 구문도 추가
-}
+};
 
-const $mian = document.body.querySelector(':scope > .pay-page > .pay-container');
-const $closeBtn = $mian.querySelector(':scope > .main-container > .payment-purchase-close');
+const $mainContainer = document.getElementById('main-container');
+const $closeBtn = $mainContainer.querySelector(':scope > .payment-purchase-close');
 
 $closeBtn.onclick = () => {
     attemptCancel();
-}
+};
+

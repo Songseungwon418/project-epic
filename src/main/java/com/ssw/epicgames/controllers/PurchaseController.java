@@ -107,6 +107,13 @@ public class PurchaseController {
         mav.setViewName("purchase/pay");
         return mav;
     }
+
+    @GetMapping(value = "/paysuccess", produces = MediaType.TEXT_HTML_VALUE)
+    public ModelAndView getPaysuccess() {
+        ModelAndView mav = new ModelAndView();
+        mav.setViewName("purchase/paysuccess");
+        return mav;
+    }
     //endregion
 
 
