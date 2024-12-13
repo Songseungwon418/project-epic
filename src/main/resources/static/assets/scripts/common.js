@@ -25,13 +25,25 @@ $pageup.onclick = () => {
 }
 //endregion
 
-// region 필터 관련 함수(게임 분류 서버에서 불러옴)
-/**
- * @Param element - 서버(DB)에서 가져온 값들을 사용할 HTML 요소
- * */
-function filterGenre(element) {
+//region 로그아웃 버튼 클릭 시 모달창
+{
+    const $logoutButton = document.getElementById('logoutButton');
+    const $logout = document.getElementById('logout');
+    const $cancelButton = $logout.querySelector(':scope > .logoutDialog > .content > .button-container > [name="cancel"]');
+    const $confirmButton = $logout.querySelector(':scope > .logoutDialog > .content > .button-container > [name="confirm"]');
+
+    $logoutButton.onclick = () => {
+        $logout.classList.add('--visible');
+    };
+
+    $cancelButton.onclick = () => {
+        $logout.classList.remove('--visible');
+    };
+
+    $confirmButton.onclick = () => {
+        location.href = '/user/logout';
+    };
+
 
 }
-
-
 //endregion

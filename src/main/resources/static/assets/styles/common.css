@@ -442,42 +442,70 @@ button {
 #header .header-nav > .language.active .item-container {
     display: block;
 }
+#header .header-nav > .nickname-button {
+    color: #ffffff;
+    margin-left: 1.3rem;
+}
+
+#header .header-nav > .nickname-button:hover {
+    opacity: 0.7;
+}
+#header .header-nav > .nickname-button > .link {
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    justify-content: center;
+    gap: 0.5rem;
+}
+#header .header-nav > .nickname-button > .link > .circle {
+    background-color: #46464e;
+    padding: 0.9rem;
+    border-radius: 999rem;
+    text-align: center;
+    line-height: 1;
+    font-size: 1.4rem;
+}
 #header .header-nav > .login-button {
     margin-left: 2rem;
 }
 #header .header-nav > .login-button > .login {
-    border: none;
-    color: #ffffff;
-    font-size: 1.4rem;
-    font-weight: 400;
-    line-height: 1;
-    text-align: center;
-    background-color: rgba(255, 255, 255, 0.1490196078);
-    padding: 0.9rem 1.3rem;
-    border-radius: 0.5rem;
-}
-#header .header-nav > .login-button > .login:hover {
-    background-color: #656565;
-}
-#header .header-nav > .download-button {
-    margin-left: 1.8rem;
-    margin-right: 0.7rem;
-}
-#header .header-nav > .download-button > .download {
     border: none;
     color: #000000;
     font-size: 1.4rem;
     font-weight: 400;
     line-height: 1;
     text-align: center;
-    background-color: #26BBFF;
+    background-color: #26baff;
     padding: 0.9rem 1.3rem;
     border-radius: 0.5rem;
 }
-#header .header-nav > .download-button > .download:hover {
-    background-color: #65caf8;
+#header .header-nav > .login-button > .login:hover {
+    background-color: #28c3ff;
 }
-
+#header .header-nav > .login-button > .login:focus {
+    background-color: #2acaff;
+}
+#header .header-nav > .logout-button {
+    margin-left: 1.8rem;
+    margin-right: 0.7rem;
+}
+#header .header-nav > .logout-button > .logout {
+    border: none;
+    color: #ffffff;
+    font-size: 1.4rem;
+    font-weight: 400;
+    line-height: 1;
+    text-align: center;
+    background-color: #FFFFFF25;
+    padding: 0.9rem 1.3rem;
+    border-radius: 0.5rem;
+}
+#header .header-nav > .logout-button > .logout:hover {
+    background-color: rgba(255, 255, 255, 0.3);
+}
+#header .header-nav > .logout-button > .logout:focus {
+    background-color: rgba(255, 255, 255, 0.4);
+}
 #main {
     flex-grow: 1;
     width: 100%;
@@ -508,6 +536,7 @@ button {
 
 #main > .search-container > .area > .searchForm {
     position: relative;
+    margin-bottom: 1rem;
 }
 #main > .search-container > .area > .searchForm > .submit-button {
     border: none;
@@ -515,7 +544,7 @@ button {
 #main > .search-container > .area > .searchForm > .submit-button > .icon {
     position: absolute;
     left: 1.8rem;
-    top: 1.45rem;
+    top: 2.8rem;
     color: rgba(255, 255, 255, 0.6470588235);
     width: 1.4rem;
     z-index: 3;
@@ -550,8 +579,18 @@ button {
     border: none;
 }
 #main > .search-container > .area > .link-container {
+    width: 100%;
+    height: 100%;
     margin-left: 1.5rem;
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    justify-content: flex-start;
 }
+#main > .search-container > .area > .link-container > .spring {
+    flex-grow: 1;
+}
+
 #main > .search-container > .area > .link-container > .list {
     display: flex;
     flex-direction: row;
@@ -565,6 +604,7 @@ button {
     box-sizing: border-box;
     border-radius: 0.5rem;
 }
+
 #main > .search-container > .area > .link-container > .list > .item:hover {
     color: #FFFFFF;
 }
@@ -574,12 +614,103 @@ button {
     transition-duration: 250ms;
     transition-timing-function: ease;
 }
-
+#main > .logout {
+    width: 100%;
+    height: 100%;
+    display: none;
+}
+#main > .logout > .cover {
+    width: 100%;
+    height: 100%;
+    top: 0;
+    left: 0;
+    z-index: 998;
+    background-color: #101014;
+    position: fixed;
+}
+#main > .logout > .logoutDialog {
+    position: fixed;
+    z-index: 999;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    background-color: #18181c;
+    border: 0.0625rem solid #444444;
+    padding: 1rem;
+    border-radius: 0.5rem;
+}
+#main > .logout > .logoutDialog > .content {
+    padding: 4rem 7rem;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: flex-start;
+    gap: 2rem;
+}
+#main > .logout > .logoutDialog > .content > .text {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    gap: 2rem;
+    padding-top: 1rem;
+}
+#main > .logout > .logoutDialog > .content > .text > .main {
+    font-size: 1.6rem;
+    font-weight: 100;
+    color: #ffffff;
+}
+#main > .logout > .logoutDialog > .content > .text > .line {
+    height: 0.0625rem;
+    width: 10rem;
+    background-color: #cccccc;
+}
+#main > .logout > .logoutDialog > .content > .text > .sub {
+    font-size: 1.4rem;
+    font-weight: normal;
+    color: #cccccc;
+}
+#main > .logout > .logoutDialog > .content > .button-container {
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    justify-content: center;
+    gap: 2rem;
+}
+#main > .logout > .logoutDialog > .content > .button-container > button {
+    outline: none;
+    border: none;
+    border-radius: 0.25rem;
+    padding: 1rem 2rem;
+    color: #ffffff;
+    font-weight: bold;
+}
+#main > .logout > .logoutDialog > .content > .button-container > button[name=confirm] {
+    background-color: #2196f3;
+}
+#main > .logout > .logoutDialog > .content > .button-container > button[name=confirm]:hover {
+    background-color: #1e81cf;
+}
+#main > .logout > .logoutDialog > .content > .button-container > button[name=confirm]:active {
+    background-color: #1668a8;
+}
+#main > .logout > .logoutDialog > .content > .button-container > button[name=cancel] {
+    background-color: #a0a0a0;
+}
+#main > .logout > .logoutDialog > .content > .button-container > button[name=cancel]:hover {
+    background-color: #8a8a8a;
+}
+#main > .logout > .logoutDialog > .content > .button-container > button[name=cancel]:active {
+    background-color: #6e6e6e;
+}
+#main > .logout.--visible {
+    display: flex;
+}
 #footer {
-    height: 53rem;
     background-color: #202020;
     padding: 2.3rem 6.7rem;
     box-sizing: border-box;
+    margin-bottom: 0;
 }
 #footer > .social-container {
     display: flex;

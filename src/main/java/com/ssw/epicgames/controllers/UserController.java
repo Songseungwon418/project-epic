@@ -35,6 +35,15 @@ public class UserController {
         return modelAndView;
     }
 
+
+    @RequestMapping(value = "/logout", method = RequestMethod.GET)
+    public ModelAndView getLogout(HttpSession session) {
+        session.setAttribute("user", null);
+        ModelAndView modelAndView = new ModelAndView();
+        modelAndView.setViewName("redirect:/");
+        return modelAndView;
+    }
+
     @RequestMapping(value = "/login", method = RequestMethod.GET, produces = MediaType.APPLICATION_JSON_VALUE)
     @ResponseBody
     public String getLogin(HttpSession session, UserEntity user) {

@@ -1,5 +1,6 @@
 package com.ssw.epicgames.controllers;
 
+import com.ssw.epicgames.DTO.GameDTO;
 import com.ssw.epicgames.entities.GameEntity;
 import com.ssw.epicgames.entities.GenreEntity;
 import com.ssw.epicgames.services.GameService;
@@ -23,17 +24,15 @@ public class GameController {
         this.gameService = gameService;
     }
 
-
-    //region 장르별 페이지
-    @RequestMapping(value = "/genre", method = RequestMethod.GET, produces = MediaType.TEXT_HTML_VALUE)
-    public ModelAndView getGenre(@RequestParam(value = "tag", required = false) String tag) {
+    //region 게임 상세 페이지
+    @RequestMapping(value = "/page", method = RequestMethod.GET, produces = MediaType.TEXT_HTML_VALUE)
+    public ModelAndView getPage(@RequestParam(value = "index") int index) {
         ModelAndView modelAndView = new ModelAndView();
-        GenreEntity[] genres = this.gameService.getGenres();
-        modelAndView.addObject("genres", genres);
-        modelAndView.setViewName("game/genre");
+        GameDTO gameDetails = this.gameService.getGameDetails(index);
+        modelAndView.addObject("gameDetails", gameDetails);
+        modelAndView.setViewName("game/page");
         return modelAndView;
     }
-
     //endregion
 
     //region 찾아보기 페이지

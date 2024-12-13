@@ -79,4 +79,58 @@
         FROM `epic_games`.`game`
         WHERE `index` = #{index}
     </select>
+
+    <select id="selectGameRatingByIndex" resultType="com.ssw.epicgames.entities.GameRatingEntity">
+        SELECT grac AS `grac`,
+               title AS `title`,
+               sub_title AS `subTitle`,
+               `rating`.description AS `description`,
+               `rating`.logo AS `logo`
+        FROM `epic_games`.`game_rating` AS `rating`
+                 JOIN `epic_games`.`game` `g` on `rating`.`grac` = `g`.`gr_grac`
+        WHERE g.`index` = #{index};
+    </select>
+
+    <select id="selectGameMediaByIndex" resultType="com.ssw.epicgames.entities.MediaEntity">
+        SELECT media.no AS `no`,
+               media.image AS `image`,
+               media.video AS `video`
+        FROM `epic_games`.`media` AS `media`
+                 JOIN `epic_games`.`game_media_mapping` AS `gmm` on `media`.`no` = `gmm`.`media_no`
+        WHERE `game_index` = #{index};
+    </select>
+    <select id="selectGameGenreByIndex" resultType="com.ssw.epicgames.entities.GenreEntity">
+        SELECT genre.tag AS `tag`,
+               genre.name AS `name`
+        FROM `epic_games`.`genre`
+                 JOIN `epic_games`.`game_genre_mapping` `ggm` on `genre`.`tag` = `ggm`.`genre_tag`
+        WHERE `game_index` = #{index};
+    </select>
+    <select id="selectGameLanguageByIndex" resultType="com.ssw.epicgames.entities.LanguageEntity">
+        SELECT language.id AS `id`,
+               language.code AS `code`,
+               language.name AS `name`
+        FROM `epic_games`.`language`
+                 JOIN `epic_games`.`game_language_mapping` `glm` on `language`.`id` = `glm`.`language_id`
+        WHERE `game_index` = #{index};
+    </select>
+    <select id="selectGameCategoryByIndex" resultType="com.ssw.epicgames.entities.CategoryEntity">
+        SELECT category.code AS `code`,
+               category.content AS `content`,
+               category.image AS `image`
+        FROM `epic_games`.`category`
+                 JOIN `epic_games`.`game_category_mapping` `gcm` on `category`.`code` = `gcm`.`catg_code`
+        WHERE `game_index` = #{index};
+    </select>
+    <select id="selectGameAchievementByIndex" resultType="com.ssw.epicgames.entities.AchievementEntity">
+        SELECT achievements.id AS `id`,
+               achievements.name AS `name`,
+               achievements.reward AS `reward`,
+               achievements.logo AS `logo`
+        FROM `epic_games`.`achievements`
+                 JOIN `epic_games`.`game_achievements_mapping` `gam` on `achievements`.id = `gam`.`achievements_id`
+        WHERE `game_index` = #{index};
+    </select>
+
+
 </mapper>

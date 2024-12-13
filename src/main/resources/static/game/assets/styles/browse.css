@@ -191,6 +191,9 @@
   object-position: center;
   border-radius: 1rem;
 }
+#main > .mainSection > .game-container > .allGame > .game-wrapper > .game > .mainImage > img:hover {
+  filter: brightness(1.1);
+}
 #main > .mainSection > .game-container > .allGame > .game-wrapper > .game > .text-wrapper {
   font-size: 1.3rem;
   color: rgba(255, 255, 255, 0.6509803922);
