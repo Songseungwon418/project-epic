@@ -1,0 +1,193 @@
+#main {
+  > .mainSection {
+    width: 75%;
+    max-width: 1600px;
+    margin-left: auto;
+    margin-right: auto;
+
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    justify-content: flex-start;
+    gap: 4rem;
+    flex-grow: 1;
+    color: #ffffff;
+
+    > .myName-container {
+      width: 100%;
+      display: flex;
+      flex-direction: row;
+      align-items: center;
+      justify-content: space-between;
+      margin-bottom: 30px;
+
+      > .my-wrapper {
+        display: flex;
+        flex-direction: row;
+        align-items: center;
+        justify-content: center;
+
+        > .oneName {
+          border: 0.0625rem solid orange;
+          border-radius: 999rem;
+          background-color: orange;
+          padding: 4rem;
+          font-size: 9rem;
+          font-weight: 700;
+          margin-right: 30px;
+        }
+
+        > .nickname-wrapper {
+          display: flex;
+          flex-direction: column;
+          align-items: flex-start;
+          justify-content: flex-start;
+
+          > .nickname {
+            width: 100%;
+            font-size: 4rem;
+            font-weight: 600;
+          }
+
+          > .achievement-wrapper {
+            display: flex;
+            flex-direction: row;
+            align-items: flex-end;
+            justify-content: flex-start;
+            margin-top: 2.5rem;
+
+            > .achievement {
+              display: flex;
+              flex-direction: column;
+              align-items: flex-start;
+              justify-content: space-between;
+              margin: 0 40px 0 0;
+
+              > .text {
+                color: #ffffffa6;
+              }
+
+              > .count {
+                display: flex;
+                flex-direction: row;
+                align-items: center;
+                justify-content: flex-start;
+                margin-top: 10px;
+
+                > svg {
+                  width: 25px;
+                  height: 25px;
+                  margin: 0 10px 0 0;
+                }
+
+                > .value {
+                  font-size: 24px;
+                  font-weight: 900;
+                }
+              }
+            }
+          }
+        }
+      }
+
+
+      > .-spring {
+        flex-grow: 1;
+      }
+
+      > .level {
+        display: flex;
+        gap: 2rem;
+
+        > .button {
+          font-size: 1.5rem;
+          font-weight: 700;
+          padding: 2.3rem;
+          border: 0.0625rem solid;
+          border-radius: 2rem;
+
+          &:hover {
+              background-color: lighten(#101014, 15%);
+          }
+
+          &:active {
+            background-color: lighten(#101014, 20%);
+          }
+        }
+      }
+    }
+
+    > .center-bar {
+      display: flex;
+      flex-direction: row;
+      gap: 3rem;
+      font-size: 14px;
+      font-weight: 600;
+
+      > .achievement {
+        text-decoration: underline;
+        text-underline-offset: 1.2rem;
+        text-decoration-color: #26bbff;
+        text-decoration-thickness: 1.5px;
+      }
+
+      > .friends {
+        color: #ffffffa6;
+      }
+    }
+
+    > .filter-bar {
+      width: 100%;
+      display: flex;
+      flex-direction: row;
+      gap: 1.7rem;
+      margin: 50px 0 10px;
+
+      > .text {
+        color: #ffffffa6;
+        font-size: 14px;
+      }
+
+      @keyframes rotateDownToUp {
+        from {
+          transform: rotate(0deg);
+        }
+        to {
+          transform: rotate(180deg);
+        }
+      }
+
+      @keyframes rotateUpToDown {
+        from {
+          transform: rotate(180deg);
+        }
+        to {
+          transform: rotate(0deg);
+        }
+      }
+
+      .filter {
+        display: flex;
+        flex-direction: row;
+        gap: 1rem;
+        cursor: pointer;
+      }
+
+      .filter-text {
+        font-size: 14px;
+      }
+
+      .filter img {
+        width: 10px;
+        height: 10px;
+        margin-top: 2px;
+        transform: rotate(0deg); /* 초기 상태 */
+        transition: transform 0.3s ease; /* 부드러운 회전 효과 */
+      }
+
+      .filter.active img {
+        transform: rotate(180deg); /* 활성화 시 회전 */
+      }
+    }
+  }
+}
