@@ -144,6 +144,10 @@ body {
               background-color: #202024FF;
               border-radius: 12px;
 
+              &.remove {
+                display: none;
+              }
+
               > .img-container {
                 grid-area: image;
                 margin-right: 20px;

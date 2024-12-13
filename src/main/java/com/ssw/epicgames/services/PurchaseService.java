@@ -214,6 +214,32 @@ public class PurchaseService {
         }
         return CommonResult.SUCCESS;
     }
+
+    /** 위시리스트 제거 취소 시 */
+    public Result updateIsDeleteWishlist(int index) {
+        if (index < 1) {
+            return CommonResult.FAILURE;
+        }
+        System.out.println(index);
+        // 위시리스트 가져옴
+        WishlistEntity dbWishlist = this.purchaseMapper.selectAllWishlistByIndex(index);
+        System.out.println(dbWishlist.getIndex());
+        System.out.println(dbWishlist.getGameIndex());
+        System.out.println(dbWishlist.isDeleted());
+        //위시리스트에 없음
+        if (dbWishlist == null) {
+            return PurchaseResult.FAILURE_NOT_FOUND;
+        }
+        // 위시리스트에는 있는데, 제거되지않았음.
+        if (dbWishlist.isDeleted()) {
+            return PurchaseResult.FAILURE_DUPLICATE_WISHLIST;
+        }
+        dbWishlist.setDeleted(false); // 삭제 취소(isDelete를 false로)
+        if (this.purchaseMapper.updateWishlistByIndex(dbWishlist) <= 0){
+            throw new TransactionalException("오류: 위시리스트 삭제 실패");
+        }
+        return CommonResult.SUCCESS;
+    }
     //endregion
 
     /** 실제로 유저와 게임이 장바구니에 있는 지(중복인지) 체크 */

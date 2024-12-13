@@ -126,6 +126,9 @@ body {
   background-color: #202024;
   border-radius: 12px;
 }
+.main > #view-container > .view-wrapper > .view-content-container > .view-content-wrapper > .game-list > .game-card.remove {
+  display: none;
+}
 .main > #view-container > .view-wrapper > .view-content-container > .view-content-wrapper > .game-list > .game-card > .img-container {
   grid-area: image;
   margin-right: 20px;

@@ -96,14 +96,10 @@ function filterGenre(element) {
             // 체크 아이콘 생성
             const checkIconSpan = document.createElement('span');
             checkIconSpan.classList.add('check-icon');
-            const svg = document.createElementNS('http://www.w3.org/2000/svg', 'svg');
-            svg.setAttribute('viewBox', '0 0 10 8');
-            svg.innerHTML = `<g stroke="none" stroke-width="1" fill="none" fill-rule="evenodd">
-                                <g transform="translate(-320.000000, -202.000000)" stroke="currentColor" stroke-width="2">
-                                    <polyline points="321 205.569101 323.596499 208 329 203"></polyline>
-                                </g>
-                            </g>`;
-            checkIconSpan.appendChild(svg);
+            checkIconSpan.innerHTML = `<svg xmlns="http://www.w3.org/2000/svg" class="svg css-uwwqev"
+                                                 viewBox="0 0 10 8"><g stroke="none" stroke-width="1" fill="none" fill-rule="evenodd"><g transform="translate(-320.000000, -202.000000)" stroke="currentColor" stroke-width="2"><polyline
+                                                    points="321 205.569101 323.596499 208 329 203"></polyline></g></g>
+                                            </svg>`;
 
             // 생성된 요소들을 DOM에 추가
             checkboxDiv.appendChild(labelSpan);

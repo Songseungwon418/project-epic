@@ -27,10 +27,7 @@ public class PurchaseController {
     //region 장바구니 관련
     /** 장바구니 화면 출력 */
     @GetMapping(value = "/cart", produces = MediaType.TEXT_HTML_VALUE)
-    public ModelAndView getCart(
-            @SessionAttribute(value = "user", required = false) UserEntity user
-    ) {
-        System.out.println(user);
+    public ModelAndView getCart(@SessionAttribute(value = "user", required = false) UserEntity user) {
         CartDTO[] carts = this.purchaseService.getCarts(user);
         ModelAndView mav = new ModelAndView();
         if (carts != null) {
@@ -54,7 +51,7 @@ public class PurchaseController {
         if (index <= 0) {
             result = this.purchaseService.addToCart(user, gameIndex);
         }
-        else {
+        else { // 위시리스트에서 장바구니 담기
             result = this.purchaseService.addToCart(user, gameIndex, index, userEmail);
         }
         JSONObject response = new JSONObject();
@@ -102,7 +99,7 @@ public class PurchaseController {
         if (index <= 0) {
             result = this.purchaseService.addToWishlist(user, gameIndex);
         }
-        else {
+        else { // 장바구니에서 위시리스트 이동 시
             result = this.purchaseService.addToWishlist(user, gameIndex, index, userEmail);
         }
         JSONObject response = new JSONObject();
@@ -119,6 +116,17 @@ public class PurchaseController {
         response.put(Result.NAME, result.nameToLower());
         return response.toString();
     }
+
+    /** 위시리스트 제거 취소 */
+    @PatchMapping(value = "/wishlist/cancel", produces = MediaType.APPLICATION_JSON_VALUE)
+    @ResponseBody
+    public String cancelDeleteWishlist(@RequestParam(value = "index", required = true) int index){
+        Result result = this.purchaseService.updateIsDeleteWishlist(index);
+        JSONObject response = new JSONObject();
+        response.put(Result.NAME, result.nameToLower());
+        return response.toString();
+    }
+
     //endregion
 
     //region 결제 관련

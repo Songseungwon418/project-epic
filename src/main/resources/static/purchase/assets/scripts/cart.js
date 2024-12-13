@@ -3,6 +3,20 @@ const $openModalBtn = document.getElementById('openModalBtn');
 const modal = document.getElementById('cart-pay-modal');
 const iframe = document.getElementById('paymentIframe');
 
+// 가격 포맷
+window.onload = function() {
+    const $priceElement = document.querySelectorAll('.price');
+    $priceElement.forEach( $price => {
+        let price = parseInt($price.textContent, 10);
+        if (price === 0) {
+            $price.textContent = '무료';
+        } else {
+            const formattedPrice = price.toLocaleString();
+            $price.textContent = '￦' + formattedPrice;
+        }
+    });
+}
+
 if($openModalBtn !== null){
     // 모달을 여는 함수
     $openModalBtn.addEventListener('click', function() {
