@@ -1,21 +1,8 @@
+//region 모달창(구매버튼 누를 시) 관련
 // 버튼 클릭 시 모달 열기
 const $openModalBtn = document.getElementById('openModalBtn');
 const modal = document.getElementById('cart-pay-modal');
 const iframe = document.getElementById('paymentIframe');
-
-// 가격 포맷
-window.onload = function() {
-    const $priceElement = document.querySelectorAll('.price');
-    $priceElement.forEach( $price => {
-        let price = parseInt($price.textContent, 10);
-        if (price === 0) {
-            $price.textContent = '무료';
-        } else {
-            const formattedPrice = price.toLocaleString();
-            $price.textContent = '￦' + formattedPrice;
-        }
-    });
-}
 
 if($openModalBtn !== null){
     // 모달을 여는 함수
@@ -44,6 +31,7 @@ if($openModalBtn !== null){
         }
     });
 }
+//endregion
 
 //region 제거 버튼 누를 시
 {

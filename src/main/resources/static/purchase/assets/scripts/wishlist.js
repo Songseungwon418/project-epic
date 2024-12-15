@@ -1,3 +1,4 @@
+
 //region 필터관련
 // 장르 목록 서버에서 가져오기
 if(document.querySelector('.filter-list-content') != null) {
@@ -200,7 +201,6 @@ function toggleFilterList(btn) {
     }));
 }
 //endregion
-
 
 //region 장바구니 담기 버튼을 누를 시
 {
