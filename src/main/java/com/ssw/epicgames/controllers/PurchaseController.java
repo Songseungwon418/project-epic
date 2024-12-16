@@ -2,9 +2,7 @@ package com.ssw.epicgames.controllers;
 
 import com.ssw.epicgames.DTO.CartDTO;
 import com.ssw.epicgames.DTO.WishlistDTO;
-import com.ssw.epicgames.entities.CartEntity;
 import com.ssw.epicgames.entities.UserEntity;
-import com.ssw.epicgames.entities.WishlistEntity;
 import com.ssw.epicgames.resutls.Result;
 import com.ssw.epicgames.services.PurchaseService;
 import org.json.JSONObject;
@@ -73,9 +71,7 @@ public class PurchaseController {
     //region 위시리스트 관련
     /** 위시리스트 화면 출력 */
     @GetMapping(value = "/wishlist", produces = MediaType.TEXT_HTML_VALUE)
-    public ModelAndView getWishlist(
-            @SessionAttribute(value = "user", required = false) UserEntity user
-    ) {
+    public ModelAndView getWishlist(@SessionAttribute(value = "user", required = false) UserEntity user) {
         WishlistDTO[] wishlists =this.purchaseService.getWishlists(user);
         ModelAndView mav = new ModelAndView();
         if (wishlists != null) {
@@ -126,18 +122,23 @@ public class PurchaseController {
         response.put(Result.NAME, result.nameToLower());
         return response.toString();
     }
-
     //endregion
 
     //region 결제 관련
     /** 결재 화면 출력 */
     @GetMapping(value = "/pay", produces = MediaType.TEXT_HTML_VALUE)
-    public ModelAndView getPay() {
+    public ModelAndView getPay(@SessionAttribute(value = "user", required = false) UserEntity user) {
+        CartDTO[] carts = this.purchaseService.getCarts(user);
         ModelAndView mav = new ModelAndView();
+        if (carts != null) {
+            mav.addObject("user", user);
+            mav.addObject("carts", carts);
+        }
         mav.setViewName("purchase/pay");
         return mav;
     }
 
+    /** 결재 완료(주문 성공 시) 화면 출력 */
     @GetMapping(value = "/paysuccess", produces = MediaType.TEXT_HTML_VALUE)
     public ModelAndView getPaysuccess() {
         ModelAndView mav = new ModelAndView();

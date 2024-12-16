@@ -1,6 +1,7 @@
 package com.ssw.epicgames.services;
 
 import com.ssw.epicgames.DTO.CartDTO;
+import com.ssw.epicgames.DTO.GameDTO;
 import com.ssw.epicgames.DTO.WishlistDTO;
 import com.ssw.epicgames.entities.*;
 import com.ssw.epicgames.exceptions.TransactionalException;
@@ -67,7 +68,7 @@ public class PurchaseService {
                     .price(price) // 가격 정보
                     .discountTotalPrice(discountTotalPrice) // 총 할인 가격
                     .totalPrice(totalPrice) // 총 가격
-                    .duplicateWishlist(DuplicationCheckWishlist(user.getEmail(), games[i].getIndex())) // 위시리스트에 있음 true
+                    .duplicateWishlist(DuplicationCheckWishlist(user.getEmail(), games[i].getIndex()))// 위시리스트에 있음 true
                     .build(); // 보낼 장바구니 하나씩 집어넣기
         }
         return cartDTOS; // 장바구니들 반환

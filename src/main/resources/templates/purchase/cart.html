@@ -121,7 +121,7 @@
                         <div class="cart-price">
                             <div class="price-wrapper -sale">
                                 <span class="title">할인 금액</span>
-                                <span class="price content">-[[${carts[carts.length - 1].discountTotalPrice}]]</span>
+                                <span class="price content -minus" th:text="${carts[carts.length - 1].discountTotalPrice}"></span>
                             </div>
                         </div>
                         <div class="cart-price">
