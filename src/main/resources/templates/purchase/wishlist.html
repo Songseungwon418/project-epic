@@ -102,8 +102,15 @@
                                 <a class="title" href="#" th:text="${wishlist.getGame().getName()}"></a>
                             </div>
                             <div class="price-container">
-                                <span class="price" th:text="${wishlist.getGame().getPrice() == 0 ? '무료' : wishlist.getGame().getPrice()}"></span>
-                                <span class="info_text" th:if="${wishlist.getGame().getPrice() == 0}">앱 내 구매가 포함될 수도 있습니다</span>
+                                <div class="price-wrapper">
+                                    <div class="discount-per" th:if="${wishlist.price.discountPrice != 0}">
+                                        <span class="discount-per-text">-[[${wishlist.price.discountPer}]]%</span>
+                                        <span class="price -discount" th:text="${wishlist.price.discountPrice}"></span>
+                                    </div>
+                                    <span class="price" th:text="${wishlist.price.currentPrice == 0 ? '무료' : wishlist.price.currentPrice}"></span>
+                                </div>
+                                <span class="info_text" th:if="${wishlist.price.currentPrice == 0}">앱 내 구매가 포함될 수도 있습니다</span>
+                                <span class="info_text" th:if="${wishlist.price.discountPrice != 0}">[[${#temporals.format(wishlist.price.getEndDate(), 'yyyy.MM.dd. HH:mm')} + ' 할인 종료']]</span>
                             </div>
                             <div class="ratings-container">
                                 <a href="https://www.globalratings.com/ratingsguide.aspx#grac" class="link"
@@ -121,7 +128,7 @@
                                 </a>
                             </div>
                             <div class="content-and-btn">
-                                <div class="refund-container" th:if="${wishlist.getGame().getPrice() != 0}">
+                                <div class="refund-container" th:if="${wishlist.price.currentPrice != 0}">
                                     <span class="text">셀프 환불</span>
                                     <div class="icon-wrapper">
                                         <span class="info_text">환불은 72시간 이내에 가능합니다.</span>
