@@ -7,25 +7,17 @@ const iframe = document.getElementById('paymentIframe');
 if($openModalBtn !== null){
     // 모달을 여는 함수
     $openModalBtn.addEventListener('click', function() {
+        Loading.show();
         // 모달을 보이도록 설정
         iframe.src = '/purchase/pay';
         modal.style.display = 'flex';
         document.body.style.overflow = 'hidden';
 
-        let cartIndexes = [];
-        let gameIndexs = [];
-        const $gameCards = document.querySelectorAll('.game-card');
-        $gameCards.forEach($gameCard => {
-            const $cartIndexTag = $gameCard.querySelector(':scope > .info-data > .cart-index');
-            const $gameIndexTag = $gameCard.querySelector(':scope > .info-data > .game-index');
-            const cartIndex = $cartIndexTag.innerText;
-            const gameIndex = $cartIndexTag.innerText;
-            cartIndexes.push(cartIndex);
-            gameIndexs.push(gameIndex);
-        });
-        const formData = new FormData();
 
-
+        // iframe이 로드되면 로딩 화면 숨기기
+        iframe.onload = function() {
+            Loading.hide();
+        };
     });
 
 // 모달 외부 클릭 시 닫기

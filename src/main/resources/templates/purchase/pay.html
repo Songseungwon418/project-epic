@@ -16,7 +16,7 @@
 <section class="pay-page">
     <div class="pay-container">
         <section id="loading-container">
-            <div id="loading" class="loading-message">
+            <div id="loading" class="loading-message -visible">
                 <div class="loading-close-btn-container">
                     <div class="loading-close" role="button" onclick="attemptCancel();">×</div>
                 </div>
@@ -111,6 +111,11 @@
                 <h2 class="title">주문 요약</h2>
                 <div class="pay-summaries-container" id="pay-summaries-container" th:if="${carts != null && carts.length > 0}">
                     <div class="pay-content" th:each="cart : ${carts}">
+                        <div hidden="hidden" class="info-data">
+                            <span class="cart-index" th:text="${cart.getCart().getIndex()}"></span>
+                            <span class="game-index" th:text="${cart.getGame().getIndex()}"></span>
+                            <span class="user-email" th:text="${cart.getCart().getUserEmail()}"></span>
+                        </div>
                         <div class="pay-content-info">
                             <h2 class="pay-title" th:text="${cart.getGame().getName()}"></h2>
                             <p class="pay-author" th:text="${cart.getGame().getCompany()}"></p>
@@ -166,7 +171,7 @@
                         <!-- 최종 사용자 라이선스 계약페이지 구현? 생략? -->
                         <span class="payment-order-confirm-eula">아래 "주문하기"을(를) 클릭하면 본인은 만 19세가 넘는 성인이자 해당 결제 수단을 사용할 권리가 있으며 <a target="_blank" class="highlight" href="#">최종 사용자 라이선스 계약</a>에 동의한다는 뜻입니다.
                         </span>
-                        <button class="payment-btn">주문하기</button>
+                        <button class="payment-btn" id="payment-btn">주문하기</button>
                     </div>
                 </div>
             </div>
