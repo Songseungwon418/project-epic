@@ -3,6 +3,7 @@ package com.ssw.epicgames.controllers;
 import com.ssw.epicgames.DTO.CartDTO;
 import com.ssw.epicgames.DTO.WishlistDTO;
 import com.ssw.epicgames.entities.UserEntity;
+import com.ssw.epicgames.resutls.CommonResult;
 import com.ssw.epicgames.resutls.Result;
 import com.ssw.epicgames.services.PurchaseService;
 import org.json.JSONObject;
@@ -136,6 +137,25 @@ public class PurchaseController {
         }
         mav.setViewName("purchase/pay");
         return mav;
+    }
+
+    @PostMapping(value = "/pay/confirm", produces = MediaType.APPLICATION_JSON_VALUE)
+    @ResponseBody
+    public String confirmPay(
+            @SessionAttribute(value = "user", required = true) UserEntity user,
+            @RequestParam(value = "userEmail", required = true) String userEmail
+    ){
+        Result result;
+        // 로그인이 안되었거나 로그인 한 유저와 구매 요청한 유저가 다를 때
+        if (user == null || !userEmail.equals(user.getEmail())) {
+            result = CommonResult.FAILURE;
+        }else {
+            // db에 장바구니 삭제 및 주문 내역 삽입 동작 구현 필요
+            result = CommonResult.SUCCESS;
+        }
+        JSONObject response = new JSONObject();
+        response.put(Result.NAME, result.nameToLower());
+        return response.toString();
     }
 
     /** 결재 완료(주문 성공 시) 화면 출력 */
