@@ -1,9 +1,12 @@
 package com.ssw.epicgames.mappers;
 
 import com.ssw.epicgames.entities.CartEntity;
+import com.ssw.epicgames.entities.PurchaseEntity;
 import com.ssw.epicgames.entities.WishlistEntity;
 import org.apache.ibatis.annotations.Mapper;
 import org.apache.ibatis.annotations.Param;
+
+import java.util.List;
 
 @Mapper
 public interface PurchaseMapper {
@@ -22,7 +25,7 @@ public interface PurchaseMapper {
     /**
      * 유저에 해당하는 장바구니 목록들 조회
      */
-    CartEntity[] selectCartByUserEmail(@Param("userEmail") String userEmail);
+    CartEntity[] selectCartByUserEmail(@Param("user_email") String user_email);
 
     /**
      * 유저 이메일 및 게임 번호로 장바구니 조회
@@ -62,4 +65,7 @@ public interface PurchaseMapper {
     WishlistEntity selectWishlistByIndex(@Param("index") int index);
 
     // endregion
+
+    List<PurchaseEntity> getPurchasesByUserEmail(@Param("userEmail") String userEmail);
+//    PurchaseEntity[] selectPurchaseByUserEmail(@Param("userEmail") String userEmail);
 }

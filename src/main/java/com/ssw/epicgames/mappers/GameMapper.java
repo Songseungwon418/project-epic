@@ -5,6 +5,8 @@ import com.ssw.epicgames.vos.GameVo;
 import org.apache.ibatis.annotations.Mapper;
 import org.apache.ibatis.annotations.Param;
 
+import java.util.List;
+
 @Mapper
 public interface GameMapper {
 
@@ -27,4 +29,6 @@ public interface GameMapper {
     CategoryEntity[] selectGameCategoryByIndex(@Param("index") int index);
 
     AchievementEntity[] selectGameAchievementByIndex(@Param("index") int index);
+
+    List<GameEntity> getGamesByUserEmail(@Param("userEmail") String userEmail);
 }

@@ -4,6 +4,8 @@ import com.ssw.epicgames.entities.UserEntity;
 import org.apache.ibatis.annotations.Mapper;
 import org.apache.ibatis.annotations.Param;
 
+import java.util.List;
+
 @Mapper
 public interface UserMapper {
     // 회원가입(user테이블에 insert)
@@ -17,6 +19,7 @@ public interface UserMapper {
 
     // 동일 닉네임이 있는지 구분용
     UserEntity selectUserByNickname(@Param("nickname") String nickname);
+
 
     int updateUser(UserEntity user);
 }

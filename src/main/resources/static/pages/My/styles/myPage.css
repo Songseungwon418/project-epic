@@ -1,0 +1,231 @@
+@charset "UTF-8";
+#main > .mainSection {
+  width: 75%;
+  max-width: 1600px;
+  margin-left: auto;
+  margin-right: auto;
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  justify-content: flex-start;
+  flex-grow: 1;
+  color: #ffffff;
+}
+#main > .mainSection > .myName-container {
+  width: 100%;
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  justify-content: space-between;
+  margin-bottom: 30px;
+}
+#main > .mainSection > .myName-container > .my-wrapper {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  justify-content: center;
+}
+#main > .mainSection > .myName-container > .my-wrapper > .oneName {
+  border: 0.0625rem solid orange;
+  border-radius: 999rem;
+  background-color: orange;
+  padding: 4rem;
+  font-size: 9rem;
+  font-weight: 700;
+  margin-right: 30px;
+}
+#main > .mainSection > .myName-container > .my-wrapper > .nickname-wrapper {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  justify-content: flex-start;
+}
+#main > .mainSection > .myName-container > .my-wrapper > .nickname-wrapper > .nickname {
+  width: 100%;
+  font-size: 4rem;
+  font-weight: 600;
+}
+#main > .mainSection > .myName-container > .my-wrapper > .nickname-wrapper > .achievement-wrapper {
+  display: flex;
+  flex-direction: row;
+  align-items: flex-end;
+  justify-content: flex-start;
+  margin-top: 2.5rem;
+}
+#main > .mainSection > .myName-container > .my-wrapper > .nickname-wrapper > .achievement-wrapper > .achievement {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  justify-content: space-between;
+  margin: 0 40px 0 0;
+}
+#main > .mainSection > .myName-container > .my-wrapper > .nickname-wrapper > .achievement-wrapper > .achievement > .text {
+  color: rgba(255, 255, 255, 0.6509803922);
+}
+#main > .mainSection > .myName-container > .my-wrapper > .nickname-wrapper > .achievement-wrapper > .achievement > .count {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  justify-content: flex-start;
+  margin-top: 10px;
+}
+#main > .mainSection > .myName-container > .my-wrapper > .nickname-wrapper > .achievement-wrapper > .achievement > .count > svg {
+  width: 25px;
+  height: 25px;
+  margin: 0 10px 0 0;
+}
+#main > .mainSection > .myName-container > .my-wrapper > .nickname-wrapper > .achievement-wrapper > .achievement > .count > .value {
+  font-size: 24px;
+  font-weight: 900;
+}
+#main > .mainSection > .myName-container > .-spring {
+  flex-grow: 1;
+}
+#main > .mainSection > .myName-container > .level {
+  display: flex;
+  gap: 2rem;
+}
+#main > .mainSection > .myName-container > .level > .button {
+  font-size: 1.5rem;
+  font-weight: 700;
+  padding: 2.3rem;
+  border: 0.0625rem solid;
+  border-radius: 2rem;
+}
+#main > .mainSection > .myName-container > .level > .button:hover {
+  background-color: rgb(50, 50, 62.5);
+}
+#main > .mainSection > .myName-container > .level > .button:active {
+  background-color: rgb(61.3333333333, 61.3333333333, 76.6666666667);
+}
+#main > .mainSection > .center-bar {
+  display: flex;
+  flex-direction: row;
+  gap: 3rem;
+  font-size: 14px;
+  font-weight: 600;
+}
+#main > .mainSection > .center-bar > .achievement {
+  text-decoration: underline;
+  text-underline-offset: 1.2rem;
+  text-decoration-color: #26bbff;
+  text-decoration-thickness: 1.5px;
+}
+#main > .mainSection > .center-bar > .friends {
+  color: rgba(255, 255, 255, 0.6509803922);
+}
+#main > .mainSection > .filter-bar {
+  width: 100%;
+  display: flex;
+  flex-direction: row;
+  gap: 1.7rem;
+  margin: 50px 0 10px;
+}
+#main > .mainSection > .filter-bar > .text {
+  color: rgba(255, 255, 255, 0.6509803922);
+  font-size: 14px;
+}
+@keyframes rotateDownToUp {
+  from {
+    transform: rotate(0deg);
+  }
+  to {
+    transform: rotate(180deg);
+  }
+}
+@keyframes rotateUpToDown {
+  from {
+    transform: rotate(180deg);
+  }
+  to {
+    transform: rotate(0deg);
+  }
+}
+#main > .mainSection > .filter-bar .filter {
+  display: flex;
+  flex-direction: row;
+  gap: 1rem;
+  cursor: pointer;
+}
+#main > .mainSection > .filter-bar .filter-text {
+  font-size: 14px;
+}
+#main > .mainSection > .filter-bar .filter img {
+  width: 10px;
+  height: 10px;
+  margin-top: 2px;
+  transform: rotate(0deg); /* 초기 상태 */
+  transition: transform 0.3s ease; /* 부드러운 회전 효과 */
+}
+#main > .mainSection > .filter-bar .filter.active img {
+  transform: rotate(180deg); /* 활성화 시 회전 */
+}
+#main > .mainSection > .game {
+  width: 100%;
+  display: flex;
+  flex-direction: row;
+  padding: 30px 0;
+}
+#main > .mainSection > .game:hover {
+  background-color: #4d4d4d;
+}
+#main > .mainSection > .game:active {
+  background-color: rgb(38.6666666667, 38.6666666667, 48.3333333333);
+}
+#main > .mainSection > .game > .game-img {
+  width: 28.54rem;
+  height: 16.1rem;
+}
+#main > .mainSection > .game > .game-wrapper {
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  justify-content: space-between;
+  padding: 0 35px 20px 20px;
+}
+#main > .mainSection > .game > .game-wrapper > .game-name {
+  font-size: 20px;
+  font-weight: 600;
+}
+#main > .mainSection > .game > .game-wrapper > .achievement {
+  display: flex;
+  flex-direction: row;
+  gap: 3.5rem;
+}
+#main > .mainSection > .game > .game-wrapper > .achievement > .achievement-progress {
+  display: flex;
+  flex-direction: column;
+  gap: 1.8rem;
+}
+#main > .mainSection > .game > .game-wrapper > .achievement > .achievement-progress > .text {
+  font-size: 14px;
+  color: rgba(255, 255, 255, 0.6509803922);
+}
+#main > .mainSection > .game > .game-wrapper > .achievement > .achievement-progress > .percent {
+  display: flex;
+  flex-direction: row;
+  gap: 1rem;
+}
+#main > .mainSection > .game > .game-wrapper > .achievement > .achievement-progress > .percent > .percentage {
+  font-size: 16px;
+}
+#main > .mainSection > .game > .game-wrapper > .achievement > .achievement-progress > .percent > .backslash {
+  font-weight: 100;
+}
+#main > .mainSection > .game > .game-wrapper > .achievement > .achievement-progress .progress-container {
+  width: 100%;
+  height: 5px;
+  background-color: rgba(255, 255, 255, 0.6509803922);
+  border-radius: 10px;
+  overflow: hidden;
+  position: relative;
+}
+#main > .mainSection > .game > .game-wrapper > .achievement > .achievement-progress .progress-container .bar {
+  width: 94%;
+  height: 100%;
+  background-color: #ffffff;
+  transition: width 0.3s ease;
+}
+
+/*# sourceMappingURL=myPage.css.map */
