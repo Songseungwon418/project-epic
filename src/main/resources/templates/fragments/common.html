@@ -340,7 +340,7 @@
             </div>
 
             <div class="nickname-button" th:if="${isLoggedIn}">
-                <a class="link" th:href="@{#}" target="_self">
+                <a class="link" th:href="@{'/page/my'}" target="_self">
                     <span class="circle" th:text="${#strings.substring(userNickname, 0, 1)}"></span>
                     <span class="fullname" th:text="${userNickname}"></span>
                 </a>
@@ -403,7 +403,7 @@
             <ul class="list">
                 <li class="item home"><a th:href="@{'/'}" target="_self">탐색</a></li>
                 <li class="item browse"><a th:href="@{'/game/browse'}" target="_self">찾아보기</a></li>
-                <li class="item"><a href="#" target="_self">새 소식</a></li>
+                <li class="item"><a href="#" target="_self">자유게시판</a></li>
             </ul>
             <span class="spring"></span>
             <ul class="list" th:if="${isLoggedIn}">

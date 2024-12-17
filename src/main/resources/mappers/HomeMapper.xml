@@ -4,7 +4,7 @@
         "https://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.ssw.epicgames.mappers.HomeMapper">
 
-    <select id="selectNewGames" resultType="com.ssw.epicgames.entities.HomeEntity">
+    <select id="selectNewGames" resultType="com.ssw.epicgames.vos.GameVo">
         SELECT `index` AS `index`,
                `name` AS `name`,
                `price` AS `price`,
@@ -14,7 +14,7 @@
         LIMIT 8
     </select>
 
-    <select id="selectSaleGames" resultType="com.ssw.epicgames.entities.HomeEntity">
+    <select id="selectSaleGames" resultType="com.ssw.epicgames.vos.GameVo">
         SELECT
             g.`index` AS `index`,
             g.`name` AS `name`,
@@ -33,6 +33,5 @@
           AND d.`active` = 1 AND g.`price` != 0
         ORDER BY `open_date`;
     </select>
-
 
 </mapper>
