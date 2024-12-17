@@ -1,7 +1,7 @@
 package com.ssw.epicgames.services;
 
-import com.ssw.epicgames.entities.HomeEntity;
 import com.ssw.epicgames.mappers.HomeMapper;
+import com.ssw.epicgames.vos.GameVo;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -15,11 +15,11 @@ public class HomeService {
         this.homeMapper = homeMapper;
     }
 
-    public HomeEntity[] getNewGames() {
+    public GameVo[] getNewGames() {
         return this.homeMapper.selectNewGames();
     }
 
-    public HomeEntity[] getSaleGames() {
+    public GameVo[] getSaleGames() {
         return this.homeMapper.selectSaleGames();
     }
 }
