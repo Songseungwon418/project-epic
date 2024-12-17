@@ -5,7 +5,9 @@ import com.ssw.epicgames.entities.GameEntity;
 import com.ssw.epicgames.entities.GenreEntity;
 import com.ssw.epicgames.services.GameService;
 import com.ssw.epicgames.services.GenreService;
+import com.ssw.epicgames.services.PriceService;
 import com.ssw.epicgames.vos.GameVo;
+import com.ssw.epicgames.vos.PriceVo;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
@@ -22,11 +24,13 @@ public class GameController {
 
     private final GameService gameService;
     private final GenreService genreService;
+    private final PriceService priceService;
 
     @Autowired
-    public GameController(GameService gameService, GenreService genreService) {
+    public GameController(GameService gameService, GenreService genreService, PriceService priceService) {
         this.gameService = gameService;
         this.genreService = genreService;
+        this.priceService = priceService;
     }
 
     @RequestMapping(value = "/cover", method = RequestMethod.GET)
@@ -47,7 +51,9 @@ public class GameController {
     public ModelAndView getPage(@RequestParam(value = "index") int index) {
         ModelAndView modelAndView = new ModelAndView();
         GameDTO gameDetails = this.gameService.getGameDetails(index);
+        PriceVo priceVo = this.priceService.discountInfo(index, gameDetails.getGame().getPrice());
         modelAndView.addObject("gameDetails", gameDetails);
+        modelAndView.addObject("priceVo", priceVo);
         modelAndView.setViewName("game/page");
         return modelAndView;
     }

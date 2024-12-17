@@ -71,3 +71,18 @@ document.addEventListener("DOMContentLoaded", function () {
 });
 
 //endregion
+
+//region 가격 양식
+document.addEventListener("DOMContentLoaded", function () {
+    // 모든 .game-price 요소를 선택
+    const $prices = document.querySelectorAll('.price');
+
+    $prices.forEach(price => {
+        const rawPrice = parseInt(price.textContent.trim(), 10);
+
+        if (!isNaN(rawPrice)) {
+            price.innerText = `￦ ${rawPrice.toLocaleString()}`;
+        }
+    });
+});
+//endregion
