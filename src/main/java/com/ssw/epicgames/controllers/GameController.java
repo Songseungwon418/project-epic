@@ -10,10 +10,12 @@ import com.ssw.epicgames.vos.GameVo;
 import com.ssw.epicgames.vos.PriceVo;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.MediaType;
+import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.servlet.ModelAndView;
 
 @Controller
@@ -29,6 +31,19 @@ public class GameController {
         this.gameService = gameService;
         this.genreService = genreService;
         this.priceService = priceService;
+    }
+
+    @RequestMapping(value = "/cover", method = RequestMethod.GET)
+    @ResponseBody
+    public ResponseEntity<byte[]> getCover(@RequestParam(value = "index") int index) {
+        GameEntity game = this.gameService.getGameByIndex(index);
+        if (game == null) {
+            return ResponseEntity.notFound().build();
+        }
+        return ResponseEntity
+                .ok()
+                .header("Content-Type", "image/jpeg")
+                .body(game.getMainImage());
     }
 
     //region 게임 상세 페이지

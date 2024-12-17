@@ -133,15 +133,14 @@
   width: 100%;
 }
 #main > .mainSection > .nickname-grid > .nickname-wrapper > .nickname > .first-nickname {
-  border: 0.0625rem solid greenyellow;
+  border: 0.0625rem solid;
   border-radius: 999rem;
-  background-color: greenyellow;
   margin: 0 20px 0 0;
   padding: 1.2rem;
+  color: rgb(245, 245, 245);
 }
 #main > .mainSection > .nickname-grid > .nickname-wrapper > .nickname > .full-name {
   font-weight: 700;
 }
-
 
 /*# sourceMappingURL=friend.css.map */

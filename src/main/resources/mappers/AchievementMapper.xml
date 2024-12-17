@@ -17,12 +17,30 @@
     <select id="getAchievementByUserEmail" resultType="com.ssw.epicgames.entities.AchievementEntity">
         SELECT a.id AS `id`,
                a.name AS `name`,
-               a.reward AS `reward`,
-               a.logo AS `logo`
+               a.reward AS `reward`
         FROM epic_games.achievements a
                  JOIN epic_games.game_achievements_mapping gam ON a.id = gam.achievements_id
                  JOIN epic_games.game g ON gam.game_index = g.index
                  JOIN epic_games.purchase p ON g.index = p.game_index
         WHERE p.user_email = #{userEmail}
+    </select>
+
+    <select id="selectMyDTOs" resultType="com.ssw.epicgames.DTO.MyDTO">
+        SELECT `TP`.`game_index`      AS `gameIndex`,
+               `TG`.`name`            AS `gameName`,
+               `TM`.`achievements_id` AS `achievementId`,
+               `TA`.`name`            AS `achievementName`
+        FROM `epic_games`.`purchase` AS `TP`
+                 LEFT JOIN `epic_games`.`game` AS `TG` ON `TP`.`game_index` = `TG`.`index`
+                 LEFT JOIN `epic_games`.`user_achievements_mapping` AS `TM` ON `TP`.`index` = `TM`.`purchase_index`
+                 LEFT JOIN `epic_games`.`achievements` AS `TA` ON `TM`.`achievements_id` = `TA`.`id`
+        WHERE `TP`.`user_email` = #{userEmail}
+    </select>
+
+    <select id="getAchievementByIndex" resultType="com.ssw.epicgames.entities.AchievementEntity">
+        SELECT id, name, reward, logo
+        FROM `epic_games`.`achievements`
+        WHERE `id` = #{index}
+        LIMIT 1
     </select>
 </mapper>
