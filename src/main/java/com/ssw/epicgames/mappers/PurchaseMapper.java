@@ -25,7 +25,7 @@ public interface PurchaseMapper {
     /**
      * 유저에 해당하는 장바구니 목록들 조회
      */
-    CartEntity[] selectCartByUserEmail(@Param("user_email") String user_email);
+    CartEntity[] selectCartByUserEmail(@Param("userEmail") String userEmail);
 
     /**
      * 유저 이메일 및 게임 번호로 장바구니 조회
