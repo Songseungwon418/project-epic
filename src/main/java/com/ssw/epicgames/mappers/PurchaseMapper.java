@@ -61,8 +61,13 @@ public interface PurchaseMapper {
     WishlistEntity selectWishlistByEmailANDGameIndex(@Param("userEmail") String userEmail,
                                                        @Param("gameIndex") int gameIndex);
 
-    /** 위시리스트 index로 위시리스트 조회 */
+    /** 위시리스트 index로 위시리스트 조회(제거되지않은 목록만) */
     WishlistEntity selectWishlistByIndex(@Param("index") int index);
+
+    /** 위시리스트 index로 위시리스트 조회(제거된 목록까지 포함) */
+    WishlistEntity selectAllWishlistByIndex(@Param("index") int index);
+
+    int insertPurchase(PurchaseEntity purchase);
 
     // endregion
 

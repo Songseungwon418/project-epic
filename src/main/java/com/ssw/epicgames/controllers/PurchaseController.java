@@ -2,9 +2,8 @@ package com.ssw.epicgames.controllers;
 
 import com.ssw.epicgames.DTO.CartDTO;
 import com.ssw.epicgames.DTO.WishlistDTO;
-import com.ssw.epicgames.entities.CartEntity;
 import com.ssw.epicgames.entities.UserEntity;
-import com.ssw.epicgames.entities.WishlistEntity;
+import com.ssw.epicgames.resutls.CommonResult;
 import com.ssw.epicgames.resutls.Result;
 import com.ssw.epicgames.services.PurchaseService;
 import org.json.JSONObject;
@@ -27,10 +26,7 @@ public class PurchaseController {
     //region 장바구니 관련
     /** 장바구니 화면 출력 */
     @GetMapping(value = "/cart", produces = MediaType.TEXT_HTML_VALUE)
-    public ModelAndView getCart(
-            @SessionAttribute(value = "user", required = false) UserEntity user
-    ) {
-        System.out.println(user);
+    public ModelAndView getCart(@SessionAttribute(value = "user", required = false) UserEntity user) {
         CartDTO[] carts = this.purchaseService.getCarts(user);
         ModelAndView mav = new ModelAndView();
         if (carts != null) {
@@ -54,7 +50,7 @@ public class PurchaseController {
         if (index <= 0) {
             result = this.purchaseService.addToCart(user, gameIndex);
         }
-        else {
+        else { // 위시리스트에서 장바구니 담기
             result = this.purchaseService.addToCart(user, gameIndex, index, userEmail);
         }
         JSONObject response = new JSONObject();
@@ -76,9 +72,7 @@ public class PurchaseController {
     //region 위시리스트 관련
     /** 위시리스트 화면 출력 */
     @GetMapping(value = "/wishlist", produces = MediaType.TEXT_HTML_VALUE)
-    public ModelAndView getWishlist(
-            @SessionAttribute(value = "user", required = false) UserEntity user
-    ) {
+    public ModelAndView getWishlist(@SessionAttribute(value = "user", required = false) UserEntity user) {
         WishlistDTO[] wishlists =this.purchaseService.getWishlists(user);
         ModelAndView mav = new ModelAndView();
         if (wishlists != null) {
@@ -102,7 +96,7 @@ public class PurchaseController {
         if (index <= 0) {
             result = this.purchaseService.addToWishlist(user, gameIndex);
         }
-        else {
+        else { // 장바구니에서 위시리스트 이동 시
             result = this.purchaseService.addToWishlist(user, gameIndex, index, userEmail);
         }
         JSONObject response = new JSONObject();
@@ -119,17 +113,50 @@ public class PurchaseController {
         response.put(Result.NAME, result.nameToLower());
         return response.toString();
     }
+
+    /** 위시리스트 제거 취소 */
+    @PatchMapping(value = "/wishlist/cancel", produces = MediaType.APPLICATION_JSON_VALUE)
+    @ResponseBody
+    public String cancelDeleteWishlist(@RequestParam(value = "index", required = true) int index){
+        Result result = this.purchaseService.updateIsDeleteWishlist(index);
+        JSONObject response = new JSONObject();
+        response.put(Result.NAME, result.nameToLower());
+        return response.toString();
+    }
     //endregion
 
     //region 결제 관련
     /** 결재 화면 출력 */
     @GetMapping(value = "/pay", produces = MediaType.TEXT_HTML_VALUE)
-    public ModelAndView getPay() {
+    public ModelAndView getPay(@SessionAttribute(value = "user", required = false) UserEntity user) {
+        CartDTO[] carts = this.purchaseService.getCarts(user);
         ModelAndView mav = new ModelAndView();
+        if (carts != null) {
+            mav.addObject("user", user);
+            mav.addObject("carts", carts);
+        }
         mav.setViewName("purchase/pay");
         return mav;
     }
 
+    @PostMapping(value = "/pay/confirm", produces = MediaType.TEXT_HTML_VALUE)
+    public String confirmPay(
+            @SessionAttribute(value = "user", required = true) UserEntity user,
+            @RequestParam(value = "userEmail", required = true) String userEmail
+    ){
+        // 로그인이 안되었거나 로그인 한 유저와 구매 요청한 유저가 다를 때
+        if (user == null || !userEmail.equals(user.getEmail())) {
+            return "/purchase/cart"; // 장바구니 페이지로
+        }else {
+            Result result = this.purchaseService.proceedToCheckout(user);
+            if (result != CommonResult.SUCCESS) { //성공이 아님 -> 실패하면
+                return "redirect:/purchase/pay"; //다시 결제페이지로
+            }
+            return "/purchase/paysuccess"; //주문 완료된 페이지로
+        }
+    }
+
+    /** 결재 완료(주문 성공 시) 화면 출력 */
     @GetMapping(value = "/paysuccess", produces = MediaType.TEXT_HTML_VALUE)
     public ModelAndView getPaysuccess() {
         ModelAndView mav = new ModelAndView();
