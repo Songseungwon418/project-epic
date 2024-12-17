@@ -14,7 +14,9 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.time.LocalDate;
 import java.time.LocalDateTime;
+import java.time.Period;
 
 
 @Service
@@ -287,7 +289,6 @@ public class PurchaseService {
          }
     }
 
-
     //region 결제 관련
     /** user 객체를 받아와서 장바구니에 있는 게임들 구매(장바구니 삭제, 구매 내역 추가) */
     @Transactional
@@ -302,6 +303,7 @@ public class PurchaseService {
         }
         // 구매 내역 삽입과 장바구니 삭제
         for (CartDTO cart: cartList) {
+
             // 구매 내역에 삽입할 내용 설정 (CartDTO 이용)
             PurchaseEntity purchase = new PurchaseEntity();
             purchase.setUserEmail(user.getEmail());//유저 이메일
