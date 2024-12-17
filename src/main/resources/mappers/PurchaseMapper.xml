@@ -125,7 +125,7 @@
     </select>
     <!-- endregion -->
 
-    <!--  region 결제 관련 -->
+<!--  region 결제 관련 -->
     <insert id="insertPurchase"
             useGeneratedKeys="true"
             keyColumn="index"
@@ -134,7 +134,7 @@
         INSERT INTO `epic_games`.`purchase` (`user_email`, `game_index`, `date`, `game_price`, `discount_amount`, `final_price`, `addr`, `deleted_at`)
         VALUES (#{userEmail}, #{gameIndex}, #{date}, #{gamePrice}, #{discountAmount}, #{finalPrice}, #{addr}, #{deletedAt})
     </insert>
-    <!-- endregion -->
+<!-- endregion -->
 
     <select id="getPurchasesByUserEmail" resultType="com.ssw.epicgames.entities.PurchaseEntity">
         SELECT p.`index` AS `index`,
@@ -162,5 +162,6 @@
 <!--        FROM epic_games.purchase-->
 <!--        WHERE user_email = #{user_email}-->
 <!--    </select>-->
+
 
 </mapper>
