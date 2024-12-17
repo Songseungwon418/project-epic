@@ -10,6 +10,7 @@
     <link rel="stylesheet" th:href="@{'/assets/styles/common.css'}">
     <script defer th:src="@{'/assets/scripts/common.js'}"></script>
     <link rel="stylesheet" th:href="@{'/purchase/assets/styles/cart_wishlist.css'}">
+    <script defer th:src="@{'/purchase/assets/scripts/purchase_common.js'}"></script>
     <script defer th:src="@{'/purchase/assets/scripts/cart.js'}"></script>
 </head>
 <body>
@@ -58,8 +59,15 @@
                                 <a class="title" th:text="${cart.getGame().getName()}" href="#"></a>
                             </div>
                             <div class="price-container">
-                                <span class="price" th:text="${cart.getGame().getPrice() == 0 ? '무료' : cart.getGame().getPrice()}"></span>
-                                <span class="info_text" th:if="${cart.getGame().getPrice() == 0}">앱 내 구매가 포함될 수도 있습니다</span>
+                                <div class="price-wrapper">
+                                    <div class="discount-per" th:if="${cart.price.discountPrice != 0}">
+                                        <span class="discount-per-text">-[[${cart.price.discountPer}]]%</span>
+                                        <span class="price -discount" th:text="${cart.price.discountPrice}"></span>
+                                    </div>
+                                    <span class="price" th:text="${cart.price.currentPrice == 0 ? '무료' : cart.price.currentPrice}"></span>
+                                </div>
+                                <span class="info_text" th:if="${cart.price.currentPrice == 0}">앱 내 구매가 포함될 수도 있습니다</span>
+                                <span class="info_text" th:if="${cart.price.discountPrice != 0}">[[${#temporals.format(cart.price.getEndDate(), 'yyyy.MM.dd. HH:mm')} + ' 할인 종료']]</span>
                             </div>
                             <div class="ratings-container">
                                 <div class="link">
@@ -75,7 +83,7 @@
                                 </div>
                             </div>
                             <div class="content-and-btn">
-                                <div class="refund-container" th:if="${cart.getGame().getPrice() != 0}">
+                                <div class="refund-container" th:if="${cart.price.currentPrice != 0}">
                                     <span class="text">셀프 환불</span>
                                     <div class="icon-wrapper">
                                         <span class="info_text">환불은 72시간 이내에 가능합니다.</span>
@@ -106,14 +114,14 @@
                         <div class="cart-price">
                             <div class="price-wrapper -standard">
                                 <span class="title">가격</span>
-                                <span class="content">₩86,700</span>
+                                <span class="price content" th:text="${carts[carts.length - 1].totalPrice + carts[carts.length - 1].discountTotalPrice}"></span>
                             </div>
 
                         </div>
                         <div class="cart-price">
                             <div class="price-wrapper -sale">
                                 <span class="title">할인 금액</span>
-                                <span class="content">-₩21,220</span>
+                                <span class="price content -minus" th:text="${carts[carts.length - 1].discountTotalPrice}"></span>
                             </div>
                         </div>
                         <div class="cart-price">
@@ -125,7 +133,7 @@
                         <div class="cart-price">
                             <div class="price-wrapper -total">
                                 <span class="title">소계</span>
-                                <span class="content">₩65,480</span>
+                                <span class="price content" th:text="${carts[carts.length - 1].totalPrice}"></span>
                             </div>
                         </div>
                         <div class="btn-wrapper">
@@ -158,14 +166,13 @@
         </div>
     </div>
 </main>
-    <!-- 모달창 -->
-    <div class="cart-pay-modal" id="cart-pay-modal">
-        <div class="modal-content">
-            <!-- iframe으로 결제 창 불러오기 -->
-            <iframe id="paymentIframe" src="" title="결제 페이지"></iframe>
-        </div>
+<!-- 모달창 -->
+<div class="cart-pay-modal" id="cart-pay-modal">
+    <div class="modal-content">
+        <!-- iframe으로 결제 창 불러오기 -->
+        <iframe id="paymentIframe" src="" title="결제 페이지"></iframe>
     </div>
-
+</div>
 <th:block th:replace="~{fragments/common.html :: footer}"></th:block>
 </body>
 </html>

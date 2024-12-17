@@ -350,7 +350,12 @@ body {
   }
 }
 
+/* 로딩창 */
 #loading-container {
+  width: 100%;
+  height: 100%;
+  z-index: 999;
+
   > .loading-message {
     max-width: 1200px;
     text-align: center;

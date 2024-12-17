@@ -1,0 +1,174 @@
+#main {
+  > .mainSection {
+    width: 75%;
+    max-width: 1600px;
+    margin-left: auto;
+    margin-right: auto;
+
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    justify-content: flex-start;
+    flex-grow: 1;
+    color: #ffffff;
+
+    > .myName-container {
+      width: 100%;
+      display: flex;
+      flex-direction: row;
+      align-items: center;
+      justify-content: space-between;
+      margin-bottom: 30px;
+
+      > .my-wrapper {
+        display: flex;
+        flex-direction: row;
+        align-items: center;
+        justify-content: center;
+
+        > .oneName {
+          border: 0.0625rem solid orange;
+          border-radius: 999rem;
+          background-color: orange;
+          padding: 4rem;
+          font-size: 9rem;
+          font-weight: 700;
+          margin-right: 30px;
+        }
+
+        > .nickname-wrapper {
+          display: flex;
+          flex-direction: column;
+          align-items: flex-start;
+          justify-content: flex-start;
+
+          > .nickname {
+            width: 100%;
+            font-size: 4rem;
+            font-weight: 600;
+          }
+
+          > .achievement-wrapper {
+            display: flex;
+            flex-direction: row;
+            align-items: flex-end;
+            justify-content: flex-start;
+            margin-top: 2.5rem;
+
+            > .achievement {
+              display: flex;
+              flex-direction: column;
+              align-items: flex-start;
+              justify-content: space-between;
+              margin: 0 40px 0 0;
+
+              > .text {
+                color: #ffffffa6;
+              }
+
+              > .count {
+                display: flex;
+                flex-direction: row;
+                align-items: center;
+                justify-content: flex-start;
+                margin-top: 10px;
+
+                > svg {
+                  width: 25px;
+                  height: 25px;
+                  margin: 0 10px 0 0;
+                }
+
+                > .value {
+                  font-size: 24px;
+                  font-weight: 900;
+                }
+              }
+            }
+          }
+        }
+      }
+
+
+      > .-spring {
+        flex-grow: 1;
+      }
+
+      > .level {
+        display: flex;
+        gap: 2rem;
+
+        > .button {
+          font-size: 1.5rem;
+          font-weight: 700;
+          padding: 2.3rem;
+          border: 0.0625rem solid;
+          border-radius: 2rem;
+
+          &:hover {
+            background-color: lighten(#101014, 15%);
+          }
+
+          &:active {
+            background-color: lighten(#101014, 20%);
+          }
+        }
+      }
+    }
+
+    > .center-bar {
+      display: flex;
+      flex-direction: row;
+      gap: 3rem;
+      font-size: 14px;
+      font-weight: 600;
+
+      > .achievement {
+        color: #ffffffa6;
+      }
+
+      > .friends {
+        text-decoration: underline;
+        text-underline-offset: 1.2rem;
+        text-decoration-color: #26bbff;
+        text-decoration-thickness: 1.5px;
+        color: #ffffff;
+      }
+    }
+
+    > .friend-count {
+      width: 100%;
+      margin: 60px 0 40px 0;
+      font-size: 14px;
+      font-weight: 400;
+    }
+
+    > .nickname-grid {
+      width: 100%;
+      display: grid;
+      grid-template-columns: repeat(4, 1fr);
+      grid-gap: 5rem;
+
+
+      > .nickname-wrapper {
+        width: 100%;
+
+        > .nickname {
+          width: 100%;
+
+          > .first-nickname {
+            border: 0.0625rem solid greenyellow;
+            border-radius: 999rem;
+            background-color: greenyellow;
+            margin: 0 20px 0 0;
+            padding: 1.2rem;
+          }
+
+          > .full-name {
+            font-weight: 700;
+          }
+        }
+      }
+    }
+  }
+}

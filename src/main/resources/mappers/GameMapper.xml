@@ -122,6 +122,7 @@
                  JOIN `epic_games`.`game_category_mapping` `gcm` on `category`.`code` = `gcm`.`catg_code`
         WHERE `game_index` = #{index};
     </select>
+
     <select id="selectGameAchievementByIndex" resultType="com.ssw.epicgames.entities.AchievementEntity">
         SELECT achievements.id AS `id`,
                achievements.name AS `name`,
@@ -130,6 +131,32 @@
         FROM `epic_games`.`achievements`
                  JOIN `epic_games`.`game_achievements_mapping` `gam` on `achievements`.id = `gam`.`achievements_id`
         WHERE `game_index` = #{index};
+    </select>
+
+    <select id="getGamesByUserEmail" resultType="com.ssw.epicgames.entities.GameEntity">
+        SELECT g.`index` AS `index`,
+               g.gr_grac AS `grGrac`,
+               g.name AS `name`,
+               g.price AS `price`,
+               g.summary AS `summary`,
+               g.description AS `description`,
+               g.company AS `company`,
+               g.open_date AS `openDate`,
+               g.main_image AS `mainImage`,
+               g.logo AS `mainLogo`,
+               g.min_os AS `minOs`,
+               g.min_cpu AS `minCpu`,
+               g.min_ram AS `minRam`,
+               g.min_storage AS `minStorage`,
+               g.min_gpu AS `minGpu`,
+               g.rec_os AS `recOs`,
+               g.rec_cpu AS `recCpu`,
+               g.rec_ram AS `recRam`,
+               g.rec_storage AS `recStorage`,
+               g.rec_gpu AS `recGpu`
+        FROM epic_games.game g
+                 JOIN epic_games.purchase p ON g.index = p.game_index
+        WHERE p.user_email = #{userEmail}
     </select>
 
 

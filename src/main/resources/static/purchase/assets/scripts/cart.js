@@ -1,3 +1,4 @@
+//region 모달창(구매버튼 누를 시) 관련
 // 버튼 클릭 시 모달 열기
 const $openModalBtn = document.getElementById('openModalBtn');
 const modal = document.getElementById('cart-pay-modal');
@@ -6,10 +7,17 @@ const iframe = document.getElementById('paymentIframe');
 if($openModalBtn !== null){
     // 모달을 여는 함수
     $openModalBtn.addEventListener('click', function() {
-        iframe.src = '/purchase/pay';
+        Loading.show();
         // 모달을 보이도록 설정
+        iframe.src = '/purchase/pay';
         modal.style.display = 'flex';
         document.body.style.overflow = 'hidden';
+
+
+        // iframe이 로드되면 로딩 화면 숨기기
+        iframe.onload = function() {
+            Loading.hide();
+        };
     });
 
 // 모달 외부 클릭 시 닫기
@@ -30,6 +38,7 @@ if($openModalBtn !== null){
         }
     });
 }
+//endregion
 
 //region 제거 버튼 누를 시
 {

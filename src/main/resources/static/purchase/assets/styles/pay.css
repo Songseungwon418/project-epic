@@ -1,3 +1,4 @@
+@charset "UTF-8";
 @keyframes spin {
   0% {
     transform: rotate(0deg);
@@ -304,6 +305,12 @@ body {
   opacity: 0.8;
 }
 
+/* 로딩창 */
+#loading-container {
+  width: 100%;
+  height: 100%;
+  z-index: 999;
+}
 #loading-container > .loading-message {
   max-width: 1200px;
   text-align: center;
