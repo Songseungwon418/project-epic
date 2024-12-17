@@ -1,7 +1,6 @@
 package com.ssw.epicgames.services;
 
 import com.ssw.epicgames.DTO.CartDTO;
-import com.ssw.epicgames.DTO.GameDTO;
 import com.ssw.epicgames.DTO.WishlistDTO;
 import com.ssw.epicgames.entities.*;
 import com.ssw.epicgames.exceptions.TransactionalException;
@@ -281,12 +280,11 @@ public class PurchaseService {
         // 위시리스트에 있는 지
          WishlistEntity dbWishlist = this.purchaseMapper.selectWishlistByEmailANDGameIndex(userEmail, gameIndex);
 
-         if (dbWishlist != null) {
-             if (!dbWishlist.isDeleted()) {
-                 return true; // 위시리스트에 있음
-             }
+         if (dbWishlist == null || dbWishlist.isDeleted()) {
+             return false;
+        }else {
+             return true;// 위시리스트에 있음
          }
-        return false;
     }
 
 
