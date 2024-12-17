@@ -125,7 +125,7 @@
     </select>
     <!-- endregion -->
 
-<!--  region 결제 관련 -->
+    <!--  region 결제 관련 -->
     <insert id="insertPurchase"
             useGeneratedKeys="true"
             keyColumn="index"
@@ -134,5 +134,33 @@
         INSERT INTO `epic_games`.`purchase` (`user_email`, `game_index`, `date`, `game_price`, `discount_amount`, `final_price`, `addr`, `deleted_at`)
         VALUES (#{userEmail}, #{gameIndex}, #{date}, #{gamePrice}, #{discountAmount}, #{finalPrice}, #{addr}, #{deletedAt})
     </insert>
-<!-- endregion -->
+    <!-- endregion -->
+
+    <select id="getPurchasesByUserEmail" resultType="com.ssw.epicgames.entities.PurchaseEntity">
+        SELECT p.`index` AS `index`,
+               p.user_email AS `userEmail`,
+               p.game_index AS `gameIndex`,
+               p.date AS `date`,
+               p.game_price AS `gamePrice`,
+               p.discount_amount AS `discountAmount`,
+               p.final_price AS `finalPrice`,
+               p.addr AS `addr`,
+               p.deleted_at AS `deletedAt`
+        FROM epic_games.purchase p
+        WHERE p.user_email = #{userEmail}
+    </select>
+    <!--    <select id="selectPurchaseByUserEmail" resultType="com.ssw.epicgames.entities.PurchaseEntity">-->
+<!--        SELECT `index` AS `index`,-->
+<!--               user_email AS `userEmail`,-->
+<!--               game_index AS `gameIndex`,-->
+<!--               date AS `date`,-->
+<!--               game_price AS `gamePrice`,-->
+<!--               discount_amount AS `discountAmount`,-->
+<!--               final_price AS `finalPrice`,-->
+<!--               addr AS `addr`,-->
+<!--               deleted_at AS `deletedAt`-->
+<!--        FROM epic_games.purchase-->
+<!--        WHERE user_email = #{user_email}-->
+<!--    </select>-->
+
 </mapper>

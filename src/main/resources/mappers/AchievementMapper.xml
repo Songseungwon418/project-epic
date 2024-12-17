@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "https://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.ssw.epicgames.mappers.AchievementMapper">
+
+<!--    <select id="getAchievementsByIndex" resultType="com.ssw.epicgames.entities.AchievementEntity">-->
+<!--        SELECT a.id AS `id`,-->
+<!--               a.name AS `name`,-->
+<!--               a.reward AS `reward`,-->
+<!--               a.logo AS `logo`-->
+<!--        FROM epic_games.achievements a-->
+<!--                 JOIN epic_games.user_achievements_mapping uam ON a.id = uam.achievements_id-->
+<!--                 JOIN epic_games.purchase p ON uam.purchase_index = p.index-->
+<!--        WHERE p.index = #{index}-->
+<!--    </select>-->
+    <select id="getAchievementByUserEmail" resultType="com.ssw.epicgames.entities.AchievementEntity">
+        SELECT a.id AS `id`,
+               a.name AS `name`,
+               a.reward AS `reward`,
+               a.logo AS `logo`
+        FROM epic_games.achievements a
+                 JOIN epic_games.game_achievements_mapping gam ON a.id = gam.achievements_id
+                 JOIN epic_games.game g ON gam.game_index = g.index
+                 JOIN epic_games.purchase p ON g.index = p.game_index
+        WHERE p.user_email = #{userEmail}
+    </select>
+</mapper>

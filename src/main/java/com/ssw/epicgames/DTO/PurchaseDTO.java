@@ -9,5 +9,7 @@ import lombok.*;
 public class PurchaseDTO {
     UserEntity user; // 유저 객체
     PurchaseEntity[] purchase; //결제한 정보들
+    GameEntity[] game;
+    AchievementEntity[] achievement;
     // 결제 시 필요한 것들 추가 예정
 }
