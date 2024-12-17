@@ -37,41 +37,45 @@ public class PurchaseService {
 
         // 유저의 장바구니 목록들
         CartEntity[] carts = this.purchaseMapper.selectCartByUserEmail(user.getEmail());
-        CartDTO[] cartDTOS = new CartDTO[carts.length]; //보낼 객체들 생성
-        GameEntity[] games = new GameEntity[carts.length]; // 장바구니 개수만큼 게임 객체 배열 생성
-        GameRatingEntity[] gameRatings = new GameRatingEntity[games.length]; // 게임 개수만큼 객체 배열 생성
-        int discountTotalPrice = 0; // 장바구니에 존재하는 게임들의 할인 가격 총합
-        int totalPrice = 0; // 장바구니에 존재하는 게임들의 가격의 총합
+        if (carts == null) {
+            return null;
+        }else {
+            CartDTO[] cartDTOS = new CartDTO[carts.length]; //보낼 객체들 생성
+            GameEntity[] games = new GameEntity[carts.length]; // 장바구니 개수만큼 게임 객체 배열 생성
+            GameRatingEntity[] gameRatings = new GameRatingEntity[games.length]; // 게임 개수만큼 객체 배열 생성
+            int discountTotalPrice = 0; // 장바구니에 존재하는 게임들의 할인 가격 총합
+            int totalPrice = 0; // 장바구니에 존재하는 게임들의 가격의 총합
 
-        // 장바구니에 담긴 게임의 정보 및 등급 저장
-        for (int i = 0; i < carts.length; i++) {
-            CartEntity cart = carts[i]; // 각 장바구니
-            games[i] = this.gameService.getGameByIndex(cart.getGameIndex()); // 각 장바구니에 해당하는 게임 번호로 게임 정보 조회
-            gameRatings[i] = this.gameRatingMapper.selectGameRatingByGrac(games[i].getGrGrac()); // 각 게임에 해당하는 등급 조회
+            // 장바구니에 담긴 게임의 정보 및 등급 저장
+            for (int i = 0; i < carts.length; i++) {
+                CartEntity cart = carts[i]; // 각 장바구니
+                games[i] = this.gameService.getGameByIndex(cart.getGameIndex()); // 각 장바구니에 해당하는 게임 번호로 게임 정보 조회
+                gameRatings[i] = this.gameRatingMapper.selectGameRatingByGrac(games[i].getGrGrac()); // 각 게임에 해당하는 등급 조회
 
-            // 해당하는 게임의 할인에 관련된 가격 정보를 가져옴
-            PriceVo price = priceService.discountInfo(games[i].getIndex(), games[i].getPrice());
+                // 해당하는 게임의 할인에 관련된 가격 정보를 가져옴
+                PriceVo price = priceService.discountInfo(games[i].getIndex(), games[i].getPrice());
 
-            // 누적해서 총 할인 가격, 맨 마지막에 설정한 CartDTO 가 최종 가격임
-            if(price.getDiscountPrice() > 0) { // 할인 금액이 0이 아닌 경우(할인 가격이 있음)
-                discountTotalPrice += price.getDiscountPrice();
+                // 누적해서 총 할인 가격, 맨 마지막에 설정한 CartDTO 가 최종 가격임
+                if(price.getDiscountPrice() > 0) { // 할인 금액이 0이 아닌 경우(할인 가격이 있음)
+                    discountTotalPrice += price.getDiscountPrice();
+                }
+
+                // 누적해서 총 가격, , 맨 마지막에 설정한 CartDTO 가 최종 가격임
+                totalPrice += price.getCurrentPrice();
+
+                // 보낼 데이터 설정
+                cartDTOS[i] = CartDTO.builder()
+                        .cart(cart) // 장바구니 정보
+                        .game(games[i]) // 게임 정보
+                        .gameRating(gameRatings[i]) // 게임 분류
+                        .price(price) // 가격 정보
+                        .discountTotalPrice(discountTotalPrice) // 총 할인 가격
+                        .totalPrice(totalPrice) // 총 가격
+                        .duplicateWishlist(DuplicationCheckWishlist(user.getEmail(), games[i].getIndex()))// 위시리스트에 있음 true
+                        .build(); // 보낼 장바구니 하나씩 집어넣기
             }
-
-            // 누적해서 총 가격, , 맨 마지막에 설정한 CartDTO 가 최종 가격임
-            totalPrice += price.getCurrentPrice();
-
-            // 보낼 데이터 설정
-            cartDTOS[i] = CartDTO.builder()
-                    .cart(cart) // 장바구니 정보
-                    .game(games[i]) // 게임 정보
-                    .gameRating(gameRatings[i]) // 게임 분류
-                    .price(price) // 가격 정보
-                    .discountTotalPrice(discountTotalPrice) // 총 할인 가격
-                    .totalPrice(totalPrice) // 총 가격
-                    .duplicateWishlist(DuplicationCheckWishlist(user.getEmail(), games[i].getIndex()))// 위시리스트에 있음 true
-                    .build(); // 보낼 장바구니 하나씩 집어넣기
+            return cartDTOS; // 장바구니들 반환
         }
-        return cartDTOS; // 장바구니들 반환
     }
 
     /** 유저에 해당하는 장바구니 목록 삽입 */
