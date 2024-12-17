@@ -157,11 +157,11 @@
           width: 100%;
 
           > .first-nickname {
-            border: 0.0625rem solid greenyellow;
+            border: 0.0625rem solid;
             border-radius: 999rem;
-            background-color: greenyellow;
             margin: 0 20px 0 0;
             padding: 1.2rem;
+            color: rgb(245, 245, 245);
           }
 
           > .full-name {

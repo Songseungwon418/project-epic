@@ -8,7 +8,6 @@
   flex-direction: column;
   align-items: flex-start;
   justify-content: flex-start;
-  gap: 4rem;
   flex-grow: 1;
   color: #ffffff;
 }
@@ -161,7 +160,6 @@
 #main > .mainSection > .filter-bar .filter.active img {
   transform: rotate(180deg); /* 활성화 시 회전 */
 }
-
 #main > .mainSection > .game {
   width: 100%;
   display: flex;
@@ -211,23 +209,6 @@
 }
 #main > .mainSection > .game > .game-wrapper > .achievement > .achievement-progress > .percent > .percentage {
   font-size: 16px;
-}
-#main > .mainSection > .game > .game-wrapper > .achievement > .achievement-progress > .percent > .backslash {
-  font-weight: 100;
-}
-#main > .mainSection > .game > .game-wrapper > .achievement > .achievement-progress .progress-container {
-  width: 100%;
-  height: 5px;
-  background-color: rgba(255, 255, 255, 0.6509803922);
-  border-radius: 10px;
-  overflow: hidden;
-  position: relative;
-}
-#main > .mainSection > .game > .game-wrapper > .achievement > .achievement-progress .progress-container .bar {
-  width: 94%;
-  height: 100%;
-  background-color: #ffffff;
-  transition: width 0.3s ease;
 }
 
 /*# sourceMappingURL=myPage.css.map */
