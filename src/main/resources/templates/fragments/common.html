@@ -340,7 +340,7 @@
             </div>
 
             <div class="nickname-button" th:if="${isLoggedIn}">
-                <a class="link" th:href="@{#}" target="_self">
+                <a class="link" th:href="@{'/page/my'}" target="_self">
                     <span class="circle" th:text="${#strings.substring(userNickname, 0, 1)}"></span>
                     <span class="fullname" th:text="${userNickname}"></span>
                 </a>
