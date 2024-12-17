@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "https://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.ssw.epicgames.mappers.FriendMapper">
+
+
+    <select id="selectFriendsByUserEmail" resultType="com.ssw.epicgames.entities.FriendsEntity">
+        SELECT user_email AS `user_email`,
+               friend_email AS `friend_email`,
+               created_at AS `createdAt`,
+               deleted_at AS `deletedAt`
+        FROM epic_games.friends
+        WHERE user_email = #{user_email}
+        AND deleted_at IS NULL
+    </select>
+</mapper>

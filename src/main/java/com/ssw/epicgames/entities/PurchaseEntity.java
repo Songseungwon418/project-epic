@@ -12,7 +12,7 @@ import java.time.LocalDateTime;
 public class PurchaseEntity {
     private int index;
     private String userEmail;
-    private String gameId;
+    private int gameIndex;
     private LocalDateTime date;
     private int gamePrice;
     private int discountAmount;
