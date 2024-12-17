@@ -231,6 +231,102 @@
                             <div class="logo-wrapper">
                                 <img th:src="${gameDetails.game.getBase64Logo()}" alt="게임로고">
                             </div>
+
+                            <div class="gamerating-wrapper">
+                                <div class="gameRating">
+                                    <div class="logo-wrapper">
+                                        <img th:src="${gameDetails.gameRating.getBase64Logo()}" alt="연령대로고">
+                                    </div>
+
+                                    <div class="text-wrapper">
+                                        <span class="main text" th:text="${gameDetails.gameRating.getTitle()}"></span>
+                                        <span class="sub text" th:text="${gameDetails.gameRating.getTitle() == '전체이용가'? '' : '폭력성'}"></span>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div class="type-wrapper">
+                                <button class="basic" type="button">
+                                    <span class="text">기본 게임</span>
+                                </button>
+                            </div>
+
+                            <div class="price-wrapper" th:if="${gameDetails.game.price == 0}">
+                                <span class="free">무료</span>
+                                <span class="notice">앱 내 구매가 포함될 수도 있습니다.</span>
+                            </div>
+
+                            <div class="price-wrapper" th:if="${gameDetails.game.price != 0}">
+                                <div class="price-info" th:if="${priceVo.getDiscountPer() != 0}">
+                                    <div class="prices">
+                                        <div class="sale-percentage">
+                                            <span class="percentage" th:text="${'-' + priceVo.getDiscountPer() + '%'}"></span>
+                                        </div>
+                                        <div class="origin-price">
+                                            <del class="price" th:text="${priceVo.getOriginalPrice()}"></del>
+                                        </div>
+                                        <div class="sale-price">
+                                            <span class="price" th:text="${priceVo.getCurrentPrice()}"></span>
+                                        </div>
+                                    </div>
+                                    <div class="period">
+                                        <span class="date" th:text="${#temporals.format(priceVo.getEndDate(), 'yyyy-MM-dd HH:mm') + ' 할인 종료'}"></span>
+                                    </div>
+                                </div>
+
+                                <div class="price-info" th:if="${priceVo.getDiscountPer() == 0}">
+                                    <span class="originPrice price" th:text="${gameDetails.game.getPrice()}"></span>
+                                </div>
+                            </div>
+
+                            <div class="button-container">
+                                <button class="buy button" type="button">
+                                    <span class="text">지금 구매</span>
+                                </button>
+
+                                <button class="cart button" type="button">
+                                    <span class="text">장바구니에 담기</span>
+                                </button>
+
+                                <button class="wishlist button" type="button">
+                                    <span class="text">위시리스트에 담기</span>
+                                </button>
+
+
+                            </div>
+
+                            <div class="info-wrapper">
+                                <div class="info">
+                                    <div class="text-wrapper">
+                                        <span class="title">환불 유형</span>
+                                        <span class="value">셀프 환불</span>
+                                    </div>
+                                </div>
+
+                                <div class="info">
+                                    <div class="text-wrapper">
+                                        <span class="title">개발사</span>
+                                        <span class="value" th:text="${gameDetails.game.getCompany()}"></span>
+                                    </div>
+                                </div>
+
+                                <div class="info">
+                                    <div class="text-wrapper">
+                                        <span class="title">출시일</span>
+                                        <span class="value" th:text="${#dates.format(gameDetails.game.getOpenDate(), 'yyyy.MM.dd')}"></span>
+
+                                    </div>
+                                </div>
+
+                                <div class="info">
+                                    <div class="text-wrapper">
+                                        <span class="title">플랫폼</span>
+                                        <span class="value">Windows, Mac</span>
+
+                                    </div>
+                                </div>
+
+                            </div>
                         </div>
                     </section>
                 </div>

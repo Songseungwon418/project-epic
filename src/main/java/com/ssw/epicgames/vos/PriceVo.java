@@ -13,7 +13,7 @@ import lombok.Setter;
 public class PriceVo extends DiscountEntity {
     int originalPrice; // 게임 본래 가격
     int discountPrice; // 할인 가격
-    int currentPrice; // 현제 게임 가격(할인되면 할인된 가격, 아님 본래 가격)
+    int currentPrice; // 현재 게임 가격(할인되면 할인된 가격, 아님 본래 가격)
     int discountPer; // 할인 퍼센트를 정수로
 
 
