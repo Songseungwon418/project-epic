@@ -126,13 +126,23 @@
     <!-- endregion -->
 
 <!--  region 결제 관련 -->
+    <!--  하나의 주문 내역(게임 하나) 삽입  -->
     <insert id="insertPurchase"
             useGeneratedKeys="true"
             keyColumn="index"
             keyProperty="index"
             parameterType="com.ssw.epicgames.entities.PurchaseEntity">
-        INSERT INTO `epic_games`.`purchase` (`user_email`, `game_index`, `date`, `game_price`, `discount_amount`, `final_price`, `addr`, `deleted_at`)
-        VALUES (#{userEmail}, #{gameIndex}, #{date}, #{gamePrice}, #{discountAmount}, #{finalPrice}, #{addr}, #{deletedAt})
+        INSERT INTO `epic_games`.`purchase` (`user_email`, `pay_id`,`game_index`, `date`, `game_price`, `discount_amount`, `final_price`, `addr`, `deleted_at`)
+        VALUES (#{userEmail}, #{payId}, #{gameIndex}, #{date}, #{gamePrice}, #{discountAmount}, #{finalPrice}, #{addr}, #{deletedAt})
+    </insert>
+    <!--  결제 내역 삽입  -->
+    <insert id="insertPay"
+            useGeneratedKeys="true"
+            keyColumn="index"
+            keyProperty="index"
+            parameterType="com.ssw.epicgames.entities.PayEntity">
+        INSERT INTO `epic_games`.`pay` (`id`, `user_email`, `imp_uid`,`name`, `amount`, `method`, `paid_at`, `pg_provider`, `status`, `currency`, `card_name`, `card_number`, `pg_tid`)
+        VALUES (#{id}, #{userEmail}, #{impUid}, #{name}, #{amount}, #{method}, #{paidAt}, #{pgProvider}, #{status}, #{currency}, #{cardName}, #{cardNumber}, #{pgTid})
     </insert>
 <!-- endregion -->
 

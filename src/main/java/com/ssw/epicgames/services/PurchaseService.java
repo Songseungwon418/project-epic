@@ -14,9 +14,8 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-import java.time.LocalDate;
 import java.time.LocalDateTime;
-import java.time.Period;
+
 
 
 @Service
@@ -282,20 +281,20 @@ public class PurchaseService {
         // 위시리스트에 있는 지
          WishlistEntity dbWishlist = this.purchaseMapper.selectWishlistByEmailANDGameIndex(userEmail, gameIndex);
 
-         if (dbWishlist == null || dbWishlist.isDeleted()) {
-             return false;
-        }else {
-             return true;// 위시리스트에 있음
-         }
+        // 위시리스트에 있음
+        return dbWishlist != null && !dbWishlist.isDeleted();
     }
 
-    //region 결제 관련
     /** user 객체를 받아와서 장바구니에 있는 게임들 구매(장바구니 삭제, 구매 내역 추가) */
     @Transactional
     public Result proceedToCheckout(UserEntity user) {
         if (user == null || user.getEmail() == null) {
             return CommonResult.FAILURE;
         }
+
+        // 결제 내역의 id 검색
+
+
         // 장바구니에 관련된 정보들을 가져옴
         CartDTO[] cartList = getCarts(user);
         if (cartList == null || cartList.length == 0) {
@@ -337,6 +336,5 @@ public class PurchaseService {
         }
         return CommonResult.SUCCESS;
     }
-
     //endregion
 }
