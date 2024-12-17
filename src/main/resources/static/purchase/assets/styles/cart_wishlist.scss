@@ -144,6 +144,10 @@ body {
               background-color: #202024FF;
               border-radius: 12px;
 
+              &.remove {
+                display: none;
+              }
+
               > .img-container {
                 grid-area: image;
                 margin-right: 20px;
@@ -276,6 +280,45 @@ body {
                 flex-direction: column;
                 gap: 5px;
                 justify-content: center;
+
+                > .price-wrapper {
+                  align-items: stretch;
+                  display: flex;
+                  flex-direction: row;
+                  justify-content: flex-start;
+                  gap: 10px;
+
+                  > .discount-per {
+                    align-items: center;
+                    display: flex;
+                    flex-direction: row;
+                    justify-content: stretch;
+                    gap: 10px;
+
+                    > .discount-per-text {
+                      min-height: 20px;
+                      padding: 0 8px;
+                      align-items: center;
+                      display: flex;
+                      justify-content: stretch;
+                      text-align: center;
+                      font-size: 12px;
+                      font-weight: 500;
+                      letter-spacing: 0.24px;
+                      line-height: 18px;
+                      border-radius: 99px;
+                      color: #000000;
+                      background-color: #26bbff;
+                    }
+
+                    > .price.-discount {
+                      color: #F5F5F599;
+                      font-size: 14px;
+                      font-weight: 400;
+                      text-decoration: line-through;
+                    }
+                  }
+                }
 
                 > .info_text {
                   color: #F5F5F599;

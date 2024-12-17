@@ -1,3 +1,4 @@
+
 //region 필터관련
 // 장르 목록 서버에서 가져오기
 if(document.querySelector('.filter-list-content') != null) {
@@ -30,19 +31,21 @@ document.addEventListener('DOMContentLoaded', function() {
 });
 
 // 필터 목록에서 목록 클릭시
-const $checkboxs = document.querySelectorAll('.checkbox');
-
-$checkboxs.forEach((checkbox) => {
-    checkbox.addEventListener('click', () => {
-        const isChecked = checkbox.getAttribute('aria-checked') === 'true';
-
-        checkbox.setAttribute('aria-checked', !isChecked);
-
-        checkbox.style.backgroundColor = !isChecked ? '#918D8D38' : 'inherit';
-
-        const $checkIcon = checkbox.querySelector('.check-icon');
-        $checkIcon.style.display = !isChecked ? 'block' : 'none';
-    });
+const $filterListContents = document.querySelectorAll('.filter-list-content');
+$filterListContents.forEach( $filterListContent => {
+    $filterListContent.addEventListener('click', (e) => {
+        const $checkbox = e.target.closest('.checkbox');
+        if($checkbox) {
+            const isChecked = $checkbox.getAttribute('aria-checked') === 'true';
+            // aria-checked 값을 반전시킴
+            $checkbox.setAttribute('aria-checked', !isChecked);
+            // 배경 색상 변경
+            $checkbox.style.backgroundColor = !isChecked ? '#918D8D38' : 'inherit';
+            // 체크아이콘 표시여부
+            const $checkIcon = $checkbox.querySelector('.check-icon');
+            $checkIcon.style.display = !isChecked ? 'block' : 'none';
+        }
+    })
 });
 //endregion
 
@@ -113,7 +116,6 @@ function toggleFilterList(btn) {
                 alert('서버가 알 수 없는 응답을 반환하였습니다. 잠시 후 시도해 주세요.');
                 return;
             }
-            //요청 성공 로직 구현
             const response = JSON.parse(xhr.responseText);
             if (response.result === 'failure'){
                 alert('오류: 제거에 실패하였습니다.');
@@ -145,13 +147,41 @@ function toggleFilterList(btn) {
                 $cancelBtn.type = 'button';
                 $cancelBtn.innerHTML = `<span class="text">실행 취소</span>`;
 
-                $cancelBtn.addEventListener('click', () => {
-                    // 취소 버튼을 누르면 해당 메시지를 삭제하고, 게임을 복원하는 로직을 추가할 수 있음
-                    $removeContainer.remove();
-                    // 게임 복원 로직 추가
-                    // 예: 복원 API 호출하여 위시리스트에 다시 추가
-                });
+                // 실행 취소버튼 누를 시
+                $cancelBtn.onclick = () => {
+                    console.log(wishlistIndex)
+                    const xhr = new XMLHttpRequest();
+                    xhr.onreadystatechange = () => {
+                        if(xhr.readyState !== XMLHttpRequest.DONE){
+                            return;
+                        }
+                        if (xhr.status < 200 || xhr.status >= 300){
+                            alert('서버가 알 수 없는 응답을 반환하였습니다. 잠시 후 시도해 주세요.');
+                            return;
+                        }
+                        const response = JSON.parse(xhr.responseText);
+                        if (response.result === 'failure'){
+                            alert('오류: 잘못된 요청입니다.(실패)');
+                        }
+                        else if(response.result === 'failure_not_found'){
+                            alert('오류: 잘못된 요청입니다.(존재하지않음)');
+                        }
+                        else if (response.result === 'failure_duplicate_wishlist'){
+                           alert('오류: 이미 실행 취소된 목록입니다.');
+                        }
+                        else if(response.result === 'success'){
+                            $removeContainer.remove(); // 제거됨부분 없앰
+                            $gameCard.removeHide(); // 해당 게임 목록 다시 보여줌
+                        } else {
+                            alert('오류: 알수없는 이유로 실행 취소 요청이 실패하였습니다.');
+                        }
+                    };
+                    xhr.open('PATCH', '/purchase/wishlist/cancel');
+                    xhr.send(formData);
+                };
 
+
+                // 게임 이름 제거됨, 실행 취소버튼 추가
                 $removeWrapper.appendChild($iconWrapper);
                 $removeWrapper.appendChild($text);
                 $removeContainer.appendChild($removeWrapper);
@@ -159,8 +189,10 @@ function toggleFilterList(btn) {
                 $removeContainer.appendChild($cancelBtnWrapper);
                 $removeGameCard.append($removeContainer);
 
-                // 게임 카드 삭제
-                $gameCard.remove();
+                // 해당 게임 목록 없앰
+                $gameCard.removeShow();
+            } else {
+                alert('오류: 알수없는 이유로 제거에 실패하였습니다.');
             }
         };
         xhr.open('PATCH', '/purchase/wishlist/delete');
@@ -168,9 +200,7 @@ function toggleFilterList(btn) {
         document.body.style.cursor = 'not-allowed';
     }));
 }
-
 //endregion
-
 
 //region 장바구니 담기 버튼을 누를 시
 {
@@ -200,7 +230,6 @@ function toggleFilterList(btn) {
                 alert('서버가 알 수 없는 응답을 반환하였습니다. 잠시 후 시도해 주세요.');
                 return;
             }
-            //요청 성공 로직 구현
             const response = JSON.parse(xhr.responseText);
             if (response.result === 'failure'){
                 alert('오류: 장바구니 담기에 실패하였습니다.');

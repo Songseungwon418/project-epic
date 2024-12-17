@@ -12,7 +12,7 @@ import java.time.LocalDateTime;
 public class DiscountEntity {
     private int id;
     private String code;
-    private float discountType;
+    private float discountPercent;
     private LocalDateTime startDate;
     private LocalDateTime endDate;
     private boolean active;

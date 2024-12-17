@@ -9,13 +9,14 @@
     <link rel="shortcut icon" th:href="@{'/assets/images/favicon.png'}">
     <link rel="stylesheet" th:href="@{'/purchase/assets/styles/pay.css'}">
     <link rel="stylesheet" th:href="@{'/assets/styles/common.css'}">
+    <script defer th:src="@{'/purchase/assets/scripts/purchase_common.js'}"></script>
     <script defer th:src="@{'/purchase/assets/scripts/pay.js'}"></script>
 </head>
 <body>
 <section class="pay-page">
     <div class="pay-container">
         <section id="loading-container">
-            <div id="loading" class="loading-message">
+            <div id="loading" class="loading-message -visible">
                 <div class="loading-close-btn-container">
                     <div class="loading-close" role="button" onclick="attemptCancel();">×</div>
                 </div>
@@ -68,7 +69,7 @@
                                 <path d="M8.25205 24C9.39178 24 10.6411 24 11.4082 24C11.6712 24 11.8904 24 12 24C12.1096 24 12.3288 24 12.5918 24C13.3589 24 14.6082 24 15.7479 24C19.0795 24 20 22.7872 20 21.5277C20 19.7551 15.0904 17.4694 15.0904 15.8601C15.0904 12.9213 18.3562 11.6851 18.3562 7.23032C18.4 3.24198 15.6384 0 12.2411 0C12.1534 0 11.8466 0 11.7589 0C8.38356 0 5.62192 3.24198 5.62192 7.25364C5.62192 11.7318 8.88767 12.9446 8.88767 15.8834C8.90959 17.4927 4 19.7551 4 21.551C4 22.7872 4.94247 24 8.25205 24Z"></path>
                             </svg>
                         </div>
-                        <span class="account-name">mnuw2626</span>
+                        <span class="account-name" th:text="${#strings.substringBefore(user.getEmail(), '@')}"></span>
                     </div>
                 </div>
                 <div class="payment-methods">
@@ -108,80 +109,54 @@
             </div>
             <div class="payment-summaries">
                 <h2 class="title">주문 요약</h2>
-                <div class="pay-summaries-container" id="pay-summaries-container">
-<!--       장바구니에 담아둔 게임 목록들 - 서버에서 가져와야함           -->
-                    <div class="pay-content">
+                <div class="pay-summaries-container" id="pay-summaries-container" th:if="${carts != null && carts.length > 0}">
+                    <div class="pay-content" th:each="cart : ${carts}">
+                        <div hidden="hidden" class="info-data">
+                            <span class="cart-index" th:text="${cart.getCart().getIndex()}"></span>
+                            <span class="game-index" th:text="${cart.getGame().getIndex()}"></span>
+                            <span class="user-email" th:text="${cart.getCart().getUserEmail()}"></span>
+                        </div>
                         <div class="pay-content-info">
-                            <h2 class="pay-title">Scarf </h2>
-                            <p class="pay-author">Handy Games</p>
-                            <div class="pay-prices">
-                                <div class="discount-container">
-                                    <span class="discount-pct">-67%</span>
+                            <h2 class="pay-title" th:text="${cart.getGame().getName()}"></h2>
+                            <p class="pay-author" th:text="${cart.getGame().getCompany()}"></p>
+                            <div class="pay-prices" th:if="${cart.price.originalPrice != 0}">
+                                <div class="discount-container" th:if="${cart.price.discountPrice != 0}">
+                                    <span class="discount-pct">-[[${cart.price.discountPer}]]%</span>
                                 </div>
-                                <span class="origin-price">₩15,000</span>
-                                <span class="current-price">₩4,950</span>
+                                <span class="price origin-price" th:if="${cart.price.discountPrice != 0}" th:text="${cart.price.originalPrice}"></span>
+                                <span class="price current-price" th:text="${cart.price.currentPrice}"></span>
+                            </div>
+                            <div class="pay-prices" th:if="${cart.price.originalPrice == 0}">
+                                <span class="price origin-price" th:text="${cart.price.originalPrice}"></span>
                             </div>
                         </div>
                         <div class="img-wrapper">
-                            <img alt="Scarf"
-                                 src="https://cdn1.epicgames.com/spt-assets/c33a42729a684055919243f22c5cbe7d/download-scarf-offer-vhjod.jpg"
+                            <img th:alt="${cart.getGame().getName()}"
+                                 th:src="${cart.getGame().base64Image}"
                                  width="12%">
                         </div>
                     </div>
-                    <div class="pay-content">
-                        <div class="pay-content-info">
-                            <h2 class="pay-title">Scarf </h2>
-                            <p class="pay-author">Handy Games</p>
-                            <div class="pay-prices">
-                                <span class="current-price">₩15,000</span>
-                            </div>
-                        </div>
-                        <div class="img-wrapper">
-                            <img alt="Scarf"
-                                 src="https://cdn1.epicgames.com/spt-assets/c33a42729a684055919243f22c5cbe7d/download-scarf-offer-vhjod.jpg"
-                                 width="12%">
-                        </div>
-                    </div>
-                    <div class="pay-content">
-                        <div class="pay-content-info">
-                            <h2 class="pay-title">Scarf </h2>
-                            <p class="pay-author">Handy Games</p>
-                            <div class="pay-prices">
-                                <div class="discount-container">
-                                    <span class="discount-pct">-67%</span>
-                                </div>
-                                <span class="origin-price">₩15,000</span>
-                                <span class="current-price">₩4,950</span>
-                            </div>
-                        </div>
-                        <div class="img-wrapper">
-                            <img alt="Scarf"
-                                 src="https://cdn1.epicgames.com/spt-assets/c33a42729a684055919243f22c5cbe7d/download-scarf-offer-vhjod.jpg"
-                                 width="12%">
-                        </div>
-                    </div>
-<!--       장바구니에 담아둔 게임 목록들 끝             -->
                     <div class="pay-order-prices">
                         <div class="payment-price">
                             <span class="payment-price-label">가격</span>
-                            <span class="payment-price-value">₩81,000</span>
+                            <span class="price payment-price-value" th:text="${carts[carts.length - 1].totalPrice + carts[carts.length - 1].discountTotalPrice}"></span>
                         </div>
-                        <div class="payment-price">
+                        <div class="payment-price" th:if="${carts[carts.length - 1].discountTotalPrice != 0}">
                             <span class="payment-price-label">할인 금액</span>
-                            <span class="payment-price-value">-₩10,050</span>
+                            <span class="price payment-price-value -minus" th:text="${carts[carts.length - 1].discountTotalPrice}"></span>
                         </div>
                         <span class="payment-price-label-text">해당하는 경우 VAT 포함</span>
                         <hr class="payment-order-summary-divider">
                         <div class="payment-price">
                             <span class="payment-price-label -total">합계</span>
-                            <span class="payment-price-value -total">₩70,950</span>
+                            <span class="price payment-price-value -total" th:text="${carts[carts.length - 1].totalPrice}"></span>
                         </div>
                     </div>
                     <div class="payment-order-paymentMethods">
                         <span>결제 정보:</span>
                         <div class="payment-price">
                             <span class="payment-price-label">KakaoPay</span>
-                            <span class="payment-price-value">₩70,950</span>
+                            <span class="price payment-price-value" th:text="${carts[carts.length - 1].totalPrice}"></span>
                         </div>
                     </div>
                     <footer class="payment-contact-us">
@@ -192,12 +167,13 @@
                     </footer>
                 </div>
                 <div class="payment-confirm-container">
-                    <div class="payment-order-confirm">
+                    <form class="payment-order-confirm" th:action="@{/purchase/pay/confirm}" method="post">
                         <!-- 최종 사용자 라이선스 계약페이지 구현? 생략? -->
-                        <span class="payment-order-confirm-eula">아래 "주문하기"을(를) 클릭하면 본인은 만 19세가 넘는 성인이자 해당 결제 수단을 사용할 권리가 있으며 <a target="_blank" class="highlight" href="#">최종 사용자 라이선스 계약</a>에 동의한다는 뜻입니다.
-                        </span>
-                        <button class="payment-btn">주문하기</button>
-                    </div>
+<!--                        <span class="payment-order-confirm-eula">아래 "주문하기"을(를) 클릭하면 본인은 만 19세가 넘는 성인이자 해당 결제 수단을 사용할 권리가 있으며 <a target="_blank" class="highlight" href="#">최종 사용자 라이선스 계약</a>에 동의한다는 뜻입니다.-->
+<!--                        </span>-->
+                        <input type="hidden" name="userEmail" id="userEmail" th:value="${user.getEmail()}">
+                        <button class="payment-btn" id="payment-btn" type="submit">주문하기</button>
+                    </form>
                 </div>
             </div>
         </section>

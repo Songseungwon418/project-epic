@@ -126,6 +126,9 @@ body {
   background-color: #202024;
   border-radius: 12px;
 }
+.main > #view-container > .view-wrapper > .view-content-container > .view-content-wrapper > .game-list > .game-card.remove {
+  display: none;
+}
 .main > #view-container > .view-wrapper > .view-content-container > .view-content-wrapper > .game-list > .game-card > .img-container {
   grid-area: image;
   margin-right: 20px;
@@ -243,6 +246,41 @@ body {
   flex-direction: column;
   gap: 5px;
   justify-content: center;
+}
+.main > #view-container > .view-wrapper > .view-content-container > .view-content-wrapper > .game-list > .game-card > .price-container > .price-wrapper {
+  align-items: stretch;
+  display: flex;
+  flex-direction: row;
+  justify-content: flex-start;
+  gap: 10px;
+}
+.main > #view-container > .view-wrapper > .view-content-container > .view-content-wrapper > .game-list > .game-card > .price-container > .price-wrapper > .discount-per {
+  align-items: center;
+  display: flex;
+  flex-direction: row;
+  justify-content: stretch;
+  gap: 10px;
+}
+.main > #view-container > .view-wrapper > .view-content-container > .view-content-wrapper > .game-list > .game-card > .price-container > .price-wrapper > .discount-per > .discount-per-text {
+  min-height: 20px;
+  padding: 0 8px;
+  align-items: center;
+  display: flex;
+  justify-content: stretch;
+  text-align: center;
+  font-size: 12px;
+  font-weight: 500;
+  letter-spacing: 0.24px;
+  line-height: 18px;
+  border-radius: 99px;
+  color: #000000;
+  background-color: #26bbff;
+}
+.main > #view-container > .view-wrapper > .view-content-container > .view-content-wrapper > .game-list > .game-card > .price-container > .price-wrapper > .discount-per > .price.-discount {
+  color: rgba(245, 245, 245, 0.6);
+  font-size: 14px;
+  font-weight: 400;
+  text-decoration: line-through;
 }
 .main > #view-container > .view-wrapper > .view-content-container > .view-content-wrapper > .game-list > .game-card > .price-container > .info_text {
   color: rgba(245, 245, 245, 0.6);
