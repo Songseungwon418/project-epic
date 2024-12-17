@@ -139,23 +139,21 @@ public class PurchaseController {
         return mav;
     }
 
-    @PostMapping(value = "/pay/confirm", produces = MediaType.APPLICATION_JSON_VALUE)
-    @ResponseBody
+    @PostMapping(value = "/pay/confirm", produces = MediaType.TEXT_HTML_VALUE)
     public String confirmPay(
             @SessionAttribute(value = "user", required = true) UserEntity user,
             @RequestParam(value = "userEmail", required = true) String userEmail
     ){
-        Result result;
         // 로그인이 안되었거나 로그인 한 유저와 구매 요청한 유저가 다를 때
         if (user == null || !userEmail.equals(user.getEmail())) {
-            result = CommonResult.FAILURE;
+            return "/purchase/cart"; // 장바구니 페이지로
         }else {
-            // db에 장바구니 삭제 및 주문 내역 삽입 동작 구현 필요
-            result = CommonResult.SUCCESS;
+            Result result = this.purchaseService.proceedToCheckout(user);
+            if (result != CommonResult.SUCCESS) { //성공이 아님 -> 실패하면
+                return "redirect:/purchase/pay"; //다시 결제페이지로
+            }
+            return "/purchase/paysuccess"; //주문 완료된 페이지로
         }
-        JSONObject response = new JSONObject();
-        response.put(Result.NAME, result.nameToLower());
-        return response.toString();
     }
 
     /** 결재 완료(주문 성공 시) 화면 출력 */

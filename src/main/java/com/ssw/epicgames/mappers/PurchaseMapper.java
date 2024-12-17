@@ -1,6 +1,7 @@
 package com.ssw.epicgames.mappers;
 
 import com.ssw.epicgames.entities.CartEntity;
+import com.ssw.epicgames.entities.PurchaseEntity;
 import com.ssw.epicgames.entities.WishlistEntity;
 import org.apache.ibatis.annotations.Mapper;
 import org.apache.ibatis.annotations.Param;
@@ -63,6 +64,8 @@ public interface PurchaseMapper {
 
     /** 위시리스트 index로 위시리스트 조회(제거된 목록까지 포함) */
     WishlistEntity selectAllWishlistByIndex(@Param("index") int index);
+
+    int insertPurchase(PurchaseEntity purchase);
 
     // endregion
 }
