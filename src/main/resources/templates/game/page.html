@@ -153,62 +153,67 @@
                             <div class="requirements-wrapper">
                                 <button class="windows" type="button">Windows</button>
                                 <div class="up">
-                                    <div class="minimum">
-                                        <span class="text">최소</span>
-                                        <div class="requirement">
-                                            <span class="title">운영체제 버전</span>
-                                            <span class="value">Windows10 22H2</span>
+                                    <div class="requirement">
+                                        <div class="row">
+                                            <span class="left area title">최소</span>
+                                            <span class="right area title">추천</span>
                                         </div>
 
-                                        <div class="requirement">
-                                            <span class="title">CPU</span>
-                                            <span class="value">Intel i5-6600 / AMD Ryzen 5 1500X</span>
+                                        <div class="row">
+                                            <span class="left area">
+                                                <span class="name">운영체제 버전</span>
+                                                <span class="value" th:text="${gameDetails.game.getMinOs()}"></span>
+                                            </span>
+                                            <span class="right area">
+                                                <span class="name">운영체제 버전</span>
+                                                <span class="value" th:text="${gameDetails.game.getRecOs()}"></span>
+                                            </span>
                                         </div>
 
-                                        <div class="requirement">
-                                            <span class="title">메모리</span>
-                                            <span class="value">16GB</span>
+                                        <div class="row">
+                                            <span class="left area">
+                                                <span class="name">CPU</span>
+                                                <span class="value" th:text="${gameDetails.game.getMinCpu()}"></span>
+                                            </span>
+                                            <span class="right area">
+                                                <span class="name">CPU</span>
+                                                <span class="value" th:text="${gameDetails.game.getRecCpu()}"></span>
+                                            </span>
                                         </div>
 
-                                        <div class="requirement">
-                                            <span class="title">GPU</span>
-                                            <span class="value">Nvidia GTX 1060 / AMD Radeon RX 590 / Intel Arc A380</span>
+                                        <div class="row">
+                                            <span class="left area">
+                                                <span class="name">메모리</span>
+                                                <span class="value" th:text="${gameDetails.game.getMinRam()}"></span>
+                                            </span>
+                                            <span class="right area">
+                                                <span class="name">메모리</span>
+                                                <span class="value" th:text="${gameDetails.game.getRecRam()}"></span>
+                                            </span>
                                         </div>
 
-                                        <div class="requirement">
-                                            <span class="title">스토리지</span>
-                                            <span class="value">50GB</span>
+                                        <div class="row">
+                                            <span class="left area">
+                                                <span class="name">GPU</span>
+                                                <span class="value" th:text="${gameDetails.game.getMinGpu()}"></span>
+                                            </span>
+                                            <span class="right area">
+                                                <span class="name">GPU</span>
+                                                <span class="value" th:text="${gameDetails.game.getRecGpu()}"></span>
+                                            </span>
+                                        </div>
+
+                                        <div class="row">
+                                            <span class="left area">
+                                                <span class="name">스토리지</span>
+                                                <span class="value" th:text="${gameDetails.game.getMinStorage()}"></span>
+                                            </span>
+                                            <span class="right area">
+                                                <span class="name">스토리지</span>
+                                                <span class="value" th:text="${gameDetails.game.getRecStorage()}"></span>
+                                            </span>
                                         </div>
                                     </div>
-
-                                    <div class="recommended">
-                                        <span class="text">추천</span>
-                                        <div class="requirement">
-                                            <span class="title">운영체제 버전</span>
-                                            <span class="value">Windows10 22H2</span>
-                                        </div>
-
-                                        <div class="requirement">
-                                            <span class="title">CPU</span>
-                                            <span class="value">Intel i5-6600 / AMD Ryzen 5 1500X</span>
-                                        </div>
-
-                                        <div class="requirement">
-                                            <span class="title">메모리</span>
-                                            <span class="value">16GB</span>
-                                        </div>
-
-                                        <div class="requirement">
-                                            <span class="title">GPU</span>
-                                            <span class="value">Nvidia GTX 1060 / AMD Radeon RX 590 / Intel Arc A380</span>
-                                        </div>
-
-                                        <div class="requirement">
-                                            <span class="title">스토리지</span>
-                                            <span class="value">50GB</span>
-                                        </div>
-                                    </div>
-
                                 </div>
 
                                 <div class="down">
@@ -218,12 +223,15 @@
                                     </div>
                                 </div>
 
-
                             </div>
                         </div>
                     </section>
                     <section class="sideBar">
-                        dddd
+                        <div class="bar-nav">
+                            <div class="logo-wrapper">
+                                <img th:src="${gameDetails.game.getBase64Logo()}" alt="게임로고">
+                            </div>
+                        </div>
                     </section>
                 </div>
             </div>
