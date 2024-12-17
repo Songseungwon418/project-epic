@@ -308,26 +308,25 @@ body {
       color: #141414;
       box-shadow: 0 -4px 4px #00000019;
 
-      > .payment-order-confirm {
-        > .payment-order-confirm-eula {
-          padding: 0 0 10px;
-          display: block;
-          font-size: 12px;
-          line-height: 14px;
+      > .payment-order-confirm-eula {
+        padding: 0 0 10px;
+        display: block;
+        font-size: 12px;
+        line-height: 14px;
 
-          > a {
-            cursor: pointer;
-            color: #2370b9;
-            text-decoration: underline;
-            transition: 0.3s ease;
+        > a {
+          cursor: pointer;
+          color: #2370b9;
+          text-decoration: underline;
+          transition: 0.3s ease;
 
-            &:hover {
-              text-decoration: none;
-            }
+          &:hover {
+            text-decoration: none;
           }
         }
+      }
 
-        > .payment-btn {
+      > .payment-btn {
           width: 100%;
           padding: 20px 0;
           font-family: "Inter", sans-serif;
@@ -345,7 +344,6 @@ body {
             opacity: 0.8;
           }
         }
-      }
     }
   }
 }

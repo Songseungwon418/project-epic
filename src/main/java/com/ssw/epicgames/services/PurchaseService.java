@@ -292,7 +292,7 @@ public class PurchaseService {
             return CommonResult.FAILURE;
         }
 
-        // 결제 내역의 id 검색
+        // 결제 내역
 
 
         // 장바구니에 관련된 정보들을 가져옴

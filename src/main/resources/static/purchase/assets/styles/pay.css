@@ -272,22 +272,22 @@ body {
   color: #141414;
   box-shadow: 0 -4px 4px rgba(0, 0, 0, 0.0980392157);
 }
-#main-container > .payment-summaries > .payment-confirm-container > .payment-order-confirm > .payment-order-confirm-eula {
+#main-container > .payment-summaries > .payment-confirm-container > .payment-order-confirm-eula {
   padding: 0 0 10px;
   display: block;
   font-size: 12px;
   line-height: 14px;
 }
-#main-container > .payment-summaries > .payment-confirm-container > .payment-order-confirm > .payment-order-confirm-eula > a {
+#main-container > .payment-summaries > .payment-confirm-container > .payment-order-confirm-eula > a {
   cursor: pointer;
   color: #2370b9;
   text-decoration: underline;
   transition: 0.3s ease;
 }
-#main-container > .payment-summaries > .payment-confirm-container > .payment-order-confirm > .payment-order-confirm-eula > a:hover {
+#main-container > .payment-summaries > .payment-confirm-container > .payment-order-confirm-eula > a:hover {
   text-decoration: none;
 }
-#main-container > .payment-summaries > .payment-confirm-container > .payment-order-confirm > .payment-btn {
+#main-container > .payment-summaries > .payment-confirm-container > .payment-btn {
   width: 100%;
   padding: 20px 0;
   font-family: "Inter", sans-serif;
@@ -301,7 +301,7 @@ body {
   line-height: 18px;
   text-align: center;
 }
-#main-container > .payment-summaries > .payment-confirm-container > .payment-order-confirm > .payment-btn:hover {
+#main-container > .payment-summaries > .payment-confirm-container > .payment-btn:hover {
   opacity: 0.8;
 }
 

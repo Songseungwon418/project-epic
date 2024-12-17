@@ -41,15 +41,47 @@ $closeBtn.onclick = () => {
 
 //region 주문하기
 {
+
     const $mainContainer = document.getElementById('main-container');
-    // const $summaries = $mainContainer.querySelector(':scope > .payment-summaries');
-    // const $paymentConfirmContainer = $summaries.querySelector(':scope > .payment-confirm-container');
-
+    const $payTitle =$mainContainer.querySelector(':scope > .payment-summaries > .pay-summaries-container > .pay-content-info > .pay-title');
+    const $userEmailTag = document.getElementById('userEmail');
+    const userEmail = $userEmailTag.value;
+    // 구매 버튼
     const $payBtn = document.getElementById('payment-btn');
-    $payBtn.onclick = () => {
-        const $userEmailTag = document.getElementById('userEmail');
-        const userEmail = $userEmailTag.value;
 
+    $payBtn.onclick = payment; // 주문하기 버튼 누를 시
+
+    // IMP.init("imp07816522");// IMPORT 설정
+    // // 결재 진행
+    // function payment() {
+    //     let requestData;
+    //     try{
+    //         const uuid = crypto.randomUUID().substring(0,8);
+    //         const merchantUid = `order-${uuid}`; // 주문번호 생성
+    //         let name = $payTitle.textContent.substring(0, 10);
+    //         name = name.length > 10 ? `${name}...` : name; // 주문명 생성
+    //         const amount = +totalPriceSpan.getAttribute('data'); // 총 가격(숫자)
+    //         requestData = {
+    //             userEmail: userEmail,
+    //             pg: "kakaopay.TC0ONETIME",
+    //             merchant_uid: merchantUid, // 상점에서 생성한 고유 주문번호
+    //             name: name,
+    //             amount: amount,
+    //             currency: "KRW",
+    //         };
+    //         console.log(requestData);
+    //     }
+    //     catch (e){
+    //         alert('예약을 위해서는 로그인 해야합니다.');
+    //         console.log(e);
+    //         return;
+    //     }
+    //     // PORTONE 결제 요청
+    //     IMP.request_pay(requestData, payment_response);
+    // }
+
+
+    function payment_response() {
         const formData = new FormData();
         formData.append('userEmail', userEmail);
         const xhr = new XMLHttpRequest();
@@ -83,9 +115,9 @@ $closeBtn.onclick = () => {
                 window.parent.location.href = '/purchase/cart';
             }
         };
-        xhr.open('POST', '/purchase/pay/confirm');
-        xhr.send(formData);
+        // xhr.open('POST', '/purchase/pay/confirm');
+        // xhr.send(formData);
         $loadingSuccess.show();
-    };
+    }
 }
 //endregion
