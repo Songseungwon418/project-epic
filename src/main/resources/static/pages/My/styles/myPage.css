@@ -161,6 +161,7 @@
 #main > .mainSection > .filter-bar .filter.active img {
   transform: rotate(180deg); /* 활성화 시 회전 */
 }
+
 #main > .mainSection > .game {
   width: 100%;
   display: flex;

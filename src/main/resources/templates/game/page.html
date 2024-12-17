@@ -29,21 +29,209 @@
                     <section class="main">
                         <div class="media-container">
                             <div class="main-image">
-                                <div class="image">
-                                    <img id="mainImage" th:src="${gameDetails.media[0].getBase64Image()}" alt="서브이미지">
+                                <ul class="slider-wrapper">
+                                    <li th:each="image : ${gameDetails.media}">
+                                        <img th:src="${image.getBase64Image()}" alt="메인 이미지">
+                                    </li>
+                                </ul>
+
+                                <div class="arrow-container">
+                                    <div class="left side">
+                                        <button class="prev">
+                                            <svg style="transform: scaleX(-100%)" xmlns="http://www.w3.org/2000/svg"
+                                                 class="svg css-uwwqev" viewBox="0 0 5 9">
+                                                <path stroke="#ffffff" d="M1 1l3 3.5L1 8" fill="none"
+                                                      fill-rule="evenodd"></path>
+                                            </svg>
+                                        </button>
+                                    </div>
+
+                                    <div class="right side">
+                                        <button class="next">
+                                            <svg xmlns="http://www.w3.org/2000/svg" class="svg css-uwwqev"
+                                                 viewBox="0 0 5 9">
+                                                <path stroke="#ffffff" d="M1 1l3 3.5L1 8" fill="none"
+                                                      fill-rule="evenodd"></path>
+                                            </svg>
+                                        </button>
+                                    </div>
                                 </div>
                             </div>
 
                             <div class="image-container">
                                 <div class="image-wrapper">
-                                    <div class="image" th:each="image : ${gameDetails.media}" data-index="${{loop.index}}">
-                                        <img th:src="${image.getBase64Image()}"  alt="서브이미지">
+                                    <div class="image" th:each="image : ${gameDetails.media}"
+                                         data-index="${{loop.index}}">
+                                        <img th:src="${image.getBase64Image()}" alt="서브이미지">
                                     </div>
                                 </div>
                             </div>
                         </div>
+                        <div class="summary">
+                            <span class="text" th:text="${gameDetails.game.getSummary()}"></span>
+                        </div>
+                        <div class="attribute-container">
+                            <div class="genre">
+                                <span class="title">장르</span>
+                                <div class="genre-container">
+                                    <div class="genre-wrapper">
+                                        <a class="link" th:each="genre : ${gameDetails.tag}" target="_self"
+                                           th:href="@{'/game/genre' (tag=${genre.getTag() })}"
+                                           th:text="${genre.getName() == '롤플레잉' ? 'RPG' : (genre.getName() == '실시간전략' ? 'RTS' : genre.getName())}"></a>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div class="feature">
+                                <span class="title">기능</span>
+                                <div class="feature-container">
+                                    <div class="feature-wrapper">
+                                        <span class="text">멀티플레이어</span>
+                                        <span class="text">업적</span>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="description-container">
+                            <div class="description-wrapper"
+                                 th:each="description : ${gameDetails.game.getDescription()}">
+                                <div class="description" th:utext="${description}"></div>
+                            </div>
+                            <button class="toggle-button">
+                                <span class="button-text">펼치기</span>
+                                <svg aria-hidden="true" class=" icon eds_5nt5ak0 eds_5nt5aka" width="20" height="20"
+                                     viewBox="0 0 24 24">
+                                    <path d="M19.53 8.97a.75.75 0 0 1 0 1.06L12 17.56l-7.53-7.53a.75.75 0 1 1 1.06-1.06L12 15.44l6.47-6.47a.75.75 0 0 1 1.06 0"
+                                          clip-rule="evenodd" fill-rule="evenodd"></path>
+                                </svg>
+                                <span class="shadow-box"></span>
+                            </button>
+                        </div>
+                        <div class="achievement-container">
+                            <h2 class="title">획득 가능 업적</h2>
+                            <div class="achievement-wrapper">
+                                <div class="achievement" th:each="logo : ${gameDetails.achievement}">
+                                    <div class="image">
+                                        <img th:src="${logo.getBase64Logo}"
+                                             alt="업적로고">
+                                    </div>
+                                    <span class="name" th:text="${logo.getName()}"></span>
+                                    <div class="point">
+                                        <svg xmlns="http://www.w3.org/2000/svg" class="icon svg css-uwwqev"
+                                             viewBox="0 0 15 14">
+                                            <path d="M1.78952 1.03177H3.21722C3.21547 1.05694 3.21455 1.08267 3.21455 1.10896L3.21455 2.21484H1.92245V3.65386C1.92245 4.29719 2.17572 4.91418 2.62655 5.36908C2.8022 5.54633 3.00223 5.69331 3.21869 5.8067C3.23933 6.28339 3.33644 6.74005 3.49797 7.16449C2.85933 7.01104 2.26929 6.68172 1.7975 6.20565C1.1268 5.52887 0.75 4.61096 0.75 3.65386V2.0807C0.75 1.50139 1.21541 1.03177 1.78952 1.03177Z"
+                                                  fill="currentColor" fill-rule="evenodd" clip-rule="evenodd"></path>
+                                            <path d="M4.57719 7.26263C4.37731 6.90243 4.24094 6.50149 4.18336 6.07526L4.17941 6.04498C4.16166 5.90411 4.15251 5.76052 4.15251 5.61478L4.15251 1.10896C4.15251 1.02488 4.24618 0.944783 4.41557 0.871928C4.92375 0.653363 6.11342 0.5 7.49999 0.5C9.34874 0.5 10.8475 0.772637 10.8475 1.10895V5.61478C10.8475 5.77097 10.837 5.9247 10.8166 6.07526C10.7459 6.59904 10.5561 7.0846 10.2758 7.50333C9.6742 8.40183 8.65546 8.99257 7.49999 8.99257L7.47834 8.9925C6.23167 8.98454 5.14668 8.28891 4.57719 7.26263Z"
+                                                  fill="currentColor" fill-rule="evenodd" clip-rule="evenodd"></path>
+                                            <path d="M11.502 7.1645C11.6635 6.74006 11.7606 6.2834 11.7813 5.80672C11.9978 5.69332 12.1978 5.54634 12.3735 5.36908C12.8243 4.91418 13.0775 4.29719 13.0775 3.65386V2.21484H11.8227V1.03177H13.2105C13.7846 1.03177 14.25 1.50139 14.25 2.0807V3.65386C14.25 4.61096 13.8732 5.52887 13.2025 6.20565C12.83 6.58157 12.3836 6.866 11.898 7.04457C11.7686 7.09215 11.6364 7.13221 11.502 7.1645Z"
+                                                  fill="currentColor" fill-rule="evenodd" clip-rule="evenodd"></path>
+                                            <path d="M10.3826 12.1379C10.3826 12.7521 9.09198 13.25 7.49998 13.25C5.90798 13.25 4.6174 12.7521 4.6174 12.1379C4.6174 11.9371 4.75526 11.7488 4.99644 11.5862L4.99892 11.5845L5.54498 11.2735C6.0756 10.9712 6.51643 10.5312 6.82173 9.99911C6.90651 9.85135 7.12539 9.74247 7.49998 9.74247C7.87457 9.74247 8.09345 9.85135 8.17823 9.99911C8.48353 10.5312 8.92435 10.9712 9.45498 11.2735L10.001 11.5845L10.008 11.5893C10.2464 11.7511 10.3826 11.9384 10.3826 12.1379Z"
+                                                  fill="currentColor" fill-rule="evenodd" clip-rule="evenodd"></path>
+                                        </svg>
+                                        <span class="number" th:text="${logo.getReward() + 'px'}"></span>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="category-container">
+                            <span class="main title">에픽 플레이어 평가</span>
+                            <span class="sub text">에픽게임즈 에코시스템 내 플레이어의 의견입니다.</span>
+                            <div class="category-wrapper">
+                                <div class="category" th:each="category : ${gameDetails.category}">
+                                    <div class="feature">
+                                        <div class="logo">
+                                            <img th:src="${category.getBase64Image()}" alt="카테고리 로고">
+                                        </div>
+                                        <span class="common text">이 게임은</span>
+                                        <span class="individual text" th:text="${category.getContent()}"></span>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="requirements-container">
+                            <span class="title" th:text="${gameDetails.game.getName() + ' 시스템 요구 사항'}"></span>
+                            <div class="requirements-wrapper">
+                                <button class="windows" type="button">Windows</button>
+                                <div class="up">
+                                    <div class="requirement">
+                                        <div class="row">
+                                            <span class="left area title">최소</span>
+                                            <span class="right area title">추천</span>
+                                        </div>
+
+                                        <div class="row">
+                                            <span class="left area">
+                                                <span class="name">운영체제 버전</span>
+                                                <span class="value" th:text="${gameDetails.game.getMinOs()}"></span>
+                                            </span>
+                                            <span class="right area">
+                                                <span class="name">운영체제 버전</span>
+                                                <span class="value" th:text="${gameDetails.game.getRecOs()}"></span>
+                                            </span>
+                                        </div>
+
+                                        <div class="row">
+                                            <span class="left area">
+                                                <span class="name">CPU</span>
+                                                <span class="value" th:text="${gameDetails.game.getMinCpu()}"></span>
+                                            </span>
+                                            <span class="right area">
+                                                <span class="name">CPU</span>
+                                                <span class="value" th:text="${gameDetails.game.getRecCpu()}"></span>
+                                            </span>
+                                        </div>
+
+                                        <div class="row">
+                                            <span class="left area">
+                                                <span class="name">메모리</span>
+                                                <span class="value" th:text="${gameDetails.game.getMinRam()}"></span>
+                                            </span>
+                                            <span class="right area">
+                                                <span class="name">메모리</span>
+                                                <span class="value" th:text="${gameDetails.game.getRecRam()}"></span>
+                                            </span>
+                                        </div>
+
+                                        <div class="row">
+                                            <span class="left area">
+                                                <span class="name">GPU</span>
+                                                <span class="value" th:text="${gameDetails.game.getMinGpu()}"></span>
+                                            </span>
+                                            <span class="right area">
+                                                <span class="name">GPU</span>
+                                                <span class="value" th:text="${gameDetails.game.getRecGpu()}"></span>
+                                            </span>
+                                        </div>
+
+                                        <div class="row">
+                                            <span class="left area">
+                                                <span class="name">스토리지</span>
+                                                <span class="value" th:text="${gameDetails.game.getMinStorage()}"></span>
+                                            </span>
+                                            <span class="right area">
+                                                <span class="name">스토리지</span>
+                                                <span class="value" th:text="${gameDetails.game.getRecStorage()}"></span>
+                                            </span>
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <div class="down">
+                                    <div class="language">
+                                        <span class="title">지원언어</span>
+                                        <span class="value">한국어, 영어, 중국어, 일본어</span>
+                                    </div>
+                                </div>
+
+                            </div>
+                        </div>
                     </section>
                     <section class="sideBar">
+                        <div class="bar-nav">
+                            <div class="logo-wrapper">
+                                <img th:src="${gameDetails.game.getBase64Logo()}" alt="게임로고">
+                            </div>
+                        </div>
                     </section>
                 </div>
             </div>

@@ -25,6 +25,11 @@
     </script>
 </head>
 <body>
+
+<th:block th:replace="~{fragments/common.html :: header}"></th:block>
+
+<main id="main">
+    <th:block th:replace="~{fragments/common.html :: mainSearch}"></th:block>
 <header id="header" th:fragment="header">
     <div class="header-container">
         <div class="menu-toggle">
@@ -420,6 +425,7 @@
             </div>
         </div>
     </div>
+
     <th:block th:replace="~{fragments/common.html :: logout}"></th:block>
     <div class="mainSection">
         <form class="myName-container" th:fragment="myName-container">
@@ -513,7 +519,7 @@
     </div>
 </main>
 
-<footer id="footer" th:fragment="footer">
+<th:block th:replace="~{fragments/common.html :: footer}"></th:block>
     <div class="social-container">
         <ul class="social">
             <li class="icon">

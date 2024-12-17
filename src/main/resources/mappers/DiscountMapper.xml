@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "https://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.ssw.epicgames.mappers.DiscountMapper">
+
+    <select id="selectDiscountByGameIndex" resultType="com.ssw.epicgames.entities.DiscountEntity">
+        SELECT d.id               AS `id`,
+               d.code             AS `code`,
+               d.discount_percent AS `discountPercent`,
+               d.start_date       AS `startDate`,
+               d.end_date         AS `endDate`,
+               d.active           AS `active`
+        FROM `epic_games`.`game_discounts_mapping` gd
+                 JOIN `epic_games`.`discounts` d ON gd.discounts_id = d.id -- 맵핑테이블의 discounts_id와 discounts의 id가 일치하는 테이블 조인
+        WHERE gd.game_index = #{gameIndex} -- 특정 게임 인덱스에 대한 필터링
+          AND d.active = TRUE -- 활성화된 할인만 조회
+          AND NOW() BETWEEN d.start_date AND d.end_date; -- 현재 날짜가 할인 기간 내에 포함되는지 확인
+    </select>
+</mapper>

@@ -1,12 +1,12 @@
 package com.ssw.epicgames.mappers;
 
-import com.ssw.epicgames.entities.HomeEntity;
+import com.ssw.epicgames.vos.GameVo;
 import org.apache.ibatis.annotations.Mapper;
 
 @Mapper
 public interface HomeMapper {
-    HomeEntity[] selectNewGames();
+    GameVo[] selectNewGames();
 
-    HomeEntity[] selectSaleGames();
+    GameVo[] selectSaleGames();
 
 }

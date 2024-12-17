@@ -25,7 +25,7 @@ public interface PurchaseMapper {
     /**
      * 유저에 해당하는 장바구니 목록들 조회
      */
-    CartEntity[] selectCartByUserEmail(@Param("user_email") String user_email);
+    CartEntity[] selectCartByUserEmail(@Param("userEmail") String userEmail);
 
     /**
      * 유저 이메일 및 게임 번호로 장바구니 조회
@@ -61,8 +61,13 @@ public interface PurchaseMapper {
     WishlistEntity selectWishlistByEmailANDGameIndex(@Param("userEmail") String userEmail,
                                                        @Param("gameIndex") int gameIndex);
 
-    /** 위시리스트 index로 위시리스트 조회 */
+    /** 위시리스트 index로 위시리스트 조회(제거되지않은 목록만) */
     WishlistEntity selectWishlistByIndex(@Param("index") int index);
+
+    /** 위시리스트 index로 위시리스트 조회(제거된 목록까지 포함) */
+    WishlistEntity selectAllWishlistByIndex(@Param("index") int index);
+
+    int insertPurchase(PurchaseEntity purchase);
 
     // endregion
 
