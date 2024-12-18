@@ -131,8 +131,8 @@ public class GameController {
         GameDTO gameDetails = this.gameService.getGameDetails(index);
         PriceVo priceVo = this.priceService.discountInfo(index, gameDetails.getGame().getPrice());
 
-        session.setAttribute("gameDetails", gameDetails);
-        session.setAttribute("priceVo", priceVo);
+        session.setAttribute("game", gameDetails);
+        session.setAttribute("price", priceVo);
 
         WishlistDTO[] wishlists = this.purchaseService.getWishlists(user);
         if (wishlists == null) {

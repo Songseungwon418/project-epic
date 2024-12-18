@@ -15,6 +15,9 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import org.springframework.http.*;
+import org.springframework.web.client.RestTemplate;
+
 import java.time.LocalDateTime;
 
 
@@ -95,7 +98,7 @@ public class PurchaseService {
         CartEntity cart = new CartEntity(user.getEmail(), gameIndex, LocalDateTime.now());
 
         // 이미 구매한 게임인지 확인
-        if (checkDuplicatePurchase(user.getEmail(), cart)) {
+        if (checkDuplicatePurchaseByGameIndex(user.getEmail(), cart.getGameIndex())) {
             return PurchaseResult.FAILURE_DUPLICATE_PURCHASE;
         }
 
@@ -206,7 +209,7 @@ public class PurchaseService {
         WishlistEntity wishlist = new WishlistEntity(user.getEmail(), gameIndex, LocalDateTime.now());
 
         // 이미 구매한 게임인지 확인
-        if (checkDuplicatePurchase(user.getEmail(), wishlist)) {
+        if (checkDuplicatePurchaseByGameIndex(user.getEmail(), wishlist.getGameIndex())) {
             return PurchaseResult.FAILURE_DUPLICATE_PURCHASE;
         }
 
@@ -307,19 +310,10 @@ public class PurchaseService {
 
         // 구매 내역 삽입과 장바구니 삭제
         for (CartDTO cart: carts) {
-            // 장바구니와 일치한지 확인
+            // 장바구니와 일치하면 구매 내역 생성 및 삽입, 장바구니 제거, 위시리스트 제거
             if (DuplicationCheckCart(user.getEmail(), cart.getGame().getIndex())) {
-                // 구매 내역에 삽입할 내용 설정 (CartDTO 이용)
-                PurchaseEntity purchase = new PurchaseEntity();
-                purchase.setUserEmail(user.getEmail());//유저 이메일
-                purchase.setPayId(pay.getId()); //삽입한 결제 내역 id
-                purchase.setGameIndex(cart.getGame().getIndex());// 구매하는 게임
-                purchase.setDate(LocalDateTime.now()); //구매일 현제 날짜로 설정
-                purchase.setGamePrice(cart.getGame().getPrice());//게임 가격(오리지널 가격)
-                purchase.setFinalPrice(cart.getPrice().getCurrentPrice());//할인 적용된 가격
-                purchase.setDiscountAmount(cart.getPrice().getDiscountPrice()); //할인 가격
-                purchase.setAddr(user.getAddr()); // 유저 주소
-                purchase.setDeletedAt(null); // 삭제일 기본으로 null
+                // 구매 내역 생성
+                PurchaseEntity purchase = creatPurchaseEntity(user.getEmail(), user.getAddr(), pay.getId(), cart.getGame().getIndex(), cart.getPrice());
 
                 // 구매 내역 삽입
                 if (this.purchaseMapper.insertPurchase(purchase) <= 0){
@@ -346,6 +340,50 @@ public class PurchaseService {
         return CommonResult.SUCCESS;
     }
 
+    /** 게임 단품 구매일 경우 */
+    @Transactional
+    public Result buyGame(UserEntity user, PayEntity pay, GameEntity game, PriceVo price) {
+        if (user == null || user.getEmail() == null || pay == null || game == null) {
+            return CommonResult.FAILURE;
+        }
+
+        // 이미 구매한 게임인지 확인
+        if (checkDuplicatePurchaseByGameIndex(user.getEmail(), game.getIndex())) {
+            return PurchaseResult.FAILURE_DUPLICATE_PURCHASE;
+        }
+
+        // 결제 내역 삽입
+        if(this.purchaseMapper.insertPay(pay) <= 0){
+            throw new TransactionalException("오류: 결제 내역 삽입 실패");
+        }
+
+        // 구매 내역 생성
+        PurchaseEntity purchase = creatPurchaseEntity(user.getEmail(), user.getAddr(), pay.getId(), game.getIndex(), price);
+
+        // 구매 내역 삽입
+        if (this.purchaseMapper.insertPurchase(purchase) <= 0){
+            throw new TransactionalException("오류: 구매 내역 삽입 실패");
+        }
+
+        // 장바구니에 담겨져 있으면 제거
+        CartEntity cart = this.purchaseMapper.selectCartByEmailANDGameIndex(user.getEmail(), game.getIndex());
+        if (cart != null) {
+            if (deleteFromCart(cart.getIndex()) != CommonResult.SUCCESS) {
+                throw new TransactionalException("오류: 장바구니 삭제 실패");
+            }
+        }
+
+        // 위시리스트에 담겨져있으면 제거
+        WishlistEntity wishlist = this.purchaseMapper.selectWishlistByEmailANDGameIndex(user.getEmail(), game.getIndex()); //삭제할 위시리스트 설정
+        // 위시리스트가 있으면 제거
+        if (wishlist != null) {
+            if(deleteFromWishlist(wishlist.getIndex()) != CommonResult.SUCCESS) {
+                throw new TransactionalException("오류: 위시리스트 삭제 실패");
+            }
+        }
+        return CommonResult.SUCCESS;
+    }
+
     /** 결제 내역 조회(단일) */
     public PayEntity getPayById(String id) {
         if (id == null || id.isEmpty()) {
@@ -354,17 +392,18 @@ public class PurchaseService {
         return this.purchaseMapper.selectPayById(id);
     }
 
-    /** 구매 내역들 조회 */
+    /** 결제 및 구매 내역들 조회 */
     public PurchaseDTO[] getPurchasesByUser(UserEntity user) {
         // 유저 유효성 검사(로그인 유뮤)
         if (user == null) {
             return null;
         }
 
-        // 유저의 위시리스트 목록들
+        // 유저의 결제 내역들
         PayEntity[] pay = this.purchaseMapper.selectPayByUser(user.getEmail());
         return null;
     }
+
 
 
 //endregion
@@ -392,21 +431,34 @@ public class PurchaseService {
     /** 장바구니에 담긴 목록들에서 이미 구매한 게임이 있는지 체크 */
     private boolean checkDuplicatePurchase(String userEmail, CartDTO[] cartList) {
         for (CartDTO cart : cartList) {
-            if (this.purchaseMapper.selectPurchaseByGameIndex(userEmail, cart.getGame().getIndex()) > 0) {
+            if (checkDuplicatePurchaseByGameIndex(userEmail, cart.getGame().getIndex())) {
                 return true; // 중복 구매가 있으면 true 리턴
             }
         }
         return false; // 중복 구매가 없으면 false 리턴
     }
 
-    /** 장바구니에 담을 게임이 이미 구매한 것인지 체크 */
-    private boolean checkDuplicatePurchase(String userEmail, CartEntity cart) {
-        return this.purchaseMapper.selectPurchaseByGameIndex(userEmail, cart.getGameIndex()) > 0; // 중복 구매가 있으면 true 리턴
+    /** 구매할 게임이 이미 구매한 것인지 체크 */
+    private boolean checkDuplicatePurchaseByGameIndex(String userEmail, int gameIndex) {
+        return this.purchaseMapper.selectPurchaseByGameIndex(userEmail, gameIndex) > 0; // 중복 구매가 있으면 true 리턴
     }
+//endregion
 
-    /** 위시리스트에 담을 게임이 이미 구매한 것인지 체크 */
-    private boolean checkDuplicatePurchase(String userEmail, WishlistEntity wishlist) {
-        return this.purchaseMapper.selectPurchaseByGameIndex(userEmail, wishlist.getGameIndex()) > 0; // 중복 구매가 있으면 true 리턴
+//region 결제 내역 객체 생성 메서드
+    private PurchaseEntity creatPurchaseEntity(String userEmail, String userAddr, String payID, int gameIndex, PriceVo price) {
+        // 구매 내역에 삽입할 내용 설정 (CartDTO 이용)
+        PurchaseEntity purchase = new PurchaseEntity();
+        purchase.setUserEmail(userEmail);//유저 이메일
+        purchase.setPayId(payID); //삽입한 결제 내역 id
+        purchase.setGameIndex(gameIndex);// 구매하는 게임
+        purchase.setDate(LocalDateTime.now()); //구매일 현제 날짜로 설정
+        purchase.setGamePrice(price.getOriginalPrice());//게임 가격(오리지널 가격)
+        purchase.setFinalPrice(price.getCurrentPrice());//할인 적용된 가격
+        purchase.setDiscountAmount(price.getDiscountPrice()); //할인 가격
+        purchase.setAddr(userAddr); // 유저 주소
+        purchase.setDeletedAt(null); // 삭제일 기본으로 null
+
+        return purchase;
     }
 //endregion
 }

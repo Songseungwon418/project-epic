@@ -151,7 +151,7 @@
                         </div>
                         <div class="img-wrapper">
                             <img th:alt="${cart.getGame().getName()}"
-                                 th:src="${cart.getGame().base64Image}"
+                                 th:src="@{'/game/cover?index=' + ${cart.getGame().getIndex()}}"
                                  width="12%">
                         </div>
                     </div>
@@ -176,6 +176,62 @@
                         <div class="payment-price">
                             <span class="payment-price-label">KakaoPay</span>
                             <span class="price payment-price-value" th:text="${carts[carts.length - 1].totalPrice}"></span>
+                        </div>
+                    </div>
+                    <footer class="payment-contact-us">
+                        <span>도움이 필요하신가요?&nbsp;
+                            <!-- 고객문의 게시판으로 -->
+                            <a href="#" target="_blank">문의하기</a>
+                        </span>
+                    </footer>
+                </div>
+                <div class="pay-summaries-container" id="game-summaries-containers" th:if="${game != null && game.getGame() != null}">
+                    <div class="pay-content">
+                        <div hidden="hidden" class="info-data">
+                            <span class="game-index" th:text="${game.getGame().getIndex()}"></span>
+                            <span class="user-email" th:text="${user.getEmail()}"></span>
+                        </div>
+                        <div class="pay-content-info">
+                            <h2 class="pay-title" th:text="${game.getGame().getName()}"></h2>
+                            <p class="pay-author" th:text="${game.getGame().getCompany()}"></p>
+                            <div class="pay-prices" th:if="${price.originalPrice != 0}">
+                                <div class="discount-container" th:if="${price.discountPrice != 0}">
+                                    <span class="discount-pct">-[[${price.discountPer}]]%</span>
+                                </div>
+                                <span class="price origin-price" th:if="${price.discountPrice != 0}" th:text="${price.originalPrice}"></span>
+                                <span class="price current-price" th:text="${price.currentPrice}"></span>
+                            </div>
+                            <div class="pay-prices" th:if="${price.originalPrice == 0}">
+                                <span class="price origin-price" th:text="${price.originalPrice}"></span>
+                            </div>
+                        </div>
+                        <div class="img-wrapper">
+                            <img th:alt="${game.getGame().getName()}"
+                                 th:src="@{'/game/cover?index=' + ${game.getGame().getIndex()}}"
+                                 width="12%">
+                        </div>
+                    </div>
+                    <div class="pay-order-prices">
+                        <div class="payment-price">
+                            <span class="payment-price-label">가격</span>
+                            <span class="price payment-price-value" th:text="${price.currentPrice}"></span>
+                        </div>
+                        <div class="payment-price" th:if="${price.discountPrice != 0}">
+                            <span class="payment-price-label">할인 금액</span>
+                            <span class="price payment-price-value -minus" th:text="${price.discountPrice}"></span>
+                        </div>
+                        <span class="payment-price-label-text">해당하는 경우 VAT 포함</span>
+                        <hr class="payment-order-summary-divider">
+                        <div class="payment-price">
+                            <span class="payment-price-label -total">합계</span>
+                            <span class="price payment-price-value -total" th:text="${price.currentPrice}"></span>
+                        </div>
+                    </div>
+                    <div class="payment-order-paymentMethods">
+                        <span>결제 정보:</span>
+                        <div class="payment-price">
+                            <span class="payment-price-label">KakaoPay</span>
+                            <span class="price payment-price-value" th:text="${price.currentPrice}"></span>
                         </div>
                     </div>
                     <footer class="payment-contact-us">

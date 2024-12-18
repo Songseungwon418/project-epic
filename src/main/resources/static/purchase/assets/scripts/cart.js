@@ -2,7 +2,7 @@
 //region 모달창(구매버튼 누를 시) 관련
 // 버튼 클릭 시 모달 열기
 const $openModalBtn = document.getElementById('openModalBtn');
-const modal = document.getElementById('cart-pay-modal');
+const modal = document.getElementById('pay-modal');
 const iframe = document.getElementById('paymentIframe');
 
 if($openModalBtn !== null){

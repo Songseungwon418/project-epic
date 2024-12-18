@@ -11,12 +11,16 @@ import com.ssw.epicgames.entities.PayEntity;
 import com.ssw.epicgames.entities.UserEntity;
 import com.ssw.epicgames.resutls.CommonResult;
 import com.ssw.epicgames.resutls.Result;
+import com.ssw.epicgames.resutls.purchase.PurchaseResult;
 import com.ssw.epicgames.services.PurchaseService;
+import com.ssw.epicgames.vos.PriceVo;
 import jakarta.servlet.http.HttpSession;
 import org.json.JSONObject;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
+import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.ModelAndView;
@@ -148,16 +152,24 @@ public class PurchaseController {
     @GetMapping(value = "/pay", produces = MediaType.TEXT_HTML_VALUE)
     public ModelAndView getPay(
             @SessionAttribute(value = "user", required = false) UserEntity user,
-            @SessionAttribute(value = "carts", required = false) CartDTO[] carts
+            @SessionAttribute(value = "carts", required = false) CartDTO[] carts,
+            @SessionAttribute(value = "game", required = false)GameDTO game,
+            @SessionAttribute(value = "price", required = false) PriceVo price
     ) {
-
-//        CartDTO[] carts = this.purchaseService.getCarts(user);
         ModelAndView mav = new ModelAndView();
         if (user == null) {
             mav.setViewName("user/login");
         } else if (carts != null) {
             mav.addObject("user", user);
             mav.addObject("carts", carts);
+            // 카카오페이 결재를 위한 AppKey 넘겨줌
+            mav.addObject("kakaoAppKey", kakaopayAppKey);
+            mav.addObject("impNumber", impNumber);
+            mav.setViewName("purchase/pay");
+        }else if(game !=null ){
+            mav.addObject("user", user);
+            mav.addObject("game", game);
+            mav.addObject("price", price);
             // 카카오페이 결재를 위한 AppKey 넘겨줌
             mav.addObject("kakaoAppKey", kakaopayAppKey);
             mav.addObject("impNumber", impNumber);
@@ -176,7 +188,9 @@ public class PurchaseController {
     public String confirmPay(
             @SessionAttribute(value = "user", required = true) UserEntity user,
             @SessionAttribute(value = "carts", required = false) CartDTO[] carts,
-            @RequestParam(value = "userEmail", required = true) String userEmail,
+            @SessionAttribute(value = "game", required = false) GameDTO game,
+            @SessionAttribute(value = "price", required = false) PriceVo price,
+            @RequestParam(value = "userEmail", required = false) String userEmail,
             @RequestParam(value = "pay", required = true) String payJSON
     ) throws JsonProcessingException {
 
@@ -194,7 +208,18 @@ public class PurchaseController {
         }
         // 유저가 동일하다면 구매 진행
         else {
-            result = this.purchaseService.proceedToCheckout(user, pay, carts);
+            // 장바구니에서 구매 시
+            if (carts != null) {
+                result = this.purchaseService.proceedToCheckout(user, pay, carts);
+            }
+            // 장바구니 구매가 아니고 게임 상세페이지에서 게임 하나 구매 시
+            else if (game !=null){
+                result = this.purchaseService.buyGame(user, pay, game.getGame(), price);
+            }
+            else { // 구매할 게임이 없는 요청임
+                result = PurchaseResult.FAILURE_NOT_FOUND;
+            }
+
         }
         JSONObject response = new JSONObject();
         response.put(Result.NAME, result.nameToLower());
@@ -210,6 +235,8 @@ public class PurchaseController {
         mav.setViewName("purchase/paysuccess");
         return mav;
     }
+
+
     //endregion
 
 
