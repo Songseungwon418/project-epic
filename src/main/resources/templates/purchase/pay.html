@@ -10,11 +10,28 @@
     <link rel="stylesheet" th:href="@{'/purchase/assets/styles/pay.css'}">
     <link rel="stylesheet" th:href="@{'/assets/styles/common.css'}">
     <script src="https://cdn.iamport.kr/v1/iamport.js"></script>
-    <script type="text/javascript" src="//dapi.kakao.com/v2/maps/sdk.js?appkey=e63914223b54ec8386e155e3dcd45736"></script>
+    <script type="text/javascript" src="//dapi.kakao.com/v2/maps/sdk.js?appkey=[[${kakaoAppKey}]]"></script>
     <script defer th:src="@{'/purchase/assets/scripts/purchase_common.js'}"></script>
     <script defer th:src="@{'/purchase/assets/scripts/pay.js'}"></script>
 </head>
 <body>
+<!--    결재 관련    -->
+<script th:inline="javascript">
+    const userPhone = [[${user.getPhone().toString()}]];
+    const userPhoneHead = userPhone.substring(0, 3);
+    const userPhoneMiddle = userPhone.slice(3, -4);
+    const userPhoneTail = userPhone.slice(-4);
+    const userEmail = [[${user.getEmail().toString()}]];
+    const userName = [[${user.getName().toString()}]];
+    const userAddr = [[${user.getAddr().toString()}]];
+    const impNumber = [[${impNumber.toString()}]];
+    const user = {
+        buyer_email: userEmail,
+        buyer_name: userName,
+        buyer_tel: `${userPhoneHead}-${userPhoneMiddle}-${userPhoneTail}`,
+        buyer_addr: userAddr,
+    }
+</script>
 <section class="pay-page">
     <div class="pay-container">
         <section id="loading-container">

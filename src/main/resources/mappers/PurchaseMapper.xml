@@ -135,15 +135,45 @@
         INSERT INTO `epic_games`.`purchase` (`user_email`, `pay_id`,`game_index`, `date`, `game_price`, `discount_amount`, `final_price`, `addr`, `deleted_at`)
         VALUES (#{userEmail}, #{payId}, #{gameIndex}, #{date}, #{gamePrice}, #{discountAmount}, #{finalPrice}, #{addr}, #{deletedAt})
     </insert>
+
     <!--  결제 내역 삽입  -->
-    <insert id="insertPay"
-            useGeneratedKeys="true"
-            keyColumn="index"
-            keyProperty="index"
-            parameterType="com.ssw.epicgames.entities.PayEntity">
+    <insert id="insertPay" parameterType="com.ssw.epicgames.entities.PayEntity">
         INSERT INTO `epic_games`.`pay` (`id`, `user_email`, `imp_uid`,`name`, `amount`, `method`, `paid_at`, `pg_provider`, `status`, `currency`, `card_name`, `card_number`, `pg_tid`)
         VALUES (#{id}, #{userEmail}, #{impUid}, #{name}, #{amount}, #{method}, #{paidAt}, #{pgProvider}, #{status}, #{currency}, #{cardName}, #{cardNumber}, #{pgTid})
     </insert>
+    <!-- 유저에 해당하는 결제 내역들 조회   -->
+    <select id="selectPayByUser" resultType="com.ssw.epicgames.entities.PayEntity">
+        SELECT id          AS `id`,
+               user_email  AS `userEmail`,
+               imp_uid     AS `impUid`,
+               name        AS `name`,
+               amount      AS `amount`,
+               method      AS `method`,
+               paid_at     AS `paidAt`,
+               pg_provider AS `pgProvider`,
+               status      AS `status`,
+               currency    AS `currency`,
+               card_name   AS `cardName`,
+               card_number AS `cardNumber`,
+               pg_tid      AS `pgTid`
+        FROM `epic_games`.`pay`
+        WHERE user_email = #{userEmail}
+    </select>
+    <!--  게임 index로 구매 내역 조회  -->
+    <select id="selectPurchaseByGameIndex" resultType="com.ssw.epicgames.entities.PurchaseEntity">
+        SELECT `index` AS `index`,
+               user_email AS `userEmail`,
+               game_index AS `gameIndex`,
+               date AS `date`,
+               game_price AS `gamePrice`,
+               discount_amount AS `discountAmount`,
+               final_price AS `finalPrice`,
+               addr AS `addr`,
+               deleted_at AS `deletedAt`
+        FROM epic_games.purchase
+        WHERE `game_index` = #{gameIndex}
+    </select>
+
 <!-- endregion -->
 
     <select id="getPurchasesByUserEmail" resultType="com.ssw.epicgames.entities.PurchaseEntity">

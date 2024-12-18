@@ -43,47 +43,73 @@ $closeBtn.onclick = () => {
 {
 
     const $mainContainer = document.getElementById('main-container');
-    const $payTitle =$mainContainer.querySelector(':scope > .payment-summaries > .pay-summaries-container > .pay-content-info > .pay-title');
+    const $payTitle =$mainContainer.querySelector(':scope > .payment-summaries > .pay-summaries-container > .pay-content > .pay-content-info > .pay-title');
     const $userEmailTag = document.getElementById('userEmail');
     const userEmail = $userEmailTag.value;
-    // 구매 버튼
-    const $payBtn = document.getElementById('payment-btn');
+    const $totalPrice = $mainContainer.querySelector(':scope > .payment-summaries > .pay-summaries-container > .pay-order-prices > .payment-price > .payment-price-value');
+    const $payBtn = document.getElementById('payment-btn');// 구매 버튼
 
     $payBtn.onclick = payment; // 주문하기 버튼 누를 시
 
-    // IMP.init("imp07816522");// IMPORT 설정
-    // // 결재 진행
-    // function payment() {
-    //     let requestData;
-    //     try{
-    //         const uuid = crypto.randomUUID().substring(0,8);
-    //         const merchantUid = `order-${uuid}`; // 주문번호 생성
-    //         let name = $payTitle.textContent.substring(0, 10);
-    //         name = name.length > 10 ? `${name}...` : name; // 주문명 생성
-    //         const amount = +totalPriceSpan.getAttribute('data'); // 총 가격(숫자)
-    //         requestData = {
-    //             userEmail: userEmail,
-    //             pg: "kakaopay.TC0ONETIME",
-    //             merchant_uid: merchantUid, // 상점에서 생성한 고유 주문번호
-    //             name: name,
-    //             amount: amount,
-    //             currency: "KRW",
-    //         };
-    //         console.log(requestData);
-    //     }
-    //     catch (e){
-    //         alert('예약을 위해서는 로그인 해야합니다.');
-    //         console.log(e);
-    //         return;
-    //     }
-    //     // PORTONE 결제 요청
-    //     IMP.request_pay(requestData, payment_response);
-    // }
+    IMP.init(impNumber);// IMPORT 설정
+    // 결재 진행
+    function payment() {
+        let requestData;
+        try{
+            const uuid = crypto.randomUUID().substring(0,8);
+            const merchantUid = `pid-${uuid}`; // 주문번호 생성
+            let name = $payTitle.textContent.substring(0, 10);
+            name = name.length > 10 ? `${name}... 그 외` : `${name} 그 외`; // 주문명 생성
+            const amount = $totalPrice.textContent; // 총 가격(숫자)
+            requestData = {
+                ...user,
+                pg: "kakaopay.TC0ONETIME",
+                merchant_uid: merchantUid, // 상점에서 생성한 고유 주문번호
+                name: name,
+                amount: amount,
+                currency: "KRW",
+            };
+            console.log(requestData);
+        }
+        catch (e){
+            alert('구매를 위해서는 로그인이 필요합니다.');
+            console.log(e);
+            return;
+        }
+        // PORTONE 결제 요청
+        IMP.request_pay(requestData, payment_response);
+    }
 
 
-    function payment_response() {
+    function payment_response(portOneResponse) {
+        console.log(portOneResponse);
+        // Unix timestamp를 밀리초 단위로 변환 (1000을 곱함)
+        const date = new Date(portOneResponse['paid_at'] * 1000);
+        // 날짜 포맷 설정
+        const formattedDate = date.toISOString();
+
+        const pay = {
+            id: portOneResponse['merchant_uid'],
+            userEmail: portOneResponse['buyer_email'],
+            impUid: portOneResponse['imp_uid'],
+            name: portOneResponse['buyer_name'],
+            amount: portOneResponse['paid_amount'],
+            method: portOneResponse['method'],
+            paidAt: formattedDate,
+            pgProvider: portOneResponse['pg_provider'],
+            status: portOneResponse['status'],
+            currency: portOneResponse['currency'],
+            cardName: portOneResponse['card_name'],
+            cardNumber: portOneResponse['card_number'],
+            pgTid: portOneResponse['pg_tid'],
+        }
+
+        // pay 객체를 JSON 문자열로 변환
+        const payJson = JSON.stringify(pay);
+
         const formData = new FormData();
         formData.append('userEmail', userEmail);
+        formData.append('pay', payJson);
         const xhr = new XMLHttpRequest();
         xhr.onreadystatechange = () => {
             if(xhr.readyState !== XMLHttpRequest.DONE){
@@ -107,7 +133,11 @@ $closeBtn.onclick = () => {
                 alert('구매할 수 없는 나이의 게임이 포함되어있습니다. 구매에 실패하였습니다.');
                 attemptCancel();
                 window.parent.location.href = '/purchase/cart';
-            }else if(response['result'] === 'success'){
+            }else if (response['result'] === 'failure_duplicate_purchase'){
+                alert('이미 구매한 게임이 포함되어있습니다. 구매에 실패하였습니다.');
+                attemptCancel();
+                window.parent.location.href = '/purchase/cart';
+            } else if(response['result'] === 'success'){
                 attemptCancel();
                 window.parent.location.href = '/purchase/paysuccess';
             }else {
@@ -115,8 +145,8 @@ $closeBtn.onclick = () => {
                 window.parent.location.href = '/purchase/cart';
             }
         };
-        // xhr.open('POST', '/purchase/pay/confirm');
-        // xhr.send(formData);
+        xhr.open('POST', '/purchase/pay/confirm');
+        xhr.send(formData);
         $loadingSuccess.show();
     }
 }

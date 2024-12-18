@@ -129,7 +129,7 @@ if($openModalBtn !== null){
                     };
                 }
             };
-            xhr.open('POST', '/purchase/wishlist/add'); // 장바구니에 추가
+            xhr.open('POST', '/purchase/wishlist/add'); // 위시리스트에 추가
             xhr.send(formData);
             document.body.style.cursor = 'not-allowed';
         });
