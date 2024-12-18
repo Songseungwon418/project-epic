@@ -56,7 +56,7 @@
                                         <span class="tag">기본 게임</span>
                                     </div>
                                 </div>
-                                <a class="title" th:text="${cart.getGame().getName()}" href="#"></a>
+                                <a class="title" th:text="${cart.getGame().getName()}" th:href="@{'/game/page' (index=${cart.getGame().getIndex()})}"></a>
                             </div>
                             <div class="price-container">
                                 <div class="price-wrapper">

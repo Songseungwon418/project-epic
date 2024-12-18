@@ -1,6 +1,7 @@
 package com.ssw.epicgames.mappers;
 
 import com.ssw.epicgames.entities.CartEntity;
+import com.ssw.epicgames.entities.PayEntity;
 import com.ssw.epicgames.entities.PurchaseEntity;
 import com.ssw.epicgames.entities.WishlistEntity;
 import org.apache.ibatis.annotations.Mapper;
@@ -67,10 +68,28 @@ public interface PurchaseMapper {
     /** 위시리스트 index로 위시리스트 조회(제거된 목록까지 포함) */
     WishlistEntity selectAllWishlistByIndex(@Param("index") int index);
 
+    /** 구매 내역 삽입(하나의 게임에 대한 구매 내역 )*/
     int insertPurchase(PurchaseEntity purchase);
 
+    /** 결제 내역 삽입(결재 정보) */
+    int insertPay(PayEntity pay);
+
+    /** 결제 내역 조회 */
+    PayEntity selectPayById(@Param("id")String id);
+
+    /** 유저에 해당하는 결제 내역들 조회*/
+    PayEntity[] selectPayByUser(@Param("userEmail") String userEmail);
+
+    /** 게임 index로 해당 유저의 구매 내역 조회 */
+    int selectPurchaseByGameIndex(
+            @Param("userEmail") String userEmail,
+            @Param("gameIndex") int gameIndex);
     // endregion
 
     List<PurchaseEntity> getPurchasesByUserEmail(@Param("userEmail") String userEmail);
+
+
+
+
 //    PurchaseEntity[] selectPurchaseByUserEmail(@Param("userEmail") String userEmail);
 }
