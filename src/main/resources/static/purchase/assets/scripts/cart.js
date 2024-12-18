@@ -8,11 +8,11 @@ if($openModalBtn !== null){
     // 모달을 여는 함수
     $openModalBtn.addEventListener('click', function() {
         Loading.show();
+
         // 모달을 보이도록 설정
-        iframe.src = '/purchase/pay';
+        iframe.src = `/purchase/pay`;
         modal.style.display = 'flex';
         document.body.style.overflow = 'hidden';
-
 
         // iframe이 로드되면 로딩 화면 숨기기
         iframe.onload = function() {

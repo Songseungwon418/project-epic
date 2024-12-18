@@ -8,6 +8,7 @@ import com.ssw.epicgames.services.GenreService;
 import com.ssw.epicgames.services.PriceService;
 import com.ssw.epicgames.vos.GameVo;
 import com.ssw.epicgames.vos.PriceVo;
+import jakarta.servlet.http.HttpSession;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;

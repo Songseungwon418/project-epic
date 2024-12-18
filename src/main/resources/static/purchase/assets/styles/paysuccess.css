@@ -78,6 +78,7 @@ button {
 }
 #main > .pay-success-page > .pay-success-container > .main-container > .button-container {
   width: 100%;
+  height: 100%;
   align-items: stretch;
   display: flex;
   flex-direction: row;
@@ -97,7 +98,7 @@ button {
   color: #Ffffff;
   background-color: rgb(140, 218.9631336406, 255);
 }
-#main > .pay-success-page > .pay-success-container > .main-container > .button-container > .button-wrapper > button {
+#main > .pay-success-page > .pay-success-container > .main-container > .button-container > .button-wrapper > .link-btn > button {
   width: 100%;
   height: 48px;
   font-size: 14px;
@@ -106,11 +107,11 @@ button {
   border-radius: 10px;
   cursor: pointer;
 }
-#main > .pay-success-page > .pay-success-container > .main-container > .button-container > .button-wrapper > button.btn-home {
+#main > .pay-success-page > .pay-success-container > .main-container > .button-container > .button-wrapper > .link-btn > button.btn-home {
   padding: 11px 19px;
   border: 1px solid rgba(255, 255, 255, 0.3490196078);
 }
-#main > .pay-success-page > .pay-success-container > .main-container > .button-container > .button-wrapper > button.btn-purchase {
+#main > .pay-success-page > .pay-success-container > .main-container > .button-container > .button-wrapper > .link-btn > button.btn-purchase {
   padding: 12px 20px;
   font-size: 16px;
   color: #000000;

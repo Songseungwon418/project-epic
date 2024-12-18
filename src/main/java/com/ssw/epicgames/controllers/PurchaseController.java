@@ -5,12 +5,14 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.databind.SerializationFeature;
 import com.fasterxml.jackson.datatype.jsr310.JavaTimeModule;
 import com.ssw.epicgames.DTO.CartDTO;
+import com.ssw.epicgames.DTO.GameDTO;
 import com.ssw.epicgames.DTO.WishlistDTO;
 import com.ssw.epicgames.entities.PayEntity;
 import com.ssw.epicgames.entities.UserEntity;
 import com.ssw.epicgames.resutls.CommonResult;
 import com.ssw.epicgames.resutls.Result;
 import com.ssw.epicgames.services.PurchaseService;
+import jakarta.servlet.http.HttpSession;
 import org.json.JSONObject;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
@@ -40,12 +42,16 @@ public class PurchaseController {
     //region 장바구니 관련
     /** 장바구니 화면 출력 */
     @GetMapping(value = "/cart", produces = MediaType.TEXT_HTML_VALUE)
-    public ModelAndView getCart(@SessionAttribute(value = "user", required = false) UserEntity user) {
+    public ModelAndView getCart(
+            @SessionAttribute(value = "user", required = false) UserEntity user,
+            HttpSession session
+    ) {
         CartDTO[] carts = this.purchaseService.getCarts(user);
         ModelAndView mav = new ModelAndView();
         if (carts != null) {
             mav.addObject("user", user);
             mav.addObject("carts", carts);
+            session.setAttribute("carts", carts);
         }
         mav.setViewName("purchase/cart");
         return mav;
@@ -142,19 +148,29 @@ public class PurchaseController {
     //region 결제 관련
     /** 결재 화면 출력 */
     @GetMapping(value = "/pay", produces = MediaType.TEXT_HTML_VALUE)
-    public ModelAndView getPay(@SessionAttribute(value = "user", required = false) UserEntity user) {
-        CartDTO[] carts = this.purchaseService.getCarts(user);
+    public ModelAndView getPay(
+            @SessionAttribute(value = "user", required = false) UserEntity user,
+            @SessionAttribute(value = "carts", required = false) CartDTO[] carts
+    ) {
+
+//        CartDTO[] carts = this.purchaseService.getCarts(user);
         ModelAndView mav = new ModelAndView();
-        if (carts != null) {
+        if (user == null) {
+            mav.setViewName("user/login");
+        } else if (carts != null) {
             mav.addObject("user", user);
             mav.addObject("carts", carts);
             // 카카오페이 결재를 위한 AppKey 넘겨줌
             mav.addObject("kakaoAppKey", kakaopayAppKey);
             mav.addObject("impNumber", impNumber);
+            mav.setViewName("purchase/pay");
+        } else {
+            mav.setViewName("/");
         }
-        mav.setViewName("purchase/pay");
+
         return mav;
     }
+
 
     /** 결제 진행 - 주문하기 버튼을 눌러서 결제 완료 시 */
     @PostMapping(value = "/pay/confirm", produces = MediaType.APPLICATION_JSON_VALUE)

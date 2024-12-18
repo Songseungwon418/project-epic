@@ -80,7 +80,6 @@ $closeBtn.onclick = () => {
         IMP.request_pay(requestData, payment_response);
     }
 
-
     function payment_response(portOneResponse) {
         console.log(portOneResponse);
         // Unix timestamp를 밀리초 단위로 변환 (1000을 곱함)

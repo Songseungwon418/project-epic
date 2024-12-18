@@ -30,10 +30,14 @@
                 </div>
                 <div class="button-container">
                     <div class="button-wrapper">
-                        <button type="button" class="btn-home" th:href="@{'/'}">계속 찾아보기</button>
+                        <a class="link-btn" th:href="@{'/'}">
+                            <button type="button" class="btn-home">계속 찾아보기</button>
+                        </a>
                     </div>
                     <div class="button-wrapper">
-                        <button type="button" class="btn-purchase">결제 내역보기</button>
+                        <a class="link-btn" th:href="@{'/purchase/purchaseList'}">
+                            <button type="button" class="btn-purchase">결제 내역보기</button>
+                        </a>
                     </div>
                 </div>
             </section>

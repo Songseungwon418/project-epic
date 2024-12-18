@@ -1,6 +1,7 @@
 package com.ssw.epicgames.DTO;
 
 import com.ssw.epicgames.entities.*;
+import com.ssw.epicgames.vos.PriceVo;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
