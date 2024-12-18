@@ -175,16 +175,18 @@ public class PurchaseController {
     @ResponseBody
     public String confirmPay(
             @SessionAttribute(value = "user", required = true) UserEntity user,
+            @SessionAttribute(value = "carts", required = false) CartDTO[] carts,
             @RequestParam(value = "userEmail", required = true) String userEmail,
             @RequestParam(value = "pay", required = true) String payJSON
     ) throws JsonProcessingException {
+
         // payJson을 객체로 변환 (Jackson 라이브러리 사용)
         ObjectMapper objectMapper = new ObjectMapper();
         objectMapper.registerModule(new JavaTimeModule());  // Java 8 날짜/시간 모듈 등록
         objectMapper.disable(SerializationFeature.WRITE_DATES_AS_TIMESTAMPS);  // ISO-8601 형식으로 날짜 출력
         PayEntity pay = objectMapper.readValue(payJSON, PayEntity.class);
 
-        Result result;
+        Result result; //결과 저장
 
         // 로그인이 안되었거나 로그인 한 유저와 구매 요청한 유저가 다를 때
         if (user == null || !userEmail.equals(user.getEmail())) {
@@ -192,7 +194,7 @@ public class PurchaseController {
         }
         // 유저가 동일하다면 구매 진행
         else {
-            result = this.purchaseService.proceedToCheckout(user, pay);
+            result = this.purchaseService.proceedToCheckout(user, pay, carts);
         }
         JSONObject response = new JSONObject();
         response.put(Result.NAME, result.nameToLower());

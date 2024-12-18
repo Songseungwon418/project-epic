@@ -33,9 +33,9 @@
                                 <span class="user-email" th:text="${cart.getCart().getUserEmail()}"></span>
                             </div>
                             <div class="img-container">
-                                <a class="link-image" href="#">
+                                <a class="link-image" th:href="@{'/game/page' (index=${cart.getGame().getIndex()})}">
                                     <div class="image-wrapper">
-                                        <img class="image" th:src="${cart.getGame().base64Image}" alt="표지이미지">
+                                        <img class="image" th:src="@{'/game/cover?index=' + ${cart.getGame().getIndex()}}" alt="표지이미지">
                                     </div>
                                 </a>
                                 <span class="logo-wrapper" aria-hidden="true">
@@ -73,7 +73,7 @@
                                 <div class="link">
                                     <div class="link-wrapper">
                                         <div class="img-wrapper">
-                                            <img th:alt="${cart.getGameRating().getTitle()}" th:src="${cart.getGameRating().base64Logo}">
+                                            <img th:alt="${cart.getGameRating().getTitle()}" th:src="@{'/game/image?index=' + ${cart.getGame().getIndex()} + '&type=gameRating'}">
                                         </div>
                                         <div class="content-wrapper">
                                             <span class="title" th:text="${cart.getGameRating().getTitle()}"></span>
@@ -154,7 +154,7 @@
                             <span class="text">장바구니가 비어 있습니다.</span>
                         </h1>
                         <div class="info_link">
-                            <a type="button" role="link" class="link" href="/">
+                            <a type="button" role="link" class="link" th:href="@{'/'}">
                                 <span class="link_text">
                                     <span class="text">게임 및 앱 구매</span>
                                 </span>

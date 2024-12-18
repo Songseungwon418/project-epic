@@ -44,8 +44,7 @@ $closeBtn.onclick = () => {
 
     const $mainContainer = document.getElementById('main-container');
     const $payTitle =$mainContainer.querySelector(':scope > .payment-summaries > .pay-summaries-container > .pay-content > .pay-content-info > .pay-title');
-    const $userEmailTag = document.getElementById('userEmail');
-    const userEmail = $userEmailTag.value;
+    const $userEmail = $mainContainer.querySelector(':scope > .payment-summaries > .pay-summaries-container > .pay-content > .info-data > .user-email');
     const $totalPrice = $mainContainer.querySelector(':scope > .payment-summaries > .pay-summaries-container > .pay-order-prices > .payment-price > .payment-price-value');
     const $payBtn = document.getElementById('payment-btn');// 구매 버튼
 
@@ -105,6 +104,10 @@ $closeBtn.onclick = () => {
 
         // pay 객체를 JSON 문자열로 변환
         const payJson = JSON.stringify(pay);
+
+        // 로그인 한 유저와 장바구니안에 등록된 유저가 일치한 지 보기위함
+        const userEmail = $userEmail.textContent;
+
 
         const formData = new FormData();
         formData.append('userEmail', userEmail);
