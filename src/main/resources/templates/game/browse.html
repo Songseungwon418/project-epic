@@ -161,20 +161,25 @@
                 </div>
 
                 <div class="game-wrapper" id="gameWrapper">
-                    <a class="game" th:each="game : ${games}" th:href="@{'/game/page' (index=${game.getIndex()})}" target="_self">
+                    <a class="game" th:each="game, iterStat : ${games}" th:href="@{'/game/page'(index=${game.getIndex()})}" target="_self">
                         <div class="mainImage">
-                            <img th:src="${game.base64Image}" alt="게임포스터">
+                            <!-- 전체 게임 이미지 경로 -->
+                            <img th:src="@{'/game/browse-image-all?index=' + ${iterStat.index}}" alt="게임포스터"
+                                 th:if="${keyword == null || keyword.isEmpty()}">
+                            <!-- 검색된 게임 이미지 경로 -->
+                            <img th:src="@{'/game/browse-image-search?index=' + ${iterStat.index} + '&keyword=' + ${keyword}}" alt="게임포스터"
+                                 th:if="${keyword != null && !keyword.isEmpty()}">
                         </div>
                         <div class="text-wrapper">
                             <span style="margin-top: -0.5rem">기본 게임</span>
                             <span class="gameName" th:text="${game.getName()}"></span>
                             <span class="gamePrice" th:text="${game.getPrice()}"></span>
-                            <span class="gameGenre" th:text="${game.getGenre}" style="display: none"></span>
+                            <span class="gameGenre" th:text="${game.getGenre()}" style="display: none"></span>
                             <span class="gameAge" th:text="${game.getGrGrac()}" style="display: none"></span>
-
                         </div>
                     </a>
                 </div>
+
 
             </div>
 

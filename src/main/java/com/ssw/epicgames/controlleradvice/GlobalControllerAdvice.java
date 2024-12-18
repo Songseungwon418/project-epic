@@ -20,4 +20,10 @@ public class GlobalControllerAdvice {
         UserEntity user = (UserEntity) session.getAttribute("user");
         return user != null ? user.getNickname() : null;
     }
+
+    @ModelAttribute("userEmail")
+    public String addUserEmail(HttpSession session) {
+        UserEntity user = (UserEntity) session.getAttribute("user");
+        return user != null ? user.getEmail() : null;
+    }
 }
