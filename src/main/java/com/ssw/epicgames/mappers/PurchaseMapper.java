@@ -74,14 +74,21 @@ public interface PurchaseMapper {
     /** 결제 내역 삽입(결재 정보) */
     int insertPay(PayEntity pay);
 
+    /** 결제 내역 조회 */
+    PayEntity selectPayById(@Param("id")String id);
+
     /** 유저에 해당하는 결제 내역들 조회*/
     PayEntity[] selectPayByUser(@Param("userEmail") String userEmail);
 
-    /** 게임 index로 구매 내역 조회 */
-    PurchaseEntity selectPurchaseByGameIndex(@Param("gameIndex") int gameIndex);
+    /** 게임 index로 해당 유저의 구매 내역 조회 */
+    int selectPurchaseByGameIndex(
+            @Param("userEmail") String userEmail,
+            @Param("gameIndex") int gameIndex);
     // endregion
 
     List<PurchaseEntity> getPurchasesByUserEmail(@Param("userEmail") String userEmail);
+
+
 
 
 //    PurchaseEntity[] selectPurchaseByUserEmail(@Param("userEmail") String userEmail);

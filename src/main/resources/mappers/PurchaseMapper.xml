@@ -141,6 +141,24 @@
         INSERT INTO `epic_games`.`pay` (`id`, `user_email`, `imp_uid`,`name`, `amount`, `method`, `paid_at`, `pg_provider`, `status`, `currency`, `card_name`, `card_number`, `pg_tid`)
         VALUES (#{id}, #{userEmail}, #{impUid}, #{name}, #{amount}, #{method}, #{paidAt}, #{pgProvider}, #{status}, #{currency}, #{cardName}, #{cardNumber}, #{pgTid})
     </insert>
+    <!--  결제 id로 결제 내역 조회  -->
+    <select id="selectPayById" resultType="com.ssw.epicgames.entities.PayEntity">
+        SELECT id          AS `id`,
+               user_email  AS `userEmail`,
+               imp_uid     AS `impUid`,
+               name        AS `name`,
+               amount      AS `amount`,
+               method      AS `method`,
+               paid_at     AS `paidAt`,
+               pg_provider AS `pgProvider`,
+               status      AS `status`,
+               currency    AS `currency`,
+               card_name   AS `cardName`,
+               card_number AS `cardNumber`,
+               pg_tid      AS `pgTid`
+        FROM `epic_games`.`pay`
+        WHERE `id` = #{id}
+    </select>
     <!-- 유저에 해당하는 결제 내역들 조회   -->
     <select id="selectPayByUser" resultType="com.ssw.epicgames.entities.PayEntity">
         SELECT id          AS `id`,
@@ -157,21 +175,13 @@
                card_number AS `cardNumber`,
                pg_tid      AS `pgTid`
         FROM `epic_games`.`pay`
-        WHERE user_email = #{userEmail}
+        WHERE `user_email` = #{userEmail}
     </select>
-    <!--  게임 index로 구매 내역 조회  -->
-    <select id="selectPurchaseByGameIndex" resultType="com.ssw.epicgames.entities.PurchaseEntity">
-        SELECT `index` AS `index`,
-               user_email AS `userEmail`,
-               game_index AS `gameIndex`,
-               date AS `date`,
-               game_price AS `gamePrice`,
-               discount_amount AS `discountAmount`,
-               final_price AS `finalPrice`,
-               addr AS `addr`,
-               deleted_at AS `deletedAt`
-        FROM epic_games.purchase
-        WHERE `game_index` = #{gameIndex}
+    <!--  게임 index로 구매 내역 유무 조회  -->
+    <select id="selectPurchaseByGameIndex" resultType="_int">
+        SELECT COUNT(*)
+        FROM `epic_games`.`purchase`
+        WHERE `user_email` = #{userEmail} AND `game_index` = #{gameIndex}
     </select>
 
 <!-- endregion -->
@@ -189,6 +199,7 @@
         FROM epic_games.purchase p
         WHERE p.user_email = #{userEmail}
     </select>
+
     <!--    <select id="selectPurchaseByUserEmail" resultType="com.ssw.epicgames.entities.PurchaseEntity">-->
 <!--        SELECT `index` AS `index`,-->
 <!--               user_email AS `userEmail`,-->

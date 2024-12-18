@@ -187,8 +187,10 @@ public class PurchaseController {
 
     /** 결재 완료(주문 성공 시) 화면 출력 */
     @GetMapping(value = "/paysuccess", produces = MediaType.TEXT_HTML_VALUE)
-    public ModelAndView getPaysuccess() {
+    public ModelAndView getPaysuccess(@RequestParam(value = "id", required = true) String id) {
         ModelAndView mav = new ModelAndView();
+        PayEntity pay = this.purchaseService.getPayById(id);
+        mav.addObject("pay", pay);
         mav.setViewName("purchase/paysuccess");
         return mav;
     }

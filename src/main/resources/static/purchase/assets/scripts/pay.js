@@ -94,7 +94,7 @@ $closeBtn.onclick = () => {
             impUid: portOneResponse['imp_uid'],
             name: portOneResponse['buyer_name'],
             amount: portOneResponse['paid_amount'],
-            method: portOneResponse['method'],
+            method: portOneResponse['pay_method'],
             paidAt: formattedDate,
             pgProvider: portOneResponse['pg_provider'],
             status: portOneResponse['status'],
@@ -139,7 +139,7 @@ $closeBtn.onclick = () => {
                 window.parent.location.href = '/purchase/cart';
             } else if(response['result'] === 'success'){
                 attemptCancel();
-                window.parent.location.href = '/purchase/paysuccess';
+                window.parent.location.href = `/purchase/paysuccess?id=${portOneResponse['merchant_uid']}`;
             }else {
                 alert('알수 없는 이유로 구매에 실패하였습니다.');
                 window.parent.location.href = '/purchase/cart';

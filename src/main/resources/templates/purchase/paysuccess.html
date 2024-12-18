@@ -23,14 +23,14 @@
                         <img src="/purchase/assets/images/cartimg.png" height="480" width="524"/>
                     </div>
                     <div class="text-wrapper">
-                        <span class="purchase-number">주문번호 1</span>
+                        <span class="purchase-number">주문번호: [[${pay.getId()}]]</span>
                         <span class="title">주문해 주셔서 감사합니다!</span>
                         <span class="sub-title">제품을 설치할 준비가 되셨나요?</span>
                     </div>
                 </div>
                 <div class="button-container">
                     <div class="button-wrapper">
-                        <button type="button" class="btn-home">계속 찾아보기</button>
+                        <button type="button" class="btn-home" th:href="@{'/'}">계속 찾아보기</button>
                     </div>
                     <div class="button-wrapper">
                         <button type="button" class="btn-purchase">결제 내역보기</button>

@@ -95,7 +95,7 @@ public class PurchaseService {
         CartEntity cart = new CartEntity(user.getEmail(), gameIndex, LocalDateTime.now());
 
         // 이미 구매한 게임인지 확인
-        if (checkDuplicatePurchase(cart)) {
+        if (checkDuplicatePurchase(user.getEmail(), cart)) {
             return PurchaseResult.FAILURE_DUPLICATE_PURCHASE;
         }
 
@@ -206,7 +206,7 @@ public class PurchaseService {
         WishlistEntity wishlist = new WishlistEntity(user.getEmail(), gameIndex, LocalDateTime.now());
 
         // 이미 구매한 게임인지 확인
-        if (checkDuplicatePurchase(wishlist)) {
+        if (checkDuplicatePurchase(user.getEmail(), wishlist)) {
             return PurchaseResult.FAILURE_DUPLICATE_PURCHASE;
         }
 
@@ -302,7 +302,7 @@ public class PurchaseService {
         }
 
         // 이미 구매한 게임인지 확인
-        if (checkDuplicatePurchase(cartList)) {
+        if (checkDuplicatePurchase(user.getEmail(), cartList)) {
             return PurchaseResult.FAILURE_DUPLICATE_PURCHASE;
         }
 
@@ -348,7 +348,15 @@ public class PurchaseService {
         return CommonResult.SUCCESS;
     }
 
-    /** 결제 내역 조회 */
+    /** 결제 내역 조회(단일) */
+    public PayEntity getPayById(String id) {
+        if (id == null || id.isEmpty()) {
+            return null;
+        }
+        return this.purchaseMapper.selectPayById(id);
+    }
+
+    /** 구매 내역들 조회 */
     public PurchaseDTO[] getPurchasesByUser(UserEntity user) {
         // 유저 유효성 검사(로그인 유뮤)
         if (user == null) {
@@ -359,6 +367,8 @@ public class PurchaseService {
         PayEntity[] pay = this.purchaseMapper.selectPayByUser(user.getEmail());
         return null;
     }
+
+
 //endregion
 
 
@@ -382,10 +392,9 @@ public class PurchaseService {
 
 //region 이미 구매한 게임이 있는지 확인하는 메서드
     /** 장바구니에 담긴 목록들에서 이미 구매한 게임이 있는지 체크 */
-    private boolean checkDuplicatePurchase(CartDTO[] cartList) {
+    private boolean checkDuplicatePurchase(String userEmail, CartDTO[] cartList) {
         for (CartDTO cart : cartList) {
-            PurchaseEntity dbPurchase = this.purchaseMapper.selectPurchaseByGameIndex(cart.getGame().getIndex());
-            if (dbPurchase != null) {
+            if (this.purchaseMapper.selectPurchaseByGameIndex(userEmail, cart.getGame().getIndex()) > 0) {
                 return true; // 중복 구매가 있으면 true 리턴
             }
         }
@@ -393,15 +402,13 @@ public class PurchaseService {
     }
 
     /** 장바구니에 담을 게임이 이미 구매한 것인지 체크 */
-    private boolean checkDuplicatePurchase(CartEntity cart) {
-        PurchaseEntity dbPurchase = this.purchaseMapper.selectPurchaseByGameIndex(cart.getGameIndex());
-        return dbPurchase != null; // 중복 구매가 있으면 true 리턴
+    private boolean checkDuplicatePurchase(String userEmail, CartEntity cart) {
+        return this.purchaseMapper.selectPurchaseByGameIndex(userEmail, cart.getGameIndex()) > 0; // 중복 구매가 있으면 true 리턴
     }
 
     /** 위시리스트에 담을 게임이 이미 구매한 것인지 체크 */
-    private boolean checkDuplicatePurchase(WishlistEntity wishlist) {
-    PurchaseEntity dbPurchase = this.purchaseMapper.selectPurchaseByGameIndex(wishlist.getGameIndex());
-    return dbPurchase != null; // 중복 구매가 있으면 true 리턴
+    private boolean checkDuplicatePurchase(String userEmail, WishlistEntity wishlist) {
+        return this.purchaseMapper.selectPurchaseByGameIndex(userEmail, wishlist.getGameIndex()) > 0; // 중복 구매가 있으면 true 리턴
     }
 //endregion
 }
