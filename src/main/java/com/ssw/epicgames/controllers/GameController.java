@@ -124,10 +124,15 @@ public class GameController {
     //region 게임 상세 페이지
     @RequestMapping(value = "/page", method = RequestMethod.GET, produces = MediaType.TEXT_HTML_VALUE)
     public ModelAndView getPage(@RequestParam(value = "index") int index,
-                                @SessionAttribute(value = "user", required = false) UserEntity user) {
+                                @SessionAttribute(value = "user", required = false) UserEntity user,
+                                HttpSession session
+    ) {
         ModelAndView modelAndView = new ModelAndView();
         GameDTO gameDetails = this.gameService.getGameDetails(index);
         PriceVo priceVo = this.priceService.discountInfo(index, gameDetails.getGame().getPrice());
+
+        session.setAttribute("gameDetails", gameDetails);
+        session.setAttribute("priceVo", priceVo);
 
         WishlistDTO[] wishlists = this.purchaseService.getWishlists(user);
         if (wishlists == null) {
@@ -164,6 +169,8 @@ public class GameController {
         modelAndView.setViewName("game/page");
         return modelAndView;
     }
+
+    //endregion
 
     //region 장르별 페이지 이미지
     // 전체 게임 이미지 조회
