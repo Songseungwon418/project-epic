@@ -198,15 +198,19 @@
             </div>
             <div class="newGame-container">
                 <div class="newGame-wrapper">
-                    <a th:href="@{'/game/page' (index=${newGame.getIndex()})}" target="_self" th:each="newGame : ${newGames}" class="game">
+                    <a th:each="game, iterStat : ${newGames}" th:href="@{'/game/page'(index=${game.getIndex()})}" target="_self" data-user-email="${userEmail}" class="game">
                         <div class="main-image">
-                            <img th:src="${newGame.base64Image}" alt="게임포스터">
+                            <img th:src="@{'/new-game-image?index=' + ${iterStat.index}}"
+                                 alt="게임포스터">
+                            <button class="addList" type="button" data-game-index="${game.getIndex()}">
+                                <img class="plus" src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABgAAAAYCAYAAADgdz34AAAACXBIWXMAAAsTAAALEwEAmpwYAAAA4klEQVR4nN2UUQrCMBBEH5X2UFLPYKnaXkmtt1DqkaxWL6H+RwLrT0nMWvPlwEAIm5kwmyz8OzKgBlqgA57CTvYqqRmFBXADTIBXoPxGeALsFMJmwAZINAZjxI1wo4nF/MjCJ54pMp8CeaCm9zW+VtzujVDdCgeOEQ0OLoNLRIPOZXD3ZB6CqydWS2WQB+VhpjU4R4zo5DJoIxrsXQZVRIOlyyCTwfXpYO7JfPjRUl/DSsXtTIBzAmh+EF+jgB2525GTNOELFJJnSLjXxOJDKoPLzhb7th9Cu7Z79rV4G/ofeAG5NRUWhxZUbAAAAABJRU5ErkJggg==" alt="plus--v1">
+                            </button>
+                            <div class="tooltip">위시리스트에 추가</div>
                         </div>
                         <span class="game-type">기본 게임</span>
-                        <span th:text="${newGame.getName()}" class="game-name"></span>
-                        <span th:text="${newGame.getPrice()}" class="game-price"></span>
+                        <span class="game-name" th:text="${game.name}"></span>
+                        <span class="game-price" th:text="${game.price}"></span>
                     </a>
-
                 </div>
             </div>
         </section>
@@ -245,19 +249,29 @@
             </div>
             <div class="saleGame-container">
                 <div class="saleGame-wrapper">
-                    <a th:href="@{'/game/page' (index=${saleGame.getIndex()})}" target="_self" th:each="saleGame : ${saleGames}" class="sale-game">
+                    <a th:each="game, iterStat : ${saleGames}"
+                       th:href="@{'/game/page'(index=${game.getIndex()})}"
+                       data-user-email="${userEmail}"
+                       target="_self"
+                       class="sale-game">
                         <div class="main-image">
-                            <img th:src="${saleGame.base64Image}" alt="게임포스터">
+                            <img th:src="@{'/sale-game-image?index=' + ${iterStat.index}}"
+                                 alt="게임포스터">
+                            <button class="addList" type="button" data-game-index="${game.getIndex()}">
+                                <img class="plus" src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABgAAAAYCAYAAADgdz34AAAACXBIWXMAAAsTAAALEwEAmpwYAAAA4klEQVR4nN2UUQrCMBBEH5X2UFLPYKnaXkmtt1DqkaxWL6H+RwLrT0nMWvPlwEAIm5kwmyz8OzKgBlqgA57CTvYqqRmFBXADTIBXoPxGeALsFMJmwAZINAZjxI1wo4nF/MjCJ54pMp8CeaCm9zW+VtzujVDdCgeOEQ0OLoNLRIPOZXD3ZB6CqydWS2WQB+VhpjU4R4zo5DJoIxrsXQZVRIOlyyCTwfXpYO7JfPjRUl/DSsXtTIBzAmh+EF+jgB2525GTNOELFJJnSLjXxOJDKoPLzhb7th9Cu7Z79rV4G/ofeAG5NRUWhxZUbAAAAABJRU5ErkJggg==" alt="plus--v1">
+                            </button>
+                            <div class="tooltip">위시리스트에 추가</div>
                         </div>
-                        <span class="game-type">기본 게임</span>
-                        <span class="game-name" th:text="${saleGame.getName()}"></span>
+                        <span class="game-type">세일 게임</span>
+                        <span class="game-name" th:text="${game.name}"></span>
                         <div class="sale-info">
                             <div class="sale-percentage">
-                                <span class="text" th:text="${'-' + saleGame.getDiscountPercent() + '%'}"></span>
+                        <span class="text"
+                              th:text="${'-' + game.getDiscountPercent() + '%'}"></span>
                             </div>
-                            <del class="origin-price" th:text="${saleGame.getPrice()}"></del>
+                            <del class="origin-price" th:text="${game.price}"></del>
                             <span class="sale-price"
-                                  th:text="${saleGame.getPrice() * (1 - (saleGame.getDiscountPercent() / 100.0))}"></span>
+                                  th:text="${game.price * (1 - (game.getDiscountPercent() / 100.0))}"></span>
                         </div>
                     </a>
                 </div>

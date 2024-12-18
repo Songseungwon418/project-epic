@@ -489,9 +489,6 @@
   padding-left: 0.3rem;
   box-sizing: border-box;
 }
-#main > .mainSection > .newGame > .newGame-container {
-  overflow: hidden;
-}
 #main > .mainSection > .newGame > .newGame-container > .newGame-wrapper {
   display: flex;
   gap: 1.8rem;
@@ -516,15 +513,60 @@
   height: 73%;
   overflow: hidden;
   border-radius: 1.1rem;
-}
-#main > .mainSection > .newGame > .newGame-container > .newGame-wrapper > .game > .main-image:hover {
-  filter: brightness(1.1);
+  position: relative;
 }
 #main > .mainSection > .newGame > .newGame-container > .newGame-wrapper > .game > .main-image > img {
   width: 100%;
   height: 100%;
   object-position: center;
   object-fit: cover;
+}
+#main > .mainSection > .newGame > .newGame-container > .newGame-wrapper > .game > .main-image > .addList {
+  top: 1rem;
+  right: 1rem;
+  position: absolute;
+  width: 24px;
+  height: 24px;
+  background-color: #ffffff;
+  border-radius: 999rem;
+  cursor: pointer;
+  outline: none;
+  border: none;
+  z-index: 1;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  opacity: 0;
+  transition-property: opacity;
+  transition-duration: 0.3s;
+  transition-timing-function: ease;
+}
+#main > .mainSection > .newGame > .newGame-container > .newGame-wrapper > .game > .main-image > .addList > .plus {
+  width: 24px;
+  height: 24px;
+}
+#main > .mainSection > .newGame > .newGame-container > .newGame-wrapper > .game > .main-image:hover {
+  filter: brightness(1.1);
+}
+#main > .mainSection > .newGame > .newGame-container > .newGame-wrapper > .game > .main-image:hover .addList {
+  opacity: 1;
+}
+#main > .mainSection > .newGame > .newGame-container > .newGame-wrapper > .game > .main-image .addList:hover + .tooltip {
+  display: block;
+}
+#main > .mainSection > .newGame > .newGame-container > .newGame-wrapper > .game > .main-image > .tooltip {
+  display: none;
+  width: 15rem;
+  height: 2.5rem;
+  position: absolute;
+  background-color: #18181c;
+  border-radius: 1rem;
+  color: #ffffff;
+  font-size: 1.5rem;
+  line-height: 1.5;
+  top: 1rem;
+  left: 2rem;
+  text-align: center;
 }
 #main > .mainSection > .newGame > .newGame-container > .newGame-wrapper > .game > .game-type {
   color: rgba(255, 255, 255, 0.6509803922);
@@ -653,6 +695,53 @@
   height: 100%;
   object-position: center;
   object-fit: cover;
+}
+#main > .mainSection > .saleGame > .saleGame-container > .saleGame-wrapper > .sale-game > .main-image > .addList {
+  top: 1rem;
+  right: 1rem;
+  position: absolute;
+  width: 24px;
+  height: 24px;
+  background-color: #ffffff;
+  border-radius: 999rem;
+  cursor: pointer;
+  outline: none;
+  border: none;
+  z-index: 1;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  opacity: 0;
+  transition-property: opacity;
+  transition-duration: 0.3s;
+  transition-timing-function: ease;
+}
+#main > .mainSection > .saleGame > .saleGame-container > .saleGame-wrapper > .sale-game > .main-image > .addList > .plus {
+  width: 24px;
+  height: 24px;
+}
+#main > .mainSection > .saleGame > .saleGame-container > .saleGame-wrapper > .sale-game > .main-image:hover {
+  filter: brightness(1.1);
+}
+#main > .mainSection > .saleGame > .saleGame-container > .saleGame-wrapper > .sale-game > .main-image:hover .addList {
+  opacity: 1;
+}
+#main > .mainSection > .saleGame > .saleGame-container > .saleGame-wrapper > .sale-game > .main-image .addList:hover + .tooltip {
+  display: block;
+}
+#main > .mainSection > .saleGame > .saleGame-container > .saleGame-wrapper > .sale-game > .main-image > .tooltip {
+  display: none;
+  width: 15rem;
+  height: 2.5rem;
+  position: absolute;
+  background-color: #18181c;
+  border-radius: 1rem;
+  color: #ffffff;
+  font-size: 1.5rem;
+  line-height: 1.5;
+  top: 1rem;
+  left: 2rem;
+  text-align: center;
 }
 #main > .mainSection > .saleGame > .saleGame-container > .saleGame-wrapper > .sale-game > .game-type {
   color: rgba(255, 255, 255, 0.6509803922);

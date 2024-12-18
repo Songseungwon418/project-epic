@@ -43,7 +43,7 @@ public class PurchaseController {
     public String addToCart(
             @SessionAttribute(value = "user", required = true) UserEntity user,
             @RequestParam(value = "gameIndex", required = true) int gameIndex,
-            @RequestParam(value = "index", required = false) int index,
+            @RequestParam(value = "index", required = false, defaultValue = "0") int index,
             @RequestParam(value = "userEmail", required = false) String userEmail
     ){
         Result result;
@@ -89,14 +89,14 @@ public class PurchaseController {
     public String addToWishlist(
             @SessionAttribute(value = "user", required = true) UserEntity user,
             @RequestParam(value = "gameIndex", required = true) int gameIndex,
-            @RequestParam(value = "index", required = false) int index,
+            @RequestParam(value = "index", required = false, defaultValue = "0") int index,
             @RequestParam(value = "userEmail", required = false) String userEmail
     ) {
         Result result;
         if (index <= 0) {
             result = this.purchaseService.addToWishlist(user, gameIndex);
         }
-        else { // 장바구니에서 위시리스트 이동 시
+        else {
             result = this.purchaseService.addToWishlist(user, gameIndex, index, userEmail);
         }
         JSONObject response = new JSONObject();
