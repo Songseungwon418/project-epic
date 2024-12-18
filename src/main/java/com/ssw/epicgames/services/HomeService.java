@@ -22,4 +22,21 @@ public class HomeService {
     public GameVo[] getSaleGames() {
         return this.homeMapper.selectSaleGames();
     }
+
+    public GameVo getGameByIndex(int index, boolean isSale) {
+        GameVo[] newGames = this.homeMapper.selectNewGames();
+        GameVo[] saleGames = this.homeMapper.selectSaleGames();
+
+        if (isSale) {
+            if (index < saleGames.length) {
+                return saleGames[index];
+            }
+        } else {
+            if (index < newGames.length) {
+                return newGames[index];
+            }
+        }
+
+        return null;
+    }
 }

@@ -116,7 +116,7 @@ public class PurchaseController {
         if (index == 0) {
             result = this.purchaseService.addToWishlist(user, gameIndex);
         }
-        else { // 장바구니에서 위시리스트 이동 시
+        else {
             result = this.purchaseService.addToWishlist(user, gameIndex, index, userEmail);
         }
         JSONObject response = new JSONObject();
