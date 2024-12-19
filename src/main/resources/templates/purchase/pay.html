@@ -97,29 +97,19 @@
                             <span>지불 방법</span>
                         </h2>
                         <span class="payment-methods-subtitle">* 더 많은 결제수단이 향후 추가될 예정입니다.</span>
-                        <div class="payment-method -active" tabindex="0">
-                            <div class="payment-method__trigger" tabindex="-1">
-                                <div class="payment-method__content">
-                                    <div class="payment-radio payment-radio--active">
-                                        <input name="payment method" class="payment-radio__input" type="radio" tabindex="-1" aria-label="KAKAOPAY">
-                                        <span class="payment-radio__inner"></span>
-                                    </div>
-                                    <div class="payment-method-icon__wrap payment-method-icon__wrap--KR">
-                                        <div class="payment-method-icon payment-method-icon--kakaopay payment-method-icon--KR" aria-label="KAKAOPAY" role="img"></div>
-                                    </div>
-                                    <div class="payment-method__name">
-                                        <h2 class="payment-method__title">
-                                            <span>KakaoPay</span>
-                                        </h2>
-                                    </div>
-                                </div>
-                                <div class="payment-method__actions"></div>
-                            </div>
-                            <div class="payment-method__form">
-                                <div class="payment-tpp-info payment-tpp-info--with-content">
-                                    <div class="payment-tpp-info__external">
-                                        <span class="payment-tpp-info__redirect-note">구매를 안전하게 완료하기 위해 KakaoPay(으)로 이동합니다.</span>
-                                    </div>
+                        <div class="payment-method" tabindex="0">
+                            <div class="payment-method-trigger" tabindex="-1">
+                                <div class="payment-method-content">
+                                    <label class="payment-radio --active">
+                                        <input name="payment" class="payment-radio-input" type="radio" tabindex="-1" aria-label="KAKAOPAY" checked>
+                                        <div class="payment-radio-inner">
+                                            <div class="img-wrapper">
+                                                <img th:src="@{'/purchase/assets/images/kakaopay.png'}"/>
+                                                <span class="text">카카오페이 결제</span>
+                                            </div>
+                                            <div class="payment-tpp-info">구매를 안전하게 완료하기 위해 KakaoPay(으)로 이동합니다.</div>
+                                        </div>
+                                    </label>
                                 </div>
                             </div>
                         </div>
@@ -185,15 +175,15 @@
                         </span>
                     </footer>
                 </div>
-                <div class="pay-summaries-container" id="game-summaries-containers" th:if="${game != null && game.getGame() != null}">
+                <div class="pay-summaries-container" id="game-summaries-containers" th:if="${game != null}">
                     <div class="pay-content">
                         <div hidden="hidden" class="info-data">
-                            <span class="game-index" th:text="${game.getGame().getIndex()}"></span>
+                            <span class="game-index" th:text="${game.getIndex()}"></span>
                             <span class="user-email" th:text="${user.getEmail()}"></span>
                         </div>
                         <div class="pay-content-info">
-                            <h2 class="pay-title" th:text="${game.getGame().getName()}"></h2>
-                            <p class="pay-author" th:text="${game.getGame().getCompany()}"></p>
+                            <h2 class="pay-title" th:text="${game.getName()}"></h2>
+                            <p class="pay-author" th:text="${game.getCompany()}"></p>
                             <div class="pay-prices" th:if="${price.originalPrice != 0}">
                                 <div class="discount-container" th:if="${price.discountPrice != 0}">
                                     <span class="discount-pct">-[[${price.discountPer}]]%</span>
@@ -206,8 +196,8 @@
                             </div>
                         </div>
                         <div class="img-wrapper">
-                            <img th:alt="${game.getGame().getName()}"
-                                 th:src="@{'/game/cover?index=' + ${game.getGame().getIndex()}}"
+                            <img th:alt="${game.getName()}"
+                                 th:src="@{'/game/cover?index=' + ${game.getIndex()}}"
                                  width="12%">
                         </div>
                     </div>

@@ -1,31 +1,24 @@
 
 //region 모달창(구매버튼 누를 시) 관련
 // 버튼 클릭 시 모달 열기
-const $openModalBtn = document.getElementById('openModalBtn');
-const modal = document.getElementById('pay-modal');
-const iframe = document.getElementById('paymentIframe');
+const $openModalBtn = document.getElementById('open-modal-btn');
+const $modal = document.getElementById('cart-pay-modal');
+const $iframe = document.getElementById('paymentIframe');
 
 if($openModalBtn !== null){
     // 모달을 여는 함수
     $openModalBtn.addEventListener('click', function() {
-        Loading.show();
-
         // 모달을 보이도록 설정
-        iframe.src = `/purchase/pay`;
-        modal.style.display = 'flex';
+        $iframe.src = `/purchase/pay`;
+        $modal.style.display = 'flex';
         document.body.style.overflow = 'hidden';
-
-        // iframe이 로드되면 로딩 화면 숨기기
-        iframe.onload = function() {
-            Loading.hide();
-        };
     });
 
 // 모달 외부 클릭 시 닫기
     window.addEventListener('click', function(event) {
-        if (event.target === modal) {
-            iframe.src = "";
-            modal.style.display = 'none';
+        if (event.target === $modal) {
+            $iframe.src = "";
+            $modal.style.display = 'none';
             document.body.style.overflow = 'hidden auto';
         }
     });
@@ -34,7 +27,7 @@ if($openModalBtn !== null){
     window.addEventListener('message', function(event) {
         // 이벤트를 받았을 때 'closeModal' 메시지를 받으면 모달을 닫음
         if (event.data === 'closeModal') {
-            modal.style.display = 'none';
+            $modal.style.display = 'none';
             document.body.style.overflow = 'hidden auto';
         }
     });

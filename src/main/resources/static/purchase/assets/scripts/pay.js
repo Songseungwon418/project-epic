@@ -2,8 +2,28 @@ const $mainContainer = document.getElementById('main-container');
 const $loading = document.getElementById('loading');
 const $loadingSuccess = document.getElementById('loading-success');
 
-//region 로딩화면 관련
+//region 라디오버튼 선택되었을 시 디자인 관련 - 사용X
+// 모든 라디오 버튼을 가져옵니다.
+// const $radioButtons = document.querySelectorAll('input[type="radio"][name="payment"]');
+//
+// // 각 라디오 버튼에 클릭 이벤트 리스너를 추가합니다.
+// $radioButtons.forEach(radio => {
+//     radio.addEventListener('change', function() {
+//         const $parentLabel = this.closest('.payment-radio'); // 라디오 버튼의 부모인 .payment-radio 요소
+//
+//         // 모든 라디오 버튼의 부모에서 --active 클래스를 제거합니다.
+//         document.querySelectorAll('.payment-radio').forEach(label => label.classList.remove('--active'));
+//
+//         // 라디오 버튼이 체크되면 해당 부모 요소에 --active 클래스 추가
+//         if (this.checked) {
+//             $parentLabel.classList.add('--active');
+//         }
+//     });
+// });
+//endregion
 
+
+//region 로딩화면 관련
 // 로딩화면 보여주기
 HTMLElement.prototype.show = function () {
     this.classList.add('-visible');
@@ -39,27 +59,45 @@ $closeBtn.onclick = () => {
     attemptCancel();
 };
 
-//region 주문하기
+//region 결제 관련
 {
-
     const $mainContainer = document.getElementById('main-container');
     const $payTitle =$mainContainer.querySelector(':scope > .payment-summaries > .pay-summaries-container > .pay-content > .pay-content-info > .pay-title');
     const $userEmail = $mainContainer.querySelector(':scope > .payment-summaries > .pay-summaries-container > .pay-content > .info-data > .user-email');
     const $totalPrice = $mainContainer.querySelector(':scope > .payment-summaries > .pay-summaries-container > .pay-order-prices > .payment-price > .payment-price-value');
     const $payBtn = document.getElementById('payment-btn');// 구매 버튼
+    const uuid = crypto.randomUUID().substring(0,8);
+    const merchantUid = `pid-${uuid}`; // 주문번호 생성
+    let name = $payTitle.textContent.substring(0, 10);
+    name = name.length > 10 ? `${name}... 그 외` : `${name} 그 외`; // 주문명 생성
+    const amount = $totalPrice.textContent; // 총 가격(숫자)
+    console.log(amount);
+    // 주문하기 버튼 누를 시
+    $payBtn.onclick = () => {
+        if (amount === '0' ) { //결제api X
+            let date = new Date();
+            const formattedDate = date.toISOString();
+            const pay = {
+                id: merchantUid,
+                userEmail: userEmail,
+                name: userName,
+                amount: amount,
+                paidAt: formattedDate,
+            }
+            // pay 객체를 JSON 문자열로 변환
+            const payJson = JSON.stringify(pay);
+            payment_xhrRequest(payJson);
+        }
+        else if (amount !== '0' ) {
+            IMP.init(impNumber);// IMPORT 설정
+            payment(); // 결제요청(결제api진행)
+        }
+    }
 
-    $payBtn.onclick = payment; // 주문하기 버튼 누를 시
-
-    IMP.init(impNumber);// IMPORT 설정
     // 결재 진행
     function payment() {
         let requestData;
         try{
-            const uuid = crypto.randomUUID().substring(0,8);
-            const merchantUid = `pid-${uuid}`; // 주문번호 생성
-            let name = $payTitle.textContent.substring(0, 10);
-            name = name.length > 10 ? `${name}... 그 외` : `${name} 그 외`; // 주문명 생성
-            const amount = $totalPrice.textContent; // 총 가격(숫자)
             requestData = {
                 ...user,
                 pg: "kakaopay.TC0ONETIME",
@@ -105,13 +143,26 @@ $closeBtn.onclick = () => {
         // pay 객체를 JSON 문자열로 변환
         const payJson = JSON.stringify(pay);
 
+        payment_xhrRequest(payJson);
+    }
+
+    // 결제 요청 통신
+    function payment_xhrRequest(pay) {
         // 로그인 한 유저와 장바구니안에 등록된 유저가 일치한 지 보기위함
         const userEmail = $userEmail.textContent;
 
+        // 현제 페이지에서 주소의 파라미터값들을 가져옴
+        const urlParams = new URLSearchParams(window.location.search);
+        // 가져온 파라미터값들 중 'index'라는 파라미터 값을 가져옴
+        let gameIndex = urlParams.get('index');
 
         const formData = new FormData();
         formData.append('userEmail', userEmail);
-        formData.append('pay', payJson);
+        formData.append('pay', pay);
+        if (gameIndex != null || gameIndex > 0) {
+            formData.append('gameIndex', gameIndex);
+        }
+
         const xhr = new XMLHttpRequest();
         xhr.onreadystatechange = () => {
             if(xhr.readyState !== XMLHttpRequest.DONE){
@@ -123,6 +174,7 @@ $closeBtn.onclick = () => {
                 return;
             }
             const response = JSON.parse(xhr.responseText);
+
             if (response['result'] === 'failure'){
                 alert('구매에 실패하였습니다.');
                 attemptCancel();
@@ -137,7 +189,7 @@ $closeBtn.onclick = () => {
                 attemptCancel();
             } else if(response['result'] === 'success'){
                 attemptCancel();
-                window.parent.location.href = `/purchase/paysuccess?id=${portOneResponse['merchant_uid']}`;
+                window.parent.location.href = `/purchase/paysuccess?id=${merchantUid}`;
             }else {
                 alert('알수 없는 이유로 구매에 실패하였습니다.');
             }
@@ -146,6 +198,5 @@ $closeBtn.onclick = () => {
         xhr.send(formData);
         $loadingSuccess.show();
     }
-
 }
 //endregion

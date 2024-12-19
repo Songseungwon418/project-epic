@@ -5,22 +5,21 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.databind.SerializationFeature;
 import com.fasterxml.jackson.datatype.jsr310.JavaTimeModule;
 import com.ssw.epicgames.DTO.CartDTO;
-import com.ssw.epicgames.DTO.GameDTO;
 import com.ssw.epicgames.DTO.WishlistDTO;
+import com.ssw.epicgames.entities.GameEntity;
 import com.ssw.epicgames.entities.PayEntity;
 import com.ssw.epicgames.entities.UserEntity;
 import com.ssw.epicgames.resutls.CommonResult;
 import com.ssw.epicgames.resutls.Result;
 import com.ssw.epicgames.resutls.purchase.PurchaseResult;
+import com.ssw.epicgames.services.GameService;
+import com.ssw.epicgames.services.PriceService;
 import com.ssw.epicgames.services.PurchaseService;
 import com.ssw.epicgames.vos.PriceVo;
-import jakarta.servlet.http.HttpSession;
 import org.json.JSONObject;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
-import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
-import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.ModelAndView;
@@ -29,10 +28,14 @@ import org.springframework.web.servlet.ModelAndView;
 @RequestMapping(value = "/purchase")
 public class PurchaseController {
     private final PurchaseService purchaseService;
+    private final GameService gameService;
+    private final PriceService priceService;
 
     @Autowired
-    public PurchaseController(PurchaseService purchaseService) {
+    public PurchaseController(PurchaseService purchaseService, GameService gameService, PriceService priceService) {
         this.purchaseService = purchaseService;
+        this.gameService = gameService;
+        this.priceService = priceService;
     }
 
     @Value("${kakaopay.appkey}")
@@ -41,19 +44,16 @@ public class PurchaseController {
     @Value("${imp.number}")
     private String impNumber;
 
+
     //region 장바구니 관련
     /** 장바구니 화면 출력 */
     @GetMapping(value = "/cart", produces = MediaType.TEXT_HTML_VALUE)
-    public ModelAndView getCart(
-            @SessionAttribute(value = "user", required = false) UserEntity user,
-            HttpSession session
-    ) {
+    public ModelAndView getCart(@SessionAttribute(value = "user", required = false) UserEntity user) {
         CartDTO[] carts = this.purchaseService.getCarts(user);
         ModelAndView mav = new ModelAndView();
         if (carts != null) {
             mav.addObject("user", user);
             mav.addObject("carts", carts);
-            session.setAttribute("carts", carts);
         }
         mav.setViewName("purchase/cart");
         return mav;
@@ -152,32 +152,43 @@ public class PurchaseController {
     @GetMapping(value = "/pay", produces = MediaType.TEXT_HTML_VALUE)
     public ModelAndView getPay(
             @SessionAttribute(value = "user", required = false) UserEntity user,
-            @SessionAttribute(value = "carts", required = false) CartDTO[] carts,
-            @SessionAttribute(value = "game", required = false)GameDTO game,
-            @SessionAttribute(value = "price", required = false) PriceVo price
+            @RequestParam(value = "index", required = false, defaultValue = "0") int gameIndex
     ) {
         ModelAndView mav = new ModelAndView();
-        if (user == null) {
+        mav.addObject("user", user);
+
+        // 카카오페이 결재를 위한 AppKey 넘겨줌
+        mav.addObject("kakaoAppKey", kakaopayAppKey);
+        mav.addObject("impNumber", impNumber);
+
+        if (user == null) { // 로그인 유무, 로그인이 안되었을 시 로그인 화면으로
             mav.setViewName("user/login");
-        } else if (carts != null) {
-            mav.addObject("user", user);
-            mav.addObject("carts", carts);
-            // 카카오페이 결재를 위한 AppKey 넘겨줌
-            mav.addObject("kakaoAppKey", kakaopayAppKey);
-            mav.addObject("impNumber", impNumber);
-            mav.setViewName("purchase/pay");
-        }else if(game !=null ){
-            mav.addObject("user", user);
+        }
+        //장바구니 페이지에서 구매 버튼을 누를 시
+        else if (gameIndex == 0) {
+            // db에서 장바구니에 담긴 목록들 불러옴
+            CartDTO[] carts = this.purchaseService.getCarts(user);
+            // 장바구니가 비여있지않으면 목록을 보여줌
+            if (carts != null) {
+
+                mav.addObject("carts", carts);
+                mav.setViewName("purchase/pay");
+            }
+        }
+        // 게임 상세페이지에서 바로 구매 버튼을 누를 시
+        else if (gameIndex > 0) {
+            // db에서 해당하는 게임의 정보가 할인 정보 가지고옴
+            GameEntity game = this.gameService.getGameByIndex(gameIndex);
+            PriceVo price = this.priceService.discountInfo(game.getIndex(), game.getPrice());
+            // 유저와 게임, 할인 정보를 넘겨줌
             mav.addObject("game", game);
             mav.addObject("price", price);
-            // 카카오페이 결재를 위한 AppKey 넘겨줌
-            mav.addObject("kakaoAppKey", kakaopayAppKey);
-            mav.addObject("impNumber", impNumber);
             mav.setViewName("purchase/pay");
-        } else {
+        }
+        // 잘못된 요청일 경우
+        else {
             mav.setViewName("/");
         }
-
         return mav;
     }
 
@@ -187,13 +198,10 @@ public class PurchaseController {
     @ResponseBody
     public String confirmPay(
             @SessionAttribute(value = "user", required = true) UserEntity user,
-            @SessionAttribute(value = "carts", required = false) CartDTO[] carts,
-            @SessionAttribute(value = "game", required = false) GameDTO game,
-            @SessionAttribute(value = "price", required = false) PriceVo price,
             @RequestParam(value = "userEmail", required = false) String userEmail,
-            @RequestParam(value = "pay", required = true) String payJSON
+            @RequestParam(value = "pay", required = true) String payJSON,
+            @RequestParam(value = "gameIndex", required = false, defaultValue = "0") int gameIndex
     ) throws JsonProcessingException {
-
         // payJson을 객체로 변환 (Jackson 라이브러리 사용)
         ObjectMapper objectMapper = new ObjectMapper();
         objectMapper.registerModule(new JavaTimeModule());  // Java 8 날짜/시간 모듈 등록
@@ -206,21 +214,23 @@ public class PurchaseController {
         if (user == null || !userEmail.equals(user.getEmail())) {
             result = CommonResult.FAILURE;
         }
-        // 유저가 동일하다면 구매 진행
-        else {
+        // 게임상세페이지에서 구매가 아닐 시
+        else if(gameIndex == 0){
+            CartDTO[] carts = this.purchaseService.getCarts(user);
             // 장바구니에서 구매 시
-            if (carts != null) {
-                result = this.purchaseService.proceedToCheckout(user, pay, carts);
-            }
-            // 장바구니 구매가 아니고 게임 상세페이지에서 게임 하나 구매 시
-            else if (game !=null){
-                result = this.purchaseService.buyGame(user, pay, game.getGame(), price);
-            }
-            else { // 구매할 게임이 없는 요청임
+            if (carts == null || carts.length == 0) { // 장바구니에 구매할 게임이 없음
                 result = PurchaseResult.FAILURE_NOT_FOUND;
             }
-
+            result = this.purchaseService.proceedToCheckout(user, pay, carts);
         }
+        // 장바구니 구매가 아니고 게임 상세페이지에서 게임 하나 구매 시
+        else if (gameIndex > 0){
+            result = this.purchaseService.buyGame(user, pay, gameIndex);
+        }
+        else { // 구매할 게임이 없는 요청임
+            result = PurchaseResult.FAILURE_NOT_FOUND;
+        }
+
         JSONObject response = new JSONObject();
         response.put(Result.NAME, result.nameToLower());
         return response.toString();
@@ -237,8 +247,14 @@ public class PurchaseController {
     }
 
 
+    /** 결제 내역 화면 출력 */
+   @GetMapping(value = "/purchaseList", produces = MediaType.TEXT_HTML_VALUE)
+    public ModelAndView getPurchaseList(){
+       ModelAndView mav = new ModelAndView();
+       mav.setViewName("purchase/purchaseList");
+       return mav;
+   }
+
     //endregion
-
-
 
 }

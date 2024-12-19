@@ -342,13 +342,16 @@ public class PurchaseService {
 
     /** 게임 단품 구매일 경우 */
     @Transactional
-    public Result buyGame(UserEntity user, PayEntity pay, GameEntity game, PriceVo price) {
-        if (user == null || user.getEmail() == null || pay == null || game == null) {
+    public Result buyGame(UserEntity user, PayEntity pay, int gameIndex) {
+        if (user == null || user.getEmail() == null || pay == null || gameIndex == 0) {
             return CommonResult.FAILURE;
         }
 
+        // db에서 게임 확인
+        GameEntity buyGame = this.gameService.getGameByIndex(gameIndex);
+
         // 이미 구매한 게임인지 확인
-        if (checkDuplicatePurchaseByGameIndex(user.getEmail(), game.getIndex())) {
+        if (checkDuplicatePurchaseByGameIndex(user.getEmail(), buyGame.getIndex())) {
             return PurchaseResult.FAILURE_DUPLICATE_PURCHASE;
         }
 
@@ -357,8 +360,11 @@ public class PurchaseService {
             throw new TransactionalException("오류: 결제 내역 삽입 실패");
         }
 
+        // 게임의 할인 정보도 가져옴
+        PriceVo price = this.priceService.discountInfo(buyGame.getIndex(), buyGame.getPrice());
+
         // 구매 내역 생성
-        PurchaseEntity purchase = creatPurchaseEntity(user.getEmail(), user.getAddr(), pay.getId(), game.getIndex(), price);
+        PurchaseEntity purchase = creatPurchaseEntity(user.getEmail(), user.getAddr(), pay.getId(), gameIndex, price);
 
         // 구매 내역 삽입
         if (this.purchaseMapper.insertPurchase(purchase) <= 0){
@@ -366,7 +372,7 @@ public class PurchaseService {
         }
 
         // 장바구니에 담겨져 있으면 제거
-        CartEntity cart = this.purchaseMapper.selectCartByEmailANDGameIndex(user.getEmail(), game.getIndex());
+        CartEntity cart = this.purchaseMapper.selectCartByEmailANDGameIndex(user.getEmail(), buyGame.getIndex());
         if (cart != null) {
             if (deleteFromCart(cart.getIndex()) != CommonResult.SUCCESS) {
                 throw new TransactionalException("오류: 장바구니 삭제 실패");
@@ -374,7 +380,7 @@ public class PurchaseService {
         }
 
         // 위시리스트에 담겨져있으면 제거
-        WishlistEntity wishlist = this.purchaseMapper.selectWishlistByEmailANDGameIndex(user.getEmail(), game.getIndex()); //삭제할 위시리스트 설정
+        WishlistEntity wishlist = this.purchaseMapper.selectWishlistByEmailANDGameIndex(user.getEmail(), buyGame.getIndex()); //삭제할 위시리스트 설정
         // 위시리스트가 있으면 제거
         if (wishlist != null) {
             if(deleteFromWishlist(wishlist.getIndex()) != CommonResult.SUCCESS) {

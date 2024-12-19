@@ -15,7 +15,7 @@ import java.time.LocalDateTime;
 public class PayEntity {
     private String id; // merchant_id(주문번호)
     private String userEmail; // 주문자
-    private String impUid; //PortOne 고유 결재 번호
+    private String impUid; //PortOne 고유 결재 번호, 무료는 결제진행X
     private String name; //주문명
     private Integer amount; //결재 금액
     private String method; //결제수단
