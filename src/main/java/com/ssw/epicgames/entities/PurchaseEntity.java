@@ -12,6 +12,7 @@ import java.time.LocalDateTime;
 public class PurchaseEntity {
     private int index;
     private String userEmail;
+    private String payId;
     private int gameIndex;
     private LocalDateTime date;
     private int gamePrice;

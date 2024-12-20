@@ -30,8 +30,9 @@
                         <div class="media-container">
                             <div class="main-image">
                                 <ul class="slider-wrapper">
-                                    <li th:each="image : ${gameDetails.media}">
-                                        <img th:src="${image.getBase64Image()}" alt="메인 이미지">
+                                    <li th:each="image, iterStat : ${gameDetails.media}">
+                                        <img th:src="@{'/game/image?index=' + ${gameDetails.game.index} + '&type=gameImage&itemIndex=' + ${iterStat.index}}"
+                                             alt="메인이미지">
                                     </li>
                                 </ul>
 
@@ -60,9 +61,9 @@
 
                             <div class="image-container">
                                 <div class="image-wrapper">
-                                    <div class="image" th:each="image : ${gameDetails.media}"
-                                         data-index="${{loop.index}}">
-                                        <img th:src="${image.getBase64Image()}" alt="서브이미지">
+                                    <div class="image" th:each="image, iterStat : ${gameDetails.media}" data-index="${iterStat.index}">
+                                        <img th:src="@{'/game/image?index=' + ${gameDetails.game.index} + '&type=gameImage&itemIndex=' + ${iterStat.index}}"
+                                             alt="서브이미지">
                                     </div>
                                 </div>
                             </div>
@@ -110,12 +111,12 @@
                         <div class="achievement-container">
                             <h2 class="title">획득 가능 업적</h2>
                             <div class="achievement-wrapper">
-                                <div class="achievement" th:each="logo : ${gameDetails.achievement}">
+                                <div class="achievement" th:each="achievement, iterStat : ${gameDetails.achievement}">
                                     <div class="image">
-                                        <img th:src="${logo.getBase64Logo}"
+                                        <img th:src="@{'/game/image?index=' + ${gameDetails.game.index} + '&type=achievement&itemIndex=' + ${iterStat.index}}"
                                              alt="업적로고">
                                     </div>
-                                    <span class="name" th:text="${logo.getName()}"></span>
+                                    <span class="name" th:text="${achievement.name}"></span>
                                     <div class="point">
                                         <svg xmlns="http://www.w3.org/2000/svg" class="icon svg css-uwwqev"
                                              viewBox="0 0 15 14">
@@ -128,7 +129,7 @@
                                             <path d="M10.3826 12.1379C10.3826 12.7521 9.09198 13.25 7.49998 13.25C5.90798 13.25 4.6174 12.7521 4.6174 12.1379C4.6174 11.9371 4.75526 11.7488 4.99644 11.5862L4.99892 11.5845L5.54498 11.2735C6.0756 10.9712 6.51643 10.5312 6.82173 9.99911C6.90651 9.85135 7.12539 9.74247 7.49998 9.74247C7.87457 9.74247 8.09345 9.85135 8.17823 9.99911C8.48353 10.5312 8.92435 10.9712 9.45498 11.2735L10.001 11.5845L10.008 11.5893C10.2464 11.7511 10.3826 11.9384 10.3826 12.1379Z"
                                                   fill="currentColor" fill-rule="evenodd" clip-rule="evenodd"></path>
                                         </svg>
-                                        <span class="number" th:text="${logo.getReward() + 'px'}"></span>
+                                        <span class="number" th:text="${achievement.getReward() + 'px'}"></span>
                                     </div>
                                 </div>
                             </div>
@@ -137,16 +138,19 @@
                             <span class="main title">에픽 플레이어 평가</span>
                             <span class="sub text">에픽게임즈 에코시스템 내 플레이어의 의견입니다.</span>
                             <div class="category-wrapper">
-                                <div class="category" th:each="category : ${gameDetails.category}">
+                                <div class="category" th:each="category, iterStat : ${gameDetails.category}">
                                     <div class="feature">
                                         <div class="logo">
-                                            <img th:src="${category.getBase64Image()}" alt="카테고리 로고">
+                                            <img th:src="@{'/game/image?index=' + ${gameDetails.game.index} + '&type=category&itemIndex=' + ${iterStat.index}}"
+                                                 alt="카테고리 로고">
                                         </div>
                                         <span class="common text">이 게임은</span>
-                                        <span class="individual text" th:text="${category.getContent()}"></span>
+                                        <span class="individual text" th:text="${category.content}"></span>
                                     </div>
                                 </div>
                             </div>
+
+
                         </div>
                         <div class="requirements-container">
                             <span class="title" th:text="${gameDetails.game.getName() + ' 시스템 요구 사항'}"></span>
@@ -206,11 +210,13 @@
                                         <div class="row">
                                             <span class="left area">
                                                 <span class="name">스토리지</span>
-                                                <span class="value" th:text="${gameDetails.game.getMinStorage()}"></span>
+                                                <span class="value"
+                                                      th:text="${gameDetails.game.getMinStorage()}"></span>
                                             </span>
                                             <span class="right area">
                                                 <span class="name">스토리지</span>
-                                                <span class="value" th:text="${gameDetails.game.getRecStorage()}"></span>
+                                                <span class="value"
+                                                      th:text="${gameDetails.game.getRecStorage()}"></span>
                                             </span>
                                         </div>
                                     </div>
@@ -229,7 +235,122 @@
                     <section class="sideBar">
                         <div class="bar-nav">
                             <div class="logo-wrapper">
-                                <img th:src="${gameDetails.game.getBase64Logo()}" alt="게임로고">
+                                <img th:src="@{'/game/image?index=' + ${gameDetails.game.index} + '&type=gameLogo'}"
+                                     alt="게임로고"></div>
+
+                            <div class="gamerating-wrapper">
+                                <div class="gameRating">
+                                    <div class="logo-wrapper">
+                                        <img th:src="@{'/game/image?index=' + ${gameDetails.game.index} + '&type=gameRating'}" alt="게임연령로고">
+                                    </div>
+
+                                    <div class="text-wrapper">
+                                        <span class="main text" th:text="${gameDetails.gameRating.getTitle()}"></span>
+                                        <span class="sub text"
+                                              th:text="${gameDetails.gameRating.getTitle() == '전체이용가'? '' : '폭력성'}"></span>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div class="type-wrapper">
+                                <button class="basic" type="button">
+                                    <span class="text">기본 게임</span>
+                                </button>
+                            </div>
+
+                            <div class="price-wrapper" th:if="${gameDetails.game.price == 0}">
+                                <span class="free">무료</span>
+                                <span class="notice">앱 내 구매가 포함될 수도 있습니다.</span>
+                            </div>
+
+                            <div class="price-wrapper" th:if="${gameDetails.game.price != 0}">
+                                <div class="price-info" th:if="${priceVo.getDiscountPer() != 0}">
+                                    <div class="prices">
+                                        <div class="sale-percentage">
+                                            <span class="percentage"
+                                                  th:text="${'-' + priceVo.getDiscountPer() + '%'}"></span>
+                                        </div>
+                                        <div class="origin-price">
+                                            <del class="price" th:text="${priceVo.getOriginalPrice()}"></del>
+                                        </div>
+                                        <div class="sale-price">
+                                            <span class="price" th:text="${priceVo.getCurrentPrice()}"></span>
+                                        </div>
+                                    </div>
+                                    <div class="period">
+                                        <span class="date"
+                                              th:text="${#temporals.format(priceVo.getEndDate(), 'yyyy-MM-dd HH:mm') + ' 할인 종료'}"></span>
+                                    </div>
+                                </div>
+
+                                <div class="price-info" th:if="${priceVo.getDiscountPer() == 0}">
+                                    <span class="originPrice price" th:text="${gameDetails.game.getPrice()}"></span>
+                                </div>
+                            </div>
+
+                            <div class="button-container">
+                                <button class="buy button" type="button" id="buy-btn">
+                                    <div id="game-date" hidden="hidden" th:value="${gameDetails}"></div>
+                                    <span class="text">지금 구매</span>
+                                </button>
+
+                                <button class="cart cartAdd button" type="button" th:if="${!isInCart}">
+                                    <span class="text">장바구니에 담기</span>
+                                </button>
+
+                                <button class="cart cartDelete button" type="button" th:if="${isInCart}">
+                                    <span class="text">장바구니에서 제거</span>
+                                </button>
+
+                                <button class="wishlist wishlistAdd button" type="button" th:if="${!isInWishlist}">
+                                    <span class="text">위시리스트에 담기</span>
+                                </button>
+
+                                <button class="wishlist wishlistDelete button" type="button" th:if="${isInWishlist}">
+                                    <span class="text">위시리스트에서 제거</span>
+                                </button>
+
+                                <input type="text" id="userEmail" th:value="${userEmail}" hidden="hidden">
+
+                                <div>
+                                    <div th:each="cart : ${carts}" class="cart-item">
+                                        <input type="hidden" name="gameIndex" th:value="${cart.cart.gameIndex}" class="cart-game-index">
+                                        <input type="hidden" name="cartIndex" th:value="${cart.cart.index}" class="cart-index">
+                                    </div>
+                                </div>
+
+                                <div>
+                                    <div th:each="wishlist : ${wishlists}" class="wishlist-item">
+                                        <input type="hidden" name="gameIndex" th:value="${wishlist.wishlist.gameIndex}" class="wishlist-game-index">
+                                        <input type="hidden" name="wishlistIndex" th:value="${wishlist.wishlist.index}" class="wishlist-index">
+                                    </div>
+                                </div>
+
+                            </div>
+
+                            <div class="info-wrapper">
+                                <div class="info">
+                                    <div class="text-wrapper">
+                                        <span class="title">환불 유형</span>
+                                        <span class="value">셀프 환불</span>
+                                    </div>
+                                </div>
+
+                                <div class="info">
+                                    <div class="text-wrapper">
+                                        <span class="title">개발사</span>
+                                        <span class="value" th:text="${gameDetails.game.getCompany()}"></span>
+                                    </div>
+                                </div>
+
+                                <div class="info">
+                                    <div class="text-wrapper">
+                                        <span class="title">출시일</span>
+                                        <span class="value"
+                                              th:text="${#dates.format(gameDetails.game.getOpenDate(), 'yyyy.MM.dd')}"></span>
+
+                                    </div>
+                                </div>
                             </div>
                         </div>
                     </section>

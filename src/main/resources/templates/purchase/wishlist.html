@@ -66,9 +66,9 @@
                                 <span class="user-email" th:text="${wishlist.getWishlist().getUserEmail()}"></span>
                             </div>
                             <div class="img-container">
-                                <a class="link-image" href="#">
+                                <a class="link-image" th:href="@{'/game/page' (index=${wishlist.getGame().getIndex()})}">
                                     <div class="image-wrapper">
-                                        <img class="image" th:src="${wishlist.getGame().base64Image}" alt="표지이미지">
+                                        <img class="image" th:src="@{'/game/cover?index=' + ${wishlist.getGame().getIndex()}}" alt="표지이미지">
                                     </div>
                                 </a>
                                 <span class="logo-wrapper" aria-hidden="true">
@@ -99,7 +99,7 @@
                                         <span class="tag">기본 게임</span>
                                     </div>
                                 </div>
-                                <a class="title" href="#" th:text="${wishlist.getGame().getName()}"></a>
+                                <a class="title" th:href="@{'/game/page' (index=${wishlist.getGame().getIndex()})}" th:text="${wishlist.getGame().getName()}"></a>
                             </div>
                             <div class="price-container">
                                 <div class="price-wrapper">
@@ -118,7 +118,7 @@
                                    target="_blank">
                                     <div class="link-wrapper">
                                         <div class="img-wrapper">
-                                            <img th:alt="${wishlist.getGameRating().getTitle()}" th:src="${wishlist.getGameRating().base64Logo}">
+                                            <img th:alt="${wishlist.getGameRating().getTitle()}" th:src="@{'/game/image?index=' + ${wishlist.getGame().getIndex()} + '&type=gameRating'}">
                                         </div>
                                         <div class="content-wrapper">
                                             <span class="title" th:text="${wishlist.getGameRating().getTitle()}"></span>
@@ -257,7 +257,7 @@
                             <span class="text">위시리스트가 비어 있습니다.</span>
                         </h1>
                         <div class="info_link">
-                            <a type="button" role="link" class="link" href="/">
+                            <a type="button" role="link" class="link" th:href="@{'/'}">
                                     <span class="link_text">
                                         <span class="text">게임 및 앱 구매</span>
                                     </span>

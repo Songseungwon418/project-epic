@@ -32,6 +32,14 @@ public class GameService {
         return new GameDTO(game, gameRating, gameMedia, gameGenre, gameLanguage, gameCategory, gameAchievement);
     }
 
+    public GameVo selectGameByIndex(int index) {
+        GameVo[] allGames = this.gameMapper.selectAllGames();
+        if (index < 0 || index >= allGames.length) {
+            return null;
+        }
+        return allGames[index];
+    }
+
     public GameVo[] getAllGames() {
         return this.gameMapper.selectAllGames();
     }

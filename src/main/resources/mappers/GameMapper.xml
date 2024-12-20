@@ -18,16 +18,18 @@
     </select>
 
     <select id="selectGamesByKeyword" resultType="com.ssw.epicgames.vos.GameVo">
-        SELECT `index`                                                       AS `index`,
-               `name`                                                        AS `name`,
-               `price`                                                       AS `price`,
-               `main_image`                                                  AS `mainImage`,
+        SELECT `game`.`index` AS `index`,
+               `game`.`name` AS `name`,
+               `game`.`price` AS `price`,
+               `game`.`main_image` AS `mainImage`,
                GROUP_CONCAT(`game_genre_mapping`.`genre_tag` SEPARATOR ', ') AS `genre`
         FROM `epic_games`.`game`
                  LEFT JOIN `epic_games`.`game_genre_mapping`
                            ON `game`.`index` = `game_genre_mapping`.`game_index`
-        WHERE `name` LIKE CONCAT('%', #{keyword}, '%')
+        WHERE `game`.`name` LIKE CONCAT('%', #{keyword}, '%')
+        GROUP BY `game`.`index`, `game`.`name`, `game`.`price`, `game`.`main_image`
     </select>
+
 
     <!--   모든 게임들 선택   -->
     <select id="selectAllGameInfo" resultType="com.ssw.epicgames.entities.GameEntity">

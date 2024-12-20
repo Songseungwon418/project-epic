@@ -1,20 +1,24 @@
 package com.ssw.epicgames.controllers;
 
+import com.ssw.epicgames.DTO.CartDTO;
 import com.ssw.epicgames.DTO.GameDTO;
-import com.ssw.epicgames.entities.GameEntity;
-import com.ssw.epicgames.entities.GenreEntity;
+import com.ssw.epicgames.DTO.WishlistDTO;
+import com.ssw.epicgames.entities.*;
 import com.ssw.epicgames.services.GameService;
 import com.ssw.epicgames.services.GenreService;
+import com.ssw.epicgames.services.PriceService;
+import com.ssw.epicgames.services.PurchaseService;
 import com.ssw.epicgames.vos.GameVo;
+import com.ssw.epicgames.vos.PriceVo;
+import jakarta.servlet.http.HttpSession;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestMethod;
-import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.ModelAndView;
+
+import java.util.Arrays;
 
 @Controller
 @RequestMapping(value = "/game")
@@ -22,13 +26,18 @@ public class GameController {
 
     private final GameService gameService;
     private final GenreService genreService;
+    private final PriceService priceService;
+    private final PurchaseService purchaseService;
 
     @Autowired
-    public GameController(GameService gameService, GenreService genreService) {
+    public GameController(GameService gameService, GenreService genreService, PriceService priceService, PurchaseService purchaseService) {
         this.gameService = gameService;
         this.genreService = genreService;
+        this.priceService = priceService;
+        this.purchaseService = purchaseService;
     }
 
+    //region 마이페이지 이미지
     @RequestMapping(value = "/cover", method = RequestMethod.GET)
     @ResponseBody
     public ResponseEntity<byte[]> getCover(@RequestParam(value = "index") int index) {
@@ -41,16 +50,176 @@ public class GameController {
                 .header("Content-Type", "image/jpeg")
                 .body(game.getMainImage());
     }
+    //endregion
+
+    //region 게임 상세 페이지 이미지
+    @RequestMapping(value = "/image", method = RequestMethod.GET)
+    @ResponseBody
+    public ResponseEntity<byte[]> getImage(@RequestParam(value = "index") int index,
+                                           @RequestParam(value = "type") String type,
+                                           @RequestParam(value = "itemIndex", required = false) Integer itemIndex) {
+        byte[] imageData = null;
+        String contentType = "image/jpeg";
+
+        GameDTO gameDetails = this.gameService.getGameDetails(index);
+
+        switch (type) {
+            case "gameImage":
+                GameEntity game = gameDetails.getGame();
+                if (game != null && itemIndex != null && itemIndex >= 0 && itemIndex < 4) {
+                    MediaEntity[] media = gameDetails.getMedia();
+                    if (media != null && itemIndex < media.length) {
+                        imageData = media[itemIndex].getImage();
+                    }
+                }
+                break;
+
+            case "gameLogo":
+                GameEntity gameWithLogo = gameDetails.getGame();
+                if (gameWithLogo != null) {
+                    imageData = gameWithLogo.getMainLogo();
+                    contentType = "image/png";
+                }
+                break;
+
+            case "category":
+                CategoryEntity[] categories = gameDetails.getCategory();
+                if (categories != null && itemIndex != null && itemIndex >= 0 && itemIndex < categories.length) {
+                    imageData = categories[itemIndex].getImage();
+                    contentType = "image/png";
+                }
+                break;
+
+            case "achievement":
+                AchievementEntity[] achievements = gameDetails.getAchievement();
+                if (achievements != null && itemIndex != null && itemIndex >= 0 && itemIndex < achievements.length) {
+                    imageData = achievements[itemIndex].getLogo();
+                    contentType = "image/jpeg";
+                }
+                break;
+
+            case "gameRating":
+                GameRatingEntity gameRating = gameDetails.getGameRating();
+                if (gameRating != null) {
+                    imageData = gameRating.getLogo();
+                    contentType = "image/png";
+                }
+                break;
+
+            default:
+                return ResponseEntity.badRequest().build(); // 잘못된 요청
+        }
+
+        if (imageData == null) {
+            return ResponseEntity.notFound().build(); // 이미지가 없으면 404 반환
+        }
+
+        return ResponseEntity
+                .ok()
+                .header("Content-Type", contentType)
+                .body(imageData);
+    }
+    //endregion
 
     //region 게임 상세 페이지
     @RequestMapping(value = "/page", method = RequestMethod.GET, produces = MediaType.TEXT_HTML_VALUE)
-    public ModelAndView getPage(@RequestParam(value = "index") int index) {
+    public ModelAndView getPage(@RequestParam(value = "index") int index,
+                                @SessionAttribute(value = "user", required = false) UserEntity user,
+                                HttpSession session
+    ) {
         ModelAndView modelAndView = new ModelAndView();
         GameDTO gameDetails = this.gameService.getGameDetails(index);
+        PriceVo priceVo = this.priceService.discountInfo(index, gameDetails.getGame().getPrice());
+
+        session.setAttribute("gameDetails", gameDetails);
+        session.setAttribute("priceVo", priceVo);
+
+        WishlistDTO[] wishlists = this.purchaseService.getWishlists(user);
+        if (wishlists == null) {
+            wishlists = new WishlistDTO[0];
+        }
+
+        boolean isInWishlist = false;
+        for (WishlistDTO wishlist : wishlists) {
+            if (wishlist.getWishlist().getGameIndex() == index) {
+                isInWishlist = true;
+                break;
+            }
+        }
+
+        CartDTO[] carts = this.purchaseService.getCarts(user);
+        if (carts == null) {
+            carts = new CartDTO[0];
+        }
+
+        boolean isInCart = false;
+        for (CartDTO cart : carts) {
+            if (cart.getCart().getGameIndex() == index) {
+                isInCart = true;
+                break;
+            }
+        }
+
         modelAndView.addObject("gameDetails", gameDetails);
+        modelAndView.addObject("priceVo", priceVo);
+        modelAndView.addObject("carts", carts);
+        modelAndView.addObject("isInCart", isInCart);
+        modelAndView.addObject("wishlists", wishlists);
+        modelAndView.addObject("isInWishlist", isInWishlist);
         modelAndView.setViewName("game/page");
         return modelAndView;
     }
+
+    //endregion
+
+    //region 장르별 페이지 이미지
+    // 전체 게임 이미지 조회
+    @RequestMapping(value = "/genre-image-all", method = RequestMethod.GET)
+    @ResponseBody
+    public ResponseEntity<byte[]> getAllGameImageByGenre(@RequestParam(value = "index") int index,
+                                                  @RequestParam(value = "tag") String tag) {
+        GameVo[] games = this.genreService.getGamesByGenre(tag);
+
+        if (index < 0 || index >= games.length) {
+            return ResponseEntity.notFound().build();
+        }
+
+        GameVo game = games[index];
+
+        if (game == null || game.getMainImage() == null) {
+            return ResponseEntity.notFound().build();
+        }
+
+        return ResponseEntity
+                .ok()
+                .header("Content-Type", "image/jpeg")
+                .body(game.getMainImage());
+    }
+
+    // 키워드로 검색된 게임 이미지 조회
+    @RequestMapping(value = "/genre-image-search", method = RequestMethod.GET)
+    @ResponseBody
+    public ResponseEntity<byte[]> getSearchGameImageByGenre(@RequestParam(value = "index") int index,
+                                                     @RequestParam(value = "keyword") String keyword,
+                                                     @RequestParam(value = "tag") String tag) {
+        GameVo[] games = this.genreService.getGamesByGenreAndKeyword(tag, keyword);
+
+        if (index < 0 || index >= games.length) {
+            return ResponseEntity.notFound().build();
+        }
+
+        GameVo game = games[index];
+
+        if (game == null || game.getMainImage() == null) {
+            return ResponseEntity.notFound().build();
+        }
+
+        return ResponseEntity
+                .ok()
+                .header("Content-Type", "image/jpeg")
+                .body(game.getMainImage());
+    }
+    //endregion
 
     //region 장르별 페이지
     @RequestMapping(value = "/genre", method = RequestMethod.GET, produces = MediaType.TEXT_HTML_VALUE)
@@ -63,13 +232,50 @@ public class GameController {
 
         modelAndView.addObject("genres", genres);
         modelAndView.addObject("genre", genre);
-        if (keyword == null) {
+
+        if (keyword == null || keyword.isEmpty()) {
             modelAndView.addObject("games", this.genreService.getGamesByGenre(tag));
         } else {
             modelAndView.addObject("games", this.genreService.getGamesByGenreAndKeyword(tag, keyword));
+            modelAndView.addObject("keyword", keyword);
         }
         modelAndView.setViewName("game/genre");
         return modelAndView;
+    }
+    //endregion
+
+    //region 찾아보기 페이지 이미지
+    // 전체 게임 이미지 조회
+    @RequestMapping(value = "/browse-image-all", method = RequestMethod.GET)
+    @ResponseBody
+    public ResponseEntity<byte[]> getAllGameImage(@RequestParam(value = "index") int index) {
+        GameVo game = this.gameService.selectGameByIndex(index);
+        if (game == null || game.getMainImage() == null) {
+            return ResponseEntity.notFound().build();
+        }
+        return ResponseEntity
+                .ok()
+                .header("Content-Type", "image/jpeg")
+                .body(game.getMainImage());
+    }
+
+    // 키워드로 검색된 게임 이미지 조회
+    @RequestMapping(value = "/browse-image-search", method = RequestMethod.GET)
+    @ResponseBody
+    public ResponseEntity<byte[]> getSearchGameImage(@RequestParam(value = "index") int index,
+                                                     @RequestParam(value = "keyword") String keyword) {
+        GameVo[] games = this.gameService.getGamesByKeyword(keyword);
+        if (index < 0 || index >= games.length) {
+            return ResponseEntity.notFound().build();
+        }
+        GameVo game = games[index];
+        if (game == null || game.getMainImage() == null) {
+            return ResponseEntity.notFound().build();
+        }
+        return ResponseEntity
+                .ok()
+                .header("Content-Type", "image/jpeg")
+                .body(game.getMainImage());
     }
     //endregion
 
@@ -83,6 +289,7 @@ public class GameController {
         } else {
             GameVo[] games = this.gameService.getGamesByKeyword(keyword);
             modelAndView.addObject("games", games);
+            modelAndView.addObject("keyword", keyword);
         }
         modelAndView.setViewName("game/browse");
         return modelAndView;

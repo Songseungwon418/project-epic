@@ -480,10 +480,10 @@ button {
     border-radius: 0.5rem;
 }
 #header .header-nav > .login-button > .login:hover {
-    background-color: #28c3ff;
+    background-color: #72d3ff;
 }
 #header .header-nav > .login-button > .login:focus {
-    background-color: #2acaff;
+    background-color: #72d3ff;
 }
 #header .header-nav > .logout-button {
     margin-left: 1.8rem;

@@ -579,13 +579,14 @@
 }
 #main > .mainSection > .gameArea > .game-container > .game-description > .sideBar {
   width: 30%;
-  height: 30rem;
+  height: auto;
   position: sticky;
   top: 0;
   display: flex;
   flex-direction: column;
-  align-items: flex-start;
-  justify-content: flex-start;
+  align-items: center;
+  justify-content: center;
+  gap: 1.5rem;
 }
 #main > .mainSection > .gameArea > .game-container > .game-description > .sideBar > .bar-nav {
   width: 100%;
@@ -593,14 +594,205 @@
 #main > .mainSection > .gameArea > .game-container > .game-description > .sideBar > .bar-nav > .logo-wrapper {
   width: 100%;
   height: auto;
+  margin-top: 1rem;
+  user-select: none;
   display: flex;
+  justify-content: center;
   align-items: center;
 }
 #main > .mainSection > .gameArea > .game-container > .game-description > .sideBar > .bar-nav > .logo-wrapper > img {
-  width: 80%;
+  width: 90%;
   height: auto;
+  padding: 1.5rem;
+  background-color: transparent;
+  user-select: none;
   object-fit: contain;
   object-position: center;
+}
+#main > .mainSection > .gameArea > .game-container > .game-description > .sideBar > .bar-nav > .gamerating-wrapper {
+  width: 100%;
+  height: 8rem;
+  border-radius: 1rem;
+  border: 0.0625rem solid rgba(255, 255, 255, 0.1490196078);
+  margin-top: 2rem;
+  position: relative;
+  user-select: none;
+}
+#main > .mainSection > .gameArea > .game-container > .game-description > .sideBar > .bar-nav > .gamerating-wrapper:hover {
+  border: 0.1rem solid #ffffff;
+}
+#main > .mainSection > .gameArea > .game-container > .game-description > .sideBar > .bar-nav > .gamerating-wrapper > .gameRating {
+  width: 100%;
+  height: 100%;
+  padding: 1rem;
+  position: absolute;
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  justify-content: flex-start;
+  gap: 1.5rem;
+}
+#main > .mainSection > .gameArea > .game-container > .game-description > .sideBar > .bar-nav > .gamerating-wrapper > .gameRating > .logo-wrapper {
+  max-width: 46px;
+}
+#main > .mainSection > .gameArea > .game-container > .game-description > .sideBar > .bar-nav > .gamerating-wrapper > .gameRating > .logo-wrapper > img {
+  width: 100%;
+}
+#main > .mainSection > .gameArea > .game-container > .game-description > .sideBar > .bar-nav > .gamerating-wrapper > .gameRating > .text-wrapper {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  justify-content: center;
+  gap: 0.8rem;
+}
+#main > .mainSection > .gameArea > .game-container > .game-description > .sideBar > .bar-nav > .gamerating-wrapper > .gameRating > .text-wrapper > .main {
+  color: #ffffff;
+  font-weight: bold;
+}
+#main > .mainSection > .gameArea > .game-container > .game-description > .sideBar > .bar-nav > .gamerating-wrapper > .gameRating > .text-wrapper > .sub {
+  color: rgba(255, 255, 255, 0.6470588235);
+  font-size: 1.2rem;
+}
+#main > .mainSection > .gameArea > .game-container > .game-description > .sideBar > .bar-nav > .type-wrapper {
+  height: auto;
+  margin: 2rem 0;
+}
+#main > .mainSection > .gameArea > .game-container > .game-description > .sideBar > .bar-nav > .type-wrapper > .basic {
+  background-color: rgba(255, 255, 255, 0.1490196078);
+  color: #ffffff;
+  border: none;
+  outline: none;
+  border-radius: 0.5rem;
+  padding: 0.5rem 1rem;
+  pointer-events: none;
+}
+#main > .mainSection > .gameArea > .game-container > .game-description > .sideBar > .bar-nav > .type-wrapper > .basic > .text {
+  font-size: 1.3rem;
+}
+#main > .mainSection > .gameArea > .game-container > .game-description > .sideBar > .bar-nav > .price-wrapper {
+  width: 100%;
+  height: auto;
+  margin: 1.5rem 0;
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  justify-content: flex-start;
+  gap: 2rem;
+}
+#main > .mainSection > .gameArea > .game-container > .game-description > .sideBar > .bar-nav > .price-wrapper > .free {
+  font-size: 1.6rem;
+  font-weight: bold;
+  color: #ffffff;
+}
+#main > .mainSection > .gameArea > .game-container > .game-description > .sideBar > .bar-nav > .price-wrapper > .notice {
+  font-size: 1.3rem;
+  font-weight: normal;
+  color: rgba(255, 255, 255, 0.6509803922);
+}
+#main > .mainSection > .gameArea > .game-container > .game-description > .sideBar > .bar-nav > .price-wrapper > .price-info {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  justify-content: flex-start;
+  gap: 2rem;
+}
+#main > .mainSection > .gameArea > .game-container > .game-description > .sideBar > .bar-nav > .price-wrapper > .price-info > .prices {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  justify-content: flex-start;
+  gap: 1.5rem;
+}
+#main > .mainSection > .gameArea > .game-container > .game-description > .sideBar > .bar-nav > .price-wrapper > .price-info > .prices > .sale-percentage {
+  background-color: #26BBFF;
+  border-radius: 1rem;
+  padding: 0.4rem 0.8rem;
+}
+#main > .mainSection > .gameArea > .game-container > .game-description > .sideBar > .bar-nav > .price-wrapper > .price-info > .prices > .sale-percentage > .percentage {
+  font-size: 1.25rem;
+  color: #000000;
+  letter-spacing: normal;
+}
+#main > .mainSection > .gameArea > .game-container > .game-description > .sideBar > .bar-nav > .price-wrapper > .price-info > .prices > .origin-price > .price {
+  font-size: 1.5rem;
+  color: rgba(255, 255, 255, 0.6509803922);
+}
+#main > .mainSection > .gameArea > .game-container > .game-description > .sideBar > .bar-nav > .price-wrapper > .price-info > .prices > .sale-price > .price {
+  font-size: 1.6rem;
+  font-weight: bold;
+  color: #ffffff;
+}
+#main > .mainSection > .gameArea > .game-container > .game-description > .sideBar > .bar-nav > .price-wrapper > .price-info > .period > .date {
+  font-size: 1.3rem;
+  color: rgba(255, 255, 255, 0.6509803922);
+}
+#main > .mainSection > .gameArea > .game-container > .game-description > .sideBar > .bar-nav > .price-wrapper > .price-info > .originPrice {
+  font-size: 1.6rem;
+  font-weight: bold;
+  color: #ffffff;
+}
+#main > .mainSection > .gameArea > .game-container > .game-description > .sideBar > .bar-nav > .button-container {
+  width: 100%;
+  height: auto;
+  margin: 2rem 0;
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  justify-content: flex-start;
+  gap: 1.5rem;
+}
+#main > .mainSection > .gameArea > .game-container > .game-description > .sideBar > .bar-nav > .button-container > .button {
+  width: 100%;
+  outline: none;
+  border: none;
+  border-radius: 1rem;
+}
+#main > .mainSection > .gameArea > .game-container > .game-description > .sideBar > .bar-nav > .button-container > .button.buy {
+  background-color: #26BBFF;
+  padding: 1.6rem;
+}
+#main > .mainSection > .gameArea > .game-container > .game-description > .sideBar > .bar-nav > .button-container > .button.buy > .text {
+  font-size: 1.4rem;
+  color: #000000;
+  letter-spacing: normal;
+}
+#main > .mainSection > .gameArea > .game-container > .game-description > .sideBar > .bar-nav > .button-container > .button.buy:hover {
+  background-color: #72d3ff;
+}
+#main > .mainSection > .gameArea > .game-container > .game-description > .sideBar > .bar-nav > .button-container > .button.cart, #main > .mainSection > .gameArea > .game-container > .game-description > .sideBar > .bar-nav > .button-container > .button.wishlist {
+  background-color: rgba(255, 255, 255, 0.1490196078);
+  padding: 1.6rem;
+}
+#main > .mainSection > .gameArea > .game-container > .game-description > .sideBar > .bar-nav > .button-container > .button.cart > .text, #main > .mainSection > .gameArea > .game-container > .game-description > .sideBar > .bar-nav > .button-container > .button.wishlist > .text {
+  font-size: 1.4rem;
+  color: #ffffff;
+  letter-spacing: normal;
+}
+#main > .mainSection > .gameArea > .game-container > .game-description > .sideBar > .bar-nav > .button-container > .button.cart:hover, #main > .mainSection > .gameArea > .game-container > .game-description > .sideBar > .bar-nav > .button-container > .button.wishlist:hover {
+  background-color: #636366;
+}
+#main > .mainSection > .gameArea > .game-container > .game-description > .sideBar > .bar-nav > .info-wrapper {
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+}
+#main > .mainSection > .gameArea > .game-container > .game-description > .sideBar > .bar-nav > .info-wrapper > .info {
+  border-bottom: 0.0625rem solid rgba(255, 255, 255, 0.1490196078);
+  padding: 1rem 0;
+}
+#main > .mainSection > .gameArea > .game-container > .game-description > .sideBar > .bar-nav > .info-wrapper > .info > .text-wrapper {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  justify-content: space-between;
+  margin: 1rem 0;
+}
+#main > .mainSection > .gameArea > .game-container > .game-description > .sideBar > .bar-nav > .info-wrapper > .info > .text-wrapper > .title {
+  color: rgba(255, 255, 255, 0.6509803922);
+}
+#main > .mainSection > .gameArea > .game-container > .game-description > .sideBar > .bar-nav > .info-wrapper > .info > .text-wrapper > .value {
+  color: #ffffff;
+  font-size: 1.5rem;
 }
 
 /*# sourceMappingURL=page.css.map */

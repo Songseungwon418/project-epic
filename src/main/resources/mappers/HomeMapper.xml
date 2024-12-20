@@ -29,7 +29,7 @@
                 JOIN `epic_games`.`game_discounts_mapping` gdm ON g.`index` = gdm.`game_index`
                 JOIN `epic_games`.`discounts` d ON gdm.`discounts_id` = d.`id`
         WHERE
-            gdm.`discounts_id` = 1
+            NOW() BETWEEN d.start_date AND d.end_date
           AND d.`active` = 1 AND g.`price` != 0
         ORDER BY `open_date`;
     </select>

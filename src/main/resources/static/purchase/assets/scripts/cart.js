@@ -1,3 +1,4 @@
+
 //region 모달창(구매버튼 누를 시) 관련
 // 버튼 클릭 시 모달 열기
 const $openModalBtn = document.getElementById('openModalBtn');
@@ -8,11 +9,11 @@ if($openModalBtn !== null){
     // 모달을 여는 함수
     $openModalBtn.addEventListener('click', function() {
         Loading.show();
+
         // 모달을 보이도록 설정
-        iframe.src = '/purchase/pay';
+        iframe.src = `/purchase/pay`;
         modal.style.display = 'flex';
         document.body.style.overflow = 'hidden';
-
 
         // iframe이 로드되면 로딩 화면 숨기기
         iframe.onload = function() {
@@ -129,7 +130,7 @@ if($openModalBtn !== null){
                     };
                 }
             };
-            xhr.open('POST', '/purchase/wishlist/add'); // 장바구니에 추가
+            xhr.open('POST', '/purchase/wishlist/add'); // 위시리스트에 추가
             xhr.send(formData);
             document.body.style.cursor = 'not-allowed';
         });
