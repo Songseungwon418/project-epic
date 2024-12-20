@@ -1,15 +1,11 @@
 package com.ssw.epicgames.services;
 
 import com.ssw.epicgames.DTO.MyDTO;
-import com.ssw.epicgames.DTO.PurchaseDTO;
 import com.ssw.epicgames.entities.*;
 import com.ssw.epicgames.mappers.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import java.util.HashSet;
-import java.util.List;
-import java.util.Set;
 
 
 @Service

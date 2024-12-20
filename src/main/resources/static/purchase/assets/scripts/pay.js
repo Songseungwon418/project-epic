@@ -71,7 +71,7 @@ $closeBtn.onclick = () => {
     let name = $payTitle.textContent.substring(0, 10);
     name = name.length > 10 ? `${name}... 그 외` : `${name} 그 외`; // 주문명 생성
     const amount = $totalPrice.textContent; // 총 가격(숫자)
-    console.log(amount);
+
     // 주문하기 버튼 누를 시
     $payBtn.onclick = () => {
         if (amount === '0' ) { //결제api X
@@ -84,6 +84,7 @@ $closeBtn.onclick = () => {
                 amount: amount,
                 paidAt: formattedDate,
             }
+
             // pay 객체를 JSON 문자열로 변환
             const payJson = JSON.stringify(pay);
             payment_xhrRequest(payJson);
@@ -109,7 +110,7 @@ $closeBtn.onclick = () => {
             console.log(requestData);
         }
         catch (e){
-            alert('구매를 위해서는 로그인이 필요합니다.');
+            alert('결제에 실패하였습니다.');
             console.log(e);
             return;
         }
@@ -117,12 +118,16 @@ $closeBtn.onclick = () => {
         IMP.request_pay(requestData, payment_response);
     }
 
+    // 결제가 완료되었을 시 실행되는 함수
     function payment_response(portOneResponse) {
         console.log(portOneResponse);
-        // Unix timestamp를 밀리초 단위로 변환 (1000을 곱함)
+
+        //Unix timestamp를 밀리초 단위로 변환 (1000을 곱함)
         const date = new Date(portOneResponse['paid_at'] * 1000);
-        // 날짜 포맷 설정
-        const formattedDate = date.toISOString();
+        // 한국 시간(KST)은 UTC보다 9시간 빠르므로 9시간을 더해줌
+        const koreaTime = new Date(date.getTime() + (9 * 60 * 60 * 1000));
+        // 날짜 포맷을 한국 시간으로 설정
+        const formattedDate = koreaTime.toISOString();
 
         const pay = {
             id: portOneResponse['merchant_uid'],
@@ -142,11 +147,11 @@ $closeBtn.onclick = () => {
 
         // pay 객체를 JSON 문자열로 변환
         const payJson = JSON.stringify(pay);
-
-        payment_xhrRequest(payJson);
+        // DB 삽입 요청 진행
+       payment_xhrRequest(payJson)
     }
 
-    // 결제 요청 통신
+    // 결제 내역 및 구매 내역 DB 삽입 요청
     function payment_xhrRequest(pay) {
         // 로그인 한 유저와 장바구니안에 등록된 유저가 일치한 지 보기위함
         const userEmail = $userEmail.textContent;
@@ -174,7 +179,6 @@ $closeBtn.onclick = () => {
                 return;
             }
             const response = JSON.parse(xhr.responseText);
-
             if (response['result'] === 'failure'){
                 alert('구매에 실패하였습니다.');
                 attemptCancel();
@@ -188,15 +192,16 @@ $closeBtn.onclick = () => {
                 alert('이미 구매한 게임이 포함되어있습니다. 구매에 실패하였습니다.');
                 attemptCancel();
             } else if(response['result'] === 'success'){
-                attemptCancel();
-                window.parent.location.href = `/purchase/paysuccess?id=${merchantUid}`;
+                return window.parent.location.href = `/purchase/paysuccess?id=${merchantUid}`; //결과가 true이면 성공페이지로 이동
             }else {
                 alert('알수 없는 이유로 구매에 실패하였습니다.');
+                attemptCancel();
             }
         };
         xhr.open('POST', '/purchase/pay/confirm');
         xhr.send(formData);
         $loadingSuccess.show();
     }
+
 }
 //endregion

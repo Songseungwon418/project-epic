@@ -5,6 +5,7 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.databind.SerializationFeature;
 import com.fasterxml.jackson.datatype.jsr310.JavaTimeModule;
 import com.ssw.epicgames.DTO.CartDTO;
+import com.ssw.epicgames.DTO.PayDTO;
 import com.ssw.epicgames.DTO.WishlistDTO;
 import com.ssw.epicgames.entities.GameEntity;
 import com.ssw.epicgames.entities.PayEntity;
@@ -23,6 +24,8 @@ import org.springframework.http.MediaType;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.ModelAndView;
+
+import java.util.List;
 
 @Controller
 @RequestMapping(value = "/purchase")
@@ -170,7 +173,8 @@ public class PurchaseController {
             CartDTO[] carts = this.purchaseService.getCarts(user);
             // 장바구니가 비여있지않으면 목록을 보여줌
             if (carts != null) {
-
+                CartDTO lastCart = carts[carts.length - 1];
+                mav.addObject("totalPrice", lastCart.getTotalPrice());
                 mav.addObject("carts", carts);
                 mav.setViewName("purchase/pay");
             }
@@ -183,6 +187,7 @@ public class PurchaseController {
             // 유저와 게임, 할인 정보를 넘겨줌
             mav.addObject("game", game);
             mav.addObject("price", price);
+            mav.addObject("totalPrice", price.getCurrentPrice());
             mav.setViewName("purchase/pay");
         }
         // 잘못된 요청일 경우
@@ -220,8 +225,9 @@ public class PurchaseController {
             // 장바구니에서 구매 시
             if (carts == null || carts.length == 0) { // 장바구니에 구매할 게임이 없음
                 result = PurchaseResult.FAILURE_NOT_FOUND;
+            }else {
+                result = this.purchaseService.proceedToCheckout(user, pay, carts);
             }
-            result = this.purchaseService.proceedToCheckout(user, pay, carts);
         }
         // 장바구니 구매가 아니고 게임 상세페이지에서 게임 하나 구매 시
         else if (gameIndex > 0){
@@ -249,11 +255,19 @@ public class PurchaseController {
 
     /** 결제 내역 화면 출력 */
    @GetMapping(value = "/purchaseList", produces = MediaType.TEXT_HTML_VALUE)
-    public ModelAndView getPurchaseList(){
+    public ModelAndView getPurchaseList(@SessionAttribute(value = "user")UserEntity user){
        ModelAndView mav = new ModelAndView();
+       if(user == null){
+           mav.setViewName("user/login");
+       }
+       List<PayDTO> paylist = this.purchaseService.getPurchasesByUser(user);
+
+       mav.addObject("paylist", paylist);
        mav.setViewName("purchase/purchaseList");
        return mav;
    }
+
+
 
     //endregion
 

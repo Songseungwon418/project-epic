@@ -115,8 +115,21 @@ body {
   overflow-y: auto;
   overflow-x: hidden;
 }
-#main-container > .payment-content-container > .payment-methods > .payment-methods-container {
-  padding-top: 10px;
+#main-container > .payment-content-container > .payment-methods > .payment-methods-container > .payment-methods-title {
+  display: block;
+  margin: 0;
+  padding: 15px 0;
+  font-size: 14px;
+  line-height: 24px;
+  text-transform: uppercase;
+  font-weight: 400;
+}
+#main-container > .payment-content-container > .payment-methods > .payment-methods-container > .payment-methods-subtitle {
+  display: block;
+}
+#main-container > .payment-content-container > .payment-methods > .payment-methods-container > .payment-methods-subtitle.-free {
+  padding: 30px;
+  background-color: #f2f2f2;
 }
 #main-container > .payment-content-container > .payment-methods > .payment-methods-container > .payment-method {
   padding: 10px;
@@ -202,7 +215,7 @@ body {
   align-items: stretch;
   display: flex;
   flex-direction: column;
-  justify-content: space-between;
+  justify-content: flex-start;
 }
 #main-container > .payment-summaries > .title {
   padding-top: 36px;
@@ -210,7 +223,7 @@ body {
   font-weight: 500;
 }
 #main-container > .payment-summaries > .pay-summaries-container {
-  height: auto;
+  height: 80%;
   position: relative;
   overflow: hidden auto;
   margin: 0 -15px;

@@ -92,7 +92,7 @@
                     </div>
                 </div>
                 <div class="payment-methods">
-                    <div class="payment-methods-container">
+                    <div class="payment-methods-container" th:if="${totalPrice > 0}">
                         <h2 class="payment-methods-title">
                             <span>지불 방법</span>
                         </h2>
@@ -113,6 +113,12 @@
                                 </div>
                             </div>
                         </div>
+                    </div>
+                    <div class="payment-methods-container" th:if="${totalPrice == 0}">
+                        <h2 class="payment-methods-title">
+                            <span>검토 및 주문하기</span>
+                        </h2>
+                        <span class="payment-methods-subtitle -free">정보를 확인하고 주문하기를 클릭하세요</span>
                     </div>
                 </div>
             </div>
@@ -165,7 +171,7 @@
                         <span>결제 정보:</span>
                         <div class="payment-price">
                             <span class="payment-price-label">KakaoPay</span>
-                            <span class="price payment-price-value" th:text="${carts[carts.length - 1].totalPrice}"></span>
+                            <span class="price payment-price-value" th:text="${totalPrice}"></span>
                         </div>
                     </div>
                     <footer class="payment-contact-us">
@@ -214,14 +220,14 @@
                         <hr class="payment-order-summary-divider">
                         <div class="payment-price">
                             <span class="payment-price-label -total">합계</span>
-                            <span class="price payment-price-value -total" th:text="${price.currentPrice}"></span>
+                            <span class="price payment-price-value -total" th:text="${totalPrice}"></span>
                         </div>
                     </div>
                     <div class="payment-order-paymentMethods">
                         <span>결제 정보:</span>
                         <div class="payment-price">
                             <span class="payment-price-label">KakaoPay</span>
-                            <span class="price payment-price-value" th:text="${price.currentPrice}"></span>
+                            <span class="price payment-price-value" th:text="${totalPrice}"></span>
                         </div>
                     </div>
                     <footer class="payment-contact-us">

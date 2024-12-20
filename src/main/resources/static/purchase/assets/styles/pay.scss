@@ -126,7 +126,25 @@ body {
       overflow-x: hidden;
 
       > .payment-methods-container{
-        padding-top: 10px;
+
+        > .payment-methods-title {
+          display: block;
+          margin: 0;
+          padding: 15px 0;
+          font-size: 14px;
+          line-height: 24px;
+          text-transform: uppercase;
+          font-weight: 400;
+        }
+
+        > .payment-methods-subtitle {
+          display: block;
+
+          &.-free {
+            padding: 30px;
+            background-color: #f2f2f2;
+          }
+        }
 
         > .payment-method {
           padding: 10px;
@@ -229,7 +247,7 @@ body {
     align-items: stretch;
     display: flex;
     flex-direction: column;
-    justify-content: space-between;
+    justify-content: flex-start;
 
     > .title {
       padding-top: 36px;
@@ -238,7 +256,7 @@ body {
     }
 
     > .pay-summaries-container {
-      height: auto;
+      height: 80%;
       position: relative;
       overflow: hidden auto;
       margin: 0 -15px;

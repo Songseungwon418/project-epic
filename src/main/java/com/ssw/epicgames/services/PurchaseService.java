@@ -1,6 +1,7 @@
 package com.ssw.epicgames.services;
 
 import com.ssw.epicgames.DTO.CartDTO;
+import com.ssw.epicgames.DTO.PayDTO;
 import com.ssw.epicgames.DTO.PurchaseDTO;
 import com.ssw.epicgames.DTO.WishlistDTO;
 import com.ssw.epicgames.entities.*;
@@ -19,7 +20,8 @@ import org.springframework.http.*;
 import org.springframework.web.client.RestTemplate;
 
 import java.time.LocalDateTime;
-
+import java.util.ArrayList;
+import java.util.List;
 
 
 @Service
@@ -27,7 +29,6 @@ import java.time.LocalDateTime;
 public class PurchaseService {
     private final PurchaseMapper purchaseMapper;
     private final GameRatingMapper gameRatingMapper;
-
     private final GameService gameService;
     private final PriceService priceService;
 
@@ -399,21 +400,45 @@ public class PurchaseService {
     }
 
     /** 결제 및 구매 내역들 조회 */
-    public PurchaseDTO[] getPurchasesByUser(UserEntity user) {
+    public List<PayDTO> getPurchasesByUser(UserEntity user) {
         // 유저 유효성 검사(로그인 유뮤)
         if (user == null) {
             return null;
         }
 
+        List<PayDTO> payDTOList = new ArrayList<>();  // 결제 내역 담을 PayDTO 객체를 저장할 리스트 -> 결제 내역 목록들
+
         // 유저의 결제 내역들
-        PayEntity[] pay = this.purchaseMapper.selectPayByUser(user.getEmail());
-        return null;
+        List<PayEntity> payList = this.purchaseMapper.selectPayByUser(user.getEmail());
+        for (PayEntity pay: payList) {
+            List<PurchaseEntity> purchaseList = this.purchaseMapper.selectPurchaseBypayId(pay.getId());
+            List<PurchaseDTO> purchaseDTOList = new ArrayList<>();  // PurchaseDTO 객체를 저장할 PurchaseDTO 리스트
+            for (PurchaseEntity purchase: purchaseList) {
+                GameEntity game = this.gameService.getGameByIndex(purchase.getGameIndex());
+                PriceVo price = this.priceService.discountInfo(game.getIndex(), game.getPrice());
+                // PurchaseDTO 객체 생성
+                PurchaseDTO purchaseDTO = PurchaseDTO.builder()
+                        .purchase(purchase)
+                        .game(game)
+                        .price(price)
+                        .build();
+
+                // PurchaseDTO 리스트에 추가
+                purchaseDTOList.add(purchaseDTO);
+            }
+            // PayDTO 객체 생성
+            PayDTO payDTO = PayDTO.builder()
+                    .pay(pay)
+                    .purchase(purchaseDTOList.isEmpty() ? null : purchaseDTOList)
+                    .build();
+
+            // 최종 PayDTO 리스트에 추가
+            payDTOList.add(payDTO);
+        }
+        return payDTOList;
     }
 
-
-
 //endregion
-
 
 //region 장바구니, 위시리스트 중복 확인하는 메서드
     /** 실제로 유저와 게임이 장바구니에 있는 지(중복인지) 체크 */
