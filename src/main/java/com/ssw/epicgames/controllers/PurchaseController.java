@@ -266,7 +266,5 @@ public class PurchaseController {
        mav.setViewName("purchase/purchaseList");
        return mav;
    }
-
     //endregion
-
 }
