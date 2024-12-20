@@ -28,7 +28,7 @@ public class GameController {
     private final CartService cartService;
 
     @Autowired
-    public GameController(GameService gameService, GenreService genreService, PriceService priceService, PurchaseService purchaseService, WishlistService wishlistService, CartService cartService) {
+    public GameController(GameService gameService, GenreService genreService, PriceService priceService, WishlistService wishlistService, CartService cartService) {
         this.gameService = gameService;
         this.genreService = genreService;
         this.priceService = priceService;
