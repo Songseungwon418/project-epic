@@ -134,6 +134,11 @@ public class GameController {
 
         System.out.println("PurchaseIndex: " + purchaseIndex);
 
+        WishlistDTO[] wishlists = this.purchaseService.getWishlists(user);
+        if (wishlists == null) {
+            wishlists = new WishlistDTO[0];
+        }
+
         boolean isInWishlist = this.wishlistService.isInWishlist(index, user);
         Integer wishlistIndex = this.wishlistService.getWishlistIndex(index, user);
 

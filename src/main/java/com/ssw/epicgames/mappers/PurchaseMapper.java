@@ -7,6 +7,7 @@ import com.ssw.epicgames.entities.WishlistEntity;
 import org.apache.ibatis.annotations.Mapper;
 import org.apache.ibatis.annotations.Param;
 
+import java.util.ArrayList;
 import java.util.List;
 
 @Mapper
@@ -78,7 +79,7 @@ public interface PurchaseMapper {
     PayEntity selectPayById(@Param("id")String id);
 
     /** 유저에 해당하는 결제 내역들 조회*/
-    PayEntity[] selectPayByUser(@Param("userEmail") String userEmail);
+    List<PayEntity> selectPayByUser(@Param("userEmail") String userEmail);
 
     /** 게임 index로 해당 유저의 구매 내역 조회 */
     int selectPurchaseByGameIndex(
@@ -86,9 +87,18 @@ public interface PurchaseMapper {
             @Param("gameIndex") int gameIndex);
     // endregion
 
+    //region 결제 관련
+
+    /** 결제 내역의 id로 구매 내역 검색 */
+    List<PurchaseEntity> selectPurchaseBypayId(String id);
+
+
+
+
+    /** 유저 이메일로 구매내역들을 조회 */
     List<PurchaseEntity> getPurchasesByUserEmail(@Param("userEmail") String userEmail);
 
-
+    //endregion
 
 
 //    PurchaseEntity[] selectPurchaseByUserEmail(@Param("userEmail") String userEmail);

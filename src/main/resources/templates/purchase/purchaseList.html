@@ -9,7 +9,40 @@
     <link rel="shortcut icon" th:href="@{'/assets/images/favicon.png'}">
     <link rel="stylesheet" th:href="@{'/assets/styles/common.css'}">
     <script defer th:src="@{'/assets/scripts/common.js'}"></script>
+    <link rel="stylesheet" th:href="@{'/purchase/assets/styles/purchaseList.css'}">
 </head>
 <body>
+    <div class="purchaseList">
+        <h2 class="title">구매 내역</h2>
+        <table class="purchase-table">
+            <thead>
+
+            </thead>
+            <tbody th:each="pay : ${paylist}">
+
+            </tbody>
+        </table>
+        <div>
+            <div>
+                <h2>주문 번호</h2>
+                <div th:text="${pay.getPay().getId()}"></div>
+            </div>
+            <div>
+                <h2>총 결제 금액</h2>
+                <div th:text="${pay.getPay().getAmount()}"></div>
+            </div>
+            <div>
+                <h2>주문 날짜</h2>
+                <div th:text="${pay.getPay().getPaidAt()}"></div>
+            </div>
+            <div th:each="purchase : ${pay.getPurchase()}">
+                <h2>주문한 게임 이름</h2>
+                <div th:text="${purchase.getGame().getName()}"></div>
+                <h2>결제한 게임 가격</h2>
+                <div th:text="${purchase.getPrice().currentPrice}"></div>
+            </div>
+        </div>
+
+    </div>
 </body>
 </html>
