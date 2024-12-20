@@ -9,14 +9,21 @@ body {
 }
 
 #cover {
+  top: 0;
+  left: 0;
   width: 100%;
   height: 100%;
-  backdrop-filter: blur(2.5rem);
-  background-color: inherit;
+  background-color: rgba(16, 16, 21, 0.83);
   opacity: 0;
   pointer-events: none;
   position: fixed;
   transition: opacity 0.5s ease;
+  z-index: 10;
+
+  &.active {
+    opacity: 1;
+    pointer-events: auto;
+  }
 }
 
 .license {
@@ -26,9 +33,10 @@ body {
   position: fixed;
   max-width: 470px;
   width: 80%;
-  background-color: #26262b;
+  background-color: #18181c;
   border-radius: 30px;
   padding: 30px 40px;
+  z-index: 20;
 
   &.remove{
     display: none;
@@ -66,6 +74,7 @@ body {
 
       > .text {
         line-height: 1.4;
+        color: #ffffffA6;
 
         > a {
           color: #ffffff;
@@ -122,16 +131,33 @@ body {
   top: 50%;
   left: 50%;
   transform: translate(-50%, -50%);
-  width: 60%;
-  height: 60%;
-  background-color: #26262b;
+  max-width: 470px;
+  width: 80%;
+  height: 80%;
+  background-color: #18181c;
   border-radius: 10px;
   padding: 20px;
-  color: white;
-  z-index: 10;
+  color: #ffffffA6;
+  z-index: 30;
   display: none;
   letter-spacing: 0.05rem;
   gap: 1rem;
+
+  &::-webkit-scrollbar {
+    width: 8px;
+  }
+
+  &::-webkit-scrollbar-track {
+    background-color: #18181c;
+  }
+  &::-webkit-scrollbar-thumb {
+    background-color: #333333;
+    border-radius: 10px;
+  }
+
+  &::-webkit-scrollbar-thumb:hover {
+    background-color: #555555;
+  }
 
   &.visible {
     display: flex;
@@ -168,7 +194,7 @@ body {
 }
 
 .register-content {
-  max-width: 500px;
+  max-width: 600px;
   width: 90%;
   max-height: 100%;
   border: 0.0625rem solid #18181c;
@@ -176,6 +202,7 @@ body {
   padding: 48px;
   background-color: #18181c;
   overflow: auto;
+  transition: opacity 0.3s ease;
 
   &::-webkit-scrollbar {
     width: 8px;
@@ -191,6 +218,11 @@ body {
 
   &::-webkit-scrollbar-thumb:hover {
     background-color: #555555;
+  }
+
+  &.disabled {
+    opacity: 0.5;
+    pointer-events: none;
   }
 
   > .register-form {
@@ -209,6 +241,7 @@ body {
     > .title {;
       font-size: 24px;
       font-weight: 100;
+      color: #ffffff;
     }
 
     > .label {
@@ -224,12 +257,13 @@ body {
         font-size: 1.2rem;
         font-weight: 400;
         letter-spacing: 0.02em;
+        color: #ffffffA6;
       }
 
       > .input {
         width: 100%;
-        background-color: #565656;
-        border: 0.0625rem solid #565656;
+        background-color: #656565;
+        border: 0.0625rem solid #656565;
         border-radius: 1.2rem;
         padding: 13px 20px 12px;
         transition: border-color 0.3s;

@@ -7,12 +7,25 @@ document.addEventListener('DOMContentLoaded', function () {
     const notAgreeButton = document.querySelector(".not-button");
     const agreeButton = document.querySelector(".button");
     const notAgreeMessage = document.querySelector(".not-agree");
+    const registerButton = document.querySelector(".register-form .button"); // 회원가입 버튼
+
+    // 초기 상태 설정: license가 보이면 cover 활성화, register-content 비활성화
+    if (!licenseDiv.classList.contains("remove")) {
+        cover.style.opacity = 1;
+        cover.style.pointerEvents = "auto"; // 뒤쪽 클릭 차단
+        registerContent.classList.add("disabled"); // 투명 처리
+        registerButton.disabled = true; // 동의하지 않으면 회원가입 버튼 비활성화
+    }
 
     // "이용약관을 동의하셔야 합니다" label 클릭 시
     const notAgreeLabel = document.querySelector('.register-form .not-agree'); // "이용약관을 동의하셔야 합니다" 문구가 있는 label 선택
 
     notAgreeLabel.addEventListener('click', function () {
         licenseDiv.classList.remove('remove'); // 라이선스 화면을 보이게 함
+        registerContent.classList.add("remove"); // register-form 숨기기
+        notAgreeMessage.classList.remove("remove"); // "이용약관을 동의하셔야 합니다" 문구 보이기
+        cover.style.opacity = 1;
+        cover.style.pointerEvents = "auto"; // 뒤쪽 클릭 차단
     });
 
     // "동의하지 않습니다" 버튼 클릭 시
@@ -26,6 +39,10 @@ document.addEventListener('DOMContentLoaded', function () {
         cover.style.pointerEvents = "none";
         // '동의하지 않습니다' 문구 표시
         notAgreeMessage.classList.remove("remove");
+
+        // register-form은 계속 활성화
+        registerContent.classList.remove("disabled"); // disabled 클래스 제거하여 활성화
+        registerButton.disabled = true; // 회원가입 버튼 비활성화
     });
 
     // "동의합니다" 버튼 클릭 시
@@ -43,6 +60,10 @@ document.addEventListener('DOMContentLoaded', function () {
             cover.style.pointerEvents = "none";
             // '동의하지 않습니다' 문구 숨기기
             notAgreeMessage.classList.add("remove");
+
+            // register-form 활성화
+            registerContent.classList.remove("disabled"); // disabled 클래스 제거하여 활성화
+            registerButton.disabled = false; // 회원가입 버튼 활성화
         } else {
             alert("모든 약관에 동의해야 합니다.");
         }
@@ -79,6 +100,7 @@ document.addEventListener('DOMContentLoaded', function () {
         });
     });
 });
+
 //endregion
 
 // registerform에서 input을 누르고 뗏을때 필수 나타나게,
@@ -131,17 +153,15 @@ $registerForm.onsubmit = (e) => {
         }
         const response = JSON.parse(xhr.responseText);
         if (response['result'] === 'failure') {
-            alert("알 수 없는 이유로 회원가입에 실패하였습니다. 다시 시도해 주세요.")
-            history.back();
+            alert("회원가입 도중 문제가 발생했습니다. 입력한 정보를 확인하고 다시 시도해 주세요.");
         } else if (response['result'] === 'failure_duplicate_email') {
-            alert("입력하신 이메일은 이미 사용중입니다. 다른 이메일을 사용해주세요.")
-            history.back();
+            alert("입력하신 이메일은 이미 사용중입니다. 다른 이메일을 사용해주세요.");
+        } else if(response['result'] === 'failure_not_email_format') {
+            alert("이메일 주소가 올바르지 않습니다. 이메일 형식은 'example@domain.com'와 같이 '@'와 '.'가 포함되어야 합니다. ")
         } else if (response['result'] === 'failure_duplicate_contact') {
             alert("입력하신 연락처는 이미 사용중입니다. 다른 연락처를 사용해 주세요.");
-            history.back();
         } else if (response['result'] === 'failure_duplicate_nickname') {
-            alert("입력하신 닉네임은 이미 사용중입니다. 다른 닉네임을 사용해 주세요.")
-            history.back();
+            alert("입력하신 닉네임은 이미 사용중입니다. 다른 닉네임을 사용해 주세요.");
         } else if (response['result'] === 'success') {
             alert("회원가입이 완료되었습니다. 입력하신 이메일로 계정을 인증할 수 있는 링크를 전송하였습니다. 계정 인증 후 로그인 할 수 있으며, 해당 링크는 24시간 동안만 유효합니다.")
             location.href = '/user/';

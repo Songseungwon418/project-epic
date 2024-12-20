@@ -59,6 +59,7 @@ body {
   font-size: 1.2rem;
   font-weight: 400;
   letter-spacing: 0.02em;
+  color: rgba(255, 255, 255, 0.6509803922);
 }
 .login-content > .login-form > .label > .input {
   width: 100%;
