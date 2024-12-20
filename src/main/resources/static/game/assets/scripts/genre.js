@@ -290,3 +290,94 @@ document.addEventListener('DOMContentLoaded', function () {
 //endregion
 
 
+//region 게임 위시리스트 추가
+const $WishlistButtons = document.querySelectorAll('.add');
+
+if ($WishlistButtons.length > 0) {
+    $WishlistButtons.forEach(button => {
+        button.onclick = (e) => {
+            e.preventDefault();
+
+            const gameIndex = button.getAttribute('data-game-index');
+            const formData = new FormData();
+            const userEmail = document.getElementById('userEmail')?.value; // userEmail 값 가져오기
+
+            // 로그인 여부 확인
+            if (!userEmail) {
+                alert('로그인 후 이용가능합니다. 로그인 페이지로 이동합니다.');
+                window.location.href = '/user/';
+                return;
+            }
+
+            // 폼 데이터 설정
+            formData.append('gameIndex', gameIndex);
+            formData.append('userEmail', userEmail);
+
+            // AJAX 요청 생성 및 처리
+            const xhr = new XMLHttpRequest();
+            xhr.onreadystatechange = () => {
+                if (xhr.readyState !== XMLHttpRequest.DONE) {
+                    return;
+                }
+                if (xhr.status < 200 || xhr.status >= 300) {
+                    alert('서버가 알 수 없는 응답을 반환하였습니다. 잠시 후 시도해 주세요.');
+                    return;
+                }
+                const response = JSON.parse(xhr.responseText);
+                if (response.result === 'failure') {
+                    alert('위시리스트 담기에 실패하였습니다.');
+                } else if (response.result === 'failure_duplicate_cart') {
+                    alert('이미 위시리스트에 있습니다.');
+                } else if (response.result === 'failure_not_found') {
+                    alert('찾을 수 없습니다.');
+                } else if (response.result === 'success') {
+                    alert('위시리스트에 추가되었습니다.');
+                    location.reload();
+                }
+            };
+            xhr.open('POST', '../purchase/wishlist/add');
+            xhr.send(formData);
+        };
+    });
+}
+//endregion
+
+//region 게임 위시리스트 제거
+const $WishlistDeleteButtons = document.querySelectorAll('.newBack');
+
+if ($WishlistDeleteButtons.length > 0) {
+    $WishlistDeleteButtons.forEach(button => {
+        button.onclick = (e) => {
+            e.preventDefault();
+
+            // 각 버튼에 해당하는 wishlistIndex 값을 가져옴
+            const wishlistIndex = button.getAttribute('data-wishlist-index'); // data-wishlist-index 속성 값 가져옴
+
+            const formData = new FormData();
+            formData.append('index', wishlistIndex);  // 위시리스트 인덱스를 전달
+
+            const xhr = new XMLHttpRequest();
+            xhr.onreadystatechange = () => {
+                if (xhr.readyState !== XMLHttpRequest.DONE) {
+                    return;
+                }
+                if (xhr.status < 200 || xhr.status >= 300) {
+                    alert('서버가 알 수 없는 응답을 반환하였습니다. 잠시 후 시도해 주세요.');
+                    return;
+                }
+                const response = JSON.parse(xhr.responseText);
+                if (response.result === 'failure') {
+                    alert('위시리스트에서 제거에 실패하였습니다.');
+                } else if (response.result === 'failure_not_found') {
+                    alert('위시리스트에서 이미 삭제되었거나 오류로 인해 제거에 실패하였습니다.');
+                } else if (response.result === 'success') {
+                    alert('위시리스트에서 제거하였습니다.');
+                    location.reload();
+                }
+            }
+            xhr.open('PATCH', '../purchase/wishlist/delete');
+            xhr.send(formData);
+        };
+    });
+}
+//endregion

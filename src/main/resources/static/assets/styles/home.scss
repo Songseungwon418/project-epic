@@ -625,7 +625,7 @@
                 object-fit: cover;
               }
 
-              > .addList {
+              > .wishlist {
                 top: 1rem;
                 right: 1rem;
                 position: absolute;
@@ -656,12 +656,12 @@
               &:hover {
                 filter: brightness(1.1);
 
-                .addList {
+                .wishlist {
                   opacity: 1;
                 }
               }
 
-              .addList:hover + .tooltip {
+              .wishlist:hover + .tooltip {
                 display: block;
               }
 
@@ -822,10 +822,6 @@
               overflow: hidden;
               border-radius: 1.1rem;
 
-              &:hover {
-                filter: brightness(1.1);
-              }
-
               > img {
                 width: 100%;
                 height: 100%;
@@ -833,7 +829,7 @@
                 object-fit: cover;
               }
 
-              > .addList {
+              > .wishlist {
                 top: 1rem;
                 right: 1rem;
                 position: absolute;
@@ -864,12 +860,12 @@
               &:hover {
                 filter: brightness(1.1);
 
-                .addList {
+                .wishlist {
                   opacity: 1;
                 }
               }
 
-              .addList:hover + .tooltip {
+              .wishlist:hover + .tooltip {
                 display: block;
               }
 

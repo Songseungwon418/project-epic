@@ -147,8 +147,52 @@
   object-position: center;
   border-radius: 1rem;
 }
-#main > .mainSection > .gameSection > .game-container > .allGame > .game-wrapper > .game > .mainImage > img:hover {
+#main > .mainSection > .gameSection > .game-container > .allGame > .game-wrapper > .game > .mainImage > .wishlist {
+  top: 1rem;
+  right: 1rem;
+  position: absolute;
+  width: 24px;
+  height: 24px;
+  background-color: #ffffff;
+  border-radius: 999rem;
+  cursor: pointer;
+  outline: none;
+  border: none;
+  z-index: 1;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  opacity: 0;
+  transition-property: opacity;
+  transition-duration: 0.3s;
+  transition-timing-function: ease;
+}
+#main > .mainSection > .gameSection > .game-container > .allGame > .game-wrapper > .game > .mainImage > .wishlist > .plus {
+  width: 24px;
+  height: 24px;
+}
+#main > .mainSection > .gameSection > .game-container > .allGame > .game-wrapper > .game > .mainImage:hover {
   filter: brightness(1.1);
+}
+#main > .mainSection > .gameSection > .game-container > .allGame > .game-wrapper > .game > .mainImage:hover .wishlist {
+  opacity: 1;
+}
+#main > .mainSection > .gameSection > .game-container > .allGame > .game-wrapper > .game > .mainImage .wishlist:hover + .tooltip {
+  display: block;
+}
+#main > .mainSection > .gameSection > .game-container > .allGame > .game-wrapper > .game > .mainImage > .tooltip {
+  display: none;
+  width: 15rem;
+  height: 2.5rem;
+  position: absolute;
+  background-color: #18181c;
+  border-radius: 1rem;
+  color: #ffffff;
+  font-size: 1.5rem;
+  line-height: 1.5;
+  top: 1rem;
+  left: 1rem;
+  text-align: center;
 }
 #main > .mainSection > .gameSection > .game-container > .allGame > .game-wrapper > .game > .text-wrapper {
   font-size: 1.3rem;
