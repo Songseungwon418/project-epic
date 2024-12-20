@@ -24,7 +24,6 @@ public class GameController {
     private final GameService gameService;
     private final GenreService genreService;
     private final PriceService priceService;
-    private final PurchaseService purchaseService;
     private final WishlistService wishlistService;
     private final CartService cartService;
 
@@ -33,7 +32,6 @@ public class GameController {
         this.gameService = gameService;
         this.genreService = genreService;
         this.priceService = priceService;
-        this.purchaseService = purchaseService;
         this.wishlistService = wishlistService;
         this.cartService = cartService;
     }
