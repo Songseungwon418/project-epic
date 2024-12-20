@@ -124,15 +124,10 @@ public class GameController {
     //region 게임 상세 페이지
     @RequestMapping(value = "/page", method = RequestMethod.GET, produces = MediaType.TEXT_HTML_VALUE)
     public ModelAndView getPage(@RequestParam(value = "index") int index,
-                                @SessionAttribute(value = "user", required = false) UserEntity user,
-                                HttpSession session
-    ) {
+                                @SessionAttribute(value = "user", required = false) UserEntity user) {
         ModelAndView modelAndView = new ModelAndView();
         GameDTO gameDetails = this.gameService.getGameDetails(index);
         PriceVo priceVo = this.priceService.discountInfo(index, gameDetails.getGame().getPrice());
-
-        session.setAttribute("gameDetails", gameDetails);
-        session.setAttribute("priceVo", priceVo);
 
         WishlistDTO[] wishlists = this.purchaseService.getWishlists(user);
         if (wishlists == null) {

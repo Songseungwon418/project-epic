@@ -290,7 +290,6 @@
 
                             <div class="button-container">
                                 <button class="buy button" type="button" id="buy-btn">
-                                    <div id="game-date" hidden="hidden" th:value="${gameDetails}"></div>
                                     <span class="text">지금 구매</span>
                                 </button>
 
@@ -359,7 +358,13 @@
         </div>
     </div>
 </main>
-
+<!-- 결제 모달창 -->
+<div class="pay-modal" id="pay-modal">
+    <div class="modal-content">
+        <!-- iframe으로 결제 창 불러오기 -->
+        <iframe id="paymentIframe" src="" title="결제 페이지"></iframe>
+    </div>
+</div>
 <th:block th:replace="~{fragments/common.html :: footer}"></th:block>
 </body>
 </html>
