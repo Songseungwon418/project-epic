@@ -160,6 +160,16 @@
                  JOIN epic_games.purchase p ON g.index = p.game_index
         WHERE p.user_email = #{userEmail}
     </select>
+    <select id="getPurchaseByEmailAndGameIndex" resultType="com.ssw.epicgames.entities.PurchaseEntity">
+        SELECT `index` AS `index`,
+               `user_email` AS `userEmail`,
+               `game_index` AS `gameIndex`
+        FROM `epic_games`.`purchase`
+        WHERE `user_email` = #{userEmail}
+          AND `game_index` = #{index}
+        AND `deleted_at` IS NULL
+        LIMIT 1
+    </select>
 
 
 </mapper>
