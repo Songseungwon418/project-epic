@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "https://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.ssw.epicgames.mappers.ReviewMapper">
+
+    <insert id="insertReview" parameterType="_int">
+        INSERT INTO `epic_games`.`review` (`user_email`, `game_index`, `purchase_index`, `star`, `content`, `created_at`, `updated_at`, `deleted_at`)
+        VALUES (#{userEmail}, #{gameIndex}, #{purchaseIndex}, #{star}, #{content}, #{createdAt}, #{updatedAt}, #{deletedAt})
+    </insert>
+
+    <select id="selectReviewsByGameIndex" parameterType="com.ssw.epicgames.entities.ReviewEntity">
+        SELECT `index`          AS `index`,
+               `user_email`     AS `userEmail`,
+               `game_index`     AS `gameIndex`,
+               `purchase_index` AS `purchaseIndex`,
+               `star`           AS `star`,
+               `content`        AS `content`,
+               `created_at`     AS `createdAt`,
+               `updated_at`     AS `updatedAt`,
+               `deleted_at`     AS `deletedAt`
+        FROM `epic_games`.`review`
+        WHERE `game_index` = #{gameIndex}
+          AND `deleted_at` IS NULL
+        ORDER BY `index` DESC
+    </select>
+</mapper>

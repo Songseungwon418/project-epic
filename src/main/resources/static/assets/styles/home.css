@@ -521,7 +521,7 @@
   object-position: center;
   object-fit: cover;
 }
-#main > .mainSection > .newGame > .newGame-container > .newGame-wrapper > .game > .main-image > .addList {
+#main > .mainSection > .newGame > .newGame-container > .newGame-wrapper > .game > .main-image > .wishlist {
   top: 1rem;
   right: 1rem;
   position: absolute;
@@ -541,17 +541,17 @@
   transition-duration: 0.3s;
   transition-timing-function: ease;
 }
-#main > .mainSection > .newGame > .newGame-container > .newGame-wrapper > .game > .main-image > .addList > .plus {
+#main > .mainSection > .newGame > .newGame-container > .newGame-wrapper > .game > .main-image > .wishlist > .plus {
   width: 24px;
   height: 24px;
 }
 #main > .mainSection > .newGame > .newGame-container > .newGame-wrapper > .game > .main-image:hover {
   filter: brightness(1.1);
 }
-#main > .mainSection > .newGame > .newGame-container > .newGame-wrapper > .game > .main-image:hover .addList {
+#main > .mainSection > .newGame > .newGame-container > .newGame-wrapper > .game > .main-image:hover .wishlist {
   opacity: 1;
 }
-#main > .mainSection > .newGame > .newGame-container > .newGame-wrapper > .game > .main-image .addList:hover + .tooltip {
+#main > .mainSection > .newGame > .newGame-container > .newGame-wrapper > .game > .main-image .wishlist:hover + .tooltip {
   display: block;
 }
 #main > .mainSection > .newGame > .newGame-container > .newGame-wrapper > .game > .main-image > .tooltip {
@@ -687,16 +687,13 @@
   overflow: hidden;
   border-radius: 1.1rem;
 }
-#main > .mainSection > .saleGame > .saleGame-container > .saleGame-wrapper > .sale-game > .main-image:hover {
-  filter: brightness(1.1);
-}
 #main > .mainSection > .saleGame > .saleGame-container > .saleGame-wrapper > .sale-game > .main-image > img {
   width: 100%;
   height: 100%;
   object-position: center;
   object-fit: cover;
 }
-#main > .mainSection > .saleGame > .saleGame-container > .saleGame-wrapper > .sale-game > .main-image > .addList {
+#main > .mainSection > .saleGame > .saleGame-container > .saleGame-wrapper > .sale-game > .main-image > .wishlist {
   top: 1rem;
   right: 1rem;
   position: absolute;
@@ -716,17 +713,17 @@
   transition-duration: 0.3s;
   transition-timing-function: ease;
 }
-#main > .mainSection > .saleGame > .saleGame-container > .saleGame-wrapper > .sale-game > .main-image > .addList > .plus {
+#main > .mainSection > .saleGame > .saleGame-container > .saleGame-wrapper > .sale-game > .main-image > .wishlist > .plus {
   width: 24px;
   height: 24px;
 }
 #main > .mainSection > .saleGame > .saleGame-container > .saleGame-wrapper > .sale-game > .main-image:hover {
   filter: brightness(1.1);
 }
-#main > .mainSection > .saleGame > .saleGame-container > .saleGame-wrapper > .sale-game > .main-image:hover .addList {
+#main > .mainSection > .saleGame > .saleGame-container > .saleGame-wrapper > .sale-game > .main-image:hover .wishlist {
   opacity: 1;
 }
-#main > .mainSection > .saleGame > .saleGame-container > .saleGame-wrapper > .sale-game > .main-image .addList:hover + .tooltip {
+#main > .mainSection > .saleGame > .saleGame-container > .saleGame-wrapper > .sale-game > .main-image .wishlist:hover + .tooltip {
   display: block;
 }
 #main > .mainSection > .saleGame > .saleGame-container > .saleGame-wrapper > .sale-game > .main-image > .tooltip {
