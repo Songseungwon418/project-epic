@@ -1,0 +1,265 @@
+.overlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background-color: rgba(0, 0, 0, 0.5);
+  display: none;
+  z-index: 100;
+  opacity: 0.3;
+}
+.overlay.show {
+  display: block;
+}
+
+.container {
+  width: 100%;
+  height: 100%;
+  background-color: #f7f7f7;
+  display: flex;
+  flex-direction: row;
+  align-items: stretch;
+  justify-content: flex-start;
+  box-sizing: border-box;
+  padding: 5rem;
+  gap: 2rem;
+  z-index: 1;
+}
+.container.transparent {
+  background-color: rgba(0, 0, 0, 0.5);
+  pointer-events: none;
+  opacity: 0;
+}
+.container > .nav {
+  width: 25rem;
+  background-color: #ffffff;
+  padding: 2rem;
+  user-select: none;
+}
+.container > .nav > .menu {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  justify-content: flex-start;
+  gap: 1.5rem;
+}
+.container > .main {
+  width: 100%;
+  background-color: #ffffff;
+  flex-grow: 1;
+  overflow: auto;
+  padding: 5rem;
+}
+.container > .main > .user-setting > .main-container {
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  justify-content: flex-start;
+  gap: 2rem;
+}
+.container > .main > .user-setting > .main-container > .main-title {
+  width: 100%;
+  font-size: 30px;
+  font-weight: 600;
+  color: #141414;
+}
+.container > .main > .user-setting > .main-container > .title-text {
+  font-size: 14px;
+  color: rgba(20, 20, 20, 0.7215686275);
+}
+.container > .main > .user-setting > .main-container > .sub-title {
+  font-size: 18px;
+  font-weight: 500;
+  color: #141414;
+}
+.container > .main > .user-setting > .main-container > .id-container {
+  width: 100%;
+  display: flex;
+  flex-direction: row;
+}
+.container > .main > .user-setting > .main-container > .id-container > .id-wrapper {
+  width: 50%;
+  display: flex;
+  flex-direction: column;
+}
+.container > .main > .user-setting > .main-container > .id-container > .id-wrapper > .text {
+  font-size: 14px;
+  color: rgba(20, 20, 20, 0.7215686275);
+}
+.container > .main > .user-setting > .main-container > .id-container > .id-wrapper > .label {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  gap: 1rem;
+  margin-top: 1rem;
+}
+.container > .main > .user-setting > .main-container > .id-container > .id-wrapper > .label > .input {
+  width: 70%;
+  height: 3rem;
+  border: 0.0625rem solid rgba(0, 0, 0, 0.1215686275);
+  border-radius: 1rem;
+  background-color: rgba(0, 0, 0, 0.1215686275);
+  padding: 2rem 1rem;
+  box-sizing: border-box;
+}
+.container > .main > .user-setting > .main-container > .wrapper {
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  gap: 1.5rem;
+}
+.container > .main > .user-setting > .main-container > .wrapper > .label {
+  width: 35%;
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+}
+.container > .main > .user-setting > .main-container > .wrapper > .label > .text {
+  font-size: 1rem;
+}
+.container > .main > .user-setting > .main-container > .wrapper > .label > .input {
+  width: 100%;
+  border: 0.0625rem solid #000000;
+  border-radius: 1rem;
+  padding: 1.5rem;
+}
+.container > .main > .user-setting > .main-container > .storage {
+  margin-top: 20px;
+  border: 0.0625rem solid #0074E4;
+  border-radius: 1rem;
+  background-color: #0074E4;
+  color: #ffffff;
+  padding: 20px;
+}
+.container > .main > .user-setting > .main-container > .storage:hover {
+  background-color: rgb(0, 128.9736842105, 253.5);
+}
+.container > .main > .user-setting > .main-container > .storage:active {
+  background-color: rgb(24, 141.5263157895, 255);
+}
+.container > .main > .user-setting > .recover-password {
+  display: flex;
+  flex-direction: column;
+  gap: 2.5rem;
+  margin-top: 7rem;
+}
+.container > .main > .user-setting > .recover-password > .text {
+  font-size: 23px;
+  font-weight: 700;
+}
+.container > .main > .user-setting > .recover-password > .recover-text {
+  color: rgba(20, 20, 20, 0.7215686275);
+  letter-spacing: 1px;
+}
+.container > .main > .user-setting > .recover-password > .recover-text > .a-tg {
+  color: #0074E4;
+  text-decoration: underline #0074E4;
+  font-weight: 500;
+}
+.container > .main > .user-setting > .delete {
+  display: flex;
+  flex-direction: column;
+  gap: 2.5rem;
+  margin-top: 5rem;
+}
+.container > .main > .user-setting > .delete > .text {
+  font-size: 23px;
+  font-weight: 700;
+}
+.container > .main > .user-setting > .delete > .sub-text {
+  color: rgba(20, 20, 20, 0.7215686275);
+}
+.container > .main > .user-setting > .delete > .a-text {
+  font-weight: 600;
+}
+.container > .main > .user-setting > .delete > .button {
+  width: 13%;
+  color: #ffffff;
+  border: 0.0625rem solid #DE3341;
+  background-color: #DE3341;
+  border-radius: 1rem;
+  padding: 20px;
+}
+.container > .main > .user-setting > .delete > .button:hover {
+  background-color: rgb(225.5506329114, 72.9493670886, 85.4430379747);
+}
+.container > .main > .user-setting > .delete > .button:active {
+  background-color: rgb(229.1012658228, 94.8987341772, 105.8860759494);
+}
+
+.dialog {
+  top: 50%;
+  left: 50%;
+  transform: translate(-40%, -40%);
+  position: fixed;
+  border: 0.0625rem solid #ffffff;
+  border-radius: 1.5rem;
+  background-color: #ffffff;
+  display: none;
+  padding: 2.5rem;
+  z-index: 200;
+}
+.dialog.show {
+  display: block;
+}
+.dialog > .delete-label {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+}
+.dialog > .delete-label > .title {
+  font-size: 2rem;
+  font-weight: 600;
+}
+.dialog > .delete-label > .text {
+  color: #444444;
+  font-size: 12px;
+  margin-top: 1rem;
+}
+.dialog > .delete-label > .input {
+  width: 100%;
+  border: 0.0625rem solid #e0e0e0;
+  background-color: #e0e0e0;
+  border-radius: 1rem;
+  padding: 1rem;
+  margin-top: 1rem;
+}
+.dialog > .btn-wrapper {
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+  margin-top: 1rem;
+}
+.dialog > .btn-wrapper > .delete-btn {
+  width: 45%;
+  color: #ffffff;
+  border: 0.0625rem solid #DE3341;
+  background-color: #DE3341;
+  border-radius: 1rem;
+  padding: 10px;
+}
+.dialog > .btn-wrapper > .delete-btn:hover {
+  background-color: rgb(225.5506329114, 72.9493670886, 85.4430379747);
+}
+.dialog > .btn-wrapper > .delete-btn:active {
+  background-color: rgb(229.1012658228, 94.8987341772, 105.8860759494);
+}
+.dialog > .btn-wrapper > .close-btn {
+  width: 45%;
+  color: #ffffff;
+  border: 0.0625rem solid #0074E4;
+  border-radius: 1rem;
+  background-color: #0074E4;
+  padding: 10px;
+}
+.dialog > .btn-wrapper > .close-btn:hover {
+  background-color: rgb(0, 128.9736842105, 253.5);
+}
+.dialog > .btn-wrapper > .close-btn:active {
+  background-color: rgb(24, 141.5263157895, 255);
+}
+
+/*# sourceMappingURL=setting.css.map */
