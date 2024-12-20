@@ -6,8 +6,11 @@ import com.ssw.epicgames.entities.AchievementEntity;
 import com.ssw.epicgames.entities.GameEntity;
 import com.ssw.epicgames.entities.PurchaseEntity;
 import com.ssw.epicgames.entities.UserEntity;
+import com.ssw.epicgames.resutls.CommonResult;
+import com.ssw.epicgames.resutls.Result;
 import com.ssw.epicgames.services.PageService;
 import com.ssw.epicgames.services.UserService;
+import org.json.JSONObject;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
@@ -62,10 +65,12 @@ public class PageController {
             }
         }
 
+        modelAndView.addObject("user", user);
         modelAndView.addObject("gameMap", gameMap);
         modelAndView.setViewName("pages/My/myPage");
         return modelAndView;
     }
+
 
     @RequestMapping(value = "/friend", method = RequestMethod.GET, produces = MediaType.TEXT_HTML_VALUE)
     public ModelAndView getFriendPage(@SessionAttribute("user") UserEntity user) {
@@ -75,5 +80,39 @@ public class PageController {
         modelAndView.addObject("friendCount", users.length);  // 친구 수 추가
         modelAndView.setViewName("pages/friends/friend");
         return modelAndView;
+    }
+
+    @RequestMapping(value ="/setting", method = RequestMethod.GET, produces = MediaType.TEXT_HTML_VALUE)
+    public ModelAndView getSettingPage(@SessionAttribute("user") UserEntity user) {
+        ModelAndView modelAndView = new ModelAndView();
+        modelAndView.addObject("user", user);
+        modelAndView.setViewName("pages/settings/setting");
+        return modelAndView;
+    }
+
+    //region 개인 정보 수정
+    @RequestMapping(value = "/setting", method = RequestMethod.PATCH, produces = MediaType.APPLICATION_JSON_VALUE)
+    @ResponseBody
+    public String updateUser(@SessionAttribute("user") UserEntity loginUser,
+                             @ModelAttribute UserEntity user) {
+        JSONObject response = new JSONObject();
+        Result result;
+        if(loginUser != null) {
+            result = this.pageService.patchUser(user);
+        } else {
+            result = CommonResult.FAILURE;
+        }
+        response.put("result", result.nameToLower());
+        return response.toString();
+    }
+    //endregion
+
+    @RequestMapping(value = "/setting", method = RequestMethod.DELETE, produces = MediaType.APPLICATION_JSON_VALUE)
+    @ResponseBody
+    public String deleteUser(@SessionAttribute("user") UserEntity user, String password) {
+        JSONObject response = new JSONObject();
+        Result result = this.pageService.deleteUser(user.getEmail(), password);
+        response.put("result", result.nameToLower());
+        return response.toString();
     }
 }

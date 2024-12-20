@@ -22,4 +22,6 @@ public interface UserMapper {
 
 
     int updateUser(UserEntity user);
+
+
 }

@@ -25,6 +25,7 @@ import org.springframework.transaction.annotation.Transactional;
 import org.thymeleaf.context.Context;
 import org.thymeleaf.spring6.SpringTemplateEngine;
 
+import java.time.LocalDate;
 import java.time.LocalDateTime;
 
 @Service
@@ -81,18 +82,30 @@ public class UserService {
                 user.getPassword() == null || user.getPassword().length() < 6 || user.getPassword().length() > 50 ||
                 user.getName() == null || user.getName().isEmpty() || user.getName().length() > 30 ||
                 user.getNickname() == null || user.getNickname().length() < 2 || user.getNickname().length() > 10 ||
+                user.getBirthdate() == null || user.getBirthdate().isAfter(LocalDate.now()) ||
                 user.getPhone() == null || user.getPhone().length() != 11) {
             return CommonResult.FAILURE;
         }
+        // 사용자가 적은 이메일이 db에 있으면
         if(this.userMapper.selectUserByEmail(user.getEmail()) != null) {
             return RegisterResult.FAILURE_DUPLICATE_EMAIL;
         }
+
+        // 사용자가 적은 이메일이 이메일 양식과 다르면
+        if(!user.getEmail().matches("^[a-zA-Z0-9_+&*-]+(?:\\.[a-zA-Z0-9_+&*-]+)*@(?:[a-zA-Z0-9-]+\\.)+[a-zA-Z]{2,7}$")) {
+            return RegisterResult.FAILURE_NOT_EMAIL_FORMAT;
+        }
+
+        // 전화번호가 db에 있으면
         if(this.userMapper.selectUserByPhone(user.getPhone()) != null) {
             return RegisterResult.FAILURE_DUPLICATE_PHONE;
         }
+
+        //닉네임이 db에 있으면
         if(this.userMapper.selectUserByNickname(user.getNickname()) != null) {
             return RegisterResult.FAILURE_DUPLICATE_NICKNAME;
         }
+
         BCryptPasswordEncoder encoder = new BCryptPasswordEncoder();
         user.setPassword(encoder.encode(user.getPassword()));
         user.setName(user.getName());
@@ -184,6 +197,7 @@ public class UserService {
     }
     //endregion
 
+    //region 비밀번호 재설정
     @Transactional
     public Result resolveRecoverPassword(EmailTokenEntity emailToken, String password) {
         if (emailToken == null ||
@@ -211,7 +225,9 @@ public class UserService {
         }
         return CommonResult.SUCCESS;
     }
+    //endregion
 
+    //region 이메일토큰
     @Transactional
     public Result validateEmailToken(EmailTokenEntity emailToken) {
         if(emailToken == null ||
@@ -237,4 +253,5 @@ public class UserService {
         }
         return CommonResult.SUCCESS;
     }
+    //endregion
 }

@@ -4,9 +4,14 @@ import com.ssw.epicgames.DTO.MyDTO;
 import com.ssw.epicgames.DTO.PurchaseDTO;
 import com.ssw.epicgames.entities.*;
 import com.ssw.epicgames.mappers.*;
+import com.ssw.epicgames.resutls.CommonResult;
+import com.ssw.epicgames.resutls.Result;
+import com.ssw.epicgames.resutls.user.DeletedUserResult;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
 
+import java.time.LocalDateTime;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
@@ -57,4 +62,49 @@ public class PageService {
         return this.achievementMapper.selectMyDTOs(email);
     }
 
+    public Result patchUser(UserEntity user) {
+        if (user == null ||
+                user.getEmail() == null || user.getEmail().length() < 8 || user.getEmail().length() > 50 ||
+                user.getName() == null || user.getName().isEmpty() || user.getName().length() > 30 ||
+                user.getNickname() == null || user.getNickname().length() < 2 || user.getNickname().length() > 10 ||
+                user.getPhone() == null || user.getPhone().length() != 11) {
+            return CommonResult.FAILURE;
+        }
+
+        UserEntity userEntity = this.userMapper.selectUserByEmail(user.getEmail());
+        if (userEntity == null) {
+            return CommonResult.FAILURE;    // 사용자가 존재하지 않으면 실패
+        }
+
+        userEntity.setEmail(user.getEmail());
+        userEntity.setName(user.getName());
+        userEntity.setNickname(user.getNickname());
+        userEntity.setPhone(user.getPhone());
+        userEntity.setAddr(user.getAddr());
+        userEntity.setBirthdate(user.getBirthdate());
+        userEntity.setUpdatedAt(LocalDateTime.now());
+
+        return this.userMapper.updateUser(userEntity) > 0 ? CommonResult.SUCCESS : CommonResult.FAILURE;
+    }
+
+    public Result deleteUser(String email, String password) {
+        if (email == null || email.isEmpty() ||
+        password == null || password.isEmpty()) {
+            return CommonResult.FAILURE;
+        }
+        UserEntity dbUser = this.userMapper.selectUserByEmail(email);
+        if(dbUser == null) {        // 사용자가 존재하지 않는 경우
+            return DeletedUserResult.USER_NOT_FOUND;
+        }
+        if(!email.equals(dbUser.getEmail())) {       // 클라이언트가 준 이메일과 DB에 있는 이메일이 틀리다면
+            return DeletedUserResult.FAILURE_DUPLICATE_EMAIL;
+        }
+        BCryptPasswordEncoder encoder = new BCryptPasswordEncoder();
+        if(!encoder.matches(password, dbUser.getPassword())) {     // 클라이언트가 적은 패스워드와 DB에 있는 패스워드가 틀리다면
+            return DeletedUserResult.FAILURE_DUPLICATE_PASSWORD;
+        }
+
+        dbUser.setDeletedDate(LocalDateTime.now());
+        return this.userMapper.updateUser(dbUser) > 0 ? CommonResult.SUCCESS : CommonResult.FAILURE;
+    }
 }
