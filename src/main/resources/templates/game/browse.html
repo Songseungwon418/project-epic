@@ -162,13 +162,36 @@
 
                 <div class="game-wrapper" id="gameWrapper">
                     <a class="game" th:each="game, iterStat : ${games}" th:href="@{'/game/page'(index=${game.getIndex()})}" target="_self">
+
                         <div class="mainImage">
-                            <!-- 전체 게임 이미지 경로 -->
                             <img th:src="@{'/game/browse-image-all?index=' + ${iterStat.index}}" alt="게임포스터"
                                  th:if="${keyword == null || keyword.isEmpty()}">
-                            <!-- 검색된 게임 이미지 경로 -->
                             <img th:src="@{'/game/browse-image-search?index=' + ${iterStat.index} + '&keyword=' + ${keyword}}" alt="게임포스터"
                                  th:if="${keyword != null && !keyword.isEmpty()}">
+
+                            <button class="wishlist add" type="button"
+                                    th:if="${gameWishlistStatus[game.getIndex()] == null or !gameWishlistStatus[game.getIndex()]}"
+                                    th:data-game-index="${game.getIndex()}">
+                                <img class="plus"
+                                     src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABgAAAAYCAYAAADgdz34AAAACXBIWXMAAAsTAAALEwEAmpwYAAAA4klEQVR4nN2UUQrCMBBEH5X2UFLPYKnaXkmtt1DqkaxWL6H+RwLrT0nMWvPlwEAIm5kwmyz8OzKgBlqgA57CTvYqqRmFBXADTIBXoPxGeALsFMJmwAZINAZjxI1wo4nF/MjCJ54pMp8CeaCm9zW+VtzujVDdCgeOEQ0OLoNLRIPOZXD3ZB6CqydWS2WQB+VhpjU4R4zo5DJoIxrsXQZVRIOlyyCTwfXpYO7JfPjRUl/DSsXtTIBzAmh+EF+jgB2525GTNOELFJJnSLjXxOJDKoPLzhb7th9Cu7Z79rV4G/ofeAG5NRUWhxZUbAAAAABJRU5ErkJggg=="
+                                     alt="plus--v1">
+                            </button>
+
+                            <button class="wishlist newBack" type="button"
+                                    th:if="${gameWishlistStatus[game.getIndex()] != null and gameWishlistStatus[game.getIndex()]}"
+                                    th:data-wishlist-index="${gameWishlistIndices[game.getIndex()]}"
+                                    th:data-game-index="${game.getIndex()}">
+                                <img class="plus back"
+                                     src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABgAAAAYCAYAAADgdz34AAAACXBIWXMAAAsTAAALEwEAmpwYAAAA6klEQVR4nOWVfQqCQBTEfxjZJcq6QwR9nqhI0o5RHaauIYaH6OMWGwsvELHV1e2PaGBAdJ1Zx33vwT+gAyyBGDgJI7nntRHuATvgCagPfAAh4NuK94HEIFxkBozqig9lZ8qSdyCoE0vWQFwJ06q4ohbiSrg1nRbTD1UWUZWerpUDcSWclxnsHRpEZQbHwqIzMAHGFZzI2vy7B9cGlzoG8bcjWjg0mJYZeA0rWBV4MzXB0IHBGgN0mV9biCdAlwoEUo1NohlUiedNUsud6xZvBV8al+lr9LNNnVhM8KS36On2Hpn6etZ2ZP4GXgs7DahOGsTvAAAAAElFTkSuQmCC"
+                                     alt="plus--v1">
+                            </button>
+
+                            <div th:if="${gameWishlistStatus[game.getIndex()] == null or !gameWishlistStatus[game.getIndex()]}" class="tooltip">
+                                위시리스트에 추가
+                            </div>
+                            <div th:if="${gameWishlistStatus[game.getIndex()] != null and gameWishlistStatus[game.getIndex()]}" class="tooltip">
+                                위시리스트에서 제거
+                            </div>
                         </div>
                         <div class="text-wrapper">
                             <span style="margin-top: -0.5rem">기본 게임</span>
@@ -176,6 +199,7 @@
                             <span class="gamePrice" th:text="${game.getPrice()}"></span>
                             <span class="gameGenre" th:text="${game.getGenre()}" style="display: none"></span>
                             <span class="gameAge" th:text="${game.getGrGrac()}" style="display: none"></span>
+                            <input id="userEmail" th:value="${userEmail}" type="hidden">
                         </div>
                     </a>
                 </div>

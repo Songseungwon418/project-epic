@@ -126,7 +126,114 @@ body {
       overflow-x: hidden;
 
       > .payment-methods-container{
-        padding-top: 10px;
+
+        > .payment-methods-title {
+          display: block;
+          margin: 0;
+          padding: 15px 0;
+          font-size: 14px;
+          line-height: 24px;
+          text-transform: uppercase;
+          font-weight: 400;
+        }
+
+        > .payment-methods-subtitle {
+          display: block;
+
+          &.-free {
+            padding: 30px;
+            background-color: #f2f2f2;
+          }
+        }
+
+        > .payment-method {
+          padding: 10px;
+
+          > .payment-method-trigger {
+            width: 100%;
+            height: 100%;
+            align-items: stretch;
+            display: flex;
+            flex-direction: column;
+            gap: 10px;
+            justify-content: flex-start;
+
+            > .payment-method-content {
+              width: 100%;
+              padding: 3px;
+
+              > .payment-radio {
+                margin: 3px 0;
+                width: 60%;
+                padding: 8px;
+                align-items: stretch;
+                display: flex;
+                flex-direction: row;
+                gap: 10px;
+                justify-content: flex-start;
+                border: 1px solid #5e5c5c;
+                border-radius: 15px;
+                text-align: center;
+                cursor: pointer;
+                transition: box-shadow 0.3s ease; /* 부드러운 그림자 전환 효과 */
+
+                &:hover {
+                  opacity: 0.7;
+                  border: 1.5px solid darken(#5e5c5c, 30%);
+                }
+
+                &:active {
+                  box-shadow: 3px 1.5px 5px 2px #5e5c5c;
+                  border: 1.5px solid darken(#5e5c5c, 50%);
+                }
+
+                /* 라디오 버튼이 체크된 경우 부모 요소에 그림자 추가 */
+                &.--active {
+                  box-shadow: 0.5px 0.5px 0.5px 0.5px #5e5c5c;
+                  border: 1px solid darken(#5e5c5c, 60%);
+                }
+
+                > .payment-radio-input {
+                  display: none;
+                }
+
+                > .payment-radio-inner {
+                  flex-grow: 1;
+                  align-items: stretch;
+                  display: flex;
+                  flex-direction: column;
+                  gap: 5px;
+                  justify-content: flex-start;
+
+                  > .img-wrapper {
+                    align-items: stretch;
+                    display: flex;
+                    flex-direction: row;
+                    gap: 10px;
+                    justify-content: flex-start;
+
+                    > img {
+                      width: 200px;
+                    }
+
+                    > .text {
+                      width: 100%;
+                      flex-grow: 1;
+                      display: flex;
+                      flex-direction: row;
+                      align-items: center;
+                      justify-content: stretch;
+                      font-size: 30px;
+                      font-weight: 700;
+                    }
+                  }
+
+
+                }
+              }
+            }
+          }
+        }
       }
     }
   }
@@ -140,7 +247,7 @@ body {
     align-items: stretch;
     display: flex;
     flex-direction: column;
-    justify-content: stretch;
+    justify-content: flex-start;
 
     > .title {
       padding-top: 36px;
@@ -149,7 +256,7 @@ body {
     }
 
     > .pay-summaries-container {
-      height: auto;
+      height: 80%;
       position: relative;
       overflow: hidden auto;
       margin: 0 -15px;
@@ -217,10 +324,15 @@ body {
             font-size: 14px;
 
             > .discount-container {
-              margin-bottom: 3px;
+              margin: 3px 0;
+              align-items: flex-start;
+              display: flex;
+              flex-direction: column;
+              justify-content: stretch;
+
               > .discount-pct {
-                padding: 2.5px 5px;
-                margin: 4px 4px 0 0;
+                height: 100%;
+                padding: 3px 5px;
                 background-color: #0078f2;
                 font-size: 9px;
                 border-radius: 3px;
@@ -419,6 +531,58 @@ body {
           height: 30px;
         }
 
+      }
+    }
+  }
+}
+
+/* 결재 페이지 모달창 */
+#cart-pay-modal {
+  display: none; /* 초기 상태에서는 보이지 않음 */
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  width: 100%;
+  height: 100%;
+  background-color: rgba(0, 0, 0, .5);
+  opacity: 1;
+  z-index: 100000;
+
+  /* 모달창 콘텐츠 */
+  > .modal-content {
+    background: #1e1e1e;
+    border: 2px solid #4d4d4d;
+    height: auto;
+    max-height: none;
+    margin-left: auto;
+    margin-right: auto;
+    max-width: 1200px;
+    width: 100vw;
+    z-index: 999;
+
+    > iframe {
+      width: 100%;
+      height: 100%;
+      border: none;
+    }
+
+    /* 닫기 버튼 */
+    > .close-modal-btn {
+      position: absolute;
+      top: 10px;
+      right: 10px;
+      background-color: #ff4747;
+      color: white;
+      font-size: 20px;
+      border: none;
+      border-radius: 50%;
+      padding: 5px 10px;
+      cursor: pointer;
+
+      &:hover {
+        background-color: #cc0000;
       }
     }
   }

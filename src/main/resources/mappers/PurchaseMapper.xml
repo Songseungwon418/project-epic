@@ -176,6 +176,23 @@
                pg_tid      AS `pgTid`
         FROM `epic_games`.`pay`
         WHERE `user_email` = #{userEmail}
+        ORDER BY `paid_at` DESC
+    </select>
+
+    <!-- 결제 id로 해당하는 구매 내역들 조회   -->
+    <select id="selectPurchaseBypayId" resultType="com.ssw.epicgames.entities.PurchaseEntity">
+        SELECT `index`           AS `index`,
+               `user_email`      AS `userEmail`,
+               `pay_id`          AS `payId`,
+               `game_index`      AS `gameIndex`,
+               `date`            AS `date`,
+               `game_price`      AS `gamePrice`,
+               `discount_amount` AS `discountAmount`,
+               `final_price`     AS `finalPrice`,
+               `addr`            AS `addr`,
+               `deleted_at`      AS `deletedAt`
+        FROM `epic_games`.`purchase`
+        WHERE `pay_id` = #{id}
     </select>
     <!--  게임 index로 구매 내역 유무 조회  -->
     <select id="selectPurchaseByGameIndex" resultType="_int">
@@ -185,7 +202,7 @@
     </select>
 
 <!-- endregion -->
-
+    <!--  유저 이메일에 해당하는 구매 내역들 조회  -->
     <select id="getPurchasesByUserEmail" resultType="com.ssw.epicgames.entities.PurchaseEntity">
         SELECT p.`index` AS `index`,
                p.user_email AS `userEmail`,

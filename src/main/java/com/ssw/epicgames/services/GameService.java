@@ -17,6 +17,18 @@ public class GameService {
         this.gameMapper = gameMapper;
     }
 
+    public Integer getPurchaseIndex(UserEntity user, int index) {
+        if (user == null) {
+            return null;
+        }
+        PurchaseEntity purchase = this.gameMapper.getPurchaseByEmailAndGameIndex(user.getEmail(), index);
+
+        if (purchase != null && purchase.getUserEmail().equals(user.getEmail()) && purchase.getGameIndex() == index) {
+            return purchase.getIndex();
+        }
+        return null;
+    }
+
     public GameDTO getGameDetails(int index) {
         if (index < 1) {
             return null;

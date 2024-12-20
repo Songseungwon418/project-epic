@@ -20,7 +20,7 @@ window.onload = function () {
             }
         });
 
-        $mainImage.src = $subImages[currentIndex].querySelector("img").src;
+        // $mainImage.src = $subImages[currentIndex].querySelector("img").src;
     };
 
     $prevButton.addEventListener("click", () => {
@@ -83,7 +83,6 @@ document.addEventListener("DOMContentLoaded", function () {
 //region 위시리스트 추가
 const $wishlistButton = document.querySelector('.wishlistAdd');
 
-// 위시리스트 버튼이 존재할 경우에만 클릭 이벤트 설정
 if ($wishlistButton) {
     $wishlistButton.onclick = () => {
         const url = new URL(location.href);
@@ -92,6 +91,7 @@ if ($wishlistButton) {
         const gameIndex = url.searchParams.get('index');
 
         if (!userEmail) {
+            alert('로그인 후 이용가능합니다. 로그인 페이지로 이동합니다.');
             window.location.href = '../user/';
             return;
         }
@@ -126,11 +126,43 @@ if ($wishlistButton) {
 }
 //endregion
 
+//region 위시리스트 제거
+const $wishlistDeleteButton = document.querySelector('.wishlistDelete');
+const $wishlistIndex = document.getElementById('wishlistIndex');
+
+if ($wishlistDeleteButton) {
+    $wishlistDeleteButton.onclick = () => {
+
+        const formData = new FormData();
+        formData.append('index', $wishlistIndex.value);
+
+        const xhr = new XMLHttpRequest();
+        xhr.onreadystatechange = () => {
+            if (xhr.readyState === XMLHttpRequest.DONE) {
+                if (xhr.status >= 200 && xhr.status < 300) {
+                    const response = JSON.parse(xhr.responseText);
+                    if (response.result === 'failure') {
+                        alert('위시리스트에서 제거에 실패하였습니다.');
+                    } else if (response.result === 'failure_not_found') {
+                        alert('위시리스트에서 이미 삭제되었거나 오류로 인해 제거에 실패하였습니다.');
+                    } else if (response.result === 'success') {
+                        alert('위시리스트에서 제거하였습니다.');
+                        location.reload();
+                    }
+                } else {
+                    alert('서버가 알 수 없는 응답을 반환하였습니다. 잠시 후 시도해 주세요.');
+                }
+            }
+        };
+        xhr.open('PATCH', '../purchase/wishlist/delete');
+        xhr.send(formData);
+    };
+}
+//endregion
 
 //region 장바구니 추가
 const $cartAddButton = document.body.querySelector('.cartAdd');
 
-// 장바구니에 담기 버튼이 존재할 경우에만 클릭 이벤트 설정
 if ($cartAddButton) {
     $cartAddButton.onclick = () => {
         const url = new URL(location.href);
@@ -139,6 +171,7 @@ if ($cartAddButton) {
         const gameIndex = url.searchParams.get('index');
 
         if (!userEmail) {
+            alert('로그인 후 이용가능합니다. 로그인 페이지로 이동합니다.');
             window.location.href = '../user/';
             return;
         }
@@ -151,7 +184,6 @@ if ($cartAddButton) {
             if (xhr.readyState !== XMLHttpRequest.DONE) {
                 return;
             }
-            document.body.style.cursor = 'default';
             if (xhr.status < 200 || xhr.status >= 300) {
                 alert('서버가 알 수 없는 응답을 반환하였습니다. 잠시 후 시도해 주세요.');
                 return;
@@ -168,10 +200,8 @@ if ($cartAddButton) {
                 location.reload();
             }
         };
-
         xhr.open('POST', '../purchase/cart/add');
         xhr.send(formData);
-        document.body.style.cursor = 'not-allowed';
     };
 }
 
@@ -180,89 +210,107 @@ if ($cartAddButton) {
 
 //region 장바구니 제거
 const $cartDeleteButton = document.querySelector('.cartDelete');
+const $cartIndex = document.getElementById('cartIndex');
+
 if ($cartDeleteButton) {
     $cartDeleteButton.onclick = () => {
-        const url = new URL(location.href);
-        const urlIndex = url.searchParams.get('index');
+
         const formData = new FormData();
-        const cartItems = document.querySelectorAll('.cart-item');
+        formData.append('index', $cartIndex.value);
 
-        cartItems.forEach(cartItem => {
-            const gameIndex = cartItem.querySelector('.cart-game-index').value;
-
-            if (gameIndex === urlIndex) {
-                const cartIndex = cartItem.querySelector('.cart-index').value;
-                formData.append('index', cartIndex);
-
-                const xhr = new XMLHttpRequest();
-                xhr.onreadystatechange = () => {
-                    if (xhr.readyState === XMLHttpRequest.DONE) {
-                        if (xhr.status >= 200 && xhr.status < 300) {
-                            const response = JSON.parse(xhr.responseText);
-                            if (response.result === 'failure') {
-                                alert('장바구니 제거에 실패하였습니다.');
-                            } else if (response.result === 'failure_not_found') {
-                                alert('이미 삭제되었거나 없어서 삭제에 실패하였습니다.');
-                            } else if (response.result === 'success') {
-                                alert('제거에 성공하였습니다.');
-                                location.reload();
-                            }
-                        } else {
-                            alert('서버가 알 수 없는 응답을 반환하였습니다. 잠시 후 시도해 주세요.');
-                        }
+        const xhr = new XMLHttpRequest();
+        xhr.onreadystatechange = () => {
+            if (xhr.readyState === XMLHttpRequest.DONE) {
+                if (xhr.status >= 200 && xhr.status < 300) {
+                    const response = JSON.parse(xhr.responseText);
+                    if (response.result === 'failure') {
+                        alert('장바구니에서 제거에 실패하였습니다.');
+                    } else if (response.result === 'failure_not_found') {
+                        alert('장바구니에서 이미 삭제되었거나 오류로 인해 제거에 실패하였습니다.');
+                    } else if (response.result === 'success') {
+                        alert('장바구니에서 제거하였습니다.');
+                        location.reload();
                     }
-                };
-                xhr.open('DELETE', '../purchase/cart/delete');
-                xhr.send(formData);
+                } else {
+                    alert('서버가 알 수 없는 응답을 반환하였습니다. 잠시 후 시도해 주세요.');
+                }
             }
-        });
-    };
+        };
+        xhr.open('DELETE', '../purchase/cart/delete');
+        xhr.send(formData);
+    }
 }
-
 //endregion
 
-//region 위시리스트 제거
-const $wishlistDeleteButton = document.querySelector('.wishlistDelete');
+document.addEventListener('DOMContentLoaded', () => {
+    const radioButtons = document.querySelectorAll('input[type="radio"][value="modify"]');
 
-if ($wishlistDeleteButton) {
-    $wishlistDeleteButton.onclick = () => {
-        const url = new URL(location.href);
-        const urlIndex = url.searchParams.get('index');
-        const formData = new FormData();
-        const wishlistItems = document.querySelectorAll('.wishlist-item');
+    radioButtons.forEach(radio => {
+        radio.addEventListener('change', (event) => {
+            const li = event.target.closest('li');
+            const form = li.querySelector('.form.modify');
 
-        wishlistItems.forEach(wishlistItem => {
-            const gameIndex = wishlistItem.querySelector('.wishlist-game-index').value;
-
-            if (gameIndex === urlIndex) {
-                const wishlistIndex = wishlistItem.querySelector('.wishlist-index').value;
-                formData.append('index', wishlistIndex);
-
-                const xhr = new XMLHttpRequest();
-                xhr.onreadystatechange = () => {
-                    if (xhr.readyState === XMLHttpRequest.DONE) {
-                        if (xhr.status >= 200 && xhr.status < 300) {
-                            const response = JSON.parse(xhr.responseText);
-                            if (response.result === 'failure') {
-                                alert('장바구니 제거에 실패하였습니다.');
-                            } else if (response.result === 'failure_not_found') {
-                                alert('이미 삭제되었거나 없어서 삭제에 실패하였습니다.');
-                            } else if (response.result === 'success') {
-                                alert('제거에 성공하였습니다.');
-                                location.reload();
-                            }
-                        } else {
-                            alert('서버가 알 수 없는 응답을 반환하였습니다. 잠시 후 시도해 주세요.');
-                        }
-                    }
-                };
-                xhr.open('PATCH', '../purchase/wishlist/delete');
-                xhr.send(formData);
+            if (event.target.checked) {
+                form.classList.add('-selected');
             }
         });
-    };
-}
+    });
 
+    // 취소 버튼 처리
+    const cancelButtons = document.querySelectorAll('.form.modify .cancel.button');
+    cancelButtons.forEach(cancel => {
+        cancel.addEventListener('click', (event) => {
+            const li = event.target.closest('li');
+            const form = li.querySelector('.form.modify');
+            const radio = li.querySelector('input[type="radio"][value="modify"]');
+
+            form.classList.remove('-selected');
+            radio.checked = false;
+        });
+    });
+});
+
+
+//region 결제 모달창(지금 구매버튼 누를 시) 관련
+{
+    // 버튼 클릭 시 모달 열기
+    const $gameBuyButton = document.getElementById('buy-btn');
+    const modal = document.getElementById('pay-modal');
+    const iframe = document.getElementById('paymentIframe');
+
+    if($gameBuyButton !== null){
+        // 모달을 여는 함수
+        $gameBuyButton.addEventListener('click', function() {
+            // 현제 페이지에서 주소의 파라미터값들을 가져옴
+            const urlParams = new URLSearchParams(window.location.search);
+            // 가져온 파라미터값들 중 'index'라는 파라미터 값을 가져옴
+            let gameIndex = urlParams.get('index');
+
+            // 모달을 보이도록 설정
+            iframe.src = `/purchase/pay?index=${gameIndex}`; //주소에 파라미터값을 설정하여 보냄
+            modal.style.display = 'flex';
+            document.body.style.overflow = 'hidden';
+        });
+
+        // 모달 외부 클릭 시 닫기
+        window.addEventListener('click', function(event) {
+            if (event.target === modal) {
+                iframe.src = "";
+                modal.style.display = 'none';
+                document.body.style.overflow = 'hidden auto';
+            }
+        });
+
+        // 모달창 닫기 버튼 누를 시 (iframe으로부터 메시지를 받으면 모달 닫기)
+        window.addEventListener('message', function(event) {
+            // 이벤트를 받았을 때 'closeModal' 메시지를 받으면 모달을 닫음
+            if (event.data === 'closeModal') {
+                modal.style.display = 'none';
+                document.body.style.overflow = 'hidden auto';
+            }
+        });
+    }
+}
 //endregion
 
 

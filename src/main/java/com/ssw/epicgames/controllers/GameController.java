@@ -4,13 +4,9 @@ import com.ssw.epicgames.DTO.CartDTO;
 import com.ssw.epicgames.DTO.GameDTO;
 import com.ssw.epicgames.DTO.WishlistDTO;
 import com.ssw.epicgames.entities.*;
-import com.ssw.epicgames.services.GameService;
-import com.ssw.epicgames.services.GenreService;
-import com.ssw.epicgames.services.PriceService;
-import com.ssw.epicgames.services.PurchaseService;
+import com.ssw.epicgames.services.*;
 import com.ssw.epicgames.vos.GameVo;
 import com.ssw.epicgames.vos.PriceVo;
-import jakarta.servlet.http.HttpSession;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
@@ -18,7 +14,8 @@ import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.ModelAndView;
 
-import java.util.Arrays;
+import java.util.*;
+import java.util.stream.Collectors;
 
 @Controller
 @RequestMapping(value = "/game")
@@ -28,13 +25,17 @@ public class GameController {
     private final GenreService genreService;
     private final PriceService priceService;
     private final PurchaseService purchaseService;
+    private final WishlistService wishlistService;
+    private final CartService cartService;
 
     @Autowired
-    public GameController(GameService gameService, GenreService genreService, PriceService priceService, PurchaseService purchaseService) {
+    public GameController(GameService gameService, GenreService genreService, PriceService priceService, PurchaseService purchaseService, WishlistService wishlistService, CartService cartService) {
         this.gameService = gameService;
         this.genreService = genreService;
         this.priceService = priceService;
         this.purchaseService = purchaseService;
+        this.wishlistService = wishlistService;
+        this.cartService = cartService;
     }
 
     //region 마이페이지 이미지
@@ -124,48 +125,34 @@ public class GameController {
     //region 게임 상세 페이지
     @RequestMapping(value = "/page", method = RequestMethod.GET, produces = MediaType.TEXT_HTML_VALUE)
     public ModelAndView getPage(@RequestParam(value = "index") int index,
-                                @SessionAttribute(value = "user", required = false) UserEntity user,
-                                HttpSession session
-    ) {
+                                @SessionAttribute(value = "user", required = false) UserEntity user) {
         ModelAndView modelAndView = new ModelAndView();
+
         GameDTO gameDetails = this.gameService.getGameDetails(index);
         PriceVo priceVo = this.priceService.discountInfo(index, gameDetails.getGame().getPrice());
+        Integer purchaseIndex = this.gameService.getPurchaseIndex(user, index);
 
-        session.setAttribute("gameDetails", gameDetails);
-        session.setAttribute("priceVo", priceVo);
+        System.out.println("PurchaseIndex: " + purchaseIndex);
 
         WishlistDTO[] wishlists = this.purchaseService.getWishlists(user);
         if (wishlists == null) {
             wishlists = new WishlistDTO[0];
         }
 
-        boolean isInWishlist = false;
-        for (WishlistDTO wishlist : wishlists) {
-            if (wishlist.getWishlist().getGameIndex() == index) {
-                isInWishlist = true;
-                break;
-            }
-        }
+        boolean isInWishlist = this.wishlistService.isInWishlist(index, user);
+        Integer wishlistIndex = this.wishlistService.getWishlistIndex(index, user);
 
-        CartDTO[] carts = this.purchaseService.getCarts(user);
-        if (carts == null) {
-            carts = new CartDTO[0];
-        }
-
-        boolean isInCart = false;
-        for (CartDTO cart : carts) {
-            if (cart.getCart().getGameIndex() == index) {
-                isInCart = true;
-                break;
-            }
-        }
+        boolean isInCart = this.cartService.isInCart(index, user);
+        Integer cartIndex = this.cartService.getCartIndex(index, user);
 
         modelAndView.addObject("gameDetails", gameDetails);
         modelAndView.addObject("priceVo", priceVo);
-        modelAndView.addObject("carts", carts);
-        modelAndView.addObject("isInCart", isInCart);
-        modelAndView.addObject("wishlists", wishlists);
+        modelAndView.addObject("purchaseIndex", purchaseIndex);
         modelAndView.addObject("isInWishlist", isInWishlist);
+        modelAndView.addObject("wishlistIndex", wishlistIndex);
+        modelAndView.addObject("isInCart", isInCart);
+        modelAndView.addObject("cartIndex", cartIndex);
+
         modelAndView.setViewName("game/page");
         return modelAndView;
     }
@@ -177,7 +164,7 @@ public class GameController {
     @RequestMapping(value = "/genre-image-all", method = RequestMethod.GET)
     @ResponseBody
     public ResponseEntity<byte[]> getAllGameImageByGenre(@RequestParam(value = "index") int index,
-                                                  @RequestParam(value = "tag") String tag) {
+                                                         @RequestParam(value = "tag") String tag) {
         GameVo[] games = this.genreService.getGamesByGenre(tag);
 
         if (index < 0 || index >= games.length) {
@@ -200,8 +187,8 @@ public class GameController {
     @RequestMapping(value = "/genre-image-search", method = RequestMethod.GET)
     @ResponseBody
     public ResponseEntity<byte[]> getSearchGameImageByGenre(@RequestParam(value = "index") int index,
-                                                     @RequestParam(value = "keyword") String keyword,
-                                                     @RequestParam(value = "tag") String tag) {
+                                                            @RequestParam(value = "keyword") String keyword,
+                                                            @RequestParam(value = "tag") String tag) {
         GameVo[] games = this.genreService.getGamesByGenreAndKeyword(tag, keyword);
 
         if (index < 0 || index >= games.length) {
@@ -224,24 +211,44 @@ public class GameController {
     //region 장르별 페이지
     @RequestMapping(value = "/genre", method = RequestMethod.GET, produces = MediaType.TEXT_HTML_VALUE)
     public ModelAndView getGenre(@RequestParam(value = "tag", required = false) String tag,
-                                 @RequestParam(value = "keyword", required = false) String keyword) {
+                                 @RequestParam(value = "keyword", required = false) String keyword,
+                                 @SessionAttribute(value = "user", required = false) UserEntity user) {
         ModelAndView modelAndView = new ModelAndView();
 
         GenreEntity[] genres = this.genreService.getGenres();
         GenreEntity genre = this.genreService.getGenreByTag(tag);
-
         modelAndView.addObject("genres", genres);
         modelAndView.addObject("genre", genre);
 
-        if (keyword == null || keyword.isEmpty()) {
-            modelAndView.addObject("games", this.genreService.getGamesByGenre(tag));
-        } else {
-            modelAndView.addObject("games", this.genreService.getGamesByGenreAndKeyword(tag, keyword));
+        GameVo[] games = (keyword == null || keyword.isEmpty())
+                ? this.genreService.getGamesByGenre(tag)
+                : this.genreService.getGamesByGenreAndKeyword(tag, keyword);
+        modelAndView.addObject("games", games);
+
+        if (keyword != null && !keyword.isEmpty()) {
             modelAndView.addObject("keyword", keyword);
         }
+
+        Map<Integer, Boolean> gameWishlistStatus = new HashMap<>();
+        Map<Integer, Integer> gameWishlistIndices = new HashMap<>();
+
+        if (user != null && games != null) {
+            WishlistDTO[] wishlists = this.purchaseService.getWishlists(user);
+
+            if (wishlists != null) {
+                gameWishlistStatus = this.wishlistService.getWishlistStatus(games, wishlists);
+                gameWishlistIndices = this.wishlistService.getWishlistIndices(games, wishlists);
+            }
+        }
+
+        modelAndView.addObject("gameWishlistStatus", gameWishlistStatus);
+        modelAndView.addObject("gameWishlistIndices", gameWishlistIndices);
+        modelAndView.addObject("user", user);
+
         modelAndView.setViewName("game/genre");
         return modelAndView;
     }
+
     //endregion
 
     //region 찾아보기 페이지 이미지
@@ -281,16 +288,24 @@ public class GameController {
 
     //region 찾아보기 페이지
     @RequestMapping(value = "/browse", method = RequestMethod.GET, produces = MediaType.TEXT_HTML_VALUE)
-    public ModelAndView getBrowse(@RequestParam(value = "keyword", required = false) String keyword) {
+    public ModelAndView getBrowse(@RequestParam(value = "keyword", required = false) String keyword,
+                                  @SessionAttribute(value = "user", required = false) UserEntity user) {
         ModelAndView modelAndView = new ModelAndView();
-        if (keyword == null || keyword.isEmpty()) {
-            GameVo[] games = this.gameService.getAllGames();
-            modelAndView.addObject("games", games);
-        } else {
-            GameVo[] games = this.gameService.getGamesByKeyword(keyword);
-            modelAndView.addObject("games", games);
+
+        GameVo[] games = (keyword == null || keyword.isEmpty())
+                ? this.gameService.getAllGames()
+                : this.gameService.getGamesByKeyword(keyword);
+        modelAndView.addObject("games", games);
+
+        if (keyword != null && !keyword.isEmpty()) {
             modelAndView.addObject("keyword", keyword);
         }
+
+        Map<String, Object> wishlistData = this.wishlistService.getWishlistStatus(user, games);
+        modelAndView.addAllObjects(wishlistData);
+
+        modelAndView.addObject("user", user);
+
         modelAndView.setViewName("game/browse");
         return modelAndView;
     }

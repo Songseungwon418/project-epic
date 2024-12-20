@@ -31,4 +31,7 @@ public interface GameMapper {
     AchievementEntity[] selectGameAchievementByIndex(@Param("index") int index);
 
     List<GameEntity> getGamesByUserEmail(@Param("userEmail") String userEmail);
+
+    PurchaseEntity getPurchaseByEmailAndGameIndex(@Param("userEmail") String userEmail,
+                                                  @Param("index") int index);
 }
