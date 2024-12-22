@@ -26,6 +26,7 @@ public class GameController {
     private final PriceService priceService;
     private final WishlistService wishlistService;
     private final CartService cartService;
+    private PurchaseService purchaseService;
 
     @Autowired
     public GameController(GameService gameService, GenreService genreService, PriceService priceService, WishlistService wishlistService, CartService cartService) {
