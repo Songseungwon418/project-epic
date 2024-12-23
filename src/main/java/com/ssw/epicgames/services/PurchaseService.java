@@ -442,14 +442,15 @@ public class PurchaseService {
 
 //region 장바구니, 위시리스트 중복 확인하는 메서드
     /** 실제로 유저와 게임이 장바구니에 있는 지(중복인지) 체크 */
-    private boolean DuplicationCheckCart(String userEmail, int gameIndex) {
+    public boolean DuplicationCheckCart(String userEmail, int gameIndex) {
         // 장바구니에 있는 지 확인
         CartEntity dbCart = this.purchaseMapper.selectCartByEmailANDGameIndex(userEmail, gameIndex);
         return dbCart != null; // 장바구니가 있음 true 반환
     }
 
     /** 실제로 유저와 게임이 위시리스트에 있는 지(중복인지) 체크 */
-    private boolean DuplicationCheckWishlist(String userEmail, int gameIndex) {
+    public boolean DuplicationCheckWishlist(String userEmail, int gameIndex) {
+
         // 위시리스트에 있는 지
         WishlistEntity dbWishlist = this.purchaseMapper.selectWishlistByEmailANDGameIndex(userEmail, gameIndex);
 
@@ -460,7 +461,7 @@ public class PurchaseService {
 
 //region 이미 구매한 게임이 있는지 확인하는 메서드
     /** 장바구니에 담긴 목록들에서 이미 구매한 게임이 있는지 체크 */
-    private boolean checkDuplicatePurchase(String userEmail, CartDTO[] cartList) {
+    public boolean checkDuplicatePurchase(String userEmail, CartDTO[] cartList) {
         for (CartDTO cart : cartList) {
             if (checkDuplicatePurchaseByGameIndex(userEmail, cart.getGame().getIndex())) {
                 return true; // 중복 구매가 있으면 true 리턴
@@ -470,12 +471,13 @@ public class PurchaseService {
     }
 
     /** 구매할 게임이 이미 구매한 것인지 체크 */
-    private boolean checkDuplicatePurchaseByGameIndex(String userEmail, int gameIndex) {
+    public boolean checkDuplicatePurchaseByGameIndex(String userEmail, int gameIndex) {
         return this.purchaseMapper.selectPurchaseByGameIndex(userEmail, gameIndex) > 0; // 중복 구매가 있으면 true 리턴
     }
 //endregion
 
-    //region 결제 내역 객체 생성 메서드
+
+//region 결제 내역 객체 생성 메서드
     private PurchaseEntity creatPurchaseEntity(String userEmail, String userAddr, String payID, int gameIndex, PriceVo price) {
         // 구매 내역에 삽입할 내용 설정 (CartDTO 이용)
         PurchaseEntity purchase = new PurchaseEntity();
@@ -492,4 +494,5 @@ public class PurchaseService {
         return purchase;
     }
 //endregion
+  
 }
