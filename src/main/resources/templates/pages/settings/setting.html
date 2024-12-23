@@ -20,12 +20,12 @@
     <div class="nav" id="nav">
         <ul class="menu">
             <li class="item" rel="user.setting">계정 설정</li>
-            <li class="item" rel="user.purchaseList">결제 내역</li>
+            <li class="item -selected" rel="user.purchaseList">결제 내역</li>
         </ul>
     </div>
     <div class="main" id="main">
         <th:block th:replace="~{fragments/common.html :: logout}"></th:block>
-        <div class="content user-setting" rel="user.setting">
+        <div class="content user-setting" th:classappend="${showPurchaseList ? '' : '-visible'}" rel="user.setting">
             <form class="main-container" id="mainContainer">
                 <div class="main-title">계정 설정</div>
                 <div class="title-text">계정 상세 정보를 관리합니다</div>
@@ -92,7 +92,7 @@
                 <button class="button" type="button" id="deleteRequestBtn">계정 삭제 요청</button>
             </div>
         </div>
-        <div class="content user-purchaseList -visible" rel="user.purchaseList">
+        <div class="content user-purchaseList -visible" th:classappend="${showPurchaseList ? '-visible' : ''}" rel="user.purchaseList">
             <h2 class="title">구매 내역</h2>
             <table class="purchase-table">
                 <thead>

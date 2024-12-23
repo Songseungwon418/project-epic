@@ -45,6 +45,25 @@
       align-items: flex-start;
       justify-content: flex-start;
       gap: 1.5rem;
+
+      > .item {
+        cursor: pointer;
+
+        &:hover {
+          color: lighten(#000, 50%);
+        }
+
+        &:active {
+          font-weight: 700;
+        }
+
+        &.-selected {
+          color: #141414;
+          font-size: 15px;
+          font-weight: 700;
+          cursor: not-allowed;
+        }
+      }
     }
   }
 

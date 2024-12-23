@@ -88,7 +88,10 @@ public class PageController {
     }
 
     @RequestMapping(value ="/setting", method = RequestMethod.GET, produces = MediaType.TEXT_HTML_VALUE)
-    public ModelAndView getSettingPage(@SessionAttribute("user") UserEntity user) {
+    public ModelAndView getSettingPage(
+            @SessionAttribute("user") UserEntity user,
+            @RequestParam(value = "showPurchaseList", required = false, defaultValue = "false") boolean showPurchaseList
+    ) {
         if (user == null) {
             // 세션에 유저 정보가 없을 때 처리
             throw new RuntimeException("User not found in session");
@@ -100,6 +103,7 @@ public class PageController {
         UserEntity dbUser = this.pageService.getUserByEmail(user.getEmail());
         modelAndView.addObject("user", dbUser);
         modelAndView.addObject("paylist", paylist); // 결제 및 구매 내역 뷰에 넘겨줌
+        modelAndView.addObject("showPurchaseList", showPurchaseList); // 결제내역페이지 보여주기 유무
 
         modelAndView.setViewName("pages/settings/setting");
         return modelAndView;

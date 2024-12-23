@@ -43,6 +43,21 @@
   justify-content: flex-start;
   gap: 1.5rem;
 }
+.container > .nav > .menu > .item {
+  cursor: pointer;
+}
+.container > .nav > .menu > .item:hover {
+  color: rgb(127.5, 127.5, 127.5);
+}
+.container > .nav > .menu > .item:active {
+  font-weight: 700;
+}
+.container > .nav > .menu > .item.-selected {
+  color: #141414;
+  font-size: 15px;
+  font-weight: 700;
+  cursor: not-allowed;
+}
 .container > .main {
   width: 100%;
   background-color: #ffffff;

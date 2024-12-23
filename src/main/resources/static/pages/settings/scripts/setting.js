@@ -108,15 +108,17 @@ const $mainContents = Array.from($main.querySelectorAll(':scope > .content[rel]'
 // //region 옆 메뉴 동작
 $navItems.forEach(($navItem) => {
     $navItem.onclick = () => {
-        alert($navItem.innerText); // 잘되는지 확인용
-        // const rel = $navItem.getAttribute('rel');
-        // console.log(rel);
-        //
-        // const $mainContent = $mainContents.find((x) => x.getAttribute('rel') === rel);
-        // $mainContent.classList.add('-visible');
-        //
-        // $navItems.forEach((x) => x.classList.remove('-selected'));
-        // $navItem.classList.add('-selected');
+        // alert($navItem.innerText); // 잘되는지 확인용
+        const rel = $navItem.getAttribute('rel');
+
+        const $mainContent = $mainContents.find((x) => x.getAttribute('rel') === rel);
+
+        $mainContents.forEach(($mainContent) => $mainContent.classList.remove('-visible')); // 전체 -visible 클래스 제거 -> 초기화
+
+        $mainContent.classList.add('-visible'); // 선택한 메뉴에 -visible 클래스 추가
+
+        $navItems.forEach((x) => x.classList.remove('-selected')); // 초기화
+        $navItem.classList.add('-selected'); // 선택된 네비메뉴에 -selected 추가
     };
 });
 //endregion
