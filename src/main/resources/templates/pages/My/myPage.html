@@ -59,9 +59,9 @@
     <div class="mainSection">
         <form class="myName-container" th:fragment="myName-container">
             <div class="my-wrapper">
-                <span class="oneName" th:text="${#strings.substring(userNickname, 0, 1)}"></span>
+                <span class="oneName" th:text="${#strings.substring(user.getNickname(), 0, 1)}"></span>
                 <div class="nickname-wrapper">
-                    <span class="nickname" th:text="${userNickname}"></span>
+                    <span class="nickname" th:text="${user.nickname}"></span>
                     <div class="achievement-wrapper">
                         <div class="achievement">
                             <span class="text">총 게임 수</span>
@@ -119,7 +119,8 @@
                         <span class="text">업적 진행도</span>
                         <div class="achievement-img-wrapper">
                             <div class="achievement-image" th:each="achievement : ${gameMap.get(game)}">
-                                <img class="image"
+                                <span th:if="${achievement == null}">달성한 업적이 없습니다.</span>
+                                <img class="image" th:if="${achievement != null}"
                                      th:src="@{/page/achievement-cover (index = ${achievement.getAchievementId()})}"
                                      th:title="${achievement.getAchievementName()}">
                             </div>

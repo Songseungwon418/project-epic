@@ -64,8 +64,8 @@ public class PageController {
                 gameMap.put(game, Arrays.stream(myDTOs).filter((x) -> x.getGameIndex() == game.getIndex()).toArray(MyDTO[]::new));
             }
         }
-
-        modelAndView.addObject("user", user);
+        UserEntity dbUser = this.pageService.getUserByEmail(user.getEmail());
+        modelAndView.addObject("user", dbUser);
         modelAndView.addObject("gameMap", gameMap);
         modelAndView.setViewName("pages/My/myPage");
         return modelAndView;
@@ -85,7 +85,8 @@ public class PageController {
     @RequestMapping(value ="/setting", method = RequestMethod.GET, produces = MediaType.TEXT_HTML_VALUE)
     public ModelAndView getSettingPage(@SessionAttribute("user") UserEntity user) {
         ModelAndView modelAndView = new ModelAndView();
-        modelAndView.addObject("user", user);
+        UserEntity dbUser = this.pageService.getUserByEmail(user.getEmail());
+        modelAndView.addObject("user", dbUser);
         modelAndView.setViewName("pages/settings/setting");
         return modelAndView;
     }

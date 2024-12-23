@@ -41,13 +41,19 @@
         justify-content: center;
 
         > .oneName {
+          width: 18rem;
+          height: 18rem;
           border: 0.0625rem solid orange;
           border-radius: 999rem;
           background-color: orange;
-          padding: 4rem;
-          font-size: 9rem;
+          font-size: 12rem;
           font-weight: 700;
           margin-right: 30px;
+
+          display: flex;
+          align-items: center;
+          justify-content: center;
+          text-align: center;
         }
 
         > .nickname-wrapper {
