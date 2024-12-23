@@ -4,12 +4,31 @@
         "https://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.ssw.epicgames.mappers.ReviewMapper">
 
-    <insert id="insertReview" parameterType="_int">
+    <insert id="insertReview" parameterType="com.ssw.epicgames.entities.ReviewEntity">
         INSERT INTO `epic_games`.`review` (`user_email`, `game_index`, `purchase_index`, `star`, `content`, `created_at`, `updated_at`, `deleted_at`)
         VALUES (#{userEmail}, #{gameIndex}, #{purchaseIndex}, #{star}, #{content}, #{createdAt}, #{updatedAt}, #{deletedAt})
     </insert>
 
-    <select id="selectReviewsByGameIndex" parameterType="com.ssw.epicgames.entities.ReviewEntity">
+    <select id="selectReviewsByGameIndex" resultType="com.ssw.epicgames.vos.ReviewVo">
+        SELECT r.`index`          AS `index`,
+               r.`user_email`     AS `userEmail`,
+               r.`game_index`     AS `gameIndex`,
+               r.`purchase_index` AS `purchaseIndex`,
+               r.`star`           AS `star`,
+               r.`content`        AS `content`,
+               r.`created_at`     AS `createdAt`,
+               r.`updated_at`     AS `updatedAt`,
+               r.`deleted_at`     AS `deletedAt`,
+               u.`nickname`       AS `nickname`
+        FROM `epic_games`.`review` AS `r`
+                 LEFT JOIN `epic_games`.`user` AS `u`
+                           ON r.`user_email` = u.`email`
+        WHERE r.`game_index` = #{gameIndex}
+          AND r.`deleted_at` IS NULL
+        ORDER BY r.`index` DESC
+    </select>
+
+    <select id="selectReviewByIndex" resultType="com.ssw.epicgames.entities.ReviewEntity">
         SELECT `index`          AS `index`,
                `user_email`     AS `userEmail`,
                `game_index`     AS `gameIndex`,
@@ -20,8 +39,30 @@
                `updated_at`     AS `updatedAt`,
                `deleted_at`     AS `deletedAt`
         FROM `epic_games`.`review`
-        WHERE `game_index` = #{gameIndex}
-          AND `deleted_at` IS NULL
-        ORDER BY `index` DESC
+        WHERE `index` = #{index}
     </select>
+
+    <select id="existsReview" resultType="boolean">
+        SELECT COUNT(*) > 0
+        FROM `epic_games`.`review`
+        WHERE game_index = #{gameIndex}
+          AND user_email = #{userEmail}
+          AND `deleted_at` IS NULL
+    </select>
+
+    <update id="updateReview" parameterType="com.ssw.epicgames.entities.ReviewEntity">
+        UPDATE `epic_games`.`review`
+        SET `index`          = #{index},
+            `user_email`     = #{userEmail},
+            `game_index`     = #{gameIndex},
+            `purchase_index` = #{purchaseIndex},
+            `star`           = #{star},
+            `content`        = #{content},
+            `created_at`     = #{createdAt},
+            `updated_at`     = #{updatedAt},
+            `deleted_at`     = #{deletedAt}
+        WHERE `index` = #{index}
+        LIMIT 1
+    </update>
+
 </mapper>

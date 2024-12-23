@@ -458,13 +458,13 @@ button {
     gap: 0.5rem;
 }
 #header .header-nav > .nickname-button > .link > .circle {
-    width: 2rem;
-    height: 2rem;
+    width: 3rem;
+    height: 3rem;
     background-color: #46464e;
     padding: 0.9rem;
     border-radius: 999rem;
     text-align: center;
-    line-height: 1;
+    line-height: 0.8;
     font-size: 1.4rem;
 }
 #header .header-nav > .login-button {
