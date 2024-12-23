@@ -24,16 +24,15 @@ public class GameController {
     private final GameService gameService;
     private final GenreService genreService;
     private final PriceService priceService;
-    private final PurchaseService purchaseService;
     private final WishlistService wishlistService;
     private final CartService cartService;
+    private PurchaseService purchaseService;
 
     @Autowired
-    public GameController(GameService gameService, GenreService genreService, PriceService priceService, PurchaseService purchaseService, WishlistService wishlistService, CartService cartService) {
+    public GameController(GameService gameService, GenreService genreService, PriceService priceService, WishlistService wishlistService, CartService cartService) {
         this.gameService = gameService;
         this.genreService = genreService;
         this.priceService = priceService;
-        this.purchaseService = purchaseService;
         this.wishlistService = wishlistService;
         this.cartService = cartService;
     }
@@ -131,13 +130,6 @@ public class GameController {
         GameDTO gameDetails = this.gameService.getGameDetails(index);
         PriceVo priceVo = this.priceService.discountInfo(index, gameDetails.getGame().getPrice());
         Integer purchaseIndex = this.gameService.getPurchaseIndex(user, index);
-
-        System.out.println("PurchaseIndex: " + purchaseIndex);
-
-        WishlistDTO[] wishlists = this.purchaseService.getWishlists(user);
-        if (wishlists == null) {
-            wishlists = new WishlistDTO[0];
-        }
 
         boolean isInWishlist = this.wishlistService.isInWishlist(index, user);
         Integer wishlistIndex = this.wishlistService.getWishlistIndex(index, user);
