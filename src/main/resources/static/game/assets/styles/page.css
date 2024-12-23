@@ -854,6 +854,22 @@
 #main > .mainSection > .gameArea > .game-container > .game-description > .sideBar > .bar-nav > .button-container > .button.buy:hover {
   background-color: #72d3ff;
 }
+#main > .mainSection > .gameArea > .game-container > .game-description > .sideBar > .bar-nav > .button-container > .button.buy-ap {
+  background-color: rgb(140, 218.9631336406, 255);
+  opacity: 0.5;
+  padding: 1.6rem;
+  cursor: not-allowed;
+  align-items: center;
+  display: flex;
+  flex-direction: row;
+  gap: 10px;
+  justify-content: center;
+  text-align: center;
+}
+#main > .mainSection > .gameArea > .game-container > .game-description > .sideBar > .bar-nav > .button-container > .button.buy-ap > svg {
+  width: 20px;
+  height: 20px;
+}
 #main > .mainSection > .gameArea > .game-container > .game-description > .sideBar > .bar-nav > .button-container > .button.cart, #main > .mainSection > .gameArea > .game-container > .game-description > .sideBar > .bar-nav > .button-container > .button.wishlist {
   background-color: rgba(255, 255, 255, 0.1490196078);
   padding: 1.6rem;

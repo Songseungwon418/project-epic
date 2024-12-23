@@ -306,33 +306,43 @@
                                 </div>
                             </div>
 
-                            <div class="button-container">
-                                <button class="buy button" type="button" id="buy-btn">
-                                    <span class="text">지금 구매</span>
-                                </button>
+                            <div class="button-container" th:if="${purchaseIndex == 0 || purchaseIndex == null}">
+                            <button class="buy button" type="button" id="buy-btn">
+                                <span class="text">지금 구매</span>
+                            </button>
 
-                                <button class="cart cartAdd button" type="button" th:if="${!isInCart}">
-                                    <span class="text">장바구니에 담기</span>
-                                </button>
+                            <button class="cart cartAdd button" type="button" th:if="${!isInCart}">
+                                <span class="text">장바구니에 담기</span>
+                            </button>
 
-                                <button class="cart cartDelete button" type="button" th:if="${isInCart}">
-                                    <span class="text">장바구니에서 제거</span>
-                                </button>
+                            <button class="cart cartDelete button" type="button" th:if="${isInCart}">
+                                <span class="text">장바구니에서 제거</span>
+                            </button>
 
-                                <button class="wishlist wishlistAdd button" type="button" th:if="${!isInWishlist}">
-                                    <span class="text">위시리스트에 담기</span>
-                                </button>
+                            <button class="wishlist wishlistAdd button" type="button" th:if="${!isInWishlist}">
+                                <span class="text">위시리스트에 담기</span>
+                            </button>
 
-                                <button class="wishlist wishlistDelete button" type="button" th:if="${isInWishlist}">
-                                    <span class="text">위시리스트에서 제거</span>
+                            <button class="wishlist wishlistDelete button" type="button" th:if="${isInWishlist}">
+                                <span class="text">위시리스트에서 제거</span>
+                            </button>
+                            <label>
+                                <input type="text" id="userEmail" th:value="${userEmail}" hidden="hidden">
+                                <input type="text" id="cartIndex" th:value="${cartIndex}" hidden="hidden">
+                                <input type="text" id="wishlistIndex" th:value="${wishlistIndex}" hidden="hidden">
+                            </label>
+                        </div>
+
+                            <div class="button-container" th:if="${purchaseIndex != null}">
+                                <button class="buy-ap button" type="button">
+                                    <svg aria-hidden="true" class="eds_5nt5ak0 eds_5nt5ak9 eds_14hl3lj7" width="24"
+                                         height="24" viewBox="0 0 24 24">
+                                        <path d="M5.5 3.25A2.25 2.25 0 0 0 3.25 5.5v3a2.25 2.25 0 0 0 2.25 2.25h3a2.25 2.25 0 0 0 2.25-2.25v-3A2.25 2.25 0 0 0 8.5 3.25zM4.75 5.5a.75.75 0 0 1 .75-.75h3a.75.75 0 0 1 .75.75v3a.75.75 0 0 1-.75.75h-3a.75.75 0 0 1-.75-.75zm.75 7.75a2.25 2.25 0 0 0-2.25 2.25v3a2.25 2.25 0 0 0 2.25 2.25h3a2.25 2.25 0 0 0 2.25-2.25v-3a2.25 2.25 0 0 0-2.25-2.25zm-.75 2.25a.75.75 0 0 1 .75-.75h3a.75.75 0 0 1 .75.75v3a.75.75 0 0 1-.75.75h-3a.75.75 0 0 1-.75-.75zm8.5 0a2.25 2.25 0 0 1 2.25-2.25h3a2.25 2.25 0 0 1 2.25 2.25v3a2.25 2.25 0 0 1-2.25 2.25h-3a2.25 2.25 0 0 1-2.25-2.25zm2.25-.75a.75.75 0 0 0-.75.75v3c0 .414.336.75.75.75h3a.75.75 0 0 0 .75-.75v-3a.75.75 0 0 0-.75-.75zm0-11.5a2.25 2.25 0 0 0-2.25 2.25v3a2.25 2.25 0 0 0 2.25 2.25h3a2.25 2.25 0 0 0 2.25-2.25v-3a2.25 2.25 0 0 0-2.25-2.25zm-.75 2.25a.75.75 0 0 1 .75-.75h3a.75.75 0 0 1 .75.75v3a.75.75 0 0 1-.75.75h-3a.75.75 0 0 1-.75-.75z"
+                                              clip-rule="evenodd" fill-rule="evenodd"></path>
+                                    </svg>
+                                    <span class="text">라이브러리에 있음</span>
                                 </button>
-                                <label>
-                                    <input type="text" id="userEmail" th:value="${userEmail}" hidden="hidden">
-                                    <input type="text" id="cartIndex" th:value="${cartIndex}" hidden="hidden">
-                                    <input type="text" id="wishlistIndex" th:value="${wishlistIndex}" hidden="hidden">
-                                </label>
                             </div>
-
                             <div class="info-wrapper">
                                 <div class="info">
                                     <div class="text-wrapper">
