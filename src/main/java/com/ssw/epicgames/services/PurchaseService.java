@@ -450,6 +450,7 @@ public class PurchaseService {
 
     /** 실제로 유저와 게임이 위시리스트에 있는 지(중복인지) 체크 */
     public boolean DuplicationCheckWishlist(String userEmail, int gameIndex) {
+
         // 위시리스트에 있는 지
         WishlistEntity dbWishlist = this.purchaseMapper.selectWishlistByEmailANDGameIndex(userEmail, gameIndex);
 
@@ -475,6 +476,7 @@ public class PurchaseService {
     }
 //endregion
 
+
 //region 결제 내역 객체 생성 메서드
     private PurchaseEntity creatPurchaseEntity(String userEmail, String userAddr, String payID, int gameIndex, PriceVo price) {
         // 구매 내역에 삽입할 내용 설정 (CartDTO 이용)
@@ -492,4 +494,5 @@ public class PurchaseService {
         return purchase;
     }
 //endregion
+  
 }

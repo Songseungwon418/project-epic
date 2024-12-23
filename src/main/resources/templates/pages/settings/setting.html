@@ -29,20 +29,20 @@
                 <div class="main-title">계정 설정</div>
                 <div class="title-text">계정 상세 정보를 관리합니다</div>
                 <div class="sub-title">계정 정보</div>
-                <div class="id" th:text="${'ID: ' + user.getEmail()}"></div>
+                <div class="id" th:text="${'ID: ' + user.email}"></div>
                 <div class="id-container">
                     <div class="id-wrapper">
                         <span class="text">표시명</span>
                         <label class="label nickname-wrp">
                             <input class="input" maxlength="16" minlength="2" name="nickname" type="text"
-                                   th:value="${user.getNickname()}">
+                                   th:value="${user.nickname}">
                         </label>
                     </div>
                     <div class="id-wrapper">
                         <span class="text">이메일 주소</span>
                         <label class="label email-addr">
                             <input readonly autocomplete="email" class="input" maxlength="50" minlength="8" name="email"
-                                   spellcheck="false" type="email" th:value="${user.getEmail()}">
+                                   spellcheck="false" type="email" th:value="${user.email}">
                         </label>
                     </div>
                 </div>
@@ -61,21 +61,21 @@
                     <label class="label name-wrp">
                         <span class="text">이름</span>
                         <input class="input" maxlength="10" minlength="1" name="name" type="text"
-                               th:value="${user.getName()}">
+                               th:value="${user.name}">
                     </label>
                     <label class="label addr-wrp">
                         <span class="text">주소</span>
                         <input class="input" maxlength="100" minlength="5" name="addr" type="text"
-                               th:value="${user.getAddr()}">
+                               th:value="${user.addr}">
                     </label>
                     <label class="label">
                         <span class="text">생년월일</span>
-                        <input class="input" name="birthdate" type="date" th:value="${user.getBirthdate()}">
+                        <input class="input" name="birthdate" type="date" th:value="${user.birthdate}">
                     </label>
                     <label class="label">
                         <span class="text">전화번호</span>
                         <input class="input" maxlength="11" minlength="11" name="phone" type="text"
-                               th:value="${user.getPhone()}">
+                               th:value="${user.phone}">
                     </label>
                 </div>
                 <button class="storage" type="submit">변경사항 저장</button>

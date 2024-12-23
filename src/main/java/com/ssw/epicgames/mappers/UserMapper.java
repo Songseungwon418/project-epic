@@ -20,8 +20,5 @@ public interface UserMapper {
     // 동일 닉네임이 있는지 구분용
     UserEntity selectUserByNickname(@Param("nickname") String nickname);
 
-
     int updateUser(UserEntity user);
-
-
 }

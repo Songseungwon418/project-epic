@@ -106,4 +106,9 @@ public class PageService {
         dbUser.setDeletedDate(LocalDateTime.now());
         return this.userMapper.updateUser(dbUser) > 0 ? CommonResult.SUCCESS : CommonResult.FAILURE;
     }
+
+    public UserEntity getUserByEmail(String email) {
+        return this.userMapper.selectUserByEmail(email);
+    }
+    
 }

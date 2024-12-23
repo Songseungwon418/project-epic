@@ -69,8 +69,8 @@ public class PageController {
                 gameMap.put(game, Arrays.stream(myDTOs).filter((x) -> x.getGameIndex() == game.getIndex()).toArray(MyDTO[]::new));
             }
         }
-
-        modelAndView.addObject("user", user);
+        UserEntity dbUser = this.pageService.getUserByEmail(user.getEmail());
+        modelAndView.addObject("user", dbUser);
         modelAndView.addObject("gameMap", gameMap);
         modelAndView.setViewName("pages/My/myPage");
         return modelAndView;
@@ -97,8 +97,10 @@ public class PageController {
         List<PayDTO> paylist = this.purchaseService.getPurchasesByUser(user);
 
         ModelAndView modelAndView = new ModelAndView();
-        modelAndView.addObject("user", user);
+        UserEntity dbUser = this.pageService.getUserByEmail(user.getEmail());
+        modelAndView.addObject("user", dbUser);
         modelAndView.addObject("paylist", paylist); // 결제 및 구매 내역 뷰에 넘겨줌
+
         modelAndView.setViewName("pages/settings/setting");
         return modelAndView;
     }
