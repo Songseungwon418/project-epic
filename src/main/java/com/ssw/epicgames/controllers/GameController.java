@@ -1,6 +1,5 @@
 package com.ssw.epicgames.controllers;
 
-import com.ssw.epicgames.DTO.CartDTO;
 import com.ssw.epicgames.DTO.GameDTO;
 import com.ssw.epicgames.DTO.WishlistDTO;
 import com.ssw.epicgames.entities.*;
@@ -15,7 +14,6 @@ import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.ModelAndView;
 
 import java.util.*;
-import java.util.stream.Collectors;
 
 @Controller
 @RequestMapping(value = "/game")
@@ -26,15 +24,16 @@ public class GameController {
     private final PriceService priceService;
     private final WishlistService wishlistService;
     private final CartService cartService;
-    private PurchaseService purchaseService;
+    private final PurchaseService purchaseService;
 
     @Autowired
-    public GameController(GameService gameService, GenreService genreService, PriceService priceService, WishlistService wishlistService, CartService cartService) {
+    public GameController(GameService gameService, GenreService genreService, PriceService priceService, WishlistService wishlistService, CartService cartService, PurchaseService purchaseService) {
         this.gameService = gameService;
         this.genreService = genreService;
         this.priceService = priceService;
         this.wishlistService = wishlistService;
         this.cartService = cartService;
+        this.purchaseService = purchaseService;
     }
 
     //region 마이페이지 이미지

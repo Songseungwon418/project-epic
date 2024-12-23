@@ -242,35 +242,6 @@ if ($cartDeleteButton) {
 }
 //endregion
 
-document.addEventListener('DOMContentLoaded', () => {
-    const radioButtons = document.querySelectorAll('input[type="radio"][value="modify"]');
-
-    radioButtons.forEach(radio => {
-        radio.addEventListener('change', (event) => {
-            const li = event.target.closest('li');
-            const form = li.querySelector('.form.modify');
-
-            if (event.target.checked) {
-                form.classList.add('-selected');
-            }
-        });
-    });
-
-    // 취소 버튼 처리
-    const cancelButtons = document.querySelectorAll('.form.modify .cancel.button');
-    cancelButtons.forEach(cancel => {
-        cancel.addEventListener('click', (event) => {
-            const li = event.target.closest('li');
-            const form = li.querySelector('.form.modify');
-            const radio = li.querySelector('input[type="radio"][value="modify"]');
-
-            form.classList.remove('-selected');
-            radio.checked = false;
-        });
-    });
-});
-
-
 //region 결제 모달창(지금 구매버튼 누를 시) 관련
 {
     // 버튼 클릭 시 모달 열기
@@ -278,9 +249,9 @@ document.addEventListener('DOMContentLoaded', () => {
     const modal = document.getElementById('pay-modal');
     const iframe = document.getElementById('paymentIframe');
 
-    if($gameBuyButton !== null){
+    if ($gameBuyButton !== null) {
         // 모달을 여는 함수
-        $gameBuyButton.addEventListener('click', function() {
+        $gameBuyButton.addEventListener('click', function () {
             // 현제 페이지에서 주소의 파라미터값들을 가져옴
             const urlParams = new URLSearchParams(window.location.search);
             // 가져온 파라미터값들 중 'index'라는 파라미터 값을 가져옴
@@ -293,7 +264,7 @@ document.addEventListener('DOMContentLoaded', () => {
         });
 
         // 모달 외부 클릭 시 닫기
-        window.addEventListener('click', function(event) {
+        window.addEventListener('click', function (event) {
             if (event.target === modal) {
                 iframe.src = "";
                 modal.style.display = 'none';
@@ -302,7 +273,7 @@ document.addEventListener('DOMContentLoaded', () => {
         });
 
         // 모달창 닫기 버튼 누를 시 (iframe으로부터 메시지를 받으면 모달 닫기)
-        window.addEventListener('message', function(event) {
+        window.addEventListener('message', function (event) {
             // 이벤트를 받았을 때 'closeModal' 메시지를 받으면 모달을 닫음
             if (event.data === 'closeModal') {
                 modal.style.display = 'none';
@@ -312,5 +283,7 @@ document.addEventListener('DOMContentLoaded', () => {
     }
 }
 //endregion
+
+
 
 

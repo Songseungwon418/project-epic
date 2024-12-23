@@ -1,4 +1,96 @@
 @charset "UTF-8";
+#main > .deleteReview {
+  width: 100%;
+  height: auto;
+  display: none;
+}
+#main > .deleteReview.--visible {
+  display: flex;
+}
+#main > .deleteReview > .deleteCover {
+  width: 100%;
+  height: 100%;
+  top: 0;
+  left: 0;
+  z-index: 998;
+  background-color: #101014;
+  position: fixed;
+}
+#main > .deleteReview > .deleteDialog {
+  position: fixed;
+  z-index: 999;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  background-color: #18181c;
+  border: 0.0625rem solid #444444;
+  padding: 1rem;
+  border-radius: 0.5rem;
+}
+#main > .deleteReview > .deleteDialog > .content {
+  padding: 4rem 7rem;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: flex-start;
+  gap: 2rem;
+}
+#main > .deleteReview > .deleteDialog > .content > .text {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 2rem;
+  padding-top: 1rem;
+}
+#main > .deleteReview > .deleteDialog > .content > .text > .main {
+  font-size: 1.6rem;
+  font-weight: 100;
+  color: #ffffff;
+}
+#main > .deleteReview > .deleteDialog > .content > .text > .line {
+  height: 0.0625rem;
+  width: 10rem;
+  background-color: #cccccc;
+}
+#main > .deleteReview > .deleteDialog > .content > .text > .sub {
+  font-size: 1.4rem;
+  font-weight: normal;
+  color: #cccccc;
+}
+#main > .deleteReview > .deleteDialog > .content > .button-container {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  justify-content: center;
+  gap: 2rem;
+}
+#main > .deleteReview > .deleteDialog > .content > .button-container > button {
+  outline: none;
+  border: none;
+  border-radius: 0.25rem;
+  padding: 1rem 2rem;
+  color: #ffffff;
+  font-weight: bold;
+}
+#main > .deleteReview > .deleteDialog > .content > .button-container > button[name=DeleteConfirm] {
+  background-color: #2196f3;
+}
+#main > .deleteReview > .deleteDialog > .content > .button-container > button[name=DeleteConfirm]:hover {
+  background-color: #1e81cf;
+}
+#main > .deleteReview > .deleteDialog > .content > .button-container > button[name=DeleteConfirm]:active {
+  background-color: #1668a8;
+}
+#main > .deleteReview > .deleteDialog > .content > .button-container > button[name=DeleteCancel] {
+  background-color: #a0a0a0;
+}
+#main > .deleteReview > .deleteDialog > .content > .button-container > button[name=DeleteCancel]:hover {
+  background-color: #8a8a8a;
+}
+#main > .deleteReview > .deleteDialog > .content > .button-container > button[name=DeleteCancel]:active {
+  background-color: #6e6e6e;
+}
 #main > .mainSection {
   width: 75%;
   max-width: 1600px;
@@ -762,22 +854,6 @@
 #main > .mainSection > .gameArea > .game-container > .game-description > .sideBar > .bar-nav > .button-container > .button.buy:hover {
   background-color: #72d3ff;
 }
-#main > .mainSection > .gameArea > .game-container > .game-description > .sideBar > .bar-nav > .button-container > .button.buy-ap {
-  background-color: rgb(140, 218.9631336406, 255);
-  opacity: 0.5;
-  padding: 1.6rem;
-  cursor: not-allowed;
-  align-items: center;
-  display: flex;
-  flex-direction: row;
-  gap: 10px;
-  justify-content: center;
-  text-align: center;
-}
-#main > .mainSection > .gameArea > .game-container > .game-description > .sideBar > .bar-nav > .button-container > .button.buy-ap > svg {
-  width: 20px;
-  height: 20px;
-}
 #main > .mainSection > .gameArea > .game-container > .game-description > .sideBar > .bar-nav > .button-container > .button.cart, #main > .mainSection > .gameArea > .game-container > .game-description > .sideBar > .bar-nav > .button-container > .button.wishlist {
   background-color: rgba(255, 255, 255, 0.1490196078);
   padding: 1.6rem;
@@ -1000,6 +1076,14 @@
   justify-content: flex-start;
   gap: 1rem;
 }
+#main > .mainSection > .comment > .commentArea > .review-container > .list > .nothing {
+  width: 100%;
+  color: #ffffff;
+  font-size: 3rem;
+  font-weight: bold;
+  text-align: center;
+  padding: 5rem 0;
+}
 #main > .mainSection > .comment > .commentArea > .review-container > .list > .item {
   width: 100%;
   display: flex;
@@ -1153,7 +1237,7 @@
   flex-direction: row-reverse;
   font-size: 2em;
   text-align: center;
-  width: 3em;
+  gap: 0.8rem;
 }
 #main > .mainSection > .comment > .commentArea > .review-container > .list > .item > .modify > .review-write > .star-review > .star-rating input {
   display: none;
