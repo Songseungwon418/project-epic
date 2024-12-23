@@ -1035,6 +1035,24 @@
                     }
                   }
 
+                  &.buy-ap {
+                    background-color: lighten(#26BBFF, 20%);
+                    opacity: 0.5;
+                    padding: 1.6rem;
+                    cursor: not-allowed;
+                    align-items: center;
+                    display: flex;
+                    flex-direction: row;
+                    gap: 10px;
+                    justify-content: center;
+                    text-align: center;
+
+                    > svg {
+                      width: 20px;
+                      height: 20px;
+                    }
+                  }
+
                   &.cart,
                   &.wishlist {
                     background-color: #ffffff26;
