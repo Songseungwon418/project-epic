@@ -1,6 +1,7 @@
 package com.ssw.epicgames.controllers;
 
 import com.ssw.epicgames.DTO.MyDTO;
+import com.ssw.epicgames.DTO.PayDTO;
 import com.ssw.epicgames.DTO.PurchaseDTO;
 import com.ssw.epicgames.entities.AchievementEntity;
 import com.ssw.epicgames.entities.GameEntity;
@@ -9,7 +10,9 @@ import com.ssw.epicgames.entities.UserEntity;
 import com.ssw.epicgames.resutls.CommonResult;
 import com.ssw.epicgames.resutls.Result;
 import com.ssw.epicgames.services.PageService;
+import com.ssw.epicgames.services.PurchaseService;
 import com.ssw.epicgames.services.UserService;
+import jakarta.servlet.http.HttpSession;
 import org.json.JSONObject;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.MediaType;
@@ -25,12 +28,14 @@ import java.util.*;
 public class PageController {
     private final PageService pageService;
     private final UserService userService;
+    private PurchaseService purchaseService;
 
     @Autowired
-    public PageController(PageService pageService, UserService userService) {
+    public PageController(PageService pageService, UserService userService, PurchaseService purchaseService) {
 
         this.pageService = pageService;
         this.userService = userService;
+        this.purchaseService = purchaseService;
     }
 
     @RequestMapping(value = "/achievement-cover", method = RequestMethod.GET)
@@ -84,8 +89,16 @@ public class PageController {
 
     @RequestMapping(value ="/setting", method = RequestMethod.GET, produces = MediaType.TEXT_HTML_VALUE)
     public ModelAndView getSettingPage(@SessionAttribute("user") UserEntity user) {
+        if (user == null) {
+            // 세션에 유저 정보가 없을 때 처리
+            throw new RuntimeException("User not found in session");
+        }
+        // db에서 결제 및 구매 내역 가져옴
+        List<PayDTO> paylist = this.purchaseService.getPurchasesByUser(user);
+
         ModelAndView modelAndView = new ModelAndView();
         modelAndView.addObject("user", user);
+        modelAndView.addObject("paylist", paylist); // 결제 및 구매 내역 뷰에 넘겨줌
         modelAndView.setViewName("pages/settings/setting");
         return modelAndView;
     }
@@ -102,6 +115,7 @@ public class PageController {
         } else {
             result = CommonResult.FAILURE;
         }
+
         response.put("result", result.nameToLower());
         return response.toString();
     }

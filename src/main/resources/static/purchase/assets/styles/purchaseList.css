@@ -1,5 +1,14 @@
 body {
+  width: 100%;
+  height: 100%;
+  overflow: hidden;
   background-color: #ffffff !important;
+}
+
+.purchaseList {
+  width: 100%;
+  height: 100%;
+  overflow: hidden;
 }
 
 /*# sourceMappingURL=purchaseList.css.map */

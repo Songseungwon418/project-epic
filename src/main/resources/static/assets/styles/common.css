@@ -458,6 +458,8 @@ button {
     gap: 0.5rem;
 }
 #header .header-nav > .nickname-button > .link > .circle {
+    width: 2rem;
+    height: 2rem;
     background-color: #46464e;
     padding: 0.9rem;
     border-radius: 999rem;
