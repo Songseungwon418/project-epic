@@ -23,10 +23,10 @@ public class GameService {
         }
         PurchaseEntity purchase = this.gameMapper.getPurchaseByEmailAndGameIndex(user.getEmail(), index);
 
-        if (purchase != null && purchase.getUserEmail().equals(user.getEmail()) && purchase.getGameIndex() == index) {
-            return purchase.getIndex();
+        if (purchase == null || !purchase.getUserEmail().equals(user.getEmail()) || purchase.getGameIndex() != index) {
+            return null;
         }
-        return null;
+        return purchase.getIndex();
     }
 
     public GameDTO getGameDetails(int index) {

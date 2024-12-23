@@ -251,20 +251,5 @@ public class PurchaseController {
         mav.setViewName("purchase/paysuccess");
         return mav;
     }
-
-
-    /** 결제 내역 화면 출력 */
-   @GetMapping(value = "/purchaseList", produces = MediaType.TEXT_HTML_VALUE)
-    public ModelAndView getPurchaseList(@SessionAttribute(value = "user")UserEntity user){
-       ModelAndView mav = new ModelAndView();
-       if(user == null){
-           mav.setViewName("user/login");
-       }
-       List<PayDTO> paylist = this.purchaseService.getPurchasesByUser(user);
-
-       mav.addObject("paylist", paylist);
-       mav.setViewName("purchase/purchaseList");
-       return mav;
-   }
     //endregion
 }
