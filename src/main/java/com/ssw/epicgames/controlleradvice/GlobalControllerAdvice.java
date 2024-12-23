@@ -2,9 +2,12 @@ package com.ssw.epicgames.controlleradvice;
 
 
 import com.ssw.epicgames.entities.UserEntity;
+import com.ssw.epicgames.services.PageService;
 import jakarta.servlet.http.HttpSession;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.ControllerAdvice;
 import org.springframework.web.bind.annotation.ModelAttribute;
+import org.springframework.web.bind.annotation.SessionAttribute;
 
 @ControllerAdvice
 public class GlobalControllerAdvice {
@@ -26,4 +29,5 @@ public class GlobalControllerAdvice {
         UserEntity user = (UserEntity) session.getAttribute("user");
         return user != null ? user.getEmail() : null;
     }
+
 }

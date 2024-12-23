@@ -15,10 +15,9 @@
     <script defer type="text/javascript" th:src="@{'/assets/scripts/home.js'}"></script>
     <script src="https://kit.fontawesome.com/856af35d3d.js" crossorigin="anonymous"></script>
     <style>
-        .browse {
+        .item.browse {
             color: #ffffff;
         }
-
     </style>
 </head>
 <body>
@@ -159,6 +158,21 @@
                         </ul>
                     </div>
                 </div>
+
+                <div class="no-games" style="display: none">
+                    <div class="text">
+                        <span class="main">검색 결과 없음</span>
+                        <span class="sub">죄송하지만 검색 내용과 일치하는 결과를 찾을 수 없습니다.</span>
+                    </div>
+                </div>
+
+                <div class="no-games" th:if="${games == null || games.length <= 0}">
+                    <div class="text">
+                        <span class="main">검색 결과 없음</span>
+                        <span class="sub">죄송하지만 검색 내용과 일치하는 결과를 찾을 수 없습니다.</span>
+                    </div>
+                </div>
+
 
                 <div class="game-wrapper" id="gameWrapper">
                     <a class="game" th:each="game, iterStat : ${games}" th:href="@{'/game/page'(index=${game.getIndex()})}" target="_self">

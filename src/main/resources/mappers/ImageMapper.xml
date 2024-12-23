@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "https://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.ssw.epicgames.mappers.ImageMapper">
+
+    <insert id="insertImage"
+            useGeneratedKeys="true"
+            keyColumn="index"
+            keyProperty="index"
+            parameterType="com.ssw.epicgames.entities.ImageEntity">
+        INSERT INTO `epic_games`.`images` (`data`, `content_type`, `name`, `created_at`) VALUES (#{data}, #{contentType}, #{name}, #{createdAt})
+    </insert>
+
+    <select id="selectImageByIndex"
+            resultType="com.ssw.epicgames.entities.ImageEntity">
+        SELECT `index`        AS `index`,
+               `data`         AS `data`,
+               `content_type` AS `contentType`,
+               `name`         AS `name`,
+               `created_at`   AS `createdAt`
+        FROM `epic_games`.`images`
+        WHERE `index` = #{index}
+        LIMIT 1;
+    </select>
+
+</mapper>

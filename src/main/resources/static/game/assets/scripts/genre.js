@@ -284,11 +284,16 @@ document.addEventListener('DOMContentLoaded', function () {
             } else {
                 game.style.display = 'none';
             }
+            const $noGames = document.querySelector('.no-games');
+            if (gameVisible) {
+                $noGames.style.display = 'none';
+            } else {
+                $noGames.style.display = 'flex';
+            }
         });
     }
 });
 //endregion
-
 
 //region 게임 위시리스트 추가
 const $WishlistButtons = document.querySelectorAll('.add');

@@ -1,0 +1,98 @@
+<!DOCTYPE html>
+<html lang="ko" xmlns:th="http://www.thymeleaf.org">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport"
+        content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
+  <meta http-equiv="X-UA-Compatible" content="ie=edge">
+  <title>자유게시판 | PC 게임, 모드, DLC 등을 다운로드하고 플레이하세요 - 에픽게임즈</title>
+  <link rel="shortcut icon" th:href="@{'/assets/images/favicon.png'}">
+  <link rel="stylesheet" type="text/css" th:href="@{/assets/styles/common.css}">
+  <link rel="stylesheet" type="text/css" th:href="@{/board/assets/styles/list.css}">
+  <script defer type="text/javascript" th:src="@{'/assets/scripts/common.js'}"></script>
+  <script defer type="text/javascript" th:src="@{'/board/assets/scripts/list.js'}"></script>
+  <script src="https://kit.fontawesome.com/856af35d3d.js" crossorigin="anonymous"></script>
+  <style>
+    .item.board {
+      color: #ffffff;
+    }
+  </style>
+</head>
+<body>
+<th:block th:replace="~{fragments/common.html :: header}"></th:block>
+
+<main id="main">
+  <th:block th:replace="~{fragments/common.html :: mainSearch}"></th:block>
+  <th:block th:replace="~{fragments/common.html :: logout}"></th:block>
+
+  <div class="mainSection">
+    <h1 class="title">자유게시판</h1>
+    <table class="article-table">
+      <thead>
+      <tr>
+        <th scope="col">번호</th>
+        <th scope="col" class="spring">제목</th>
+        <th scope="col">작성자</th>
+        <th scope="col">조회수</th>
+        <th scope="col">작성일</th>
+      </tr>
+      </thead>
+      <tbody>
+
+      <tr class="empty" th:if="${articles == null || articles.length == 0}">
+        <td colspan="5" style="font-size: 1.5rem">표시할 내용이 없습니다.</td>
+      </tr>
+      <tr th:each="article : ${articles}">
+        <td th:text="${article.getIndex()}"></td>
+        <td style="text-align: left">
+          <a th:text="${article.getTitle()}" th:href="@{'/article/read' (index=${article.getIndex()})}"></a>
+          <b>[<span>9</span>]</b>
+        </td>
+        <td th:text="${article.getNickname()}"></td>
+        <td th:text="${article.getView()}"></td>
+        <td th:text="${#temporals.format(article.getCreatedAt(), 'yyyy-MM-dd HH:mm')}"></td>
+      </tr>
+
+
+      </tbody>
+    </table>
+
+<!--    <div class="move" th:if="${articles != null && articles.length > 0}">-->
+<!--      <a class="page first" th:if="${articlePageVo.requestPage > articlePageVo.movableMinPage}" th:href="@{'/board/list' (id=${board.getId()}, page=${articlePageVo.movableMinPage}, filter=${filter}, keyword=${keyword})}">&lt;&lt;</a>-->
+<!--      <a class="page prev" th:if="${articlePageVo.requestPage > articlePageVo.movableMinPage}" th:href="@{'/board/list' (id=${board.getId()}, page=${articlePageVo.requestPage - 1}, filter=${filter}, keyword=${keyword})}">&lt;</a>-->
+<!--      <div class="page-container">-->
+<!--        <a class="page"-->
+<!--           th:each="page : ${#numbers.sequence(articlePageVo.displayMinPage, articlePageVo.displayMaxPage)}"-->
+<!--           th:text="${page}"-->
+<!--           th:href="@{'/board/list' (id=${board.getId()}, page=${page}, filter=${filter}, keyword=${keyword})}"-->
+<!--           th:classappend="${page == articlePageVo.requestPage} ? 'selected'"></a>-->
+<!--      </div>-->
+<!--      <a class="page next" th:if="${articlePageVo.requestPage < articlePageVo.movableMaxPage}" th:href="@{'/board/list' (id=${board.getId()}, page=${articlePageVo.requestPage + 1}, filter=${filter}, keyword=${keyword})}">&gt;</a>-->
+<!--      <a class="page last" th:if="${articlePageVo.requestPage < articlePageVo.movableMaxPage}" th:href="@{'/board/list' (id=${board.getId()}, page=${articlePageVo.movableMaxPage}, filter=${filter}, keyword=${keyword})}">&gt;&gt;</a>-->
+<!--    </div>-->
+
+    <div class="button-container">
+      <div class="spring"></div>
+      <a class="button blue" th:if="${user != null}" th:href="@{'/article/write'}" target="_self">글 쓰기</a>
+    </div>
+    <form class="search-form">
+      <input name="id" type="hidden">
+      <label class="label">
+        <select class="field" name="filter">
+          <option selected value="all">제목 + 내용</option>
+          <option value="title" >제목</option>
+          <option value="nickname">닉네임</option>
+        </select>
+      </label>
+
+      <label class="label">
+        <input class="field" name="keyword" maxlength="10" minlength="0" type="text">
+      </label>
+      <button class="button blue" type="submit">검색</button>
+    </form>
+  </div>
+</main>
+
+<th:block th:replace="~{fragments/common.html :: footer}"></th:block>
+</body>
+</html>

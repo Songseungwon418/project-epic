@@ -66,7 +66,6 @@
                 });
                 break;
 
-
             default:
                 sortedGames = games; // 정렬하지 않음
         }
@@ -76,7 +75,6 @@
             gameWrapper.appendChild(game); // game-wrapper에 정렬된 순서대로 재추가
         });
     };
-
 }
 //endregion
 
@@ -260,6 +258,13 @@ document.addEventListener('DOMContentLoaded', function () {
                 gameVisible = true; // 게임이 하나라도 표시되면 true
             } else {
                 game.style.display = 'none';
+            }
+
+            const $noGames = document.querySelector('.no-games');
+            if (gameVisible) {
+                $noGames.style.display = 'none';
+            } else {
+                $noGames.style.display = 'flex';
             }
         });
     }

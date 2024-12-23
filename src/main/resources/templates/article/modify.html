@@ -1,0 +1,54 @@
+<!DOCTYPE html>
+<html lang="ko" xmlns:th="http://www.thymeleaf.org">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport"
+        content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
+  <meta http-equiv="X-UA-Compatible" content="ie=edge">
+  <title>자유게시판 글수정 | PC 게임, 모드, DLC 등을 다운로드하고 플레이하세요 - 에픽게임즈</title>
+  <link rel="shortcut icon" th:href="@{'/assets/images/favicon.png'}">
+  <link rel="stylesheet" type="text/css" th:href="@{/assets/styles/common.css}">
+  <link rel="stylesheet" type="text/css" th:href="@{/article/assets/styles/modify.css}">
+  <link rel="stylesheet" type="text/css" th:href="@{/assets/libraries/ckeditor/ckeditor5.css}">
+  <link rel="stylesheet" type="text/css" th:href="@{/assets/libraries/ckeditor/ckeditor5-content.css}">
+  <link rel="stylesheet" type="text/css" th:href="@{/assets/libraries/ckeditor/ckeditor5-editor.css}">
+  <script defer type="text/javascript" th:src="@{'/assets/scripts/common.js'}"></script>
+  <script type="text/javascript" th:src="@{'/assets/libraries/ckeditor/ckeditor5.umd.js'}"></script>
+  <script type="text/javascript" th:src="@{'/assets/libraries/ckeditor/ko.umd.js'}"></script>
+  <script defer type="text/javascript" th:src="@{'/article/assets/scripts/modify.js'}"></script>
+  <script src="https://kit.fontawesome.com/856af35d3d.js" crossorigin="anonymous"></script>
+
+</head>
+<body>
+<th:block th:replace="~{fragments/common.html :: header}"></th:block>
+
+<main id="main">
+  <th:block th:replace="~{fragments/common.html :: mainSearch}"></th:block>
+  <th:block th:replace="~{fragments/common.html :: logout}"></th:block>
+
+  <div class="mainSection">
+    <form id="modifyForm" class="modifyForm">
+      <h1 class="title">자유게시판 - 글수정</h1>
+
+      <label class="label">
+        <input class="input title" name="title" maxlength="100" type="text" required th:value="${article.getTitle()}">
+      </label>
+      <label class="label">
+        <textarea class="content" name="content"></textarea>
+      </label>
+      <label>
+        <input id="userEmail" th:if="${user != null}" th:value="${user.getEmail()}" type="hidden">
+      </label>
+
+      <div class="button-container">
+        <div class="spring"></div>
+        <a class="button cancel" th:href="@{'/article/read' (index=${article.getIndex()})}">취소</a>
+        <button class="button modify" type="submit">글 수정</button>
+      </div>
+    </form>
+  </div>
+</main>
+
+<th:block th:replace="~{fragments/common.html :: footer}"></th:block>
+</body>
+</html>
