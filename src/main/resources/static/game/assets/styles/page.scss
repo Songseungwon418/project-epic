@@ -1642,6 +1642,40 @@
               }
             }
           }
+
+          > #pagination {
+            width: 100%;
+            display: flex;
+            flex-direction: row;
+            align-items: stretch;
+            justify-content: center;
+            gap: 0.3rem;
+            margin-top: 1.5rem;
+
+
+            > button {
+              width: 3rem;
+              aspect-ratio: 1/1;
+              outline: none;
+              border: none;
+              border-radius: 999rem;
+              font-size: 1.5rem;
+              color: #ffffff90;
+
+              &:hover {
+                background-color: #ffffff26;
+              }
+
+              &:active {
+                background-color: #ffffff26;
+              }
+
+              &.-selected {
+                color: #202024;
+                background-color: #2196f3;
+              }
+            }
+          }
         }
       }
     }
