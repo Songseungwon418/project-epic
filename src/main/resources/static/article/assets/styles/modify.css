@@ -1,0 +1,78 @@
+#main > .mainSection {
+  width: 75%;
+  max-width: 1600px;
+  margin-left: auto;
+  margin-right: auto;
+  flex-grow: 1;
+  display: flex;
+  flex-direction: column;
+}
+#main > .mainSection > .modifyForm {
+  display: flex;
+  flex-direction: column;
+  align-content: stretch;
+  justify-content: flex-start;
+  gap: 1.5rem;
+  margin-bottom: 5rem;
+}
+#main > .mainSection > .modifyForm .input {
+  width: 100%;
+  box-sizing: border-box;
+  padding: 0.8rem 0.8rem;
+  background-color: #ffffff;
+  border: 0.0625rem solid #e0e0e0;
+}
+#main > .mainSection > .modifyForm .input:hover {
+  border-color: rgb(198.5, 198.5, 198.5);
+}
+#main > .mainSection > .modifyForm .input:focus {
+  border-color: #387aeb;
+}
+#main > .mainSection > .modifyForm > .title {
+  width: auto;
+  color: #ffffff;
+  font-size: 3rem;
+  font-weight: bold;
+  margin: 1.5rem 0 0 0;
+  padding-bottom: 1rem;
+  border-bottom: 0.3rem solid #81becf;
+}
+#main > .mainSection > .modifyForm > .button-container {
+  display: flex;
+  flex-direction: row;
+  align-content: stretch;
+  justify-content: flex-start;
+  gap: 0.8rem;
+}
+#main > .mainSection > .modifyForm > .button-container > .button {
+  border: none;
+  color: #ffffff;
+  font-size: 1.2rem;
+  line-height: 1;
+  text-align: center;
+  padding: 0.8rem 1.3rem;
+  border-radius: 0.5rem;
+}
+#main > .mainSection > .modifyForm > .button-container > .button.modify {
+  background-color: #3498db;
+}
+#main > .mainSection > .modifyForm > .button-container > .button.modify:hover {
+  background-color: rgb(36.9790794979, 139.6987447699, 208.5209205021);
+}
+#main > .mainSection > .modifyForm > .button-container > .button.modify:active {
+  background-color: rgb(33.1380753138, 125.1882845188, 186.8619246862);
+}
+#main > .mainSection > .modifyForm > .button-container > .button.cancel {
+  background-color: rgba(255, 255, 255, 0.1490196078);
+}
+#main > .mainSection > .modifyForm > .button-container > .button.cancel:hover {
+  background-color: rgba(242.25, 242.25, 242.25, 0.1490196078);
+}
+#main > .mainSection > .modifyForm > .button-container > .button.cancel:active {
+  background-color: rgba(229.5, 229.5, 229.5, 0.1490196078);
+}
+#main > .mainSection > .modifyForm > .button-container > .spring {
+  flex-grow: 1;
+}
+
+/*# sourceMappingURL=modify.css.map */

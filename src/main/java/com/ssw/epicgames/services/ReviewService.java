@@ -5,7 +5,9 @@ import com.ssw.epicgames.mappers.ReviewMapper;
 import com.ssw.epicgames.resutls.CommonResult;
 import com.ssw.epicgames.resutls.Result;
 import com.ssw.epicgames.resutls.review.ReviewResult;
+import com.ssw.epicgames.vos.PageVo;
 import com.ssw.epicgames.vos.ReviewVo;
+import org.apache.commons.lang3.tuple.Pair;
 import org.springframework.stereotype.Service;
 
 import java.time.LocalDateTime;
@@ -16,6 +18,19 @@ public class ReviewService {
 
     public ReviewService(ReviewMapper reviewMapper) {
         this.reviewMapper = reviewMapper;
+    }
+
+    public Pair<PageVo, ReviewVo[]> getReviews(int page, int gameIndex) {
+        page = Math.max(page, 1);
+        int totalCount = this.reviewMapper.selectReviewCount(gameIndex);
+
+        PageVo pageVo = new PageVo(page, totalCount);
+        ReviewVo[] reviews = this.reviewMapper.selectReviews(gameIndex, pageVo.countPerPage, pageVo.offsetCount);
+
+        if (reviews == null) {
+            reviews = new ReviewVo[0];
+        }
+        return Pair.of(pageVo, reviews);
     }
 
     public Result writeReview(ReviewEntity review) {
@@ -32,7 +47,11 @@ public class ReviewService {
             return CommonResult.FAILURE;
         }
 
-        if (this.reviewMapper.existsReview(review.getGameIndex(), review.getUserEmail())) {
+        if (this.reviewMapper.deletedReview(review.getGameIndex(), review.getUserEmail())) {
+            return ReviewResult.FAILURE_DELETED_REVIEW;
+        }
+
+        if (this.reviewMapper.existedReview(review.getGameIndex(), review.getUserEmail())) {
             return ReviewResult.FAILURE_DUPLICATE_REVIEW;
         }
 
@@ -42,13 +61,13 @@ public class ReviewService {
 
         return this.reviewMapper.insertReview(review) > 0 ? CommonResult.SUCCESS : CommonResult.FAILURE;
     }
-
-    public ReviewVo[] getReviewsByGameIndex(int gameIndex) {
-        if (gameIndex < 1) {
-            return new ReviewVo[0];
-        }
-        return this.reviewMapper.selectReviewsByGameIndex(gameIndex);
-    }
+//
+//    public ReviewVo[] getReviewsByGameIndex(int gameIndex) {
+//        if (gameIndex < 1) {
+//            return new ReviewVo[0];
+//        }
+//        return this.reviewMapper.selectReviewsByGameIndex(gameIndex);
+//    }
 
     public CommonResult deleteReview(int index) {
         if (index < 1) {

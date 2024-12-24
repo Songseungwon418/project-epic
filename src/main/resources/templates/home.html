@@ -12,7 +12,11 @@
     <script defer type="text/javascript" th:src="@{'/assets/scripts/common.js'}"></script>
     <script defer type="text/javascript" th:src="@{'/assets/scripts/home.js'}"></script>
     <script src="https://kit.fontawesome.com/856af35d3d.js" crossorigin="anonymous"></script>
-
+    <style>
+        .item.home {
+            color: #ffffff;
+        }
+    </style>
 </head>
 <body>
 <th:block th:replace="~{fragments/common.html :: header}"></th:block>
@@ -24,20 +28,19 @@
     <div class="mainSection">
         <section class="event-container">
             <div class="event">
-                <a class="link" href="https://store.epicgames.com/ko/p/fortnite" target="_self">
+                <a class="link" th:href="@{'/game/page'(index=32)}" target="_self">
                     <img class="image" alt="이벤트배너1"
                          src="https://cdn2.unrealengine.com/fnbr-33-00-c6s1-egs-launcher-keyart-breaker-1920x1080-1920x1080-1f740221098e.jpg?resize=1&w=854&h=480&quality=medium">
                 </a>
             </div>
             <div class="event">
-                <a class="link" href="https://store.epicgames.com/ko/features/epic-rewards" target="_self">
+                <a class="link" href="#" target="_self" style="pointer-events: none">
                     <img class="image" alt="이벤트배너2"
                          src="https://cdn2.unrealengine.com/ko-rewardsboosted2024-breaker-asset-1920x1080-f21c7d560acc.jpg?resize=1&w=854&h=480&quality=medium">
                 </a></div>
             <div class="event">
-                <a class="link" href="https://store.epicgames.com/ko/collection/v-bucks" target="_self">
-                    <img class="image" alt="이벤트배너3"
-                         src="https://cdn2.unrealengine.com/egs-fortnite-v-bucks-breaker-1920x1080-474255011968.jpg?resize=1&w=854&h=480&quality=medium">
+                <a class="link" th:href="@{'/game/page'(index=32)}" target="_self">                    <img class="image" alt="이벤트배너3"
+                                                                                                            src="https://cdn2.unrealengine.com/egs-fortnite-v-bucks-breaker-1920x1080-474255011968.jpg?resize=1&w=854&h=480&quality=medium">
                 </a></div>
         </section>
 
@@ -45,7 +48,7 @@
             <div class="box"></div>
             <div class="main-banner">
                 <div class="first banner -selected">
-                    <a class="link" href="https://store.epicgames.com/ko/p/infinity-nikki-71fc64" target="_self">
+                    <a class="link" th:href="@{'/game/page'(index=33)}" target="_self">
                         <img class="image"
                              src="https://cdn2.unrealengine.com/egs-carousel-infinity-nikki-carousel-desktop-1920x1080-39ee705eceeb.jpg?resize=1&w=854&h=480&quality=medium"
                              alt="메인배너">
@@ -69,7 +72,7 @@
                 </div>
 
                 <div class="second banner">
-                    <a class="link" href="https://store.epicgames.com/ko/p/discord--discord-nitro" target="_self">
+                    <a class="link" th:href="@{'/game/page'(index=31)}" target="_self">
                         <img class="image"
                              src="https://cdn2.unrealengine.com/egs-discord-nitro-carousel-desktop-1920x1080-1baf7fcd423e.jpg?resize=1&w=1280&h=720&quality=medium"
                              alt="메인배너">
@@ -93,7 +96,7 @@
                 </div>
 
                 <div class="third banner">
-                    <a class="link" href="https://discord.com/quests/1308169595055771748" target="_self">
+                    <a class="link" th:href="@{'/game/page'(index=32)}" target="_self">
                         <img class="image"
                              src="https://cdn2.unrealengine.com/egs-fn-discord-quest1-carousel-desktop-1920x1080-5759f677f966.jpg?resize=1&w=854&h=480&quality=medium"
                              alt="메인배너">
@@ -117,7 +120,7 @@
             </div>
 
             <div class="side-banner">
-                <a class="first side -selected" href="https://store.epicgames.com/ko/p/infinity-nikki-71fc64"
+                <a class="first side -selected" th:href="@{'/game/page'(index=33)}"
                    target="_self">
                     <div class="bar"></div>
                     <div class="value">
@@ -130,7 +133,7 @@
                         </div>
                     </div>
                 </a>
-                <a class="second side" href="https://store.epicgames.com/ko/p/discord--discord-nitro"
+                <a class="second side" th:href="@{'/game/page'(index=31)}"
                    target="_self">
                     <div class="bar"></div>
                     <div class="value">
@@ -143,7 +146,7 @@
                         </div>
                     </div>
                 </a>
-                <a class="third side" href="https://discord.com/quests/1308169595055771748" target="_self">
+                <a class="third side" th:href="@{'/game/page'(index=32)}" target="_self">
                     <div class="bar"></div>
                     <div class="value">
                         <div class="image">
@@ -324,43 +327,47 @@
             <div class="deal-container">
                 <div class="first deal">
                     <div class="imageLink">
-                        <a class="link" href="#" target="_self">
+                        <a class="link" th:href="@{'/game/page'(index=34)}" target="_self">
                             <img class="image"
-                                 src="https://cdn2.unrealengine.com/ko-egs-dotw-steep-breaker-1920x1080-606bcbb72da1.jpg?resize=1&w=854&h=480&quality=medium"
+                                 src="https://cdn2.unrealengine.com/egs-fall-guys-winter-event-24-breaker-1920x1080-b96ad15fefca.jpg?resize=1&w=854&h=480&quality=medium"
                                  alt="게임이미지">
                         </a>
                     </div>
                     <div class="text-wrapper">
                         <div class="game-name">
-                            <a class="link" href="#" target="_self">Steep</a>
+                            <a class="link" th:href="@{'/game/page'(index=34)}" target="_self">폴가이즈</a>
                         </div>
-                        <div class="gamePrice">
-                            <span class="percentage">-85%</span>
-
-                            <del class="originPrice">￦33,000</del>
-
-                            <span class="salePrice">￦4,950</span>
+                        <div class="game-description">
+                            <span class="text">으슬으슬한 도전을 완료하고 스노우 젤리빈 코스튬을 받으세요!</span>
                         </div>
+
+                        <a class="link" th:href="@{'/game/page'(index=34)}" target="_self"><button type="button">무료 플레이</button></a>
 
                     </div>
                 </div>
 
                 <div class="second deal">
                     <div class="imageLink">
-                        <a class="link" href="#" target="_self">
+                        <a class="link" th:href="@{'/game/page'(index=35)}" target="_self">
                             <img class="image"
-                                 src="https://cdn2.unrealengine.com/jp-sales-specials-dotw-breaker-asset-1-1920x1080-23af70eec61b.jpg?resize=1&w=854&h=480&quality=medium"
+                                 src="https://cdn2.unrealengine.com/ko2560x1440-2560x1440-ccb17ea413dc.jpg?resize=1&w=854&h=480&quality=medium"
                                  alt="게임이미지">
                         </a>
                     </div>
-
                     <div class="text-wrapper">
                         <div class="game-name">
-                            <a class="link" href="#" target="_self">이번주의 딜을 모두 찾아보세요.</a>
+                            <a class="link" th:href="@{'/game/page'(index=35)}" target="_self">원신 - 5.2 업데이트</a>
                         </div>
-                        <button type="button"><a href="#" target="_self">찾아보기</a></button>
+                        <div class="game-description">
+                            <span class="text">차스카, 올로룬, 신규 지역의 사우리안 동료들과 함께 하늘로 모험을 확장하세요!</span>
+                        </div>
+                        <a class="link" th:href="@{'/game/page'(index=35)}" target="_self"><button type="button">무료 플레이</button></a>
+
                     </div>
                 </div>
+
+
+
 
             </div>
         </section>

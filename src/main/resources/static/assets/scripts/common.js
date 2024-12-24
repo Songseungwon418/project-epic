@@ -24,7 +24,7 @@ if ($pageup != null) {
 
         const topElement = document.getElementById('main');
         if (topElement) {
-            topElement.scrollIntoView({behavior: 'smooth'});  // 해당 요소로 부드럽게 이동
+            topElement.scrollIntoView({ behavior: 'smooth' });  // 해당 요소로 부드럽게 이동
         }
     }
 }
@@ -37,17 +37,22 @@ if ($pageup != null) {
     const $cancelButton = $logout.querySelector(':scope > .logoutDialog > .content > .button-container > [name="cancel"]');
     const $confirmButton = $logout.querySelector(':scope > .logoutDialog > .content > .button-container > [name="confirm"]');
 
-    $logoutButton.onclick = () => {
-        $logout.classList.add('--visible');
-    };
+    if ($logoutButton) {
+        $logoutButton.onclick = () => {
+            $logout.classList.add('--visible');
+        };
+    }
 
-    $cancelButton.onclick = () => {
-        $logout.classList.remove('--visible');
-    };
-
-    $confirmButton.onclick = () => {
-        location.href = '/user/logout';
-    };
+    if ($cancelButton) {
+        $cancelButton.onclick = () => {
+            $logout.classList.remove('--visible');
+        };
+    }
+    if ($confirmButton) {
+        $confirmButton.onclick = () => {
+            location.href = '/user/logout';
+        };
+    }
 }
 //endregion
 

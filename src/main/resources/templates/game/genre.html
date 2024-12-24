@@ -51,6 +51,20 @@
                         </div>
                     </div>
 
+                    <div class="no-games" style="display: none">
+                        <div class="text">
+                            <span class="main">검색 결과 없음</span>
+                            <span class="sub">죄송하지만 검색 내용과 일치하는 결과를 찾을 수 없습니다.</span>
+                        </div>
+                    </div>
+
+                    <div class="no-games" th:if="${games == null || games.length <= 0}">
+                        <div class="text">
+                            <span class="main">검색 결과 없음</span>
+                            <span class="sub">죄송하지만 검색 내용과 일치하는 결과를 찾을 수 없습니다.</span>
+                        </div>
+                    </div>
+
                     <div class="game-wrapper" id="gameWrapper">
                         <a class="game" th:each="game, iterStat : ${games}" th:href="@{'/game/page' (index=${game.getIndex()})}" target="_self">
                             <div class="mainImage">

@@ -147,6 +147,35 @@
             }
           }
 
+          .no-games {
+            width: 100%;
+            height: 100%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+
+            > .text {
+              width: auto;
+              height: auto;
+              display: flex;
+              flex-direction: column;
+              align-items: center;
+              justify-content: center;
+              gap: 1.5rem;
+              margin-top: 12rem;
+
+              > .main {
+                font-size: 4rem;
+                color: #ffffff;
+              }
+
+              > .sub {
+                font-size: 1.8rem;
+                color: #ffffffa6;
+              }
+            }
+          }
+
           > .game-wrapper {
             position: relative;
             margin-top: 2rem;

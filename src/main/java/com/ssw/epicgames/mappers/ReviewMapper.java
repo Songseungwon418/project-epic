@@ -15,6 +15,16 @@ public interface ReviewMapper {
 
     int updateReview(ReviewEntity review);
 
-    boolean existsReview(@Param("gameIndex") int gameIndex,
-                         @Param("userEmail") String userEmail);
+    int selectReviewCount(@Param("gameIndex") int gameIndex);
+
+    ReviewVo[] selectReviews(@Param("gameIndex") int gameIndex,
+                             @Param("limitCount") int limitCount,
+                             @Param("offsetCount") int offsetCount);
+
+
+    boolean existedReview(@Param("gameIndex") int gameIndex,
+                          @Param("userEmail") String userEmail);
+
+    boolean deletedReview(@Param("gameIndex") int gameIndex,
+                          @Param("userEmail") String userEmail);
 }

@@ -4,7 +4,9 @@ import com.ssw.epicgames.entities.ReviewEntity;
 import com.ssw.epicgames.resutls.CommonResult;
 import com.ssw.epicgames.resutls.Result;
 import com.ssw.epicgames.services.ReviewService;
+import com.ssw.epicgames.vos.PageVo;
 import com.ssw.epicgames.vos.ReviewVo;
+import org.apache.commons.lang3.tuple.Pair;
 import org.json.JSONObject;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.MediaType;
@@ -14,6 +16,9 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
+
+import java.util.HashMap;
+import java.util.Map;
 
 @Controller
 @RequestMapping(value = "/review")
@@ -35,15 +40,21 @@ public class ReviewController {
     }
 
     @RequestMapping(value = "/", method = RequestMethod.GET, produces = MediaType.APPLICATION_JSON_VALUE)
-    public ResponseEntity<ReviewEntity[]> getIndex(@RequestParam(value = "gameIndex", required = false, defaultValue = "0") int gameIndex) {
+    public ResponseEntity<Map<String, Object>> getReviews(
+            @RequestParam(value = "gameIndex", required = false, defaultValue = "0") int gameIndex,
+            @RequestParam(value = "page", defaultValue = "1") int page) {
+
         if (gameIndex <= 0) {
-            return ResponseEntity.badRequest().build();
+            return ResponseEntity.badRequest().body(Map.of("error", "Invalid gameIndex"));
         }
-        ReviewVo[] reviews = this.reviewService.getReviewsByGameIndex(gameIndex);
-        if (reviews == null) {
-            return ResponseEntity.notFound().build();
-        }
-        return ResponseEntity.ok().body(reviews);
+
+        Pair<PageVo, ReviewVo[]> result = this.reviewService.getReviews(page, gameIndex);
+
+        Map<String, Object> response = new HashMap<>();
+        response.put("pageVo", result.getLeft());
+        response.put("reviews", result.getRight());
+
+        return ResponseEntity.ok().body(response);
     }
 
     @RequestMapping(value = "/", method = RequestMethod.DELETE, produces = MediaType.APPLICATION_JSON_VALUE)

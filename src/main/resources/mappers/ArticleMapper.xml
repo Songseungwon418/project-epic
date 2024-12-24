@@ -1,0 +1,75 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "https://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.ssw.epicgames.mappers.ArticleMapper">
+
+    <insert id="insertArticle"
+            parameterType="com.ssw.epicgames.entities.ArticleEntity"
+            useGeneratedKeys="true"
+            keyProperty="index"
+            keyColumn="index">
+            INSERT INTO `epic_games`.`articles` (`user_email`, `title`, `content`, `view`, `created_at`, `updated_at`, `deleted_at`) VALUES (#{userEmail}, #{title}, #{content}, ${view}, #{createdAt}, #{updatedAt}, #{deletedAt})
+    </insert>
+
+    <update id="updateArticle" parameterType="com.ssw.epicgames.entities.ArticleEntity">
+        UPDATE `epic_games`.`articles`
+        SET `index`      = #{index},
+            `user_email` = #{userEmail},
+            `title`      = #{title},
+            `content`    = #{content},
+            `view`       = #{view},
+            `created_at` = #{createdAt},
+            `updated_at` = #{updatedAt},
+            `deleted_at` = #{deletedAt}
+        WHERE `index` = #{index}
+        LIMIT 1
+    </update>
+
+    <select id="selectArticleByIndex" resultType="com.ssw.epicgames.vos.ArticleVo">
+        SELECT a.`index` AS `index`,
+               a.`user_email` AS `userEmail`,
+               a.`title` AS `title`,
+               a.`content` AS `content`,
+               a.`view` AS `view`,
+               a.`created_at` AS `createdAt`,
+               a.`updated_at` AS `UpdatedAt`,
+               a.`deleted_at` AS `deletedAt`,
+               u.`nickname` AS `nickname`
+        FROM `epic_games`.`articles` AS `a`
+        LEFT JOIN `epic_games`.`user` `u` ON `u`.email = `a`.user_email
+        WHERE `a`.`index` = #{index}
+        AND `a`.`deleted_at` IS NULL
+    </select>
+
+    <select id="selectAllArticles" resultType="com.ssw.epicgames.vos.ArticleVo">
+        SELECT a.`index`      AS `index`,
+               a.`user_email` AS `userEmail`,
+               a.`title`      AS `title`,
+               a.`content`    AS `content`,
+               a.`view`       AS `view`,
+               a.`created_at` AS `createdAt`,
+               a.`updated_at` AS `UpdatedAt`,
+               a.`deleted_at` AS `deletedAt`,
+               u.`nickname`   AS `nickname`
+        FROM `epic_games`.`articles` AS `a`
+                 LEFT JOIN `epic_games`.`user` `u` ON `u`.email = `a`.user_email
+        WHERE `a`.`deleted_at` IS NULL
+        ORDER BY `index` DESC
+        LIMIT #{limitCount} OFFSET #{offsetCount}
+    </select>
+
+    <select id="selectArticleCount" resultType="_int">
+        SELECT COUNT(*)
+        FROM `epic_games`.articles
+        WHERE `deleted_at` IS NULL
+    </select>
+
+    <select id="selectArticleBySearch" resultType="com.ssw.epicgames.vos.ArticleVo">
+
+    </select>
+    <select id="selectArticleCountBySearch" resultType="_int">
+
+    </select>
+
+</mapper>

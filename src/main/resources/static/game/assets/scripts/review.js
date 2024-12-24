@@ -142,38 +142,104 @@ const appendComment = (review) => {
 
 
 //region 댓글 불러오기
-const loadComments = () => {
+let currentPage = 1;
+
+const loadComments = (page = 1) => {
     const url = new URL(location.href);
-    $list.innerHTML = '';
     const xhr = new XMLHttpRequest();
+
+    const params = new URLSearchParams({
+        gameIndex: url.searchParams.get('index'),
+        page: page,
+    });
 
     xhr.onreadystatechange = () => {
         if (xhr.readyState !== XMLHttpRequest.DONE) {
             return;
         }
         if (xhr.status === 200) {
-            const allComments = JSON.parse(xhr.responseText);
+            const response = JSON.parse(xhr.responseText);
 
-            if (allComments.length === 0) {
+            console.log('Response Data:', response);
+
+            const reviews = response.reviews || [];
+            const pageVo = response.pageVo;
+
+            $list.innerHTML = ''; // 댓글 리스트 초기화
+            if (reviews.length === 0) {
                 const $noReviewsMessage = document.createElement('div');
                 $noReviewsMessage.className = 'nothing';
                 $noReviewsMessage.innerText = '아직 작성된 리뷰가 없습니다.';
                 $list.append($noReviewsMessage);
             } else {
-                for (const allComment of allComments) {
-                    appendComment(allComment);
-                }
+                reviews.forEach(comment => {
+                    appendComment(comment); // 댓글 추가
+                });
+            }
+
+            // 페이지네이션 업데이트 (totalCount가 0이면 페이지네이션 하지 않음)
+            if (pageVo.totalCount > 0) {
+                updatePagination(pageVo);
             }
         } else {
             alert('댓글을 불러오지 못하였습니다. 잠시 후 다시 시도해 주세요.');
         }
     };
 
-    xhr.open('GET', `../review/?gameIndex=${url.searchParams.get('index')}`);
+    xhr.open('GET', `../review/?${params.toString()}`);
     xhr.send();
 };
 
-loadComments();
+const updatePagination = (pageVo) => {
+    const $paginationContainer = document.getElementById('pagination');
+    $paginationContainer.innerHTML = '';
+
+    const url = new URL(location.href);
+    const gameIndex = url.searchParams.get('index');
+
+    if (pageVo.requestPage > pageVo.movableMinPage) {
+        const firstButton = document.createElement('button');
+        firstButton.classList.add('page', 'first');
+        firstButton.innerText = '<<'; // 맨 앞 버튼
+        firstButton.onclick = () => loadComments(pageVo.movableMinPage);
+        $paginationContainer.appendChild(firstButton);
+    }
+
+    if (pageVo.requestPage > 1) {
+        const prevButton = document.createElement('button');
+        prevButton.classList.add('page', 'prev');
+        prevButton.innerText = '<';
+        prevButton.onclick = () => loadComments(pageVo.requestPage - 1);
+        $paginationContainer.appendChild(prevButton);
+    }
+
+    for (let i = pageVo.displayMinPage; i <= pageVo.displayMaxPage; i++) {
+        const pageButton = document.createElement('button');
+        pageButton.innerText = i;
+        pageButton.classList.toggle('-selected', i === pageVo.requestPage); // 현재 페이지 강조
+        pageButton.onclick = () => loadComments(i);
+        $paginationContainer.appendChild(pageButton);
+    }
+
+    if (pageVo.requestPage < pageVo.movableMaxPage) {
+        const nextButton = document.createElement('button');
+        nextButton.classList.add('page', 'next')
+        nextButton.innerText = '>';
+        nextButton.onclick = () => loadComments(pageVo.requestPage + 1);
+        $paginationContainer.appendChild(nextButton);
+    }
+
+    if (pageVo.requestPage < pageVo.movableMaxPage) {
+        const lastButton = document.createElement('button');
+        lastButton.classList.add('page', 'last')
+        lastButton.innerText = '>>'; // 맨 끝 버튼
+        lastButton.onclick = () => loadComments(pageVo.movableMaxPage);
+        $paginationContainer.appendChild(lastButton);
+    }
+};
+
+loadComments(currentPage);
+
 //endregion
 
 //endregion 댓글 전송
@@ -204,6 +270,10 @@ const postComment = ($form) => {
         switch (response['result']) {
             case 'failure':
                 alert('리뷰 작성에 실패하였습니다. 잠시 후 다시 시도해 주세요.');
+                break;
+
+            case 'failure_deleted_review':
+                alert('이미 삭제된 리뷰가 있습니다.');
                 break;
 
             case 'failure_duplicate_review':

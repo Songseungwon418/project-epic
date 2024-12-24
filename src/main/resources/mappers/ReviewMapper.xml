@@ -42,12 +42,46 @@
         WHERE `index` = #{index}
     </select>
 
-    <select id="existsReview" resultType="boolean">
+    <select id="deletedReview" resultType="boolean">
         SELECT COUNT(*) > 0
         FROM `epic_games`.`review`
         WHERE game_index = #{gameIndex}
           AND user_email = #{userEmail}
-          AND `deleted_at` IS NULL
+          AND `deleted_at` IS NOT NULL
+    </select>
+
+    <select id="existedReview" resultType="boolean">
+        SELECT COUNT(*) > 0
+        FROM `epic_games`.`review`
+        WHERE game_index = #{gameIndex}
+          AND user_email = #{userEmail}
+    </select>
+
+    <select id="selectReviewCount" resultType="_int">
+    SELECT COUNT(*)
+    FROM `epic_games`.`review`
+    WHERE `game_index` = #{gameIndex}
+    AND `deleted_at` IS NULL
+    </select>
+
+    <select id="selectReviews" resultType="com.ssw.epicgames.vos.ReviewVo">
+        SELECT r.`index`          AS `index`,
+               r.`user_email`     AS `userEmail`,
+               r.`game_index`     AS `gameIndex`,
+               r.`purchase_index` AS `purchaseIndex`,
+               r.`star`           AS `star`,
+               r.`content`        AS `content`,
+               r.`created_at`     AS `createdAt`,
+               r.`updated_at`     AS `updatedAt`,
+               r.`deleted_at`     AS `deletedAt`,
+               u.`nickname`       AS `nickname`
+        FROM `epic_games`.`review` AS `r`
+                 LEFT JOIN `epic_games`.`user` AS `u`
+                           ON r.`user_email` = u.`email`
+        WHERE r.`game_index` = #{gameIndex}
+          AND r.`deleted_at` IS NULL
+        ORDER BY r.`index` DESC
+        LIMIT #{limitCount} OFFSET #{offsetCount}
     </select>
 
     <update id="updateReview" parameterType="com.ssw.epicgames.entities.ReviewEntity">
