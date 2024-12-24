@@ -5,7 +5,7 @@
     <meta name="viewport"
           content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
-    <title th:text="${userNickname + '님의 계정 설정 페이지'}"></title>
+    <title th:text="${user.nickname + '님의 계정 설정 페이지'}"></title>
     <link rel="shortcut icon" th:href="@{'/assets/images/favicon.png'}">
     <link rel="stylesheet" type="text/css" th:href="@{'/assets/styles/common.css'}">
     <link rel="stylesheet" th:href="@{'/pages/settings/styles/setting.css'}" type="text/css">
@@ -84,7 +84,7 @@
             </form>
             <div class="recover-password">
                 <span class="text">비밀번호 재설정</span>
-                <span class="recover-text">비밀번호를 재설정 하려면 <a class="a-tg" th:href="@{/user/forgot-password}">비밀번호 재설정</a>으로 들어가서 아이디를 적고 이메일 인증을 하면 비밀번호를 재설정이 가능합니다.</span>
+                <span class="recover-text">비밀번호를 재설정 하려면 <a class="a-tg" th:href="@{/user/forgot-password}">비밀번호 재설정</a>페이지로 이동 하시면 아이디를 작성하고 사용하고계신 이메일로 인증 링크가 발송됩니다.<br> 링크에 들어가시면 비밀번호를 재설정이 가능합니다.</span>
             </div>
             <div class="delete" id="deleted">
                 <span class="text">계정 삭제</span>

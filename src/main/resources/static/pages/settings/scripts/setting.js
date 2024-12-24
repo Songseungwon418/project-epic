@@ -37,6 +37,10 @@ $mainContainer.onsubmit = (e) => {
 $deleteDialog.onsubmit = (e) => {
     e.preventDefault();
 
+    if($deleteDialog['password'].value === '') {
+        alert('닫기 또는 비밀번호를 입력해 주세요.')
+    }
+
     const xhr = new XMLHttpRequest();
     const formData = new FormData()
     formData.append('password', $deleteDialog['password'].value);
@@ -71,7 +75,7 @@ const $overlay = document.querySelector('.overlay');
 const $container = document.querySelector('.container');
 const $closeDialogBtn = document.getElementById('closeDialogBtn');
 
-// 계정 삭제 요청 버튼 클릭
+//region 계정 탈퇴 버튼 눌렀을 시
 $deleteRequestBtn.addEventListener('click', () => {
     // dialog와 overlay 보이게 하기
     $deleteDialog.classList.add('show');

@@ -63,6 +63,16 @@
         LIMIT 1
     </select>
 
+    <select id="selectUserByConcatNickname" resultType="com.ssw.epicgames.entities.UserEntity">
+        SELECT `email`         AS `email`,
+               `nickname`      AS `nickname`
+        FROM `epic_games`.`user`
+        WHERE `nickname` LIKE CONCAT('%', #{nickname} , '%')
+          AND `deleted_date` IS NULL
+          AND `is_verified` = 1
+    </select>
+
+
     <update id="updateUser" parameterType="com.ssw.epicgames.entities.UserEntity">
         UPDATE `epic_games`.`user`
         SET `password`      = #{password},
