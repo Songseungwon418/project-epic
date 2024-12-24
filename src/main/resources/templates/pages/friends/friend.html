@@ -5,7 +5,7 @@
     <meta name="viewport"
           content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
-    <title th:text="${userNickname + '의 업적을 둘러보세요'}"></title>
+    <title th:text="${dbGetNickname.nickname + '의 업적을 둘러보세요'}"></title>
     <link rel="shortcut icon" th:href="@{'/assets/images/favicon.png'}">
     <link rel="stylesheet" type="text/css" th:href="@{/assets/styles/common.css}">
     <link rel="stylesheet" th:href="@{/pages/friends/styles/friend.css}" type="text/css">
@@ -424,24 +424,24 @@
     </div>
     <th:block th:replace="~{fragments/common.html :: logout}"></th:block>
     <div class="mainSection">
-        <form class="myName-container" th:fragment="myName-container">
+        <div class="myName-container">
             <div class="my-wrapper">
-                <span class="oneName" th:text="${#strings.substring(userNickname, 0, 1)}"></span>
+                <span class="oneName" th:text="${#strings.substring(dbGetNickname.getNickname(), 0, 1)}"></span>
                 <div class="nickname-wrapper">
-                    <span class="nickname" th:text="${userNickname}"></span>
+                    <span class="nickname" th:text="${dbGetNickname.nickname}"></span>
                     <div class="achievement-wrapper">
                         <div class="achievement">
-                            <span class="text">총 획득 XP</span>
+                            <span class="text">총 게임 수</span>
                             <div class="count">
                                 <svg xmlns="http://www.w3.org/2000/svg" class="svg css-uwwqev" viewBox="0 0 25 25">
                                     <path d="M17.0208 2.24212C16.929 1.91929 16.3877 1.91929 16.2959 2.24212C16.0402 3.14058 15.6679 4.21937 15.2399 4.748C14.7655 5.33397 13.582 5.83545 12.6847 6.14986C12.385 6.25489 12.385 6.74511 12.6847 6.85014C13.582 7.16456 14.7655 7.66603 15.2399 8.252C15.6679 8.78063 16.0402 9.85942 16.2959 10.7579C16.3877 11.0807 16.929 11.0807 17.0208 10.7579C17.2765 9.85942 17.6488 8.78063 18.0768 8.252C18.5512 7.66603 19.7347 7.16456 20.632 6.85014C20.9317 6.74511 20.9317 6.25489 20.632 6.14986C19.7347 5.83544 18.5512 5.33397 18.0768 4.748C17.6488 4.21937 17.2765 3.14058 17.0208 2.24212ZM8.15377 7.54551C8.03104 7.09068 7.28574 7.09068 7.163 7.54551C6.71751 9.19641 6.00657 11.4072 5.17574 12.4335C4.27523 13.5458 1.91486 14.4841 0.317012 15.0195C-0.105671 15.1612 -0.105671 15.8388 0.317012 15.9805C1.91486 16.5159 4.27523 17.4542 5.17574 18.5665C6.00657 19.5928 6.71751 21.8036 7.163 23.4545C7.28574 23.9093 8.03104 23.9093 8.15377 23.4545C8.59926 21.8036 9.31021 19.5928 10.141 18.5665C11.0415 17.4542 13.4019 16.5159 14.9998 15.9805C15.4224 15.8388 15.4224 15.1612 14.9998 15.0195C13.4019 14.4841 11.0415 13.5458 10.141 12.4335C9.31021 11.4072 8.59926 9.19641 8.15377 7.54551Z"
                                           fill="currentColor" fill-rule="evenodd" clip-rule="evenodd"></path>
                                 </svg>
-                                <span class="value">870 XP</span>
+                                <span class="value" th:text="${gameMap.keySet().size() + '개'}"></span>
                             </div>
                         </div>
                         <div class="achievement">
-                            <span class="text">업적</span>
+                            <span class="text">총 획득 XP</span>
                             <div class="count">
                                 <svg xmlns="http://www.w3.org/2000/svg" class="svg css-uwwqev" viewBox="0 0 15 14">
                                     <path d="M1.78952 1.03177H3.21722C3.21547 1.05694 3.21455 1.08267 3.21455 1.10896L3.21455 2.21484H1.92245V3.65386C1.92245 4.29719 2.17572 4.91418 2.62655 5.36908C2.8022 5.54633 3.00223 5.69331 3.21869 5.8067C3.23933 6.28339 3.33644 6.74005 3.49797 7.16449C2.85933 7.01104 2.26929 6.68172 1.7975 6.20565C1.1268 5.52887 0.75 4.61096 0.75 3.65386V2.0807C0.75 1.50139 1.21541 1.03177 1.78952 1.03177Z"
@@ -453,18 +453,7 @@
                                     <path d="M10.3826 12.1379C10.3826 12.7521 9.09198 13.25 7.49998 13.25C5.90798 13.25 4.6174 12.7521 4.6174 12.1379C4.6174 11.9371 4.75526 11.7488 4.99644 11.5862L4.99892 11.5845L5.54498 11.2735C6.0756 10.9712 6.51643 10.5312 6.82173 9.99911C6.90651 9.85135 7.12539 9.74247 7.49998 9.74247C7.87457 9.74247 8.09345 9.85135 8.17823 9.99911C8.48353 10.5312 8.92435 10.9712 9.45498 11.2735L10.001 11.5845L10.008 11.5893C10.2464 11.7511 10.3826 11.9384 10.3826 12.1379Z"
                                           fill="currentColor" fill-rule="evenodd" clip-rule="evenodd"></path>
                                 </svg>
-                                <span class="value">32</span>
-                            </div>
-                        </div>
-                        <div class="achievement">
-                            <span class="text">플래티넘</span>
-                            <div class="count">
-                                <svg xmlns="http://www.w3.org/2000/svg" class="svg css-uwwqev" viewBox="0 0 10 15">
-                                    <path fill-rule="evenodd" clip-rule="evenodd"
-                                          d="M8.82469 5.7203C8.10017 4.28067 7.34052 2.77122 7.51834 0C6.90611 0.01125 4.43223 1.59312 3.97056 5.34875C3.48704 4.8144 3.24026 3.04552 3.33333 2.32187C1.13777 4.1775 0 6.56 0 9.21813C0 12.4019 1.90556 15 4.97945 15C8.05804 15 10 12.6544 10 9.8275C10 8.05565 9.42438 6.91189 8.82469 5.7203ZM4.99966 13.9598C5.83378 13.9598 6.50997 13.5934 6.50997 13.1415C6.50997 12.8016 6.12752 12.5101 5.58307 12.3865C5.44824 12.0795 5.37724 11.746 5.37724 11.4062C5.37724 11.3212 5.38389 11.237 5.39689 11.1541C6.45872 10.9664 7.2652 10.0392 7.2652 8.92337V7.57032L7.26527 7.56325C7.26527 7.06278 6.25098 6.65707 4.9998 6.65707C3.74862 6.65707 2.73433 7.06278 2.73433 7.56325L2.73427 8.92337C2.73427 10.0391 3.54067 10.9663 4.60242 11.1541C4.61543 11.237 4.62209 11.3212 4.62209 11.4062C4.62209 11.746 4.55109 12.0795 4.41626 12.3865C3.8718 12.5101 3.48935 12.8016 3.48935 13.1415C3.48935 13.5934 4.16554 13.9598 4.99966 13.9598Z"
-                                          fill="currentColor"></path>
-                                </svg>
-                                <span class="value">0</span>
+                                <span class="value" th:text="${totalReward} + ' XP'"></span>
                             </div>
                         </div>
                     </div>
@@ -472,15 +461,39 @@
             </div>
             <div class="-spring"></div>
             <div class="level">
-                <a href="#" class="button">계정 설정</a>
+                <a th:href="@{/page/setting}" class="button">계정 설정</a>
                 <a href="#" class="button">결제 내역</a>
             </div>
-        </form>
+        </div>
         <div class="center-bar">
             <a th:href="@{'/page/my'}" class="achievement">업적</a>
             <span class="friends">친구</span>
         </div>
         <div class="friend-count" th:text="${friendCount + '명의 친구'}"></div>
+        <div class="nickname-grid" th:if="${users != null}">
+            <div class="nickname-wrapper" th:each="user : ${users}">
+                <a class="nickname" th:href="@{'/page/my?email=' + ${dbGetNickname.email}}">
+                    <span class="first-nickname" th:text="${#strings.substring(user.getNickname(), 0, 1)}"></span>
+                    <span class="full-name" th:text="${user.getNickname()}"></span>
+                </a>
+            </div>
+        </div>
+        <form class="searchForm">
+            <button class="submit-button" type="submit">
+                <svg xmlns="http://www.w3.org/2000/svg" class="icon svg css-uwwqev" viewBox="0 0 21 20"
+                     preserveAspectRatio="xMidYMid meet">
+                    <g transform="scale(1 -1) rotate(-45 -11.93502884 -2)" stroke="currentColor" stroke-width="1.65"
+                       fill="none" fill-rule="evenodd">
+                        <circle cx="7.70710678" cy="7.70710678" r="7"></circle>
+                        <path d="M15.2071068 8.62132034h5.6923881" stroke-linecap="square"></path>
+                    </g>
+                </svg>
+            </button>
+            <label class="label">
+                <input name="search" class="search" placeholder="유저 검색" autocomplete="off" spellcheck="false"
+                       type="search">
+            </label>
+        </form>
         <div class="nickname-grid" th:if="${users != null}">
             <div class="nickname-wrapper" th:each="user : ${users}">
                 <a class="nickname" href="#">

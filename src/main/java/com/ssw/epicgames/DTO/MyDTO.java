@@ -9,6 +9,8 @@ import lombok.Setter;
 public class MyDTO extends AchievementEntity {
     private int gameIndex;
     private String gameName;
-    private int achievementId;
+    private Integer achievementId;
     private String achievementName;
+    private int reward;
+
 }
