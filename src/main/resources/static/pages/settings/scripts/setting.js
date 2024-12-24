@@ -105,7 +105,7 @@ const $navItems = Array.from($nav.querySelectorAll(':scope > .menu > .item[rel]'
 const $main = document.getElementById('main');
 const $mainContents = Array.from($main.querySelectorAll(':scope > .content[rel]'));
 
-// //region 옆 메뉴 동작
+//region 옆 메뉴 동작
 $navItems.forEach(($navItem) => {
     $navItem.onclick = () => {
         // alert($navItem.innerText); // 잘되는지 확인용
@@ -123,3 +123,73 @@ $navItems.forEach(($navItem) => {
     };
 });
 //endregion
+
+{
+    const $purchaseTable = document.getElementById('purchase-table');
+    const $RefundBtns = $purchaseTable.querySelectorAll('.refund-btn');
+    const $refundDialog = document.getElementById('refund-dialog');
+    const $closeRefundDialogBtn = document.getElementById('refund-cancel-btn');
+    const $payId = document.getElementById('payId');
+    const $gameIndex = document.getElementById('gameIndex');
+    const $purchaseIndex = document.getElementById('purchaseIndex');
+    const $gameName =  document.querySelector('input[name="gameName"]');
+    const $price = document.querySelector(`input[name="price"]`);
+
+    $RefundBtns.forEach(btn => btn.addEventListener('click', (e) => {
+        const row = e.target.closest('tr'); // 클릭한 버튼이 속한 행
+        let payId = "";  // payId 초기화
+
+        if (btn.dataset.id === 'all') {
+            // '전체환불' 버튼 클릭 시, 해당 결제 정보를 상위 .title 행에서 가져옴
+            const payIdRow = $purchaseTable.querySelector('.title');
+            payId = payIdRow ? payIdRow.querySelector('.content').innerText : "";
+
+            // 폼에 값 채우기
+            $payId.innerText = payId;
+            $gameIndex.innerText = "";
+            $purchaseIndex.innerText = "";
+            $gameName.value = row.querySelector('.title.content').innerText;
+            $price.value = row.querySelector('.price.price-info').innerText;
+
+
+        } else {
+            // '환불' 버튼 클릭 시, 해당 행의 게임 정보 추출
+            const gameIndex = row.querySelector('.gameIndex').innerText;
+            const purchaseIndex = row.querySelector('.purchaseIndex').innerText;
+            const gameName = row.querySelector('.line-bottom').innerText;
+            const price = row.querySelector('.price.-current').innerText;
+
+            // 폼에 값 채우기
+            $payId.innerText = "";
+            $gameIndex.innerText = gameIndex;
+            $purchaseIndex.innerText = purchaseIndex;
+            $gameName.value = gameName;
+            $price.value = price;
+        }
+
+        // dialog와 overlay 보이게 하기
+        $refundDialog.classList.add('-visible');
+        $overlay.classList.add('show');
+        // container 투명하게 만들기 (배경을 클릭 못하게)
+        $container.classList.add('transparent');
+        })
+    );
+
+    // 닫기 버튼 클릭 시 dialog 닫기 및 배경 복원
+    $closeRefundDialogBtn.addEventListener('click', () => {
+        $refundDialog.reset(); // 모든 입력 값 초기화
+        $refundDialog.classList.remove('-visible');
+        $overlay.classList.remove('show');
+        // container 투명도 제거
+        $container.classList.remove('transparent');
+    });
+
+    // 오버레이 클릭 시 dialog 닫기 및 배경 복원
+    $overlay.addEventListener('click', () => {
+        $deleteDialog.classList.remove('show');
+        $overlay.classList.remove('show');
+
+        // container 투명도 제거
+        $container.classList.remove('transparent');
+    });
+}
