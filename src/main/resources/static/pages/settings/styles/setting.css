@@ -210,12 +210,49 @@
 }
 .container > .main > .user-purchaseList {
   display: none;
+  padding: 40px;
   width: 100%;
-  height: 100%;
   overflow: hidden !important;
 }
 .container > .main > .user-purchaseList.-visible {
   display: block;
+}
+.container > .main > .user-purchaseList > .title {
+  margin-bottom: 20px;
+  font-size: 30px;
+  font-weight: 400;
+  color: #141414;
+}
+.container > .main > .user-purchaseList > .purchase-table {
+  width: 100%;
+}
+.container > .main > .user-purchaseList > .purchase-table > thead > tr > th {
+  padding: 20px;
+  text-align: left;
+  border-bottom: 1.5px solid #e7e7e7;
+}
+.container > .main > .user-purchaseList > .purchase-table > tbody {
+  margin-bottom: 10px;
+  border-bottom: 1px solid #e7e7e7;
+}
+.container > .main > .user-purchaseList > .purchase-table > tbody > .title > td {
+  padding: 20px;
+}
+.container > .main > .user-purchaseList > .purchase-table > tbody > .purchase-id > td {
+  padding: 5px 0;
+  background-color: #e7e7e7;
+  font-weight: 500;
+}
+.container > .main > .user-purchaseList > .purchase-table > tbody > .purchase-id > td.text {
+  font-size: 12px;
+  font-weight: 600;
+}
+.container > .main > .user-purchaseList > .purchase-table > tbody > .sub-title > td {
+  padding: 5px 20px;
+}
+.container > .main > .user-purchaseList > .purchase-table > tbody > .sub-title > td.-minus {
+  padding: 5px 0;
+  font-size: 12px;
 }
 
 .dialog {

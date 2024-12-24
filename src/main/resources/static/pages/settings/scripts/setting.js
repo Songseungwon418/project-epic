@@ -117,6 +117,7 @@ $navItems.forEach(($navItem) => {
 
         $mainContent.classList.add('-visible'); // 선택한 메뉴에 -visible 클래스 추가
 
+
         $navItems.forEach((x) => x.classList.remove('-selected')); // 초기화
         $navItem.classList.add('-selected'); // 선택된 네비메뉴에 -selected 추가
     };

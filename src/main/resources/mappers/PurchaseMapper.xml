@@ -138,14 +138,15 @@
 
     <!--  결제 내역 삽입  -->
     <insert id="insertPay" parameterType="com.ssw.epicgames.entities.PayEntity">
-        INSERT INTO `epic_games`.`pay` (`id`, `user_email`, `imp_uid`,`name`, `amount`, `method`, `paid_at`, `pg_provider`, `status`, `currency`, `card_name`, `card_number`, `pg_tid`)
-        VALUES (#{id}, #{userEmail}, #{impUid}, #{name}, #{amount}, #{method}, #{paidAt}, #{pgProvider}, #{status}, #{currency}, #{cardName}, #{cardNumber}, #{pgTid})
+        INSERT INTO `epic_games`.`pay` (`id`, `user_email`, `imp_uid`, `title`,`name`, `amount`, `method`, `paid_at`, `pg_provider`, `status`, `currency`, `card_name`, `card_number`, `pg_tid`)
+        VALUES (#{id}, #{userEmail}, #{impUid}, #{title}, #{name}, #{amount}, #{method}, #{paidAt}, #{pgProvider}, #{status}, #{currency}, #{cardName}, #{cardNumber}, #{pgTid})
     </insert>
     <!--  결제 id로 결제 내역 조회  -->
     <select id="selectPayById" resultType="com.ssw.epicgames.entities.PayEntity">
         SELECT id          AS `id`,
                user_email  AS `userEmail`,
                imp_uid     AS `impUid`,
+               title       AS `title`,
                name        AS `name`,
                amount      AS `amount`,
                method      AS `method`,
@@ -164,6 +165,7 @@
         SELECT id          AS `id`,
                user_email  AS `userEmail`,
                imp_uid     AS `impUid`,
+               title       AS `title`,
                name        AS `name`,
                amount      AS `amount`,
                method      AS `method`,
