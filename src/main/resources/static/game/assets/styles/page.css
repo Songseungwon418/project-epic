@@ -1340,6 +1340,34 @@
 #main > .mainSection > .comment > .commentArea > .review-container > .list > .item > .modify.-selected {
   display: flex;
 }
+#main > .mainSection > .comment > .commentArea > .review-container > #pagination {
+  width: 100%;
+  display: flex;
+  flex-direction: row;
+  align-items: stretch;
+  justify-content: center;
+  gap: 0.3rem;
+  margin-top: 1.5rem;
+}
+#main > .mainSection > .comment > .commentArea > .review-container > #pagination > button {
+  width: 3rem;
+  aspect-ratio: 1/1;
+  outline: none;
+  border: none;
+  border-radius: 999rem;
+  font-size: 1.5rem;
+  color: rgba(255, 255, 255, 0.5647058824);
+}
+#main > .mainSection > .comment > .commentArea > .review-container > #pagination > button:hover {
+  background-color: rgba(255, 255, 255, 0.1490196078);
+}
+#main > .mainSection > .comment > .commentArea > .review-container > #pagination > button:active {
+  background-color: rgba(255, 255, 255, 0.1490196078);
+}
+#main > .mainSection > .comment > .commentArea > .review-container > #pagination > button.-selected {
+  color: #202024;
+  background-color: #2196f3;
+}
 
 /* 결재 페이지 모달창 */
 #pay-modal {
