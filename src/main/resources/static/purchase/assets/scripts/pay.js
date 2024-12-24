@@ -102,7 +102,7 @@ $closeBtn.onclick = () => {
     // 결재 진행
     function payment() {
         let requestData;
-        name = name.length > 10 ? `${name}... 그 외` : `${name} 그 외`; // 주문명 생성
+        name = name.length > 10 ? `${name}...그 외` : `${name}그 외`; // 주문명 생성
         try{
             requestData = {
                 ...user,

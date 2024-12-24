@@ -75,7 +75,7 @@ const $overlay = document.querySelector('.overlay');
 const $container = document.querySelector('.container');
 const $closeDialogBtn = document.getElementById('closeDialogBtn');
 
-//region 계정 탈퇴 버튼 눌렀을 시
+//계정 탈퇴 버튼 눌렀을 시
 $deleteRequestBtn.addEventListener('click', () => {
     // dialog와 overlay 보이게 하기
     $deleteDialog.classList.add('show');
@@ -121,13 +121,45 @@ $navItems.forEach(($navItem) => {
 
         $mainContent.classList.add('-visible'); // 선택한 메뉴에 -visible 클래스 추가
 
-
         $navItems.forEach((x) => x.classList.remove('-selected')); // 초기화
         $navItem.classList.add('-selected'); // 선택된 네비메뉴에 -selected 추가
+
+        // 선택된 항목을 localStorage에 저장
+        localStorage.setItem('selectedRel', rel);
     };
 });
 //endregion
 
+//region 페이지 새로고침 시 선택한 페이지 새로고침
+document.addEventListener('DOMContentLoaded', () => {
+    // 페이지 새로고침 여부를 체크
+    const navigationType = performance.getEntriesByType("navigation")[0]?.type;
+    if (navigationType === "reload") {
+        // 저장된 선택 항목 복원
+        const selectedRel = localStorage.getItem('selectedRel');
+
+        // 화면 초기화 (-visible 클래스 제거)
+        $mainContents.forEach(($mainContent) => $mainContent.classList.remove('-visible'));
+        // 네비 선택 초기화
+        $navItems.forEach((x) => x.classList.remove('-selected'));
+
+        // localStorage에 값이 있으면 저장된 항목을 복원
+        if (selectedRel) {
+            const $selectedContent = Array.from($mainContents).find((x) => x.getAttribute('rel') === selectedRel);
+            if ($selectedContent) {
+                $selectedContent.classList.add('-visible');
+            }
+            // 선택된 네비게이션 항목에 -selected 클래스 추가
+            const $selectedNavItem = Array.from($navItems).find((x) => x.getAttribute('rel') === selectedRel);
+            if ($selectedNavItem) {
+                $selectedNavItem.classList.add('-selected');
+            }
+        }
+    }
+});
+//endregion
+
+//region 환불관련
 {
     const $purchaseTable = document.getElementById('purchase-table');
     const $RefundBtns = $purchaseTable.querySelectorAll('.refund-btn');
@@ -139,6 +171,7 @@ $navItems.forEach(($navItem) => {
     const $gameName =  document.querySelector('input[name="gameName"]');
     const $price = document.querySelector(`input[name="price"]`);
 
+    // 전체 환불 혹은 환불 누를 시
     $RefundBtns.forEach(btn => btn.addEventListener('click', (e) => {
         const row = e.target.closest('tr'); // 클릭한 버튼이 속한 행
         let payId = "";  // payId 초기화
@@ -147,15 +180,12 @@ $navItems.forEach(($navItem) => {
             // '전체환불' 버튼 클릭 시, 해당 결제 정보를 상위 .title 행에서 가져옴
             const payIdRow = $purchaseTable.querySelector('.title');
             payId = payIdRow ? payIdRow.querySelector('.content').innerText : "";
-
             // 폼에 값 채우기
             $payId.innerText = payId;
             $gameIndex.innerText = "";
             $purchaseIndex.innerText = "";
             $gameName.value = row.querySelector('.title.content').innerText;
             $price.value = row.querySelector('.price.price-info').innerText;
-
-
         } else {
             // '환불' 버튼 클릭 시, 해당 행의 게임 정보 추출
             const gameIndex = row.querySelector('.gameIndex').innerText;
@@ -174,8 +204,6 @@ $navItems.forEach(($navItem) => {
         // dialog와 overlay 보이게 하기
         $refundDialog.classList.add('-visible');
         $overlay.classList.add('show');
-        // container 투명하게 만들기 (배경을 클릭 못하게)
-        $container.classList.add('transparent');
         })
     );
 
@@ -184,16 +212,12 @@ $navItems.forEach(($navItem) => {
         $refundDialog.reset(); // 모든 입력 값 초기화
         $refundDialog.classList.remove('-visible');
         $overlay.classList.remove('show');
-        // container 투명도 제거
-        $container.classList.remove('transparent');
     });
 
     // 오버레이 클릭 시 dialog 닫기 및 배경 복원
     $overlay.addEventListener('click', () => {
-        $deleteDialog.classList.remove('show');
+        $refundDialog.classList.remove('-visible');
         $overlay.classList.remove('show');
-
-        // container 투명도 제거
-        $container.classList.remove('transparent');
     });
 }
+//endregion
