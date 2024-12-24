@@ -24,7 +24,7 @@ if ($pageup != null) {
 
         const topElement = document.getElementById('main');
         if (topElement) {
-            topElement.scrollIntoView({ behavior: 'smooth' });  // 해당 요소로 부드럽게 이동
+            topElement.scrollIntoView({behavior: 'smooth'});  // 해당 요소로 부드럽게 이동
         }
     }
 }

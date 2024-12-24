@@ -40,6 +40,7 @@ public class PageService {
         return this.achievementMapper.getAchievementByIndex(index);
     }
 
+    //region 친구 찾기
     public UserEntity[] getFriendsByEmail(String email) {
         if (email == null || email.isEmpty()) {
             return null;
@@ -55,12 +56,15 @@ public class PageService {
         }
         return users;
     }
+    //endregion
 
-
+    //region 유저가 얻은 업적 service
     public MyDTO[] getUserPurchases(String email) {
         return this.achievementMapper.selectMyDTOs(email);
     }
+    //endregion
 
+    //region 유저 정보 수정
     public Result patchUser(UserEntity user) {
         if (user == null ||
                 user.getEmail() == null || user.getEmail().length() < 8 || user.getEmail().length() > 50 ||
@@ -85,7 +89,9 @@ public class PageService {
 
         return this.userMapper.updateUser(userEntity) > 0 ? CommonResult.SUCCESS : CommonResult.FAILURE;
     }
+    //endregion
 
+    //region 계정 삭제
     public Result deleteUser(String email, String password) {
         if (email == null || email.isEmpty() ||
         password == null || password.isEmpty()) {
@@ -106,9 +112,12 @@ public class PageService {
         dbUser.setDeletedDate(LocalDateTime.now());
         return this.userMapper.updateUser(dbUser) > 0 ? CommonResult.SUCCESS : CommonResult.FAILURE;
     }
+    //endregion
 
+    //region dbUser select
     public UserEntity getUserByEmail(String email) {
         return this.userMapper.selectUserByEmail(email);
     }
+    //endregion
     
 }

@@ -25,13 +25,18 @@
   justify-content: center;
 }
 #main > .mainSection > .myName-container > .my-wrapper > .oneName {
+  width: 18rem;
+  height: 18rem;
   border: 0.0625rem solid orange;
   border-radius: 999rem;
   background-color: orange;
-  padding: 4rem;
-  font-size: 9rem;
+  font-size: 12rem;
   font-weight: 700;
   margin-right: 30px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  text-align: center;
 }
 #main > .mainSection > .myName-container > .my-wrapper > .nickname-wrapper {
   display: flex;
@@ -125,6 +130,7 @@
   display: grid;
   grid-template-columns: repeat(4, 1fr);
   grid-gap: 5rem;
+  margin-bottom: 7rem;
 }
 #main > .mainSection > .nickname-grid > .nickname-wrapper {
   width: 100%;
@@ -141,6 +147,38 @@
 }
 #main > .mainSection > .nickname-grid > .nickname-wrapper > .nickname > .full-name {
   font-weight: 700;
+}
+#main > .mainSection > .searchForm {
+  position: relative;
+  margin-bottom: 5rem;
+}
+#main > .mainSection > .searchForm > .submit-button {
+  border: none;
+}
+#main > .mainSection > .searchForm > .submit-button > .icon {
+  position: absolute;
+  left: 1.8rem;
+  top: 1.5rem;
+  color: rgba(255, 255, 255, 0.6470588235);
+  width: 1.4rem;
+  z-index: 10;
+}
+#main > .mainSection > .searchForm > .label {
+  position: relative;
+}
+#main > .mainSection > .searchForm > .label > .search {
+  background-color: #202024;
+  border-color: #202024;
+  height: 4.3rem;
+  width: 24.5rem;
+  border-radius: 999rem;
+  padding-left: 4.5rem;
+  padding-right: 1.5rem;
+  box-sizing: border-box;
+  color: #ffffff;
+  font-weight: 400;
+  outline: none;
+  border: none;
 }
 
 /*# sourceMappingURL=friend.css.map */

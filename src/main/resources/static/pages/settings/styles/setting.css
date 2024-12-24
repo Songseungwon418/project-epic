@@ -157,6 +157,7 @@
 .container > .main > .user-setting > .recover-password > .recover-text {
   color: rgba(20, 20, 20, 0.7215686275);
   letter-spacing: 1px;
+  line-height: 1.5;
 }
 .container > .main > .user-setting > .recover-password > .recover-text > .a-tg {
   color: #0074E4;
@@ -174,9 +175,11 @@
   font-weight: 700;
 }
 .container > .main > .user-setting > .delete > .sub-text {
+  line-height: 1.5;
   color: rgba(20, 20, 20, 0.7215686275);
 }
 .container > .main > .user-setting > .delete > .a-text {
+  line-height: 1.5;
   font-weight: 600;
 }
 .container > .main > .user-setting > .delete > .button {

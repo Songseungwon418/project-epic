@@ -5,7 +5,7 @@
     <meta name="viewport"
           content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
-    <title th:text="${userNickname + '님의 업적을 둘러보세요.'}"></title>
+    <title th:text="${dbGetNickname.nickname + '님의 업적을 둘러보세요.'}"></title>
     <link rel="shortcut icon" th:href="@{'/assets/images/favicon.png'}">
     <link rel="stylesheet" type="text/css" th:href="@{/assets/styles/common.css}">
     <link rel="stylesheet" th:href="@{/pages/My/styles/myPage.css}" type="text/css">
@@ -57,11 +57,11 @@
 
     <th:block th:replace="~{fragments/common.html :: logout}"></th:block>
     <div class="mainSection">
-        <form class="myName-container" th:fragment="myName-container">
+        <div class="myName-container">
             <div class="my-wrapper">
-                <span class="oneName" th:text="${#strings.substring(user.getNickname(), 0, 1)}"></span>
+                <span class="oneName" th:text="${#strings.substring(dbGetNickname.getNickname(), 0, 1)}"></span>
                 <div class="nickname-wrapper">
-                    <span class="nickname" th:text="${user.nickname}"></span>
+                    <span class="nickname" th:text="${dbGetNickname.nickname}"></span>
                     <div class="achievement-wrapper">
                         <div class="achievement">
                             <span class="text">총 게임 수</span>
@@ -70,12 +70,11 @@
                                     <path d="M17.0208 2.24212C16.929 1.91929 16.3877 1.91929 16.2959 2.24212C16.0402 3.14058 15.6679 4.21937 15.2399 4.748C14.7655 5.33397 13.582 5.83545 12.6847 6.14986C12.385 6.25489 12.385 6.74511 12.6847 6.85014C13.582 7.16456 14.7655 7.66603 15.2399 8.252C15.6679 8.78063 16.0402 9.85942 16.2959 10.7579C16.3877 11.0807 16.929 11.0807 17.0208 10.7579C17.2765 9.85942 17.6488 8.78063 18.0768 8.252C18.5512 7.66603 19.7347 7.16456 20.632 6.85014C20.9317 6.74511 20.9317 6.25489 20.632 6.14986C19.7347 5.83544 18.5512 5.33397 18.0768 4.748C17.6488 4.21937 17.2765 3.14058 17.0208 2.24212ZM8.15377 7.54551C8.03104 7.09068 7.28574 7.09068 7.163 7.54551C6.71751 9.19641 6.00657 11.4072 5.17574 12.4335C4.27523 13.5458 1.91486 14.4841 0.317012 15.0195C-0.105671 15.1612 -0.105671 15.8388 0.317012 15.9805C1.91486 16.5159 4.27523 17.4542 5.17574 18.5665C6.00657 19.5928 6.71751 21.8036 7.163 23.4545C7.28574 23.9093 8.03104 23.9093 8.15377 23.4545C8.59926 21.8036 9.31021 19.5928 10.141 18.5665C11.0415 17.4542 13.4019 16.5159 14.9998 15.9805C15.4224 15.8388 15.4224 15.1612 14.9998 15.0195C13.4019 14.4841 11.0415 13.5458 10.141 12.4335C9.31021 11.4072 8.59926 9.19641 8.15377 7.54551Z"
                                           fill="currentColor" fill-rule="evenodd" clip-rule="evenodd"></path>
                                 </svg>
-                                <!--                                <span class="value" th:text="${#lists.size(purchaseDTO.game) + '개'}"></span>-->
                                 <span class="value" th:text="${gameMap.keySet().size() + '개'}"></span>
                             </div>
                         </div>
                         <div class="achievement">
-                            <span class="text">총 획득 업적</span>
+                            <span class="text">총 획득 XP</span>
                             <div class="count">
                                 <svg xmlns="http://www.w3.org/2000/svg" class="svg css-uwwqev" viewBox="0 0 15 14">
                                     <path d="M1.78952 1.03177H3.21722C3.21547 1.05694 3.21455 1.08267 3.21455 1.10896L3.21455 2.21484H1.92245V3.65386C1.92245 4.29719 2.17572 4.91418 2.62655 5.36908C2.8022 5.54633 3.00223 5.69331 3.21869 5.8067C3.23933 6.28339 3.33644 6.74005 3.49797 7.16449C2.85933 7.01104 2.26929 6.68172 1.7975 6.20565C1.1268 5.52887 0.75 4.61096 0.75 3.65386V2.0807C0.75 1.50139 1.21541 1.03177 1.78952 1.03177Z"
@@ -87,7 +86,7 @@
                                     <path d="M10.3826 12.1379C10.3826 12.7521 9.09198 13.25 7.49998 13.25C5.90798 13.25 4.6174 12.7521 4.6174 12.1379C4.6174 11.9371 4.75526 11.7488 4.99644 11.5862L4.99892 11.5845L5.54498 11.2735C6.0756 10.9712 6.51643 10.5312 6.82173 9.99911C6.90651 9.85135 7.12539 9.74247 7.49998 9.74247C7.87457 9.74247 8.09345 9.85135 8.17823 9.99911C8.48353 10.5312 8.92435 10.9712 9.45498 11.2735L10.001 11.5845L10.008 11.5893C10.2464 11.7511 10.3826 11.9384 10.3826 12.1379Z"
                                           fill="currentColor" fill-rule="evenodd" clip-rule="evenodd"></path>
                                 </svg>
-                                <span class="value">32</span>
+                                <span class="value" th:text="${totalReward} + ' XP'"></span>
                             </div>
                         </div>
                     </div>
@@ -98,7 +97,7 @@
                 <a th:href="@{/page/setting}" class="button" id="settingsButton">계정 설정</a>
                 <a href="#" class="button">결제 내역</a>
             </div>
-        </form>
+        </div>
         <div class="center-bar">
             <span class="achievement">업적</span>
             <a th:href="@{'/page/friend'}" class="friends">친구</a>
@@ -116,23 +115,33 @@
                 <div class="game-name" th:text="${game.getName()}"></div>
                 <div class="achievement">
                     <div class="achievement-progress">
-                        <span class="text">업적 진행도</span>
+                        <span class="text">업적</span>
                         <div class="achievement-img-wrapper">
                             <div class="achievement-image" th:each="achievement : ${gameMap.get(game)}">
-                                <span th:if="${achievement == null}">달성한 업적이 없습니다.</span>
-                                <img class="image" th:if="${achievement != null}"
+                                <span th:if="${achievement.getAchievementId() == null}" style="font-size: 15px; font-weight: 600">달성한 업적이 없습니다.</span>
+                                <img class="image" th:if="${achievement.getAchievementId() != null}"
                                      th:src="@{/page/achievement-cover (index = ${achievement.getAchievementId()})}"
                                      th:title="${achievement.getAchievementName()}">
                             </div>
                         </div>
                     </div>
-                    <span class="text">리워드</span>
+                    <div class="achievement-progress">
+                        <span class="text">획득 XP</span>
+                        <div class="reward-container">
+                            <div class="reward" th:text="${gameScoreMap.get(game) + ' / 100 XP'}"></div>
+                        </div>
+                        <div class="gauge-wrapper">
+                            <div class="reward-gauge">
+                                <div class="gauge-bar" th:style="'width: ' + ${gameScoreMap.get(game) + '%'}"></div>
+                            </div>
+                            <span class="gauge-text" th:text="${gameScoreMap.get(game) + '%'}"></span>
+                        </div>
+                    </div>
                 </div>
             </div>
         </a>
     </div>
 </main>
-
 <th:block th:replace="~{fragments/common.html :: footer}"></th:block>
 
 </body>

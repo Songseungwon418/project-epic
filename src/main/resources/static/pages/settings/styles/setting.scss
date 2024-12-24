@@ -16,7 +16,6 @@
 
 .container {
   width: 100%;
-  //height: 100%;
   background-color: #f7f7f7;
   display: flex;
   flex-direction: row;
@@ -182,6 +181,7 @@
         > .recover-text {
           color: #141414B8;
           letter-spacing: 1px;
+          line-height: 1.5;
 
           > .a-tg {
             color: #0074E4;
@@ -203,10 +203,12 @@
         }
 
         > .sub-text {
+          line-height: 1.5;
           color: #141414B8;
         }
 
         > .a-text {
+          line-height: 1.5;
           font-weight: 600;
         }
 
