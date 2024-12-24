@@ -43,6 +43,7 @@ document.addEventListener('DOMContentLoaded', function () {
         // register-form은 계속 활성화
         registerContent.classList.remove("disabled"); // disabled 클래스 제거하여 활성화
         registerButton.disabled = true; // 회원가입 버튼 비활성화
+        registerButton.style.cursor = "not-allowed";
     });
 
     // "동의합니다" 버튼 클릭 시

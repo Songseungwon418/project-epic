@@ -13,6 +13,8 @@
 }
 
 #main {
+  margin-bottom: 6rem;
+
   > .mainSection {
     width: 75%;
     max-width: 1600px;
@@ -41,13 +43,19 @@
         justify-content: center;
 
         > .oneName {
+          width: 18rem;
+          height: 18rem;
           border: 0.0625rem solid orange;
           border-radius: 999rem;
           background-color: orange;
-          padding: 4rem;
-          font-size: 9rem;
+          font-size: 12rem;
           font-weight: 700;
           margin-right: 30px;
+
+          display: flex;
+          align-items: center;
+          justify-content: center;
+          text-align: center;
         }
 
         > .nickname-wrapper {
@@ -218,8 +226,8 @@
       }
 
       > .game-img {
-        width: 160px;
-        height: 160px;
+        width: 180px;
+        height: 200px;
         border-radius: 2rem;
 
       }
@@ -238,6 +246,7 @@
         }
 
         > .achievement {
+          width: 100%;
           display: flex;
           flex-direction: row;
           gap: 3.5rem;
@@ -264,6 +273,44 @@
                   width: 37px;
                   height: 37px;
                   border-radius: 999rem;
+                }
+              }
+            }
+
+            > .reward-container {
+              display: flex;
+              flex-direction: row;
+              align-items: center;
+              justify-content: flex-start;
+              gap: 1rem;
+
+
+              > .reward {
+                width: 100%;
+                font-size: 25px;
+                font-weight: 700;
+              }
+            }
+
+            > .gauge-wrapper {
+              display: flex;
+              flex-direction: row;
+              gap: 2rem;
+
+              > .reward-gauge {
+                width: 50%;
+                height: 5px;
+                background-color: #b3b1b1;
+                border-radius: 5px;
+                overflow: hidden;
+                margin-top: 5px;
+                position: relative;
+
+                > .gauge-bar {
+                  height: 100%;
+                  background-color: #ffffff;
+                  transition: width 0.3s ease-in-out;
+                  border-radius: 5px 0 0 5px;
                 }
               }
             }

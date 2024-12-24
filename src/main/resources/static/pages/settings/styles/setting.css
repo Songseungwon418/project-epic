@@ -15,7 +15,6 @@
 
 .container {
   width: 100%;
-  height: 100%;
   background-color: #f7f7f7;
   display: flex;
   flex-direction: row;
@@ -43,6 +42,21 @@
   align-items: flex-start;
   justify-content: flex-start;
   gap: 1.5rem;
+}
+.container > .nav > .menu > .item {
+  cursor: pointer;
+}
+.container > .nav > .menu > .item:hover {
+  color: rgb(127.5, 127.5, 127.5);
+}
+.container > .nav > .menu > .item:active {
+  font-weight: 700;
+}
+.container > .nav > .menu > .item.-selected {
+  color: #141414;
+  font-size: 15px;
+  font-weight: 700;
+  cursor: not-allowed;
 }
 .container > .main {
   width: 100%;
@@ -158,6 +172,7 @@
 .container > .main > .user-setting > .recover-password > .recover-text {
   color: rgba(20, 20, 20, 0.7215686275);
   letter-spacing: 1px;
+  line-height: 1.5;
 }
 .container > .main > .user-setting > .recover-password > .recover-text > .a-tg {
   color: #0074E4;
@@ -175,9 +190,11 @@
   font-weight: 700;
 }
 .container > .main > .user-setting > .delete > .sub-text {
+  line-height: 1.5;
   color: rgba(20, 20, 20, 0.7215686275);
 }
 .container > .main > .user-setting > .delete > .a-text {
+  line-height: 1.5;
   font-weight: 600;
 }
 .container > .main > .user-setting > .delete > .button {
@@ -196,12 +213,92 @@
 }
 .container > .main > .user-purchaseList {
   display: none;
+  padding: 40px;
   width: 100%;
-  height: 100%;
-  overflow: hidden !important;
+  overflow: auto !important;
 }
 .container > .main > .user-purchaseList.-visible {
   display: block;
+}
+.container > .main > .user-purchaseList > .title {
+  margin-bottom: 20px;
+  font-size: 30px;
+  font-weight: 400;
+  color: #141414;
+}
+.container > .main > .user-purchaseList > .purchase-table {
+  width: 100%;
+}
+.container > .main > .user-purchaseList > .purchase-table .line {
+  width: 180px;
+}
+.container > .main > .user-purchaseList > .purchase-table .content {
+  width: 300px;
+}
+.container > .main > .user-purchaseList > .purchase-table .price-info {
+  width: 180px;
+}
+.container > .main > .user-purchaseList > .purchase-table > thead > tr > th {
+  padding: 20px;
+  text-align: left;
+  background-color: #e7e7e7;
+  border-bottom: 3px solid #e7e7e7;
+}
+.container > .main > .user-purchaseList > .purchase-table > tbody {
+  margin-bottom: 10px;
+  border-bottom: 3px solid #e7e7e7;
+}
+.container > .main > .user-purchaseList > .purchase-table > tbody > tr > td.line {
+  border-right: 3px solid #e7e7e7;
+}
+.container > .main > .user-purchaseList > .purchase-table > tbody > tr > td.refund-container {
+  text-align: center;
+}
+.container > .main > .user-purchaseList > .purchase-table > tbody > tr > td.refund-container > .refund-btn {
+  font-style: italic;
+  border: none;
+  color: #f13f3f;
+}
+.container > .main > .user-purchaseList > .purchase-table > tbody > tr > td.refund-container > .refund-btn:hover {
+  text-decoration: underline;
+}
+.container > .main > .user-purchaseList > .purchase-table > tbody > .title > td {
+  padding: 20px;
+}
+.container > .main > .user-purchaseList > .purchase-table > tbody > .purchase-id > td {
+  padding: 5px;
+}
+.container > .main > .user-purchaseList > .purchase-table > tbody > .purchase-id > td.text {
+  font-size: 15px;
+  font-weight: 600;
+  border-radius: 1.5px;
+  background-color: #e7e7e7;
+}
+.container > .main > .user-purchaseList > .purchase-table > tbody > .sub-title > td {
+  padding: 5px 20px;
+}
+.container > .main > .user-purchaseList > .purchase-table > tbody > .sub-title > td.line-bottom {
+  border-bottom: 1px solid #e7e7e7;
+}
+.container > .main > .user-purchaseList > .purchase-table > tbody > .sub-title > td.price-info {
+  min-height: 35px;
+  align-items: stretch;
+  display: flex;
+  flex-direction: column;
+  gap: 5px;
+  justify-content: center;
+}
+.container > .main > .user-purchaseList > .purchase-table > tbody > .sub-title > td.price-info > .info {
+  align-items: center;
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+}
+.container > .main > .user-purchaseList > .purchase-table > tbody > .sub-title > td.price-info > .info > .text {
+  font-size: 13px;
+}
+.container > .main > .user-purchaseList > .purchase-table > tbody > .sub-title > td.price-info > .info > .-minus {
+  font-size: 12px;
 }
 
 .dialog {
@@ -275,6 +372,22 @@
 }
 .dialog > .btn-wrapper > .close-btn:active {
   background-color: rgb(24, 141.5263157895, 255);
+}
+
+#refund-dialog {
+  top: 50%;
+  left: 50%;
+  transform: translate(-40%, -40%);
+  position: fixed;
+  border: 0.0625rem solid #ffffff;
+  border-radius: 1.5rem;
+  background-color: #ffffff;
+  display: none;
+  padding: 2.5rem;
+  z-index: 200;
+}
+#refund-dialog.-visible {
+  display: block;
 }
 
 /*# sourceMappingURL=setting.css.map */

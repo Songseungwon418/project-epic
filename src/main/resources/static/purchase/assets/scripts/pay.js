@@ -69,20 +69,24 @@ $closeBtn.onclick = () => {
     const uuid = crypto.randomUUID().substring(0,8);
     const merchantUid = `pid-${uuid}`; // 주문번호 생성
     let name = $payTitle.textContent.substring(0, 10);
-    name = name.length > 10 ? `${name}... 그 외` : `${name} 그 외`; // 주문명 생성
     const amount = $totalPrice.textContent; // 총 가격(숫자)
 
     // 주문하기 버튼 누를 시
     $payBtn.onclick = () => {
         if (amount === '0' ) { //결제api X
+            name = name.length > 10 ? `${name}...` : `${name}`; // 주문명 생성
             let date = new Date();
-            const formattedDate = date.toISOString();
+            const koreaTime = new Date(date.getTime() + (9 * 60 * 60 * 1000));
+            const formattedDate = koreaTime.toISOString();
             const pay = {
                 id: merchantUid,
                 userEmail: userEmail,
+                title: name,
                 name: userName,
                 amount: amount,
                 paidAt: formattedDate,
+                status: 'paid',
+                currency: 'KRW',
             }
 
             // pay 객체를 JSON 문자열로 변환
@@ -98,6 +102,7 @@ $closeBtn.onclick = () => {
     // 결재 진행
     function payment() {
         let requestData;
+        name = name.length > 10 ? `${name}... 그 외` : `${name} 그 외`; // 주문명 생성
         try{
             requestData = {
                 ...user,
@@ -133,6 +138,7 @@ $closeBtn.onclick = () => {
             id: portOneResponse['merchant_uid'],
             userEmail: portOneResponse['buyer_email'],
             impUid: portOneResponse['imp_uid'],
+            title: portOneResponse['name'],
             name: portOneResponse['buyer_name'],
             amount: portOneResponse['paid_amount'],
             method: portOneResponse['pay_method'],
@@ -181,21 +187,21 @@ $closeBtn.onclick = () => {
             const response = JSON.parse(xhr.responseText);
             if (response['result'] === 'failure'){
                 alert('구매에 실패하였습니다.');
-                attemptCancel();
+
             }else if(response['result'] === 'failure_not_found'){
                 alert('구매할 목록을 찾을 수 없습니다. 구매에 실패하였습니다.');
-                attemptCancel();
+
             }else if(response['result'] === 'failure_age_limit'){
                 alert('구매할 수 없는 나이의 게임이 포함되어있습니다. 구매에 실패하였습니다.');
-                attemptCancel();
+
             }else if (response['result'] === 'failure_duplicate_purchase'){
                 alert('이미 구매한 게임이 포함되어있습니다. 구매에 실패하였습니다.');
-                attemptCancel();
+
             } else if(response['result'] === 'success'){
                 return window.parent.location.href = `/purchase/paysuccess?id=${merchantUid}`; //결과가 true이면 성공페이지로 이동
             }else {
                 alert('알수 없는 이유로 구매에 실패하였습니다.');
-                attemptCancel();
+
             }
         };
         xhr.open('POST', '/purchase/pay/confirm');

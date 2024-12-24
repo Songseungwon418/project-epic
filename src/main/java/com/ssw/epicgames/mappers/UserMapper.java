@@ -20,8 +20,8 @@ public interface UserMapper {
     // 동일 닉네임이 있는지 구분용
     UserEntity selectUserByNickname(@Param("nickname") String nickname);
 
+    // 닉네임으로 친구 찾기
+    UserEntity selectUserByConcatNickname(@Param("nickname") String nickname);
 
     int updateUser(UserEntity user);
-
-
 }
