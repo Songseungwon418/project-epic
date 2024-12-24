@@ -144,7 +144,7 @@ const appendComment = (review) => {
 //region 댓글 불러오기
 let currentPage = 1;
 
-const loadComments = (page = 1) => {
+const loadComments = (page) => {
     const url = new URL(location.href);
     const xhr = new XMLHttpRequest();
 
@@ -192,11 +192,12 @@ const loadComments = (page = 1) => {
 
 const updatePagination = (pageVo) => {
     const $paginationContainer = document.getElementById('pagination');
-    $paginationContainer.innerHTML = '';
+    $paginationContainer.innerHTML = ''; // 기존 페이지네이션 비우기
 
-    const url = new URL(location.href);
-    const gameIndex = url.searchParams.get('index');
+    const url = new URL(location.href); // 현재 URL을 가져옴
+    const gameIndex = url.searchParams.get('index'); // URL에서 'index' 파라미터 값 가져오기
 
+    // 첫 페이지로 이동 (맨 앞 버튼)
     if (pageVo.requestPage > pageVo.movableMinPage) {
         const firstButton = document.createElement('button');
         firstButton.classList.add('page', 'first');
@@ -205,6 +206,7 @@ const updatePagination = (pageVo) => {
         $paginationContainer.appendChild(firstButton);
     }
 
+    // 이전 페이지로 이동
     if (pageVo.requestPage > 1) {
         const prevButton = document.createElement('button');
         prevButton.classList.add('page', 'prev');
@@ -213,6 +215,7 @@ const updatePagination = (pageVo) => {
         $paginationContainer.appendChild(prevButton);
     }
 
+    // 페이지 번호 버튼
     for (let i = pageVo.displayMinPage; i <= pageVo.displayMaxPage; i++) {
         const pageButton = document.createElement('button');
         pageButton.innerText = i;
@@ -221,6 +224,7 @@ const updatePagination = (pageVo) => {
         $paginationContainer.appendChild(pageButton);
     }
 
+    // 다음 페이지로 이동
     if (pageVo.requestPage < pageVo.movableMaxPage) {
         const nextButton = document.createElement('button');
         nextButton.classList.add('page', 'next')
@@ -229,6 +233,7 @@ const updatePagination = (pageVo) => {
         $paginationContainer.appendChild(nextButton);
     }
 
+    // 마지막 페이지로 이동 (맨 끝 버튼)
     if (pageVo.requestPage < pageVo.movableMaxPage) {
         const lastButton = document.createElement('button');
         lastButton.classList.add('page', 'last')
@@ -238,7 +243,9 @@ const updatePagination = (pageVo) => {
     }
 };
 
+// 처음 로드 시 댓글 불러오기
 loadComments(currentPage);
+
 
 //endregion
 

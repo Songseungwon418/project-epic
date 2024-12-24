@@ -326,11 +326,6 @@
                                 <button class="wishlist wishlistDelete button" type="button" th:if="${isInWishlist}">
                                     <span class="text">위시리스트에서 제거</span>
                                 </button>
-                                <label>
-                                    <input type="text" id="userEmail" th:value="${userEmail}" hidden="hidden">
-                                    <input type="text" id="cartIndex" th:value="${cartIndex}" hidden="hidden">
-                                    <input type="text" id="wishlistIndex" th:value="${wishlistIndex}" hidden="hidden">
-                                </label>
                             </div>
                             <div class="button-container" th:if="${purchaseIndex != null}">
                                 <button class="buy-ap button" type="button">
@@ -342,6 +337,11 @@
                                     <span class="text">라이브러리에 있음</span>
                                 </button>
                             </div>
+                            <label>
+                                <input type="text" id="userEmail" th:value="${userEmail}" hidden="hidden">
+                                <input type="text" id="cartIndex" th:value="${cartIndex}" hidden="hidden">
+                                <input type="text" id="wishlistIndex" th:value="${wishlistIndex}" hidden="hidden">
+                            </label>
                             <div class="info-wrapper">
                                 <div class="info">
                                     <div class="text-wrapper">
@@ -418,6 +418,7 @@
                     <ul class="list">
 
                     </ul>
+                    <div id="pagination"></div>
                 </div>
             </div>
         </div>
