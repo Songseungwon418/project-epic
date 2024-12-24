@@ -22,6 +22,7 @@ import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.ModelAndView;
 
 import java.util.*;
+import java.util.stream.Collectors;
 
 @Controller
 @RequestMapping(value = "/page")
@@ -51,27 +52,50 @@ public class PageController {
                 .body(achievement.getLogo());
     }
 
-    @RequestMapping(value = "/my", method = RequestMethod.GET, produces = MediaType.TEXT_HTML_VALUE)
-    public ModelAndView getMyPage(@SessionAttribute(value = "user", required = false) UserEntity user) {
-        ModelAndView modelAndView = new ModelAndView();
-        if (user == null) {
-            // 세션에 유저 정보가 없을 때 처리
-            throw new RuntimeException("User not found in session");
-        }
-
+    private Map<String, Object> getCommonModelData(UserEntity user) {
         MyDTO[] myDTOs = this.pageService.getUserPurchases(user.getEmail());
         Map<GameEntity, MyDTO[]> gameMap = new HashMap<>();
+
         for (MyDTO myDTO : myDTOs) {
             GameEntity game = new GameEntity();
             game.setIndex(myDTO.getGameIndex());
             game.setName(myDTO.getGameName());
+
             if (!gameMap.containsKey(game)) {
-                gameMap.put(game, Arrays.stream(myDTOs).filter((x) -> x.getGameIndex() == game.getIndex()).toArray(MyDTO[]::new));
+                gameMap.put(game, Arrays.stream(myDTOs).filter(x -> x.getGameIndex() == game.getIndex()).toArray(MyDTO[]::new));
             }
         }
 
-        modelAndView.addObject("user", user);
-        modelAndView.addObject("gameMap", gameMap);
+        int totalReward = Arrays.stream(myDTOs).mapToInt(MyDTO::getReward).sum();
+
+        Map<GameEntity, Integer> gameScoreMap = gameMap.entrySet().stream().collect(Collectors.toMap(
+                Map.Entry::getKey,
+                entry -> Arrays.stream(entry.getValue()).mapToInt(MyDTO::getReward).sum()
+        ));
+
+        Map<String, Object> modelData = new HashMap<>();
+        modelData.put("gameMap", gameMap);
+        modelData.put("totalReward", totalReward);
+        modelData.put("gameScoreMap", gameScoreMap);
+        return modelData;
+    }
+
+    @RequestMapping(value = "/my", method = RequestMethod.GET, produces = MediaType.TEXT_HTML_VALUE)
+    public ModelAndView getMyPage(@SessionAttribute(value = "user", required = false) UserEntity user) {
+        ModelAndView modelAndView = new ModelAndView();
+        if (user == null) {
+            throw new RuntimeException("User not found in session");
+        }
+        // 공통 로직 처리
+        Map<String, Object> modelData = getCommonModelData(user);
+
+        // 추가적으로 필요한 데이터 처리
+        UserEntity dbGetNickname = this.pageService.getUserByEmail(user.getEmail());
+        modelAndView.addObject("dbGetNickname", dbGetNickname);
+
+        modelAndView.addObject("gameMap", modelData.get("gameMap"));
+        modelAndView.addObject("totalReward", modelData.get("totalReward"));
+        modelAndView.addObject("gameScoreMap", modelData.get("gameScoreMap"));
         modelAndView.setViewName("pages/My/myPage");
         return modelAndView;
     }
@@ -80,15 +104,32 @@ public class PageController {
     @RequestMapping(value = "/friend", method = RequestMethod.GET, produces = MediaType.TEXT_HTML_VALUE)
     public ModelAndView getFriendPage(@SessionAttribute("user") UserEntity user) {
         ModelAndView modelAndView = new ModelAndView();
+        if (user == null) {
+            throw new RuntimeException("User not found in session");
+        }
+
+        // 공통 로직 처리
+        Map<String, Object> modelData = getCommonModelData(user);
+
+        // 추가적으로 필요한 데이터 처리
+        UserEntity dbGetNickname = this.pageService.getUserByEmail(user.getEmail());
         UserEntity[] users = this.pageService.getFriendsByEmail(user.getEmail());
+
+        modelAndView.addObject("dbGetNickname", dbGetNickname);
         modelAndView.addObject("users", users);
+        modelAndView.addObject("gameMap", modelData.get("gameMap"));
+        modelAndView.addObject("totalReward", modelData.get("totalReward"));
+        modelAndView.addObject("gameScoreMap", modelData.get("gameScoreMap"));
         modelAndView.addObject("friendCount", users.length);  // 친구 수 추가
         modelAndView.setViewName("pages/friends/friend");
         return modelAndView;
     }
 
     @RequestMapping(value ="/setting", method = RequestMethod.GET, produces = MediaType.TEXT_HTML_VALUE)
-    public ModelAndView getSettingPage(@SessionAttribute("user") UserEntity user) {
+    public ModelAndView getSettingPage(
+            @SessionAttribute("user") UserEntity user,
+            @RequestParam(value = "showPurchaseList", required = false, defaultValue = "false") boolean showPurchaseList
+    ) {
         if (user == null) {
             // 세션에 유저 정보가 없을 때 처리
             throw new RuntimeException("User not found in session");
@@ -97,8 +138,11 @@ public class PageController {
         List<PayDTO> paylist = this.purchaseService.getPurchasesByUser(user);
 
         ModelAndView modelAndView = new ModelAndView();
-        modelAndView.addObject("user", user);
+        UserEntity dbUser = this.pageService.getUserByEmail(user.getEmail());
+        modelAndView.addObject("user", dbUser);
         modelAndView.addObject("paylist", paylist); // 결제 및 구매 내역 뷰에 넘겨줌
+        modelAndView.addObject("showPurchaseList", showPurchaseList); // 결제내역페이지 보여주기 유무
+
         modelAndView.setViewName("pages/settings/setting");
         return modelAndView;
     }
@@ -121,6 +165,7 @@ public class PageController {
     }
     //endregion
 
+    //region 회원 탈퇴
     @RequestMapping(value = "/setting", method = RequestMethod.DELETE, produces = MediaType.APPLICATION_JSON_VALUE)
     @ResponseBody
     public String deleteUser(@SessionAttribute("user") UserEntity user, String password) {
@@ -129,4 +174,5 @@ public class PageController {
         response.put("result", result.nameToLower());
         return response.toString();
     }
+    //endregion
 }

@@ -10,5 +10,5 @@ import lombok.*;
 public class PurchaseDTO {
     PurchaseEntity purchase; //게임 구매 내역
     GameEntity game; // 해당 게임 정보
-    PriceVo price; // 할인 정보g
+    PriceVo price; // 할인 정보
 }

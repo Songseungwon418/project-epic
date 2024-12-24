@@ -68,7 +68,7 @@ if($openModalBtn !== null){
                     location.reload();
                 }
             };
-            xhr.open('DELETE', '/purchase/cart/delete');
+            xhr.open('DELETE', '/purchase/cart/delete?');
             xhr.send(formData);
             document.body.style.cursor = 'not-allowed';
         })

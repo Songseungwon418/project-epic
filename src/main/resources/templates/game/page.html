@@ -10,15 +10,33 @@
     <link rel="stylesheet" type="text/css" th:href="@{/assets/styles/common.css}">
     <link rel="stylesheet" type="text/css" th:href="@{/game/assets/styles/page.css}">
     <script defer type="text/javascript" th:src="@{'/game/assets/scripts/page.js'}"></script>
+    <script defer type="text/javascript" th:src="@{'/game/assets/scripts/review.js'}"></script>
     <script defer type="text/javascript" th:src="@{'/assets/scripts/common.js'}"></script>
     <script src="https://kit.fontawesome.com/856af35d3d.js" crossorigin="anonymous"></script>
 </head>
 <body>
 <th:block th:replace="~{fragments/common.html :: header}"></th:block>
 
-<main id="main">
+<main id="main" class="main">
     <th:block th:replace="~{fragments/common.html :: mainSearch}"></th:block>
     <th:block th:replace="~{fragments/common.html :: logout}"></th:block>
+    <div class="deleteReview" id="deleteReview">
+        <div id="deleteCover" class="deleteCover"></div>
+        <div class="deleteDialog" id="deleteDialog">
+            <div class="content">
+                <div class="text">
+                    <input name="reviewIndex" class="reviewIndex" type="hidden">
+                    <span class="main">리뷰 삭제</span>
+                    <span class="line"></span>
+                    <span class="sub">리뷰 삭제 후 복구 또는 재작성은 불가합니다.</span>
+                </div>
+                <div class="button-container">
+                    <button name="DeleteCancel" type="button">취소</button>
+                    <button name="DeleteConfirm" type="button">확인</button>
+                </div>
+            </div>
+        </div>
+    </div>
     <div class="mainSection">
         <div class="gameArea">
             <div class="gameName">
@@ -61,8 +79,7 @@
 
                             <div class="image-container">
                                 <div class="image-wrapper">
-                                    <div class="image" th:each="image, iterStat : ${gameDetails.media}"
-                                         data-index="${iterStat.index}">
+                                    <div class="image" th:each="image, iterStat : ${gameDetails.media}" data-index="${iterStat.index}">
                                         <img th:src="@{'/game/image?index=' + ${gameDetails.game.index} + '&type=gameImage&itemIndex=' + ${iterStat.index}}"
                                              alt="서브이미지">
                                     </div>
@@ -242,8 +259,7 @@
                             <div class="gamerating-wrapper">
                                 <div class="gameRating">
                                     <div class="logo-wrapper">
-                                        <img th:src="@{'/game/image?index=' + ${gameDetails.game.index} + '&type=gameRating'}"
-                                             alt="게임연령로고">
+                                        <img th:src="@{'/game/image?index=' + ${gameDetails.game.index} + '&type=gameRating'}" alt="게임연령로고">
                                     </div>
 
                                     <div class="text-wrapper">
@@ -295,11 +311,11 @@
                                     <span class="text">지금 구매</span>
                                 </button>
 
-                                <button class="cart cartAdd button" type="button" th:if="${isInCart == false}">
+                                <button class="cart cartAdd button" type="button" th:if="${!isInCart}">
                                     <span class="text">장바구니에 담기</span>
                                 </button>
 
-                                <button class="cart cartDelete button" type="button" th:if="${isInCart == true}">
+                                <button class="cart cartDelete button" type="button" th:if="${isInCart}">
                                     <span class="text">장바구니에서 제거</span>
                                 </button>
 
@@ -326,7 +342,6 @@
                                     <span class="text">라이브러리에 있음</span>
                                 </button>
                             </div>
-
                             <div class="info-wrapper">
                                 <div class="info">
                                     <div class="text-wrapper">
@@ -363,8 +378,9 @@
                     <span class="main title">플레이어 리뷰</span>
                     <span class="sub text">해당게임 실구매 플레이어의 리뷰입니다.</span>
                 </div>
-                <div class="comment-container">
+                <div class="comment-container" th:if="${purchaseIndex != null}">
                     <span class="text">리뷰 작성하기</span>
+
                     <form id="commentForm" class="form">
                         <div class="review-write">
                             <div class="star-review">
@@ -375,22 +391,20 @@
                                 <div class="star-rating">
                                     <input type="radio" id="5-stars" name="rating" value="5" required/>
                                     <label for="5-stars" class="star">&#9733;</label>
-                                    <input type="radio" id="4-stars" name="rating" value="4"/>
+                                    <input type="radio" id="4-stars" name="rating" value="4" />
                                     <label for="4-stars" class="star">&#9733;</label>
-                                    <input type="radio" id="3-stars" name="rating" value="3"/>
+                                    <input type="radio" id="3-stars" name="rating" value="3" />
                                     <label for="3-stars" class="star">&#9733;</label>
-                                    <input type="radio" id="2-stars" name="rating" value="2"/>
+                                    <input type="radio" id="2-stars" name="rating" value="2" />
                                     <label for="2-stars" class="star">&#9733;</label>
-                                    <input type="radio" id="1-star" name="rating" value="1"/>
+                                    <input type="radio" id="1-star" name="rating" value="1" />
                                     <label for="1-star" class="star">&#9733;</label>
                                 </div>
                             </div>
                             <label class="label">
                                 <span class="text">구매후기</span>
-                                <textarea name="content" class="field" maxlength="100" minlength="1" required
-                                          placeholder="게임과 관련없는 리뷰는 고지없이 삭제될 수 있습니다."></textarea>
-                                <input class="purchaseIndex" th:if="${purchaseIndex != null}"
-                                       th:value="${purchaseIndex}" hidden="hidden">
+                                <textarea name="content" class="field" maxlength="16777215" minlength="1" required placeholder="게임과 관련없는 리뷰는 고지없이 삭제될 수 있습니다."></textarea>
+                                <input id="purchaseIndex" class="purchaseIndex" th:if="${purchaseIndex != null}" th:value="${purchaseIndex}" hidden="hidden">
                             </label>
                         </div>
                         <div class="button-container">
@@ -403,69 +417,6 @@
                 <div class="review-container">
                     <ul class="list">
 
-                        <li class="item">
-                            <div class="top">
-                                <div class="name-wrapper">
-                                    <span class="nickname">삼막삼보리</span>
-                                    <span class="email">(daco****)</span>
-                                </div>
-                                <span class="spring"></span>
-                                <div class="action-container">
-                                    <label class="action">
-                                        <input name="comment0" type="radio" value="modify">
-                                        <span class="text">수정</span>
-                                    </label>
-                                    <button class="action" name="delete" type="button">삭제</button>
-                                </div>
-                            </div>
-
-                            <div class="star-wrapper">
-                                <span class="star">&#9733;</span>
-                                <span class="star">&#9733;</span>
-                                <span class="star">&#9733;</span>
-                                <span class="star">&#9733;</span>
-                            </div>
-                            <div class="content-wrapper">
-                                <span class="content">나름 괜찮아요</span>
-                            </div>
-                            <div class="date-wrapper">
-                                <span class="datetime">2024-12-20 11:15:50</span>
-                            </div>
-
-                            <form class="form modify">
-                                <div class="review-write">
-                                    <span class="text">리뷰 수정</span>
-                                    <div class="star-review">
-                                        <div class="title">
-                                            <span class="main">게임 만족도</span>
-                                            <span class="sub">(별점을 눌러 평가해 주세요.)</span>
-                                        </div>
-                                        <div class="star-rating">
-                                            <input type="radio" id="stars-5" name="rating" value="5"/>
-                                            <label for="stars-5" class="star">&#9733;</label>
-                                            <input type="radio" id="stars-4" name="rating" value="4"/>
-                                            <label for="stars-4" class="star">&#9733;</label>
-                                            <input type="radio" id="stars-3" name="rating" value="3"/>
-                                            <label for="stars-3" class="star">&#9733;</label>
-                                            <input type="radio" id="stars-2" name="rating" value="2"/>
-                                            <label for="stars-2" class="star">&#9733;</label>
-                                            <input type="radio" id="star-1" name="rating" value="1"/>
-                                            <label for="star-1" class="star">&#9733;</label>
-                                        </div>
-                                    </div>
-                                    <label class="label">
-                                        <span class="text">구매후기</span>
-                                        <textarea name="content" class="field" maxlength="100" minlength="1" required
-                                                  placeholder="수정할 내용을 입력해 주세요."></textarea>
-                                    </label>
-                                </div>
-                                <div class="button-container">
-                                    <span class="spring"></span>
-                                    <button class="modify button" type="submit">수정</button>
-                                    <button class="cancel button" type="button">취소</button>
-                                </div>
-                            </form>
-                        </li>
                     </ul>
                 </div>
             </div>
