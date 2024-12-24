@@ -20,6 +20,7 @@ import org.springframework.http.*;
 import org.springframework.web.client.RestTemplate;
 
 import java.time.LocalDateTime;
+import java.time.temporal.ChronoUnit;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -411,11 +412,20 @@ public class PurchaseService {
         // 유저의 결제 내역들
         List<PayEntity> payList = this.purchaseMapper.selectPayByUser(user.getEmail());
         for (PayEntity pay: payList) {
+            int totalGameAmount = 0;
+            int totalDiscount = 0;
             List<PurchaseEntity> purchaseList = this.purchaseMapper.selectPurchaseBypayId(pay.getId());
             List<PurchaseDTO> purchaseDTOList = new ArrayList<>();  // PurchaseDTO 객체를 저장할 PurchaseDTO 리스트
             for (PurchaseEntity purchase: purchaseList) {
                 GameEntity game = this.gameService.getGameByIndex(purchase.getGameIndex());
                 PriceVo price = this.priceService.discountInfo(game.getIndex(), game.getPrice());
+
+                // 환불 유무 확인(구매면 null)
+                if (purchase.getDeletedAt() == null){
+                    totalGameAmount += game.getPrice();//원본 게임 가격 더함(총 가격 구하기)
+                    totalDiscount += price.getDiscountPrice(); // 할인가격 더함(총 할인 가격 구하기)
+                }
+
                 // PurchaseDTO 객체 생성
                 PurchaseDTO purchaseDTO = PurchaseDTO.builder()
                         .purchase(purchase)
@@ -426,10 +436,16 @@ public class PurchaseService {
                 // PurchaseDTO 리스트에 추가
                 purchaseDTOList.add(purchaseDTO);
             }
+
+            boolean isRefund = checkIsRefund(pay.getPaidAt());
+
             // PayDTO 객체 생성
             PayDTO payDTO = PayDTO.builder()
                     .pay(pay)
                     .purchase(purchaseDTOList.isEmpty() ? null : purchaseDTOList)
+                    .totalGameAmount(totalGameAmount) // 할인적용안된 게임의 총 가격
+                    .totalDiscount(totalDiscount) // 총 할인금액
+                    .isRefund(isRefund) //환불여부
                     .build();
 
             // 최종 PayDTO 리스트에 추가
@@ -476,7 +492,6 @@ public class PurchaseService {
     }
 //endregion
 
-
 //region 결제 내역 객체 생성 메서드
     private PurchaseEntity creatPurchaseEntity(String userEmail, String userAddr, String payID, int gameIndex, PriceVo price) {
         // 구매 내역에 삽입할 내용 설정 (CartDTO 이용)
@@ -494,5 +509,17 @@ public class PurchaseService {
         return purchase;
     }
 //endregion
-  
+
+//region 환불 가능 여부 확인하는 메서드
+    /** 환불 가능 여부 체크
+     * @param paidAt: LocalDateTime (구매일 입력)
+     * */
+    public boolean checkIsRefund(LocalDateTime paidAt){
+        LocalDateTime now = LocalDateTime.now();
+
+        // 현재 시간 기준으로 72시간 이내인지 확인 - 환불여부
+        return ChronoUnit.HOURS.between(paidAt, now) <= 72;
+    }
+
+//endregion
 }

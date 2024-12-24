@@ -307,32 +307,31 @@
                             </div>
 
                             <div class="button-container" th:if="${purchaseIndex == 0 || purchaseIndex == null}">
-                            <button class="buy button" type="button" id="buy-btn">
-                                <span class="text">지금 구매</span>
-                            </button>
+                                <button class="buy button" type="button" id="buy-btn">
+                                    <span class="text">지금 구매</span>
+                                </button>
 
-                            <button class="cart cartAdd button" type="button" th:if="${!isInCart}">
-                                <span class="text">장바구니에 담기</span>
-                            </button>
+                                <button class="cart cartAdd button" type="button" th:if="${!isInCart}">
+                                    <span class="text">장바구니에 담기</span>
+                                </button>
 
-                            <button class="cart cartDelete button" type="button" th:if="${isInCart}">
-                                <span class="text">장바구니에서 제거</span>
-                            </button>
+                                <button class="cart cartDelete button" type="button" th:if="${isInCart}">
+                                    <span class="text">장바구니에서 제거</span>
+                                </button>
 
-                            <button class="wishlist wishlistAdd button" type="button" th:if="${!isInWishlist}">
-                                <span class="text">위시리스트에 담기</span>
-                            </button>
+                                <button class="wishlist wishlistAdd button" type="button" th:if="${!isInWishlist}">
+                                    <span class="text">위시리스트에 담기</span>
+                                </button>
 
-                            <button class="wishlist wishlistDelete button" type="button" th:if="${isInWishlist}">
-                                <span class="text">위시리스트에서 제거</span>
-                            </button>
-                            <label>
-                                <input type="text" id="userEmail" th:value="${userEmail}" hidden="hidden">
-                                <input type="text" id="cartIndex" th:value="${cartIndex}" hidden="hidden">
-                                <input type="text" id="wishlistIndex" th:value="${wishlistIndex}" hidden="hidden">
-                            </label>
-                        </div>
-
+                                <button class="wishlist wishlistDelete button" type="button" th:if="${isInWishlist}">
+                                    <span class="text">위시리스트에서 제거</span>
+                                </button>
+                                <label>
+                                    <input type="text" id="userEmail" th:value="${userEmail}" hidden="hidden">
+                                    <input type="text" id="cartIndex" th:value="${cartIndex}" hidden="hidden">
+                                    <input type="text" id="wishlistIndex" th:value="${wishlistIndex}" hidden="hidden">
+                                </label>
+                            </div>
                             <div class="button-container" th:if="${purchaseIndex != null}">
                                 <button class="buy-ap button" type="button">
                                     <svg aria-hidden="true" class="eds_5nt5ak0 eds_5nt5ak9 eds_14hl3lj7" width="24"

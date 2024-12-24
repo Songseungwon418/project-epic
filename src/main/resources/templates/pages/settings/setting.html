@@ -7,11 +7,12 @@
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
     <title th:text="${user.nickname + '님의 계정 설정 페이지'}"></title>
     <link rel="shortcut icon" th:href="@{'/assets/images/favicon.png'}">
-    <link rel="stylesheet" type="text/css" th:href="@{/assets/styles/common.css}">
-    <link rel="stylesheet" th:href="@{/pages/settings/styles/setting.css}" type="text/css">
-    <script defer th:src="@{/pages/settings/scripts/setting.js}" type="text/javascript"></script>
-    <script defer type="text/javascript" th:src="@{/assets/scripts/common.js}"></script>
+    <link rel="stylesheet" type="text/css" th:href="@{'/assets/styles/common.css'}">
+    <link rel="stylesheet" th:href="@{'/pages/settings/styles/setting.css'}" type="text/css">
+    <script defer th:src="@{'/pages/settings/scripts/setting.js'}" type="text/javascript"></script>
+    <script defer type="text/javascript" th:src="@{'/assets/scripts/common.js'}"></script>
     <script src="https://kit.fontawesome.com/856af35d3d.js" crossorigin="anonymous"></script>
+    <script defer th:src="@{'/purchase/assets/scripts/purchase_common.js'}"></script>
 </head>
 <body>
 <th:block th:replace="~{fragments/common.html :: header}"></th:block>
@@ -19,13 +20,13 @@
 <div class="container">
     <div class="nav" id="nav">
         <ul class="menu">
-            <li class="item" rel="user.setting">계정 설정</li>
-            <li class="item" rel="user.purchaseList">결제 내역</li>
+            <li class="item" rel="user.setting" th:classappend="${showPurchaseList ? '' : '-selected'}">계정 설정</li>
+            <li class="item" rel="user.purchaseList" th:classappend="${showPurchaseList ? '-selected' : ''}">결제 내역</li>
         </ul>
     </div>
     <div class="main" id="main">
         <th:block th:replace="~{fragments/common.html :: logout}"></th:block>
-        <div class="user-setting -visible" rel="user.setting">
+        <div class="content user-setting" th:classappend="${showPurchaseList ? '' : '-visible'}" rel="user.setting">
             <form class="main-container" id="mainContainer">
                 <div class="main-title">계정 설정</div>
                 <div class="title-text">계정 상세 정보를 관리합니다</div>
@@ -92,19 +93,76 @@
                 <button class="button" type="button" id="deleteRequestBtn">계정 삭제 요청</button>
             </div>
         </div>
-        <div class="content user-purchaseList -visible" rel="user.purchaseList">
-            <h2 class="title">구매 내역</h2>
-            <table class="purchase-table">
+        <div class="content user-purchaseList -visible" th:classappend="${showPurchaseList ? '-visible' : ''}" rel="user.purchaseList">
+            <h2 class="title">거래</h2>
+            <table class="purchase-table" id="purchase-table">
                 <thead>
                     <tr>
-                        <th>날짜</th>
-                        <th>설명</th>
-                        <th>가격</th>
-                        <th>상태</th>
+                        <th class="line">날짜</th>
+                        <th class="content">설명</th>
+                        <th class="price-info">가격</th>
+                        <th colspan="2">상태</th>
                     </tr>
                 </thead>
                 <tbody th:each="pay : ${paylist}">
-
+                    <tr class="title">
+                        <td class="line" th:text="${#temporals.format(pay.getPay().getPaidAt(), 'yyyy-MM-dd HH:mm:ss')}"></td>
+                        <td class="title content" th:text="${pay.getPay().getTitle()}"></td>
+                        <td class="price price-info" th:text="${pay.getPay().getAmount()}"></td>
+                        <td th:text="${pay.getPay().getStatus() == 'paid' ? '구매' : '환불'}"></td>
+                        <td class="refund-container" th:if="${pay.isRefund()}">
+                            <button class="refund-btn" data-id="all">전체환불</button>
+                        </td>
+                    </tr>
+                    <tr class="purchase-id">
+                        <td class="line"></td>
+                        <td class="text content" colspan="4">주문Id: [[${pay.getPay().getId()}]]</td>
+                    </tr>
+                    <tr class="sub-title" th:each="purchase : ${pay.getPurchase()}">
+                        <td class="line"></td>
+                        <td class="line-bottom" th:text="${purchase.getGame().getName()}"></td>
+                        <td class="price-info line-bottom">
+                            <div class="info" th:if="${purchase.getGame().getPrice() != 0}">
+                                <span class="text">게임가격: </span>
+                                <span class="price">[[${purchase.getGame().getPrice()}]]</span>
+                            </div>
+                            <div class="info" th:if="${purchase.getGame().getPrice() == 0}">
+                                <span class="price">[[${purchase.getGame().getPrice()}]]</span>
+                            </div>
+                            <div class="info" th:if="${purchase.getPrice().discountPrice != 0}">
+                                <span class="text -minus">할인가격: </span>
+                                <span class="price -minus">[[${purchase.getPrice().discountPrice}]]</span>
+                            </div>
+                            <div class="info" th:if="${purchase.getPrice().currentPrice != 0}">
+                                <span class="text">실 구매가격: </span>
+                                <span class="price -current">[[${purchase.getPrice().currentPrice}]]</span>
+                            </div>
+                        </td>
+                        <td class="line-bottom" th:text="${purchase.getPurchase().getDeletedAt() == null? '구매' : '환불'}"></td>
+                        <td class="line-bottom refund-container" th:if="${purchase.getPurchase().getDeletedAt == null && pay.isRefund()}">
+                            <button class="refund-btn" data-id="partial">환불</button>
+                            <span class="gameIndex" hidden="hidden" th:text="${purchase.getGame().getIndex()}"></span>
+                            <span class="purchaseIndex" hidden="hidden" th:text="${purchase.getPurchase().getIndex()}"></span>
+                        </td>
+                    </tr>
+                    <tr class="sub-title">
+                        <td class="line"></td>
+                        <td class="empty"></td>
+                        <td class="price-info">
+                            <div class="info">
+                                <span class="text">총 게임가격: </span>
+                                <span class="price">[[${pay.getTotalGameAmount()}]]</span>
+                            </div>
+                            <div class="info" th:if="${pay.getTotalDiscount() != 0}">
+                                <span class="text -minus">총 할인가격: </span>
+                                <span class="price -minus">[[${pay.getTotalDiscount()}]]</span>
+                            </div>
+                            <div class="info" th:if="${pay.getPay().getAmount() != 0}">
+                                <span class="text">총 구매가격: </span>
+                                <span class="price">[[${pay.getPay().getAmount()}]]</span>
+                            </div>
+                        </td>
+                    </tr>
                 </tbody>
             </table>
         </div>
@@ -123,6 +181,18 @@
     </div>
 </form>
 
-
+<form id="refund-dialog">
+    <label class="game-label">
+        <div hidden="hidden" id="payId"></div>
+        <div hidden="hidden" id="gameIndex"></div>
+        <div hidden="hidden" id="purchaseIndex"></div>
+        <input disabled class="input" name="gameName" type="text">
+        <input disabled class="input" name="price" type="text">
+    </label>
+    <div class="btn-wrapper">
+        <button class="refund-btn" id="refund-btn" type="submit">환불</button>
+        <button class="cancel-btn" id="refund-cancel-btn" type="button">취소</button>
+    </div>
+</form>
 </body>
 </html>
