@@ -63,6 +63,7 @@
                                 <span class="wishlist-index" th:text="${wishlist.getWishlist().getIndex()}"></span>
                                 <span class="game-index" th:text="${wishlist.getGame().getIndex()}"></span>
                                 <span class="user-email" th:text="${wishlist.getWishlist().getUserEmail()}"></span>
+                                <span class="game-open-date" th:text="${wishlist.getGame().getOpenDate()}"></span>
                             </div>
                             <div class="img-container">
                                 <a class="link-image" th:href="@{'/game/page' (index=${wishlist.getGame().getIndex()})}">
@@ -98,7 +99,7 @@
                                         <span class="tag">기본 게임</span>
                                     </div>
                                 </div>
-                                <a class="title" th:href="@{'/game/page' (index=${wishlist.getGame().getIndex()})}" th:text="${wishlist.getGame().getName()}"></a>
+                                <a class="title gameName" th:href="@{'/game/page' (index=${wishlist.getGame().getIndex()})}" th:text="${wishlist.getGame().getName()}"></a>
                             </div>
                             <div class="price-container">
                                 <div class="price-wrapper">
@@ -106,7 +107,7 @@
                                         <span class="discount-per-text">-[[${wishlist.price.discountPer}]]%</span>
                                         <span class="price -discount" th:text="${wishlist.price.discountPrice}"></span>
                                     </div>
-                                    <span class="price" th:text="${wishlist.price.currentPrice == 0 ? '무료' : wishlist.price.currentPrice}"></span>
+                                    <span class="price gamePrice" th:text="${wishlist.price.currentPrice == 0 ? '무료' : wishlist.price.currentPrice}"></span>
                                 </div>
                                 <span class="info_text" th:if="${wishlist.price.currentPrice == 0}">앱 내 구매가 포함될 수도 있습니다</span>
                                 <span class="info_text" th:if="${wishlist.price.discountPrice != 0}">[[${#temporals.format(wishlist.price.getEndDate(), 'yyyy.MM.dd. HH:mm')} + ' 할인 종료']]</span>

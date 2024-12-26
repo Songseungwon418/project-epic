@@ -188,7 +188,9 @@
     <select id="selectPurchaseByGameIndex" resultType="_int">
         SELECT COUNT(*)
         FROM `epic_games`.`purchase`
-        WHERE `user_email` = #{userEmail} AND `game_index` = #{gameIndex}
+        WHERE `user_email` = #{userEmail}
+          AND `game_index` = #{gameIndex}
+          AND `deleted_at` IS NULL
     </select>
 
     <!--  결제 내역 삽입  -->

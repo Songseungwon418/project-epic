@@ -35,6 +35,7 @@ const $filterListContents = document.querySelectorAll('.filter-list-content');
 $filterListContents.forEach( $filterListContent => {
     $filterListContent.addEventListener('click', (e) => {
         const $checkbox = e.target.closest('.checkbox');
+        console.log($checkbox);
         if($checkbox) {
             const isChecked = $checkbox.getAttribute('aria-checked') === 'true';
             // aria-checked 값을 반전시킴
@@ -69,9 +70,9 @@ function selectFilter(element) {
     // 목록 닫기
     toggleFilterList($sortingFilterBtn);
 
-    // 서버로 name 값 전송 (예시로 콘솔 출력)
+    // 필터에 해당하는 정렬 실행
     const filterName = element.getAttribute('name') || element.textContent;
-    console.log('선택된 필터 name:', filterName);
+    sortGameList(filterName); // 정렬
 }
 
 // 필터 목록의 표시/숨김을 토글하는 함수
@@ -88,6 +89,102 @@ function toggleFilterList(btn) {
         $filterListContainer.style.display = isExpanded ? 'none' : 'block';
     }
 }
+const $gameList = document.querySelector('.game-list');
+console.log($gameList)
+// 실제 정렬
+const sortGameList = (criteria) => {
+    // $gameList 안의 모든 .game-card 요소를 배열로 변환
+    const games = Array.from($gameList.querySelectorAll('.game-card'));
+    console.log($gameList);
+
+    let sortedGames;
+
+    // 정렬 조건
+    switch (criteria) {
+        case 'sale':
+            sortedGames = games.sort((a, b) => {
+                // price.-discount가 없으면 price.gamePrice를 사용
+                const priceAElement = a.querySelector('.price.-discount');
+                const priceBElement = b.querySelector('.price.-discount');
+
+                // 할인 가격이 있을 경우 할인된 가격을, 없을 경우에는 gamePrice를 사용
+                const priceA = priceAElement
+                    ? (priceAElement.innerText.trim() === '무료' ? 0 : parseFloat(priceAElement.innerText.replace(/[^0-9.-]+/g, '')))
+                    : null;  // 할인된 가격이 없다면 null로 설정
+
+                const priceB = priceBElement
+                    ? (priceBElement.innerText.trim() === '무료' ? 0 : parseFloat(priceBElement.innerText.replace(/[^0-9.-]+/g, '')))
+                    : null;  // 할인된 가격이 없다면 null로 설정
+
+                // 1. 할인된 가격이 있을 경우 우선 정렬
+                if (priceA !== null && priceB === null) return -1;  // A는 할인된 가격이 있어 B는 없을 경우 A가 앞
+                if (priceB !== null && priceA === null) return 1;   // B는 할인된 가격이 있어 A는 없을 경우 B가 앞
+
+                // 2. 할인된 가격이 있으면 할인 가격으로 정렬, 없으면 gamePrice를 사용
+                const priceAFinal = priceA !== null
+                    ? priceA
+                    : parseFloat(a.querySelector('.price.gamePrice').innerText.replace(/[^0-9.-]+/g, ''));
+
+                const priceBFinal = priceB !== null
+                    ? priceB
+                    : parseFloat(b.querySelector('.price.gamePrice').innerText.replace(/[^0-9.-]+/g, ''));
+
+                // 3. 할인가격이 높은 순서로 정렬
+                return priceBFinal - priceAFinal; // 내림차순 정렬
+            });
+            break;
+
+        case 'alpha':
+            sortedGames = games.sort((a, b) => {
+                const nameA = a.querySelector('.gameName').innerText;
+                const nameB = b.querySelector('.gameName').innerText;
+                return nameA.localeCompare(nameB, 'ko');
+            });
+            break;
+
+        case 'newest':
+            sortedGames = games.sort((a, b) => {
+                const dateA = new Date(a.querySelector('.game-open-date').innerText);
+                const dateB = new Date(b.querySelector('.game-open-date').innerText);
+                return dateB - dateA; // 최신순 정렬 (내림차순)
+            });
+            break;
+
+        case 'price-desc':
+            sortedGames = games.sort((a, b) => {
+                const priceA = a.querySelector('.gamePrice').innerText.trim() === '무료' ? 0 : parseFloat(a.querySelector('.gamePrice').innerText.replace(/[^0-9.-]+/g, ''));
+                const priceB = b.querySelector('.gamePrice').innerText.trim() === '무료' ? 0 : parseFloat(b.querySelector('.gamePrice').innerText.replace(/[^0-9.-]+/g, ''));
+
+                // '무료'를 마지막에 정렬하고, 나머지는 가격 내림차순으로 정렬
+                if (priceA === 0 && priceB !== 0) return 1;
+                if (priceB === 0 && priceA !== 0) return -1;
+                return priceB - priceA;
+            });
+            break;
+
+
+        case 'price-asc':
+            sortedGames = games.sort((a, b) => {
+                const priceA = a.querySelector('.gamePrice').innerText.trim() === '무료' ? 0 : parseFloat(a.querySelector('.gamePrice').innerText.replace(/[^0-9.-]+/g, ''));
+                const priceB = b.querySelector('.gamePrice').innerText.trim() === '무료' ? 0 : parseFloat(b.querySelector('.gamePrice').innerText.replace(/[^0-9.-]+/g, ''));
+
+                // '무료'를 우선 정렬하고, 나머지는 가격 오름차순으로 정렬
+                if (priceA === 0 && priceB !== 0) return -1;
+                if (priceB === 0 && priceA !== 0) return 1;
+                return priceA - priceB;
+            });
+            break;
+
+        default:
+            sortedGames = games; // 정렬하지 않음
+    }
+
+    // 정렬된 게임을 DOM에 재배치
+    sortedGames.forEach((game) => {
+        $gameList.appendChild(game); // game-wrapper에 정렬된 순서대로 재추가
+    });
+};
+
 //endregion
 
 //region 제거 버튼 누를 시
