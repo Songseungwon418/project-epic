@@ -240,6 +240,9 @@ function toggleFilterList(btn) {
             else if(response.result === 'failure_not_found'){
                 alert('오류: 찾을 수 없습니다.');
             }
+            else if(response.result === 'failure_age_limit'){
+                alert('오류: 구매할 수 없는 나이의 게임이라서 장바구니 담기에 실패하였습니다.');
+            }
             else if(response.result === 'success'){
                 btn.querySelector(':scope > .text').innerText = '장바구니 보기';
                 btn.onclick = () => {

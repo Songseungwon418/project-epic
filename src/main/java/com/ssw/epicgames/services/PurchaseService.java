@@ -16,10 +16,9 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-import org.springframework.http.*;
-import org.springframework.web.client.RestTemplate;
-
+import java.time.LocalDate;
 import java.time.LocalDateTime;
+import java.time.Period;
 import java.time.temporal.ChronoUnit;
 import java.util.ArrayList;
 import java.util.List;
@@ -102,6 +101,14 @@ public class PurchaseService {
         // 이미 구매한 게임인지 확인
         if (checkDuplicatePurchaseByGameIndex(user.getEmail(), cart.getGameIndex())) {
             return PurchaseResult.FAILURE_DUPLICATE_PURCHASE;
+        }
+
+        // 장바구니에 넣을 게임의 등급 검색
+        String gameGrac = gameService.getGameByIndex(cart.getGameIndex()).getGrGrac();
+
+        // 유저의 나이가 게임의 등급 이상인지 - 게임등급 이상이 아니면
+        if(!isEligibleForGame(user.getBirthdate(), gameGrac)){
+            return PurchaseResult.FAILURE_AGE_LIMIT;
         }
 
         // db에 삽입
@@ -239,8 +246,18 @@ public class PurchaseService {
         if(DuplicationCheckCart(userEmail, gameIndex)) {
             return PurchaseResult.FAILURE_DUPLICATE_CART;
         }
+
         // 장바구니에 없다면 CartEntity 생성해서 값 셋팅
         CartEntity cart = new CartEntity(user.getEmail(), gameIndex, LocalDateTime.now());
+
+        // 장바구니에 넣을 게임의 등급 검색
+        String gameGrac = gameService.getGameByIndex(cart.getGameIndex()).getGrGrac();
+
+        // 유저의 나이가 게임의 등급 이상인지 - 게임등급 이상이 아니면
+        if(!isEligibleForGame(user.getBirthdate(), gameGrac)){
+            return PurchaseResult.FAILURE_AGE_LIMIT;
+        }
+
         // db에 삽입
         if(this.purchaseMapper.insertCart(cart) <= 0) {
             throw new TransactionalException("오류: 장바구니 삽입 실패");
@@ -305,6 +322,7 @@ public class PurchaseService {
             return PurchaseResult.FAILURE_DUPLICATE_PURCHASE;
         }
 
+
         // 결제 내역 삽입
         if(this.purchaseMapper.insertPay(pay) <= 0){
             throw new TransactionalException("오류: 결제 내역 삽입 실패");
@@ -312,6 +330,12 @@ public class PurchaseService {
 
         // 구매 내역 삽입과 장바구니 삭제
         for (CartDTO cart: carts) {
+
+            // 유저의 나이가 게임의 등급 이상인지 - 게임등급 이상이 아니면
+            if(!isEligibleForGame(user.getBirthdate(), cart.getGame().getGrGrac())){
+                return PurchaseResult.FAILURE_AGE_LIMIT;
+            }
+
             // 장바구니와 일치하면 구매 내역 생성 및 삽입, 장바구니 제거, 위시리스트 제거
             if (DuplicationCheckCart(user.getEmail(), cart.getGame().getIndex())) {
                 // 구매 내역 생성
@@ -355,6 +379,11 @@ public class PurchaseService {
         // 이미 구매한 게임인지 확인
         if (checkDuplicatePurchaseByGameIndex(user.getEmail(), buyGame.getIndex())) {
             return PurchaseResult.FAILURE_DUPLICATE_PURCHASE;
+        }
+
+        // 유저의 나이가 게임의 등급 이상인지 - 게임등급 이상이 아니면
+        if(!isEligibleForGame(user.getBirthdate(), buyGame.getGrGrac())){
+            return PurchaseResult.FAILURE_AGE_LIMIT;
         }
 
         // 결제 내역 삽입
@@ -414,7 +443,8 @@ public class PurchaseService {
         for (PayEntity pay: payList) {
             int totalGameAmount = 0;
             int totalDiscount = 0;
-            List<PurchaseEntity> purchaseList = this.purchaseMapper.selectPurchaseBypayId(pay.getId());
+            String payId = pay.getId();
+            List<PurchaseEntity> purchaseList = this.purchaseMapper.selectPurchaseByPayId(payId);
             List<PurchaseDTO> purchaseDTOList = new ArrayList<>();  // PurchaseDTO 객체를 저장할 PurchaseDTO 리스트
             for (PurchaseEntity purchase: purchaseList) {
                 GameEntity game = this.gameService.getGameByIndex(purchase.getGameIndex());
@@ -452,6 +482,135 @@ public class PurchaseService {
             payDTOList.add(payDTO);
         }
         return payDTOList;
+    }
+
+    /** 결제 내역 및 구매 내역 수정(전체 환불 시) */
+    @Transactional
+    public Result updateProceed(UserEntity user, String payId) {
+        // 데이터 유효성 검사
+        if (user == null) { // 유저 유효성 검사(로그인 유뮤)
+            return CommonResult.FAILURE_UNSIGNED;
+        }
+        // 요청한 결제 내역 아이디 유효성 검사
+        else if (payId == null || payId.isEmpty()) {
+            return CommonResult.FAILURE;
+        }
+
+        //결제 내역 조회 및 해당하는 구매내역들 조회
+        PayEntity pay = this.purchaseMapper.selectPayById(payId);
+        List<PurchaseEntity> purchaseList = this.purchaseMapper.selectPurchaseByPayId(payId);
+
+        // 찾을 수 없는 결제 내역 - 잘못된 요청임
+        if (pay == null) {
+            return CommonResult.FAILURE;
+        }
+        // 현재 로그인한 유저와 요청한 결제 내역의 유저가 일치한 지 확인
+        else if (!pay.getUserEmail().equals(user.getEmail())) {
+            return CommonResult.FAILURE;
+        }
+        // 이미 전체 환불된 결제 내역임
+        else if (pay.getRefundAmount() == pay.getAmount()) {
+            return PurchaseResult.FAILURE_DUPLICATE_REFUND; //중복 환불
+        }
+
+        //결제 내역에서 환불 기간 내 환불인지 확인
+        boolean isRefund = checkIsRefund(pay.getPaidAt());
+        if (!isRefund) {
+            return PurchaseResult.FAILURE_DATE_PASSED;
+        }
+
+        // 부분 환불일 경우 이미 환불된 금액을 제외한 나머지 금액 더해줌
+        if (pay.getStatus().equals("partial")){
+            pay.setRefundAmount(pay.getRefundAmount() + (pay.getAmount()-pay.getRefundAmount()) );
+        }else {
+            pay.setRefundAmount(pay.getAmount());
+        }
+        // 조회한 결제 내역의 환불금액을 결제금액값으로 수정, 상태 cancelled, 업데이트 날짜를 현재날짜로 수정
+        pay.setStatus("cancelled");
+        pay.setUpdatedAt(LocalDateTime.now());
+
+        if (this.purchaseMapper.updatePay(pay) <= 0) {
+            throw new TransactionalException("오류: 전체 환불 실패");
+        }
+
+        // 구매 내역들의 deleted_at을 현재날짜로
+        for (PurchaseEntity purchase: purchaseList) {
+            if (purchase.getDeletedAt() == null){
+                purchase.setDeletedAt(LocalDateTime.now());
+                if (this.purchaseMapper.updatePurchase(purchase) <= 0) {
+                    throw new TransactionalException("오류: 전체 환불 실패");
+                }
+            }
+        }
+        return CommonResult.SUCCESS;
+    }
+
+    /** 결제 내역 및 구매 내역 수정(부분 환불 시) */
+    @Transactional
+    public Result updateProceed(UserEntity user, String payId, int gameIndex) {
+        // 데이터 유효성 검사
+        if (user == null) { // 유저 유효성 검사(로그인 유뮤)
+            return CommonResult.FAILURE_UNSIGNED;
+        }
+        // 요청한 결제 내역 아이디 유효성 검사
+        else if (payId == null || payId.isEmpty() || gameIndex <= 0) {
+            return CommonResult.FAILURE;
+        }
+
+        // payId로 결제 내역 조회
+        PayEntity pay = this.purchaseMapper.selectPayById(payId);
+        // 찾을 수 없는 결제 내역 - 잘못된 요청임
+        if (pay == null) {
+            return CommonResult.FAILURE;
+        }
+        // 현재 로그인한 유저와 요청한 결제 내역의 유저가 일치한 지 확인
+        else if (!pay.getUserEmail().equals(user.getEmail())) {
+            return CommonResult.FAILURE;
+        }
+        // 전체 환불이 되었는 지 확인
+        else if (pay.getStatus().equals("cancelled") && pay.getRefundAmount() == pay.getAmount()) {
+            return PurchaseResult.FAILURE_DUPLICATE_REFUND; //중복 환불
+        }
+
+        // 조회된 결제내역의 payId와 gameIndex에 해당하는 구매내역
+        PurchaseEntity purchase = this.purchaseMapper.selectPurchaseByPayIdANDGameIndex(pay.getId(), gameIndex);
+        // 이미 환불된 구매 내역인지 확인
+        if (purchase.getDeletedAt() != null) {
+            return PurchaseResult.FAILURE_DUPLICATE_REFUND; //중복 환불
+        }
+        // 부분환불이 된 경우 환불금액이 환불할 수 있는 금액보다 클 경우 환불 불가
+        else if (pay.getStatus().equals("partial")) {
+            if (purchase.getFinalPrice() > (pay.getAmount() - pay.getRefundAmount())){
+                return CommonResult.FAILURE;
+            }
+        }else {
+            // 상태 partial
+            pay.setStatus("partial");
+        }
+
+        //업데이트 날짜를 현재날짜로 수정
+        pay.setUpdatedAt(LocalDateTime.now());
+        // 조회한 결제 내역의 환불 금액에 환불할 금액을 더해줌
+        pay.setRefundAmount(pay.getRefundAmount() + purchase.getFinalPrice());
+
+        if (pay.getRefundAmount() == pay.getAmount()) {
+            // 상태 partial
+            pay.setStatus("cancelled");
+        }
+
+        // 결제내역 db 수정
+        if (this.purchaseMapper.updatePay(pay) <= 0) {
+            throw new TransactionalException("오류: 환불 실패");
+        }
+
+        // 해당 구매내역 삭제일을 현재날짜로 수정
+        purchase.setDeletedAt(LocalDateTime.now());
+        // 구매내역 db 수정
+        if (this.purchaseMapper.updatePurchase(purchase) <= 0) {
+            throw new TransactionalException("오류: 환불 실패");
+        }
+
+        return CommonResult.SUCCESS;
     }
 
 //endregion
@@ -511,7 +670,7 @@ public class PurchaseService {
 //endregion
 
 //region 환불 가능 여부 확인하는 메서드
-    /** 환불 가능 여부 체크
+    /** 72시간 이내인지 확인
      * @param paidAt: LocalDateTime (구매일 입력)
      * */
     public boolean checkIsRefund(LocalDateTime paidAt){
@@ -520,6 +679,25 @@ public class PurchaseService {
         // 현재 시간 기준으로 72시간 이내인지 확인 - 환불여부
         return ChronoUnit.HOURS.between(paidAt, now) <= 72;
     }
+//endregion
+
+//region 게임 등급을 체크하는 메서드
+public static boolean isEligibleForGame(LocalDate birthDate, String gameRating) {
+    LocalDate currentDate = LocalDate.now();
+
+    // 나이 계산
+    Period agePeriod = Period.between(birthDate, currentDate);
+    int age = agePeriod.getYears();
+
+    // 게임 등급에 맞는 조건 체크
+    return switch (gameRating) {
+        case "ALL" -> true; // 전체 이용 가능: 나이와 관계없이 모두 가능
+        case "12Y" -> age >= 12; // 12세 이상 이용 가능
+        case "15Y" -> age >= 15; // 15세 이상 이용 가능
+        case "ADULT" -> age >= 19; // 19세 이상 이용 가능
+        default -> false;
+    };
+}
 
 //endregion
 }

@@ -7,7 +7,6 @@ import com.ssw.epicgames.entities.WishlistEntity;
 import org.apache.ibatis.annotations.Mapper;
 import org.apache.ibatis.annotations.Param;
 
-import java.util.ArrayList;
 import java.util.List;
 
 @Mapper
@@ -68,35 +67,41 @@ public interface PurchaseMapper {
 
     /** 위시리스트 index로 위시리스트 조회(제거된 목록까지 포함) */
     WishlistEntity selectAllWishlistByIndex(@Param("index") int index);
+    // endregion
+
+    //region 결제 관련
 
     /** 구매 내역 삽입(하나의 게임에 대한 구매 내역 )*/
     int insertPurchase(PurchaseEntity purchase);
 
+    /** 구매 내역 수정 */
+    int updatePurchase(PurchaseEntity purchase);
+
+    /** 게임 index로 해당 유저의 구매 내역 유무 조회 */
+    int selectPurchaseByGameIndex(
+            @Param("userEmail") String userEmail,
+            @Param("gameIndex") int gameIndex);
+
+    /** 구매 id와 게임 index로 해당 구매 내역 조회 */
+    PurchaseEntity selectPurchaseByPayIdANDGameIndex(@Param("id") String id, @Param("gameIndex") int gameIndex);
+
+    /** 결제 내역의 id로 구매 내역 검색 */
+    List<PurchaseEntity> selectPurchaseByPayId(@Param("payId")String payId);
+
+    /** 유저 이메일로 구매내역들을 조회 */
+    List<PurchaseEntity> getPurchasesByUserEmail(@Param("userEmail") String userEmail);
+
     /** 결제 내역 삽입(결재 정보) */
     int insertPay(PayEntity pay);
+
+    /** 결제 내역 수정 */
+    int updatePay(PayEntity pay);
 
     /** 결제 내역 조회 */
     PayEntity selectPayById(@Param("id")String id);
 
     /** 유저에 해당하는 결제 내역들 조회*/
     List<PayEntity> selectPayByUser(@Param("userEmail") String userEmail);
-
-    /** 게임 index로 해당 유저의 구매 내역 조회 */
-    int selectPurchaseByGameIndex(
-            @Param("userEmail") String userEmail,
-            @Param("gameIndex") int gameIndex);
-    // endregion
-
-    //region 결제 관련
-
-    /** 결제 내역의 id로 구매 내역 검색 */
-    List<PurchaseEntity> selectPurchaseBypayId(String id);
-
-
-
-
-    /** 유저 이메일로 구매내역들을 조회 */
-    List<PurchaseEntity> getPurchasesByUserEmail(@Param("userEmail") String userEmail);
 
     //endregion
 

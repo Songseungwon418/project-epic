@@ -162,41 +162,37 @@ document.addEventListener('DOMContentLoaded', () => {
 //region 환불관련
 {
     const $purchaseTable = document.getElementById('purchase-table');
-    const $RefundBtns = $purchaseTable.querySelectorAll('.refund-btn');
+    const $RefundRequestBtns = $purchaseTable.querySelectorAll('.refund-btn');
     const $refundDialog = document.getElementById('refund-dialog');
     const $closeRefundDialogBtn = document.getElementById('refund-cancel-btn');
     const $payId = document.getElementById('payId');
     const $gameIndex = document.getElementById('gameIndex');
-    const $purchaseIndex = document.getElementById('purchaseIndex');
     const $gameName =  document.querySelector('input[name="gameName"]');
     const $price = document.querySelector(`input[name="price"]`);
 
     // 전체 환불 혹은 환불 누를 시
-    $RefundBtns.forEach(btn => btn.addEventListener('click', (e) => {
+    $RefundRequestBtns.forEach(btn => btn.addEventListener('click', (e) => {
         const row = e.target.closest('tr'); // 클릭한 버튼이 속한 행
-        let payId = "";  // payId 초기화
 
+        // payId 가지고 옴
+        const payIdRow = row.parentNode.querySelector(':scope > .purchase-id');
+        const payIdData = payIdRow ? payIdRow.querySelector('.content').innerText : "";
+        const payId = payIdData.replace("주문Id: ", "").trim();
         if (btn.dataset.id === 'all') {
-            // '전체환불' 버튼 클릭 시, 해당 결제 정보를 상위 .title 행에서 가져옴
-            const payIdRow = $purchaseTable.querySelector('.title');
-            payId = payIdRow ? payIdRow.querySelector('.content').innerText : "";
             // 폼에 값 채우기
             $payId.innerText = payId;
             $gameIndex.innerText = "";
-            $purchaseIndex.innerText = "";
             $gameName.value = row.querySelector('.title.content').innerText;
             $price.value = row.querySelector('.price.price-info').innerText;
         } else {
             // '환불' 버튼 클릭 시, 해당 행의 게임 정보 추출
             const gameIndex = row.querySelector('.gameIndex').innerText;
-            const purchaseIndex = row.querySelector('.purchaseIndex').innerText;
             const gameName = row.querySelector('.line-bottom').innerText;
             const price = row.querySelector('.price.-current').innerText;
 
             // 폼에 값 채우기
-            $payId.innerText = "";
+            $payId.innerText = payId;
             $gameIndex.innerText = gameIndex;
-            $purchaseIndex.innerText = purchaseIndex;
             $gameName.value = gameName;
             $price.value = price;
         }
@@ -219,5 +215,49 @@ document.addEventListener('DOMContentLoaded', () => {
         $refundDialog.classList.remove('-visible');
         $overlay.classList.remove('show');
     });
+
+    // 모달창에서 확인버튼을 누를 시
+    $refundDialog.onsubmit = (e) => {
+        e.preventDefault();
+        const payId = $payId.textContent;
+        const gameIndex = $gameIndex.textContent;
+        const formData = new FormData();
+        formData.append('payId', payId);
+        formData.append('gameIndex', gameIndex);
+
+        const xhr = new XMLHttpRequest();
+        xhr.onreadystatechange = () => {
+            if(xhr.readyState !== XMLHttpRequest.DONE){
+                return;
+            }
+            Loading.hide();
+            if (xhr.status < 200 || xhr.status >= 300){
+                alert('서버가 알 수 없는 응답을 반환하였습니다. 잠시 후 시도해 주세요.');
+                return;
+            }
+            const response = JSON.parse(xhr.responseText);
+            if (response['result'] === 'failure' || response['result'] === 'failure_unsigned'){
+                alert('환불에 실패하였습니다.');
+                // 모달창 닫기
+                $closeRefundDialogBtn.click();
+            }else if (response['result'] === 'failure_duplicate_refund'){
+                alert('이미 환불한 내역입니다. 환불에 실패하였습니다.');
+                // 모달창 닫기
+                $closeRefundDialogBtn.click();
+            } else if (response['result'] === 'failure_date_passed') {
+                alert('환불할 수 있는 기간이 지났습니다. 환불에 실패하였습니다.');
+                // 모달창 닫기
+                $closeRefundDialogBtn.click();
+            } else if(response['result'] === 'success'){
+                alert('환불 성공하였습니다.');
+                return window.parent.location.href = '/page/setting?showPurchaseList=true'; // 결제내역 재접속
+            }else {
+                alert('알수 없는 이유로 환불에 실패하였습니다.');
+            }
+        };
+        xhr.open('PATCH', '/purchase/patch');
+        xhr.send(formData);
+        Loading.show();
+    };
 }
 //endregion

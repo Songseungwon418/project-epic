@@ -259,8 +259,12 @@ body::-webkit-scrollbar-track {
   background-color: #e7e7e7;
   border-bottom: 3px solid #e7e7e7;
 }
-.container > .main > .user-purchaseList > .purchase-table > thead > tr > th.status {
-  width: 200px;
+.container > .main > .user-purchaseList > .purchase-table > thead > tr > th.status-title {
+  width: 80px;
+  padding: 5px;
+}
+.container > .main > .user-purchaseList > .purchase-table > thead > tr > th.date {
+  width: 180px;
 }
 .container > .main > .user-purchaseList > .purchase-table > tbody {
   margin-bottom: 10px;
@@ -270,8 +274,12 @@ body::-webkit-scrollbar-track {
 .container > .main > .user-purchaseList > .purchase-table > tbody > tr > td.line {
   border-right: 3px solid #e7e7e7;
 }
+.container > .main > .user-purchaseList > .purchase-table > tbody > tr > td.status {
+  padding: 5px;
+}
 .container > .main > .user-purchaseList > .purchase-table > tbody > tr > td.refund-container {
   text-align: center;
+  padding: 5px;
 }
 .container > .main > .user-purchaseList > .purchase-table > tbody > tr > td.refund-container > .refund-btn {
   font-style: italic;
@@ -409,8 +417,6 @@ body::-webkit-scrollbar-track {
   left: 50%;
   transform: translate(-40%, -40%);
   padding: 10px;
-  width: 300px;
-  height: 200px;
   position: fixed;
   border: 0.0625rem solid #ffffff;
   border-radius: 1.5rem;
@@ -425,8 +431,17 @@ body::-webkit-scrollbar-track {
 #refund-dialog.-visible {
   display: flex;
 }
+#refund-dialog > .title {
+  padding: 10px 5px;
+}
+#refund-dialog > .title > .text {
+  font-size: 18px;
+  font-weight: 600;
+  color: #f13f3f;
+  text-align: center;
+}
 #refund-dialog > .game-label {
-  padding: 20px 5px;
+  padding: 10px 5px;
   align-items: stretch;
   display: flex;
   flex-direction: column;
@@ -436,10 +451,11 @@ body::-webkit-scrollbar-track {
 #refund-dialog > .game-label > .input {
   width: 100%;
   height: 100%;
+  padding-bottom: 10px;
   border: none;
   outline: none;
   background-color: transparent;
-  overflow-wrap: break-word;
+  text-overflow: ellipsis;
 }
 #refund-dialog > .game-label > .input.-title {
   font-size: 20px;
@@ -449,8 +465,12 @@ body::-webkit-scrollbar-track {
   font-size: 16px;
   font-weight: 500;
 }
+#refund-dialog > .game-label > .text {
+  font-size: 15px;
+  font-weight: 600;
+}
 #refund-dialog > .btn-wrapper {
-  padding: 20px 10px;
+  padding: 5px;
   width: 100%;
   flex-grow: 1;
   align-items: stretch;
@@ -461,6 +481,7 @@ body::-webkit-scrollbar-track {
 }
 #refund-dialog > .btn-wrapper > button {
   flex: 1;
+  padding: 5px 1px;
   border: none;
   border-radius: 10px;
   font-size: 20px;
