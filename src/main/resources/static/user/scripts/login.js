@@ -35,7 +35,19 @@ $loginForm.onsubmit = (e) => {
             alert('해당 계정은 이메일 인증이 완료되지 않았습니다. 이메일을 확인해주세요.');
             return;
         } else if(response['result'] === 'success') {
-            location.href = '/';
+            const previousUrl = document.referrer; // 이전 URL을 저장
+
+            // 현재 호스트가 localhost:8080이 아닌 경우, 홈페이지로 리디렉션
+            if (window.location.hostname !== 'localhost' || window.location.port !== '8080') {
+                location.href = '/'; // 홈페이지로 리디렉션
+            } else {
+                // localhost:8080에서 접근한 경우, 이전 페이지로 리디렉션
+                if (previousUrl) {
+                    location.href = previousUrl; // 이전 페이지로 리디렉션
+                } else {
+                    location.href = '/'; // 이전 페이지 정보가 없으면 홈페이지로
+                }
+            }
         }
     };
     xhr.open('GET', url.toString());

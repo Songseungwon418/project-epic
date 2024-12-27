@@ -8,6 +8,17 @@
         VALUES (#{user_email}, #{friend_email}, #{createdAt}, #{deletedAt})
     </insert>
 
+    <select id="selectFriendByEmail" resultType="com.ssw.epicgames.entities.FriendsEntity">
+        SELECT user_email   AS `user_email`,
+               friend_email AS `friend_email`,
+               created_at   AS `createdAt`,
+               deleted_at   AS `deletedAt`
+        FROM `epic_games`.`friends`
+        WHERE user_email = #{email}
+        AND deleted_at IS NULL
+        LIMIT 1
+    </select>
+
     <select id="selectFriendsByUserEmail" resultType="com.ssw.epicgames.entities.FriendsEntity">
         SELECT user_email AS `user_email`,
                friend_email AS `friend_email`,

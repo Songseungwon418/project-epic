@@ -182,6 +182,28 @@
 #main > .mainSection > .filter-bar .filter.active img {
   transform: rotate(180deg); /* 활성화 시 회전 */
 }
+#main > .mainSection > .filter-bar .filter-dropdown {
+  display: none; /* 기본적으로 숨김 */
+  position: absolute;
+  background-color: #101014;
+  border: 1px solid #4d4d4d;
+  border-radius: 5px;
+  margin-top: 50px;
+  z-index: 10;
+  width: 150px;
+}
+#main > .mainSection > .filter-bar .filter-dropdown .filter-option {
+  padding: 10px 15px;
+  font-size: 14px;
+  color: #ffffff;
+  cursor: pointer;
+}
+#main > .mainSection > .filter-bar .filter-dropdown .filter-option:hover {
+  background-color: #4d4d4d;
+}
+#main > .mainSection > .filter-bar .filter.active + .filter-dropdown {
+  display: block; /* 활성화 시 표시 */
+}
 #main > .mainSection > .game {
   width: 100%;
   display: flex;
