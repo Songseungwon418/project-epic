@@ -6,11 +6,13 @@ import com.ssw.epicgames.DTO.PurchaseDTO;
 import com.ssw.epicgames.DTO.WishlistDTO;
 import com.ssw.epicgames.entities.*;
 import com.ssw.epicgames.exceptions.TransactionalException;
+import com.ssw.epicgames.mappers.GameMapper;
 import com.ssw.epicgames.mappers.GameRatingMapper;
 import com.ssw.epicgames.mappers.PurchaseMapper;
 import com.ssw.epicgames.resutls.CommonResult;
 import com.ssw.epicgames.resutls.Result;
 import com.ssw.epicgames.resutls.purchase.PurchaseResult;
+import com.ssw.epicgames.vos.GameVo;
 import com.ssw.epicgames.vos.PriceVo;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
@@ -29,6 +31,7 @@ import java.util.List;
 public class PurchaseService {
     private final PurchaseMapper purchaseMapper;
     private final GameRatingMapper gameRatingMapper;
+    private final GameMapper gameMapper;
     private final GameService gameService;
     private final PriceService priceService;
 
@@ -183,11 +186,18 @@ public class PurchaseService {
         GameEntity[] games = new GameEntity[wishlists.length]; // 위시리스트 개수만큼 게임 객체 배열 생성
         GameRatingEntity[] gameRatings = new GameRatingEntity[games.length]; // 게임 개수만큼 객체 배열 생성
 
+
         // 위시리스트에 담긴 게임의 정보 및 등급 저장
         for (int i = 0; i < wishlists.length; i++) {
             WishlistEntity wishlist = wishlists[i]; // 각 위시리스트
             games[i] = this.gameService.getGameByIndex(wishlist.getGameIndex()); // 각 위시리스트에 해당하는 게임 번호로 게임 정보 조회
             gameRatings[i] = this.gameRatingMapper.selectGameRatingByGrac(games[i].getGrGrac()); // 각 게임에 해당하는 등급 조회
+
+            // 모든 게임의 장르를 가져옴
+            GameVo[] gameVos = this.gameMapper.selectAllGames();
+
+            // 위시리스트에 해당하는 게임 장르를 문자열로 저장
+            String genreString = getString(gameVos, wishlist);
 
             // 게임의 할인 정보를 가져옴
             PriceVo price = priceService.discountInfo(games[i].getIndex(), games[i].getPrice());
@@ -195,12 +205,28 @@ public class PurchaseService {
             wishlistDTOS[i] = WishlistDTO.builder()
                     .wishlist(wishlist)
                     .game(games[i])
+                    .tag(genreString) // 장르 저장
                     .gameRating(gameRatings[i])
                     .price(price)
                     .duplicateCart(DuplicationCheckCart(user.getEmail(), games[i].getIndex())) // 장바구니 존재하면 true
                     .build(); // 보낼 위시리스트 하나씩 집어넣기
         }
         return wishlistDTOS; // 위시리스트들 반환
+    }
+
+    /** 해당하는 게임 분류를 찾아서 문자열로 변환하는 메서드 */
+    private static String getString(GameVo[] gameVos, WishlistEntity wishlist) {
+        StringBuilder gameGenres = new StringBuilder();
+        for (GameVo gameVo : gameVos) {
+            if (gameVo.getIndex() == wishlist.getGameIndex()) {
+                // 해당 게임의 장르를 StringBuilder에 추가
+                if (!gameGenres.isEmpty()) {
+                    gameGenres.append(", ");  // 구분자 추가(쉼표와 공백)
+                }
+                gameGenres.append(gameVo.getGenre());  // 장르 추가
+            }
+        }
+        return gameGenres.toString();
     }
 
     /** 유저에 해당하는 위시리스트 목록 삽입 */

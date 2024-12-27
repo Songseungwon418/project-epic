@@ -576,6 +576,64 @@ body {
 .main > #view-container > .view-wrapper > .view-content-container > .view-content-wrapper.empty > .empty-wrapper > .info_link > .link:hover {
   color: #FFFFFF;
 }
+.main > #view-container > .view-wrapper > .view-content-container > .view-content-wrapper > .no-games {
+  margin-top: 10%;
+  padding: 40px;
+  align-items: center;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  text-align: center;
+}
+.main > #view-container > .view-wrapper > .view-content-container > .view-content-wrapper > .no-games > .logo {
+  display: block;
+  line-height: 0;
+  width: 60px;
+  height: 60px;
+  margin-bottom: 40px;
+}
+.main > #view-container > .view-wrapper > .view-content-container > .view-content-wrapper > .no-games > .logo > .svg {
+  width: 100%;
+  height: 100%;
+}
+.main > #view-container > .view-wrapper > .view-content-container > .view-content-wrapper > .no-games > .info-text {
+  margin: 0;
+  width: 100%;
+  font-size: 30px;
+  font-weight: 700;
+  color: #f5f5f5;
+  line-height: 35px;
+  letter-spacing: -0.3px;
+}
+.main > #view-container > .view-wrapper > .view-content-container > .view-content-wrapper > .no-games > .info-link {
+  margin: 0;
+  padding: 0;
+  color: #f5f5f5;
+  font-weight: 300;
+  font-size: 26px;
+  line-height: 35px;
+  letter-spacing: -0.3px;
+}
+.main > #view-container > .view-wrapper > .view-content-container > .view-content-wrapper > .no-games > .info-link > .info-link-btn {
+  padding: 12px;
+  border: none;
+  font-size: 20px;
+  font-weight: 400;
+  text-decoration: none;
+  outline: none;
+  color: rgba(245, 245, 245, 0.6);
+  position: relative;
+  box-sizing: border-box;
+  align-items: center;
+  display: inline-flex;
+  justify-content: center;
+  cursor: pointer;
+  text-align: center;
+}
+.main > #view-container > .view-wrapper > .view-content-container > .view-content-wrapper > .no-games > .info-link > .info-link-btn:hover {
+  text-decoration: underline;
+  color: #fff;
+}
 .main > #view-container > .view-wrapper > .view-content-container > .cart-sidebar {
   width: 100%;
   flex-shrink: 0;
