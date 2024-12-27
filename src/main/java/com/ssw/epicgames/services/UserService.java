@@ -43,6 +43,10 @@ public class UserService {
         this.templateEngine = templateEngine;
     }
 
+    public UserEntity getUserByEmail(String email) {
+        return this.userMapper.selectUserByEmail(email);
+    }
+
     //region 로그인
     public Result login(UserEntity user) {
         if(user == null ||

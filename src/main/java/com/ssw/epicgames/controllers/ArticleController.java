@@ -57,6 +57,15 @@ public class ArticleController {
         return response.toString();
     }
 
+    @RequestMapping(value = "/modify", method = RequestMethod.PATCH, produces = MediaType.APPLICATION_JSON_VALUE)
+    @ResponseBody
+    public String patchModify(ArticleEntity article) {
+        CommonResult result = this.articleService.modifyArticle(article);
+        JSONObject response = new JSONObject();
+        response.put("result", result.name().toLowerCase());
+        return response.toString();
+    }
+
     @RequestMapping(value = "/modify", method = RequestMethod.GET, produces = MediaType.TEXT_HTML_VALUE)
     public ModelAndView getModify(@RequestParam(value = "index", required = true, defaultValue = "0") int index,
                                   @SessionAttribute(value = "user", required = false) UserEntity user) {
@@ -84,8 +93,12 @@ public class ArticleController {
     public ModelAndView getRead(@RequestParam(value = "index", required = false, defaultValue = "0") int index, @SessionAttribute(value = "user", required = false) UserEntity user) {
         ModelAndView modelAndView = new ModelAndView();
         ArticleVo article = this.articleService.getArticle(index);
+        int commentCount = this.articleService.getCommentCount(index);
+        modelAndView.addObject("commentCount", commentCount);
         modelAndView.addObject("article", article);
         modelAndView.addObject("user", user);
+        modelAndView.addObject("isLoggedIn", user != null);
+        modelAndView.addObject("userEmail", user != null ? user.getEmail() : "");
         if (article != null) {
             this.articleService.increaseArticleView(article);
         }

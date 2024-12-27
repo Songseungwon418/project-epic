@@ -21,7 +21,7 @@ public interface UserMapper {
     UserEntity selectUserByNickname(@Param("nickname") String nickname);
 
     // 닉네임으로 친구 찾기
-    UserEntity selectUserByConcatNickname(@Param("nickname") String nickname);
+    UserEntity[] selectUserByKeyword(@Param("keyword") String keyword);
 
     int updateUser(UserEntity user);
 }

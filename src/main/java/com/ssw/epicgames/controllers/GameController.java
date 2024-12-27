@@ -13,6 +13,8 @@ import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.ModelAndView;
 
+import java.time.LocalDate;
+import java.time.Period;
 import java.util.*;
 
 @Controller
@@ -136,6 +138,7 @@ public class GameController {
         boolean isInCart = this.cartService.isInCart(index, user);
         Integer cartIndex = this.cartService.getCartIndex(index, user);
 
+        modelAndView.addObject("user", user);
         modelAndView.addObject("gameDetails", gameDetails);
         modelAndView.addObject("priceVo", priceVo);
         modelAndView.addObject("purchaseIndex", purchaseIndex);

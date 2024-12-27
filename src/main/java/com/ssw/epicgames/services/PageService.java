@@ -40,7 +40,15 @@ public class PageService {
         return this.achievementMapper.getAchievementByIndex(index);
     }
 
-    //region 친구 찾기
+    //
+    public FriendsEntity[] getFriendByEmail(String email) {
+        if(email == null || email.isEmpty()) {
+            return null;
+        }
+        return this.friendMapper.selectFriendByEmail(email);
+    }
+
+    //region 친구 찾기 배열
     public UserEntity[] getFriendsByEmail(String email) {
         if (email == null || email.isEmpty()) {
             return null;
@@ -58,7 +66,7 @@ public class PageService {
     }
     //endregion
 
-    //region 유저가 얻은 업적 service
+    //region 유저가 얻은 업적
     public MyDTO[] getUserPurchases(String email) {
         return this.achievementMapper.selectMyDTOs(email);
     }
@@ -94,18 +102,18 @@ public class PageService {
     //region 계정 삭제
     public Result deleteUser(String email, String password) {
         if (email == null || email.isEmpty() ||
-        password == null || password.isEmpty()) {
+                password == null || password.isEmpty()) {
             return CommonResult.FAILURE;
         }
         UserEntity dbUser = this.userMapper.selectUserByEmail(email);
-        if(dbUser == null) {        // 사용자가 존재하지 않는 경우
+        if (dbUser == null) {        // 사용자가 존재하지 않는 경우
             return DeletedUserResult.USER_NOT_FOUND;
         }
-        if(!email.equals(dbUser.getEmail())) {       // 클라이언트가 준 이메일과 DB에 있는 이메일이 틀리다면
+        if (!email.equals(dbUser.getEmail())) {       // 클라이언트가 준 이메일과 DB에 있는 이메일이 틀리다면
             return DeletedUserResult.FAILURE_DUPLICATE_EMAIL;
         }
         BCryptPasswordEncoder encoder = new BCryptPasswordEncoder();
-        if(!encoder.matches(password, dbUser.getPassword())) {     // 클라이언트가 적은 패스워드와 DB에 있는 패스워드가 틀리다면
+        if (!encoder.matches(password, dbUser.getPassword())) {     // 클라이언트가 적은 패스워드와 DB에 있는 패스워드가 틀리다면
             return DeletedUserResult.FAILURE_DUPLICATE_PASSWORD;
         }
 
@@ -119,5 +127,13 @@ public class PageService {
         return this.userMapper.selectUserByEmail(email);
     }
     //endregion
-    
+
+    //region keyword 유저 검색
+    public UserEntity[] getUserByKeyword(String keyword) {
+        if (keyword == null || keyword.isEmpty()) {
+            keyword = "";
+        }
+        return this.userMapper.selectUserByKeyword(keyword);
+    }
+    //endregion
 }

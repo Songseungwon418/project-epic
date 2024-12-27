@@ -90,6 +90,98 @@
 #main > .deleteArticle > .deleteDialog > .content > .button-container > button[name=DeleteCancel]:active {
   background-color: #6e6e6e;
 }
+#main > .deleteComment {
+  width: 100%;
+  height: auto;
+  display: none;
+}
+#main > .deleteComment.--visible {
+  display: flex;
+}
+#main > .deleteComment > .deleteCommentCover {
+  width: 100%;
+  height: 100%;
+  top: 0;
+  left: 0;
+  z-index: 998;
+  background-color: #101014;
+  position: fixed;
+}
+#main > .deleteComment > .deleteCommentDialog {
+  position: fixed;
+  z-index: 999;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  background-color: #18181c;
+  border: 0.0625rem solid #444444;
+  padding: 1rem;
+  border-radius: 0.5rem;
+}
+#main > .deleteComment > .deleteCommentDialog > .content {
+  padding: 4rem 7rem;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: flex-start;
+  gap: 2rem;
+}
+#main > .deleteComment > .deleteCommentDialog > .content > .text {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 2rem;
+  padding-top: 1rem;
+}
+#main > .deleteComment > .deleteCommentDialog > .content > .text > .main {
+  font-size: 1.6rem;
+  font-weight: 100;
+  color: #ffffff;
+}
+#main > .deleteComment > .deleteCommentDialog > .content > .text > .line {
+  height: 0.0625rem;
+  width: 10rem;
+  background-color: #cccccc;
+}
+#main > .deleteComment > .deleteCommentDialog > .content > .text > .sub {
+  font-size: 1.4rem;
+  font-weight: normal;
+  color: #cccccc;
+}
+#main > .deleteComment > .deleteCommentDialog > .content > .button-container {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  justify-content: center;
+  gap: 2rem;
+}
+#main > .deleteComment > .deleteCommentDialog > .content > .button-container > button {
+  outline: none;
+  border: none;
+  border-radius: 0.25rem;
+  padding: 1rem 2rem;
+  color: #ffffff;
+  font-weight: bold;
+}
+#main > .deleteComment > .deleteCommentDialog > .content > .button-container > button[name=DeleteCommentConfirm] {
+  background-color: #2196f3;
+}
+#main > .deleteComment > .deleteCommentDialog > .content > .button-container > button[name=DeleteCommentConfirm]:hover {
+  background-color: #1e81cf;
+}
+#main > .deleteComment > .deleteCommentDialog > .content > .button-container > button[name=DeleteCommentConfirm]:active {
+  background-color: #1668a8;
+}
+#main > .deleteComment > .deleteCommentDialog > .content > .button-container > button[name=DeleteCommentCancel] {
+  background-color: #a0a0a0;
+}
+#main > .deleteComment > .deleteCommentDialog > .content > .button-container > button[name=DeleteCommentCancel]:hover {
+  background-color: #8a8a8a;
+}
+#main > .deleteComment > .deleteCommentDialog > .content > .button-container > button[name=DeleteCommentCancel]:active {
+  background-color: #6e6e6e;
+}
 #main > .mainSection {
   width: 75%;
   max-width: 1600px;
@@ -129,6 +221,7 @@
 #main > .mainSection > .table > tbody > tr > td {
   background-color: #222324;
   color: #d4d5d6;
+  line-height: 2rem;
 }
 #main > .mainSection > .table > tbody > tr > td.date, #main > .mainSection > .table > tbody > tr > td.view {
   text-align: center;
@@ -174,23 +267,226 @@
   padding: 0.8rem 1.3rem;
   border-radius: 0.5rem;
 }
-#main > .mainSection > .button-container > .button-wrapper > .button.modify {
+#main > .mainSection > .button-container > .button-wrapper > .button.modify-article {
   background-color: #3498db;
 }
-#main > .mainSection > .button-container > .button-wrapper > .button.modify:hover {
+#main > .mainSection > .button-container > .button-wrapper > .button.modify-article:hover {
   background-color: rgb(36.9790794979, 139.6987447699, 208.5209205021);
 }
-#main > .mainSection > .button-container > .button-wrapper > .button.modify:active {
+#main > .mainSection > .button-container > .button-wrapper > .button.modify-article:active {
   background-color: rgb(33.1380753138, 125.1882845188, 186.8619246862);
 }
-#main > .mainSection > .button-container > .button-wrapper > .button.delete {
+#main > .mainSection > .button-container > .button-wrapper > .button.delete-article {
   background-color: #ef5350;
 }
-#main > .mainSection > .button-container > .button-wrapper > .button.delete:hover {
+#main > .mainSection > .button-container > .button-wrapper > .button.delete-article:hover {
   background-color: rgb(236.8638743455, 60.0366492147, 56.6361256545);
 }
-#main > .mainSection > .button-container > .button-wrapper > .button.delete:active {
+#main > .mainSection > .button-container > .button-wrapper > .button.delete-article:active {
   background-color: rgb(234.7277486911, 37.0732984293, 33.2722513089);
+}
+
+#main > .mainSection > .comment-container {
+  display: flex;
+  flex-direction: column;
+  align-items: stretch;
+  justify-content: flex-start;
+  gap: 0.5rem;
+  margin-bottom: 4rem;
+}
+#main > .mainSection > .comment-container > .title {
+  color: #ffffff;
+  font-size: 4rem;
+}
+#main > .mainSection > .comment-container .form {
+  display: flex;
+  flex-direction: row;
+  align-items: stretch;
+  justify-content: flex-start;
+  gap: 0.5rem;
+  padding-bottom: 1.5rem;
+  border-bottom: 0.0625rem solid rgba(255, 255, 255, 0.1450980392);
+}
+#main > .mainSection > .comment-container .form .label {
+  display: flex;
+  flex-direction: column;
+  align-items: stretch;
+  justify-content: flex-start;
+  gap: 0.25rem;
+}
+#main > .mainSection > .comment-container .form .label:hover > .field {
+  border-color: rgb(198.5, 198.5, 198.5);
+}
+#main > .mainSection > .comment-container .form .label:focus-within > .field {
+  border-color: #387aeb;
+}
+#main > .mainSection > .comment-container .form .label > .text {
+  color: #ffffff;
+  font-size: 1.3rem;
+}
+#main > .mainSection > .comment-container .form .label > .field {
+  background-color: #222324;
+  border: 0.0625rem solid #e0e0e0;
+  border-radius: 0.25rem;
+  padding: 0.425rem 0.5rem;
+}
+#main > .mainSection > .comment-container .form .label > .field[name=content] {
+  flex-grow: 1;
+  resize: none;
+  min-height: 7rem;
+  color: #d4d5d6;
+  margin-top: 0.3rem;
+  line-height: 1.3;
+}
+#main > .mainSection > .comment-container .form > .writer-wrapper {
+  display: flex;
+  flex-direction: column;
+  align-items: stretch;
+  justify-content: flex-start;
+  gap: 0.375rem;
+}
+#main > .mainSection > .comment-container .form > .spring {
+  flex-grow: 1;
+  margin-top: 1rem;
+}
+#main > .mainSection > .comment-container .form > .button {
+  background-color: #26BBFF;
+  border-radius: 0.5rem;
+  margin-top: 2.8rem;
+  outline: none;
+  border: none;
+  color: #000000;
+}
+#main > .mainSection > .comment-container > .title {
+  font-size: 1.7rem;
+  font-weight: 500;
+}
+#main > .mainSection > .comment-container > .no-comment {
+  margin-top: 5rem;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 1.5rem;
+}
+#main > .mainSection > .comment-container > .no-comment > .message {
+  width: 6rem;
+  height: 6rem;
+}
+#main > .mainSection > .comment-container > .no-comment > .text {
+  color: #ffffff;
+  font-size: 1.8rem;
+}
+
+#main > .mainSection > .comment-container > .list {
+  display: flex;
+  flex-direction: column;
+  align-items: stretch;
+  justify-content: flex-start;
+  gap: 0.5rem;
+  margin-top: 1.5rem;
+}
+#main > .mainSection > .comment-container > .list > .item {
+  display: flex;
+  flex-direction: column;
+  align-items: stretch;
+  justify-content: flex-start;
+  gap: 0.375rem;
+}
+#main > .mainSection > .comment-container > .list > .item > .top {
+  background-color: #1c1d1e;
+  border-radius: 0.25rem;
+  color: #ffffff;
+  font-size: 1.2rem;
+  padding: 0.7rem 1.3rem;
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  justify-content: flex-start;
+}
+#main > .mainSection > .comment-container > .list > .item > .top > .spring {
+  flex-grow: 1;
+}
+#main > .mainSection > .comment-container > .list > .item > .top > .datetime {
+  color: #bdbdbd;
+}
+#main > .mainSection > .comment-container > .list > .item > .content {
+  color: #d4d5d6;
+  background-color: #222324;
+  border-radius: 0.25rem;
+  padding: 0.7rem 1.3rem;
+}
+#main > .mainSection > .comment-container > .list > .item > .action-container {
+  color: #9e9e9e;
+  font-weight: 500;
+  margin-top: 0.3rem;
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  justify-content: flex-start;
+  gap: 0.4rem;
+}
+#main > .mainSection > .comment-container > .list > .item > .action-container input {
+  display: none;
+}
+#main > .mainSection > .comment-container > .list > .item > .action-container .action {
+  font-size: 1.3rem;
+  background-color: transparent;
+  cursor: pointer;
+  padding-bottom: 0.15rem;
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  justify-content: center;
+}
+#main > .mainSection > .comment-container > .list > .item > .action-container .action:has([type=radio]:checked) {
+  border-bottom: 0.15rem solid #387aeb;
+  color: #387aeb;
+  font-weight: 500;
+}
+#main > .mainSection > .comment-container > .list > .item > .action-container .action:hover {
+  border-bottom: 0.15rem solid #dbdbdb;
+}
+#main > .mainSection > .comment-container > .list > .item > .action-container .action.commentDelete {
+  outline: none;
+  border: none;
+  color: #9e9e9e;
+  margin-bottom: 0.3rem;
+}
+#main > .mainSection > .comment-container > .list > .item > .action-container .action.commentDelete:hover {
+  box-shadow: inset 0 -0.15rem 0 0 #dbdbdb;
+}
+#main > .mainSection > .comment-container > .list > .item > .action-container:has([type=radio][value=reply]:checked) ~ .form.reply,
+#main > .mainSection > .comment-container > .list > .item > .action-container:has([type=radio][value=modify]:checked) ~ .form.modify {
+  display: flex;
+}
+#main > .mainSection > .comment-container > .list > .item > .form {
+  display: none;
+}
+#main > .mainSection > .comment-container > .list > .item > .form > .button-container {
+  display: grid;
+  grid-template-columns: 1fr;
+  grid-template-rows: 1fr 1fr;
+  gap: 0.375rem;
+  margin-top: 3rem;
+  text-align: center;
+  color: #000000;
+}
+#main > .mainSection > .comment-container > .list > .item > .form > .button-container > .button {
+  border-radius: 0.25rem;
+  border: none;
+  outline: none;
+}
+#main > .mainSection > .comment-container > .list > .item > .form > .button-container > .button.reply, #main > .mainSection > .comment-container > .list > .item > .form > .button-container > .button.modify {
+  background-color: #26BBFF;
+}
+#main > .mainSection > .comment-container > .list > .item > .form > .button-container > .cancel {
+  background-color: #a0a0a0;
+  border-radius: 0.25rem;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  text-align: center;
 }
 
 /*# sourceMappingURL=read.css.map */
