@@ -5,7 +5,7 @@
     <meta name="viewport"
           content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
-    <title th:text="${dbGetNickname.nickname + '님의 업적을 둘러보세요.'}"></title>
+    <title th:text="${user.nickname + '님의 업적을 둘러보세요.'}"></title>
     <link rel="shortcut icon" th:href="@{'/assets/images/favicon.png'}">
     <link rel="stylesheet" type="text/css" th:href="@{/assets/styles/common.css}">
     <link rel="stylesheet" th:href="@{/pages/My/styles/myPage.css}" type="text/css">
@@ -24,9 +24,9 @@
     <div class="mainSection">
         <div class="myName-container">
             <div class="my-wrapper">
-                <span class="oneName" th:text="${#strings.substring(dbGetNickname.getNickname(), 0, 1)}"></span>
+                <span class="oneName" th:text="${#strings.substring(user.getNickname(), 0, 1)}"></span>
                 <div class="nickname-wrapper">
-                    <span class="nickname" th:text="${dbGetNickname.nickname}"></span>
+                    <span class="nickname" th:text="${user.nickname}"></span>
                     <div class="achievement-wrapper">
                         <div class="achievement">
                             <span class="text">총 게임 수</span>
@@ -58,20 +58,34 @@
                 </div>
             </div>
             <div class="-spring"></div>
-            <div class="level">
-                <a th:href="@{/page/setting}" class="button" id="settingsButton">계정 설정</a>
+            <div class="level" th:if="${session.user != null && (param.email == null || param.email.isEmpty() || param.email.contains(session.user.email))}">
+                <a th:href="@{/page/setting}" class="button">계정 설정</a>
                 <a th:href="@{'/page/setting?showPurchaseList=true'}" class="button">결제 내역</a>
+            </div>
+            <div class="level" th:if="${session.user != null && param.email != null && !param.email.isEmpty() && !param.email.contains(session.user.email)}">
+                <a href="#" class="button">친구 추가</a>
+                <a href="#" class="button">친구임</a>
             </div>
         </div>
         <div class="center-bar">
             <span class="achievement">업적</span>
-            <a th:href="@{'/page/friend'}" class="friends">친구</a>
+            <a th:if="${session.user != null && param.email != null && !param.email.isEmpty() && !param.email.contains(session.user.email)}"
+               th:href="@{'/page/friend?email=' + ${user.email}}"
+               class="friends">친구</a>
+            <a th:if="${session.user != null && (param.email == null || param.email.isEmpty() || param.email.contains(session.user.email))}"
+               th:href="@{'/page/friend'}"
+               class="friends">친구</a>
         </div>
         <div class="filter-bar">
             <span class="text">필터</span>
             <div class="filter" onclick="toggleArrow()">
                 <span class="filter-text">전체</span>
                 <img src="/assets/images/index.unsigned/arrow.png" alt="">
+            </div>
+            <div class="filter-dropdown" id="filter-dropdown">
+                <div class="filter-option" onclick="applyFilter('name')">이름순서</div>
+                <div class="filter-option" onclick="applyFilter('achievements-desc')">업적 많은 순</div>
+                <div class="filter-option" onclick="applyFilter('achievements-asc')">업적 적은 순</div>
             </div>
         </div>
         <a th:href="@{/game/page (index = ${game.getIndex()})}" class="game" th:each="game : ${gameMap.keySet()}">

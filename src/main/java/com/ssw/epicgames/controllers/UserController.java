@@ -28,13 +28,6 @@ public class UserController {
         this.userService = userService;
     }
 
-    @RequestMapping(value = "/", method = RequestMethod.GET, produces = MediaType.TEXT_HTML_VALUE)
-    public ModelAndView getIndex() {
-        ModelAndView modelAndView = new ModelAndView();
-        modelAndView.setViewName("/user/login");
-        return modelAndView;
-    }
-
 
     @RequestMapping(value = "/logout", method = RequestMethod.GET)
     public ModelAndView getLogout(HttpSession session) {
@@ -44,11 +37,29 @@ public class UserController {
         return modelAndView;
     }
 
+    @RequestMapping(value = "/", method = RequestMethod.GET, produces = MediaType.TEXT_HTML_VALUE)
+    public ModelAndView getIndex(HttpSession session) {
+        ModelAndView modelAndView = new ModelAndView();
+        //이미 로그인된 유저면
+        if (session.getAttribute("user") != null) {
+            //홈으로
+            modelAndView.setViewName("redirect:/");
+        } else {
+            modelAndView.setViewName("/user/login");
+        }
+        return modelAndView;
+    }
+
     @RequestMapping(value = "/login", method = RequestMethod.GET, produces = MediaType.APPLICATION_JSON_VALUE)
     @ResponseBody
     public String getLogin(HttpSession session, UserEntity user) {
+
+//        if(session.getAttribute("user") != null) {
+//            return "이미 로그인 되어있습니다.";
+//        }
+
         Result result = this.userService.login(user);
-        if(result == CommonResult.SUCCESS) {
+        if (result == CommonResult.SUCCESS) {
             session.setAttribute("user", user);
         }
         JSONObject response = new JSONObject();
@@ -56,7 +67,7 @@ public class UserController {
         return response.toString();
     }
 
-    @RequestMapping(value="/register", method = RequestMethod.GET, produces = MediaType.TEXT_HTML_VALUE)
+    @RequestMapping(value = "/register", method = RequestMethod.GET, produces = MediaType.TEXT_HTML_VALUE)
     public ModelAndView getRegister() {
         ModelAndView modelAndView = new ModelAndView();
         modelAndView.setViewName("/user/register");
