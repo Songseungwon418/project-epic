@@ -1,0 +1,62 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "https://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.ssw.epicgames.mappers.CommentMapper">
+
+    <insert id="insertComment" parameterType="com.ssw.epicgames.entities.CommentEntity">
+        INSERT INTO `epic_games`.`comments` (`article_index`, `comment_index`, `user_email`, `content`, `created_at`, `updated_at`, `deleted_at`)
+        VALUES (#{articleIndex}, #{commentIndex}, #{userEmail}, #{content}, #{createdAt}, #{updatedAt}, #{deletedAt})
+    </insert>
+
+    <select id="selectCommentByIndex" resultType="com.ssw.epicgames.vos.CommentVo">
+        SELECT c.`index`         AS `index`,
+               c.`article_index` AS `articleIndex`,
+               c.`comment_index` AS `commentIndex`,
+               c.`user_email`    AS `userEmail`,
+               c.`content`       AS `content`,
+               c.`created_at`    AS `createdAt`,
+               c.`updated_at`    AS `updatedAt`,
+               c.`deleted_at`    AS `deletedAt`,
+               u.`nickname`      AS `nickname`
+        FROM `epic_games`.`comments` AS `c`
+                 LEFT JOIN `epic_games`.`user` `u` ON `u`.email = `c`.user_email
+        WHERE `c`.`index` = #{index}
+    </select>
+
+    <select id="selectCommentsByArticleIndex" resultType="com.ssw.epicgames.vos.CommentVo">
+        SELECT c.`index`         AS `index`,
+               c.`article_index` AS `articleIndex`,
+               c.`comment_index` AS `commentIndex`,
+               c.`user_email`    AS `userEmail`,
+               c.`content`       AS `content`,
+               c.`created_at`    AS `createdAt`,
+               c.`updated_at`    AS `updatedAt`,
+               c.`deleted_at`    AS `deletedAt`,
+               u.`nickname`      AS `nickname`
+        FROM `epic_games`.`comments` AS `c`
+                 LEFT JOIN `epic_games`.`user` `u` ON `u`.email = `c`.user_email
+        WHERE `c`.`article_index` = #{articleIndex}
+          AND `c`.`deleted_at` IS NULL
+    </select>
+
+    <select id="selectCommentCount" resultType="_int">
+        SELECT COUNT(0)
+        FROM `epic_games`.`comments`
+        WHERE `article_index` = #{index}
+        AND `deleted_at` IS NULL
+    </select>
+
+    <update id="updateComment" parameterType="com.ssw.epicgames.entities.CommentEntity">
+        UPDATE `epic_games`.`comments`
+        SET `article_index` = #{articleIndex},
+            `comment_index` = #{commentIndex},
+            `user_email`    = #{userEmail},
+            `content`       = #{content},
+            `created_at`    = #{createdAt},
+            `updated_at`    = #{updatedAt},
+            `deleted_at`    = #{deletedAt}
+        WHERE `index` = #{index}
+        LIMIT 1
+    </update>
+</mapper>

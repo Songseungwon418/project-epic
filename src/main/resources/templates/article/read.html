@@ -9,6 +9,12 @@
     <link rel="shortcut icon" th:href="@{'/assets/images/favicon.png'}">
     <link rel="stylesheet" type="text/css" th:href="@{/assets/styles/common.css}">
     <link rel="stylesheet" type="text/css" th:href="@{/article/assets/styles/read.css}">
+    <script th:inline="javascript">
+        /*<![CDATA[*/
+        const isLoggedIn = /*[[${isLoggedIn}]]*/ false;
+        const userEmail = /*[[${userEmail}]]*/ '';
+        /*]]>*/
+    </script>
     <script defer type="text/javascript" th:src="@{'/assets/scripts/common.js'}"></script>
     <script defer type="text/javascript" th:src="@{'/article/assets/scripts/read.js'}"></script>
     <script src="https://kit.fontawesome.com/856af35d3d.js" crossorigin="anonymous"></script>
@@ -45,6 +51,32 @@
             </label>
         </div>
     </div>
+
+    <div class="deleteComment" id="deleteComment">
+        <div id="deleteCommentCover" class="deleteCommentCover"></div>
+        <div class="deleteCommentDialog" id="deleteCommentDialog">
+            <div class="content">
+                <div class="text">
+                    <input name="commentIndex" id="commentIndex" type="hidden">
+                    <span class="main">댓글 삭제</span>
+                    <span class="line"></span>
+                    <span class="sub">댓글 삭제 후 복구는 불가합니다.</span>
+                </div>
+                <label>
+                    <input name="commentIndex" type="hidden">
+                    <input name="index" type="hidden" th:value="${article.getIndex()}">
+                </label>
+                <div class="button-container">
+                    <button name="DeleteCommentCancel" type="button">취소</button>
+                    <button name="DeleteCommentConfirm" type="button">확인</button>
+                </div>
+            </div>
+            <label>
+                <input name="index" type="hidden" th:value="${article.getIndex()}">
+                <input name="commentIndex" type="hidden">
+            </label>
+        </div>
+    </div>
     <div class="mainSection">
         <h1 class="title">자유게시판</h1>
         <table class="table">
@@ -71,15 +103,42 @@
         <div class="button-container">
             <a class="button back" th:href="@{'/board/list'}">목록</a>
             <span class="spring"></span>
-            <div class="button-wrapper" th:if="user != null">
-                <a th:if="${article.getUserEmail() == user.getEmail()}" class="button modify" th:href="@{'/article/modify' (index=${article.getIndex()})}">수정</a>
-                <button th:if="${article.getUserEmail() == user.getEmail()}"  class="button delete" name="delete" type="button">삭제</button>
+            <div class="button-wrapper" th:if="${user != null}">
+                <a th:if="${article.getUserEmail() == user.getEmail()}" class="button modify-article"
+                   th:href="@{'/article/modify' (index=${article.getIndex()})}">수정</a>
+                <button th:if="${article.getUserEmail() == user.getEmail()}" class="button delete-article" name="delete"
+                        type="button">삭제
+                </button>
             </div>
         </div>
         <label>
-            <input id="userEmail" th:value="${article.getUserEmail()}" type="hidden">
+            <input id="userEmail" th:if="${user != null}" th:value="${article.getUserEmail()}" type="hidden">
             <input id="articleIndex" th:value="${article.getIndex()}" type="hidden">
         </label>
+
+
+        <div class="comment-container">
+            <h2 class="title" th:text="${'댓글(' + (commentCount) + ')'}"></h2>
+            <form id="commentForm" class="form">
+                <label class="label spring">
+                    <span class="text">내용</span>
+                    <textarea name="content" class="field" maxlength="100" minlength="1" placeholder="댓글 내용을 작성해 주세요."
+                              spellcheck="false" required></textarea>
+                </label>
+
+                <button class="button write" type="submit">댓글 쓰기</button>
+            </form>
+            <div class="no-comment" th:if="${commentCount == 0}">
+                <img class="message"
+                     src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAADIAAAAyCAYAAAAeP4ixAAAACXBIWXMAAAsTAAALEwEAmpwYAAADrklEQVR4nO3ZW4ydUxQH8I1WK1Va4cU1k6pLSkIj4UFKPGk8SCvVUYk3SUWFCHGLCE9IXcoTwQsRDaJJXeoaEkHdBq1BkCalioigF0r4yc5ZJ/kyvm/OmZnvnPkq809OMjNr77X+e/Ze66z93ylNYQpT6AtwFC7EnXgaQ/gaP8Qn//xh2O7AMhyZmgAci9uwSTV+iU8VPsGt2VeahAUswgb8HWT+wfu4B4M4FXNK5s3BQlyEe2OH2si+XsCZ/dqB5wvBv8Q1OHoCPo/Btfiq4PdZzKuXfSvYPrgauyPQp1iS/15jjH1xAYYjxi5cWVsMHIinCs7zgvarxXl5vGmxQ+1/2pOZw0SdHoKNhV04vjbGnWOfiM8i9juYO15HB0UJzXgJs2tn25nDbLwSHD4YM4d8dKKCtBNvRs/YduYys8DluTEda9wcE3NJndVTpt3n6VBwuqHbSafgT/yKgdQQYB5+wx6c3M2E9pm8NDUMuKyds50Gnh0DP+5liR0vtHJ3c3BcNNrA3NBlLE8NBVYEx7VVAw6O3NiO6amhwP7RTe8pLcfRVmc8mBoOPBxcl5YZ7w7jstRwYHlwXV1mfDmMx6WGAycE1xfLjO2+pmN+4Dx8i2+wuF/jRuRJxnCZ8TvsTF0gAraxtV/jiohOfFuZIf9Hdqf/wUI2haOZXThZHMG34tx+jev2aLWTfX5qOLTuKpXJfnsYV6SGQ0vgqCy/+Q6e8UBqOPBIcF1SZpyFHfgpn8HUUGAGfsQflTdGPBYrHUwNBS4Ojk+MNmhhiG3DDW3jp4UIoqOQh2di4OWpYcCq4Lahm8EDkSu7mtR3YX7uPKJ9X9DtpJWx8s1lGm6/oSVN5VtrxnVjnfxQTHxjMpUUHBC6Wsb6LK2O1cH0gp6Ulb5De8Z29J14LTi8N27pNGp2+x6f1fLTa2dbHXsBPo/Yb0/4iIdysTrK8l+4qTa21SX2evwei1g7YRF7RIDzw/H3tTn977PCIL6IOLlCrepFoMMjwJs1+x2IHdhSuJOs65nKWdCT1lTYb8RduCRk17kjH2nimeK0aDPuw0cjnt7W44yeLKBAIivhGeeUnOk1qrEjdOQqZHH6lr7ozDgiEn1LsY7nhx+8HoS2xyNnPiaPR6XJPdu2nFfxPP1uvEDlu8/SfFx7Tr4I3B9kV8bvh4UOlpVJQbhvr1njAk4Kwjvj/XBd9DttPFpreewF4jvkrZJznb9TXsVZaW8ArsDPoXAMxfm+am8QKKaQJhn/Alh2rBucIzJ9AAAAAElFTkSuQmCC"
+                     alt="speech-bubble-with-dots--v1">
+                <span class="text">등록된 댓글이 없습니다.</span>
+            </div>
+
+            <ul class="list">
+
+            </ul>
+        </div>
     </div>
 </main>
 

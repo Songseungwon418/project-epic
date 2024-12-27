@@ -1,3 +1,105 @@
+//region 연령확인
+const $ageCheck = document.getElementById('ageCheck');
+const $continueButton = document.getElementById('continueButton');
+const $birthdayWrapper = document.getElementById('birthdayWrapper');
+
+function toggleSelect(type) {
+    const $selectElement = document.querySelector(`.${type}.select`);
+    const $listElement = $selectElement.querySelector('.list-member');
+    const $btnSelect = $selectElement.querySelector('.btn-select');
+
+    if ($btnSelect.classList.contains('-selected')) {
+        $btnSelect.classList.remove('-selected');
+        $listElement.style.display = 'none';
+    } else {
+        document.querySelectorAll('.select').forEach(function (item) {
+            const $btn = item.querySelector('.btn-select');
+            $btn.classList.remove('-selected');
+            item.querySelector('.list-member').style.display = 'none';
+        });
+
+        $btnSelect.classList.add('-selected');
+        $listElement.style.display = 'block';
+    }
+}
+
+document.querySelectorAll('.list-member button').forEach(button => {
+    button.addEventListener('click', function () {
+        const $selectedValue = button.innerText;
+        const type = button.closest('.select').classList[0];
+
+        const $btnSelect = button.closest('.select').querySelector('.btn-select');
+        const $textElement = $btnSelect.querySelector('.text .date');
+
+        $textElement.innerText = $selectedValue;
+
+        $btnSelect.classList.remove('-selected');
+        button.closest('.list-member').style.display = 'none';
+    });
+});
+
+
+function checkSelection() {
+    const year = document.querySelector('.year .btn-select .text .date').innerText;
+    const month = document.querySelector('.month .btn-select .text .date').innerText;
+    const day = document.querySelector('.day .btn-select .text .date').innerText;
+
+    if (year !== 'YYYY' && month !== 'MM' && day !== 'DD') {
+        $continueButton.classList.add('-selected');
+    } else {
+        $continueButton.classList.remove('-selected');
+    }
+}
+
+document.querySelectorAll('.list-member button').forEach(item => {
+    item.addEventListener('click', function () {
+        const parent = this.closest('.select');
+        const $btnSelect = parent.querySelector('.btn-select .text .date');
+
+        $btnSelect.innerText = this.innerText;
+
+        checkSelection();
+    });
+});
+if ($continueButton) {
+    $continueButton.addEventListener('click', function () {
+        const year = parseInt(document.querySelector('.year .btn-select .text .date').innerText);
+        const month = parseInt(document.querySelector('.month .btn-select .text .date').innerText) - 1;
+        const day = parseInt(document.querySelector('.day .btn-select .text .date').innerText);
+
+        if (isNaN(year) || isNaN(month) || isNaN(day)) {
+            alert('생년월일을 모두 선택하세요.');
+            return;
+        }
+
+        const today = new Date();
+        const birthDate = new Date(year, month, day);
+
+        let age = today.getFullYear() - birthDate.getFullYear();
+        const birthMonth = birthDate.getMonth();
+        const birthDay = birthDate.getDate();
+
+        if (
+            today.getMonth() < birthMonth ||
+            (today.getMonth() === birthMonth && today.getDate() < birthDay)
+        ) {
+            age--;
+        }
+
+        if (age >= 18) {
+            $ageCheck.classList.add('-remove');
+        } else {
+            $continueButton.style.display = 'none'
+            $birthdayWrapper.innerText = '죄송합니다. 이 콘텐츠를 이용할 수 없습니다.';
+            $birthdayWrapper.style.margin = '2rem 0'
+            $birthdayWrapper.style.color = '#FFFFFFA6'
+            $birthdayWrapper.style.fontSize = '1.5rem'
+        }
+    });
+}
+
+//endregion
+
 //region 게임상세페이지 서브이미지 클릭 시 메인이미지 변경
 window.onload = function () {
     const $sliderWrapper = document.querySelector(".slider-wrapper");

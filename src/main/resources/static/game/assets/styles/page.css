@@ -1,4 +1,280 @@
 @charset "UTF-8";
+#main > .age-check {
+  width: 100%;
+  height: 100%;
+}
+#main > .age-check > .cover {
+  width: 100%;
+  height: 100%;
+  top: 0;
+  left: 0;
+  z-index: 998;
+  background-color: #101014;
+  position: fixed;
+}
+#main > .age-check > .ageDialog {
+  width: 100%;
+  position: fixed;
+  z-index: 99999;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 3rem;
+}
+#main > .age-check > .ageDialog > .text-wrapper {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 1.5rem;
+}
+#main > .age-check > .ageDialog > .text-wrapper > .bgImage {
+  width: 7rem;
+  height: 7rem;
+  background-image: url("data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHZpZXdCb3g9IjAgMCA2MSA3MSIgZGF0YS1yZWFjdHJvb3Q9IiI+CiAgICA8cGF0aCBkPSJNNS40Njc3IDBDMS40NzQxIDAgMCAxLjQ5NDMgMCA1LjU0NXY0OC44Nzc1YzAgLjQ1OS4wMTc5Ljg4NC4wNTc4IDEuMjc5Mi4wOTE0Ljg4NC0uMDU3OCAyLjYzMDYgMy4wNzk1IDQuMDI2IDIuMDkxNi45MzA0IDEwLjI2NyA0LjM2NTMgMjQuNTI2NCAxMC4zMDUgMS4zODAxLjU4MjEgMS43Njg0LjcyIDIuODAzOS43Mi45MjI0LjAxOCAxLjUzMTUtLjEzNDIgMi43OTEyLS43MiAxNC4yNjkyLTUuNzUzMiAyMi40NDkyLTkuMTg4MSAyNC41NC0xMC4zMDUgMy4xMzYzLTEuNjc1MSAzLjEzNjMtNC44NDYxIDMuMTM2My01LjMwNTJWNS41NDQ5QzYwLjkzNTEgMS40OTQzIDU5LjQ2MTEgMCA1NS40Njc0IDBINS40Njc3eiIgZmlsbD0iIzI2YmJmZiI+PC9wYXRoPgogICAgPHBhdGggZD0iTTMyLjY2NjcgMjguMzkzOGwtMS40IDYuODQ4aC0xLjk1NDJMMjggMjguNTc4N1YyM2g0LjY2Njd2NS4zOTM4em0wIDEzLjI3MjlIMjh2LTQuNDk0OGg0LjY2Njd2NC40OTQ4eiIgZmlsbD0iI0ZGRiI+PC9wYXRoPgo8L3N2Zz4K");
+  background-repeat: no-repeat;
+}
+#main > .age-check > .ageDialog > .text-wrapper > .name {
+  color: rgba(255, 255, 255, 0.6509803922);
+  font-size: 4.8rem;
+  font-weight: bold;
+}
+#main > .age-check > .ageDialog > .text-wrapper > .text {
+  width: 100%;
+  display: block;
+  word-wrap: break-word !important;
+  word-break: keep-all !important;
+  color: #ffffff;
+  font-size: 4rem;
+  font-weight: bold;
+  text-align: center;
+  line-height: 1.2;
+}
+#main > .age-check > .ageDialog > .birthday-wrapper {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 0.5rem;
+}
+#main > .age-check > .ageDialog > .birthday-wrapper > .text {
+  font-size: 1.7rem;
+  font-weight: bold;
+  color: #ffffff;
+  letter-spacing: normal;
+}
+#main > .age-check > .ageDialog > .birthday-wrapper > .info {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  justify-content: flex-start;
+  gap: 0.4rem;
+}
+#main > .age-check > .ageDialog > .birthday-wrapper > .info > .text {
+  color: rgba(255, 255, 255, 0.6509803922);
+  font-size: 1.5rem;
+  font-weight: normal;
+}
+#main > .age-check > .ageDialog > .birthday-wrapper > .info > .link {
+  color: #26BBFF;
+  text-decoration: underline;
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  justify-content: flex-start;
+  gap: 0.2rem;
+  font-size: 1.5rem;
+}
+#main > .age-check > .ageDialog > .birthday-wrapper > .date-wrapper {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  justify-content: center;
+  gap: 1.5rem;
+  margin: 1.5rem 0;
+}
+#main > .age-check > .ageDialog > .birthday-wrapper > .date-wrapper > .select {
+  position: relative;
+  width: 17rem;
+  height: 4.5rem;
+}
+#main > .age-check > .ageDialog > .birthday-wrapper > .date-wrapper > .select > .btn-select {
+  position: relative;
+  width: 100%;
+  height: 100%;
+  padding: 0.5rem 1rem;
+  font-size: 1.5rem;
+  line-height: 0.875rem;
+  background-color: transparent;
+  box-sizing: border-box;
+  border-radius: 0.625rem;
+  cursor: pointer;
+  text-align: left;
+  color: #ffffff;
+  outline: none;
+  border: 0.0625rem solid #ffffff;
+  white-space: nowrap;
+  text-overflow: ellipsis;
+  overflow: hidden;
+}
+#main > .age-check > .ageDialog > .birthday-wrapper > .date-wrapper > .select > .btn-select:focus {
+  border: 0.0625rem solid #ffffff;
+}
+#main > .age-check > .ageDialog > .birthday-wrapper > .date-wrapper > .select > .btn-select.-selected + .list-member {
+  display: block;
+  max-height: 21.5rem;
+  overflow-y: scroll;
+  position: absolute;
+  top: 5rem;
+  padding: 0.5rem 0.3rem;
+  scrollbar-width: thin;
+  scrollbar-color: #6f6f71 #b7b7b8;
+}
+#main > .age-check > .ageDialog > .birthday-wrapper > .date-wrapper > .select > .btn-select > .text {
+  position: relative;
+  width: 100%;
+  height: 100%;
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  justify-content: space-between;
+}
+#main > .age-check > .ageDialog > .birthday-wrapper > .date-wrapper > .select > .btn-select > .text > .date {
+  text-align: left;
+}
+#main > .age-check > .ageDialog > .birthday-wrapper > .date-wrapper > .select > .btn-select > .text > .icon-wrapper {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  gap: 0.2rem;
+}
+#main > .age-check > .ageDialog > .birthday-wrapper > .date-wrapper > .select > .btn-select > .text > .icon-wrapper > .bar {
+  position: absolute;
+  height: 70%;
+  width: 0.1rem;
+  background-color: #ffffff;
+  margin: 0 0.0625rem;
+}
+#main > .age-check > .ageDialog > .birthday-wrapper > .date-wrapper > .select > .btn-select > .text > .icon-wrapper > .image {
+  padding-left: 0.7rem;
+}
+#main > .age-check > .ageDialog > .birthday-wrapper > .date-wrapper > .select > .btn-select > .text > .icon-wrapper > .image > .icon {
+  fill: #ffffff;
+  width: 2rem;
+  height: 2rem;
+}
+#main > .age-check > .ageDialog > .birthday-wrapper > .date-wrapper > .select > .btn-select:hover, #main > .age-check > .ageDialog > .birthday-wrapper > .date-wrapper > .select > .btn-select:active {
+  background-color: rgb(31, 31, 32);
+}
+#main > .age-check > .ageDialog > .birthday-wrapper > .date-wrapper > .select > .btn-select:hover .icon, #main > .age-check > .ageDialog > .birthday-wrapper > .date-wrapper > .select > .btn-select:active .icon {
+  transform: rotate(180deg);
+  transform-origin: center;
+  transition-property: transform;
+  transition-duration: 0.1s;
+  transition-timing-function: ease;
+}
+#main > .age-check > .ageDialog > .birthday-wrapper > .date-wrapper > .select > .list-member {
+  list-style-type: none;
+  display: none;
+  position: absolute;
+  width: 100%;
+  top: 3.2rem;
+  left: 0;
+  padding: 0;
+  box-sizing: border-box;
+  box-shadow: 0.25rem 0.25rem 0.875rem rgba(0, 0, 0, 0.1490196078);
+  border-radius: 0.6rem;
+  background-color: #303034;
+  z-index: 9;
+}
+#main > .age-check > .ageDialog > .birthday-wrapper > .date-wrapper > .select > .list-member > li {
+  width: 100%;
+  height: 4.2rem;
+  padding: 0.2rem 0.5rem;
+  box-sizing: border-box;
+  color: #Ffffff;
+}
+#main > .age-check > .ageDialog > .birthday-wrapper > .date-wrapper > .select > .list-member > li > button {
+  width: 100%;
+  padding: 0.7rem 1rem;
+  border: none;
+  background-color: transparent;
+  border-radius: 0.6rem;
+  cursor: pointer;
+  text-align: left;
+  color: #ffffff;
+  font-size: 1.5rem;
+  white-space: nowrap;
+  text-overflow: ellipsis;
+  overflow: hidden;
+}
+#main > .age-check > .ageDialog > .birthday-wrapper > .date-wrapper > .select > .list-member > li > button:hover, #main > .age-check > .ageDialog > .birthday-wrapper > .date-wrapper > .select > .list-member > li > button:focus {
+  background-color: #656565;
+}
+#main > .age-check > .ageDialog > .button-wrapper {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  gap: 2rem;
+}
+#main > .age-check > .ageDialog > .button-wrapper > .link {
+  border: 0.001rem solid hsla(0, 0%, 100%, 0.35);
+  border-radius: 0.8rem;
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+}
+#main > .age-check > .ageDialog > .button-wrapper > .link > .text {
+  padding: 1.5rem 2rem;
+  color: #ffffff;
+  font-size: 1.4rem;
+  letter-spacing: 0.08rem;
+}
+#main > .age-check > .ageDialog > .button-wrapper > .link:hover {
+  background-color: #343437;
+}
+#main > .age-check > .ageDialog > .button-wrapper > .continue {
+  outline: none;
+  border: none;
+  background-color: #222226;
+  border-radius: 0.8rem;
+  cursor: not-allowed;
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+}
+#main > .age-check > .ageDialog > .button-wrapper > .continue > .text {
+  padding: 1.5rem 2rem;
+  color: #454548;
+  font-size: 1.4rem;
+  letter-spacing: 0.08rem;
+}
+#main > .age-check > .ageDialog > .button-wrapper > .continue.-selected {
+  outline: none;
+  border: none;
+  background-color: #26BBFF;
+  border-radius: 0.8rem;
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  cursor: pointer;
+}
+#main > .age-check > .ageDialog > .button-wrapper > .continue.-selected > .text {
+  padding: 1.5rem 2rem;
+  color: #000000;
+  font-size: 1.4rem;
+  letter-spacing: 0.08rem;
+}
+#main > .age-check > .ageDialog > .button-wrapper > .continue.-selected:hover, #main > .age-check > .ageDialog > .button-wrapper > .continue.-selected:active {
+  background-color: #72d3ff;
+}
+#main > .age-check.-remove {
+  display: none;
+}
 #main > .deleteReview {
   width: 100%;
   height: auto;
