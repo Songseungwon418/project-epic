@@ -1,3 +1,7 @@
+// 게임 목록 가져옴
+const $gameList = document.querySelector('.game-list');
+// $gameList 안의 모든 .game-card 요소를 배열로 변환
+const $games = Array.from($gameList.querySelectorAll('.game-card'));
 
 //region 필터관련
 // 장르 목록 서버에서 가져오기
@@ -28,25 +32,138 @@ document.addEventListener('DOMContentLoaded', function() {
             }
         });
     });
+
+    // 필터 목록에서 목록 클릭시
+    const $filterListContents = document.querySelectorAll('.filter-list-content');
+    const selectedFilters = [];  // 선택된 필터를 저장할 배열
+
+    $filterListContents.forEach( $filterListContent => {
+        $filterListContent.addEventListener('click', (e) => {
+            const $checkbox = e.target.closest('.checkbox');
+            if($checkbox) {
+                const isChecked = $checkbox.getAttribute('aria-checked') === 'true';
+                // aria-checked 값을 반전시킴
+                $checkbox.setAttribute('aria-checked', !isChecked);
+                // 배경 색상 변경
+                $checkbox.style.backgroundColor = !isChecked ? '#918D8D38' : 'inherit';
+                // 체크아이콘 표시여부
+                const $checkIcon = $checkbox.querySelector('.check-icon');
+                $checkIcon.style.display = !isChecked ? 'block' : 'none';
+
+                const filterText = $checkbox.querySelector('.checkbox-label').innerText.replace(/\s/g, '');
+
+                if (!isChecked) {
+                    // 필터가 체크되었으면 selectedFilters에 추가
+                    if (!selectedFilters.includes(filterText)) {
+                        selectedFilters.push(filterText);
+                    }
+                } else {
+                    // 필터가 체크 해제되었으면 selectedFilters에서 제거
+                    const index = selectedFilters.indexOf(filterText);
+                    if (index !== -1) {
+                        selectedFilters.splice(index, 1);
+                    }
+                }
+
+                // 모든 체크박스 해제 시 본래의 게임 목록을 보여줌
+                if (selectedFilters.length > 0) {
+                    console.log(selectedFilters);
+                    checkboxFilter(selectedFilters);// 필터링 함수 호출
+                }else {
+                    $filterBtn.click();
+                }
+            }
+        });
+    });
+
+    // 필터 함수
+    function checkboxFilter(filters) {
+        let gameVisible = false; // 게임이 하나라도 표시되는지 여부
+        $games.forEach(game => {
+            let isVisible = true; // 초기값을 true로 설정해서 필터를 만족하지않을 시 false
+            // 모든 필터 조건에 맞는지 확인
+            filters.forEach(filter => {
+                const gameGenre = game.querySelector('.gameGenre').innerText;
+
+                // 각 필터 조건이 게임 장르에 포함되는지 체크
+                if (filter.includes('액션') && !gameGenre.includes('ACT')) {
+                    isVisible = false; // 액션 필터에 맞지 않으면 숨김
+                }
+                if (filter.includes('오픈월드') && !gameGenre.includes('OW')) {
+                    isVisible = false; // 오픈월드 필터에 맞지 않으면 숨김
+                }
+                if (filter.includes('RPG') && !gameGenre.includes('RPG')) {
+                    isVisible = false; // RPG 필터에 맞지 않으면 숨김
+                }
+                if (filter.includes('RTS') && !gameGenre.includes('RTS')) {
+                    isVisible = false; // RTS 필터에 맞지 않으면 숨김
+                }
+                if (filter.includes('생존') && !gameGenre.includes('SG')) {
+                    isVisible = false; // 생존 필터에 맞지 않으면 숨김
+                }
+                if (filter.includes('전략') && !gameGenre.includes('STR')) {
+                    isVisible = false; // 전략 필터에 맞지 않으면 숨김
+                }
+
+                // 게임의 플렛폼을 가져옴
+                const $os = game.querySelectorAll('.logo');
+                // 하나의 게임에 플랫폼이 여러개 있을 수 있으니까 하나씩 비교함
+                $os.forEach((os) => {
+                    let osResult = os.textContent.trim().replace(/\s+/g, '').toLowerCase(); // 게임의 os 문자열을 가져옴
+                    if(filter.includes('windows') && !filter.includes(osResult)) {
+                        isVisible = false; // windows가 아니면 숨김
+                    }
+                    if(filter.includes('mac') && !filter.includes(osResult)) {
+                        isVisible = false; // mac이 아니면 숨김
+                    }
+                });
+            });
+
+            if (isVisible) {
+                game.style.display = 'grid';
+                gameVisible = true;
+            } else {
+                game.style.display = 'none';
+            }
+        });
+
+        const $noGames = document.querySelector('.no-games');
+        if (gameVisible) {
+            $noGames.style.display = 'none';
+        } else {
+            $noGames.style.display = 'flex';
+        }
+    }
+
+    // 모든 필터 제거 클릭 시
+    const $filterBtn = document.getElementById('filter-btn');
+    if ($filterBtn != null) {
+        $filterBtn.onclick = () => {
+            // 검색 결과 없음 화면 안보이게
+            const $noGames = document.querySelector('.no-games');
+            $noGames.style.display = 'none';
+            // 게임 목록 보이기
+            $games.forEach(game => {
+                game.style.display = 'grid';
+            });
+            // 체크박스 초기화
+            const $checkbox = document.querySelectorAll('.checkbox');
+            $checkbox.forEach(checkbox => {
+                checkbox.setAttribute('aria-checked', 'false');
+                // 배경 색상 변경
+                checkbox.style.backgroundColor = 'inherit';
+                // 체크아이콘 표시여부
+                const $checkIcon = checkbox.querySelector('.check-icon');
+                $checkIcon.style.display = 'none';
+            });
+            // 선택된 필터 초기화
+            selectedFilters.length = 0;
+        }
+    }
 });
 
-// 필터 목록에서 목록 클릭시
-const $filterListContents = document.querySelectorAll('.filter-list-content');
-$filterListContents.forEach( $filterListContent => {
-    $filterListContent.addEventListener('click', (e) => {
-        const $checkbox = e.target.closest('.checkbox');
-        if($checkbox) {
-            const isChecked = $checkbox.getAttribute('aria-checked') === 'true';
-            // aria-checked 값을 반전시킴
-            $checkbox.setAttribute('aria-checked', !isChecked);
-            // 배경 색상 변경
-            $checkbox.style.backgroundColor = !isChecked ? '#918D8D38' : 'inherit';
-            // 체크아이콘 표시여부
-            const $checkIcon = $checkbox.querySelector('.check-icon');
-            $checkIcon.style.display = !isChecked ? 'block' : 'none';
-        }
-    })
-});
+
+
 //endregion
 
 //region 정렬 필터 관련
@@ -69,9 +186,9 @@ function selectFilter(element) {
     // 목록 닫기
     toggleFilterList($sortingFilterBtn);
 
-    // 서버로 name 값 전송 (예시로 콘솔 출력)
+    // 필터에 해당하는 정렬 실행
     const filterName = element.getAttribute('name') || element.textContent;
-    console.log('선택된 필터 name:', filterName);
+    sortGameList(filterName); // 정렬
 }
 
 // 필터 목록의 표시/숨김을 토글하는 함수
@@ -88,6 +205,96 @@ function toggleFilterList(btn) {
         $filterListContainer.style.display = isExpanded ? 'none' : 'block';
     }
 }
+
+// 실제 정렬
+const sortGameList = (criteria) => {
+    let sortedGames;
+    // 정렬 조건
+    switch (criteria) {
+        case 'sale':
+            sortedGames = $games.sort((a, b) => {
+                // price.-discount가 없으면 price.gamePrice를 사용
+                const priceAElement = a.querySelector('.price.-discount');
+                const priceBElement = b.querySelector('.price.-discount');
+
+                // 할인 가격이 있을 경우 할인된 가격을, 없을 경우에는 gamePrice를 사용
+                const priceA = priceAElement
+                    ? (priceAElement.innerText.trim() === '무료' ? 0 : parseFloat(priceAElement.innerText.replace(/[^0-9.-]+/g, '')))
+                    : null;  // 할인된 가격이 없다면 null로 설정
+
+                const priceB = priceBElement
+                    ? (priceBElement.innerText.trim() === '무료' ? 0 : parseFloat(priceBElement.innerText.replace(/[^0-9.-]+/g, '')))
+                    : null;  // 할인된 가격이 없다면 null로 설정
+
+                // 1. 할인된 가격이 있을 경우 우선 정렬
+                if (priceA !== null && priceB === null) return -1;  // A는 할인된 가격이 있고 B는 없을 경우 A가 앞
+                if (priceB !== null && priceA === null) return 1;   // B는 할인된 가격이 있고 A는 없을 경우 B가 앞
+
+                // 2. 할인된 가격이 있으면 할인 가격으로 정렬, 없으면 gamePrice를 사용
+                const priceAFinal = priceA !== null
+                    ? priceA
+                    : parseFloat(a.querySelector('.price.gamePrice').innerText.replace(/[^0-9.-]+/g, ''));
+
+                const priceBFinal = priceB !== null
+                    ? priceB
+                    : parseFloat(b.querySelector('.price.gamePrice').innerText.replace(/[^0-9.-]+/g, ''));
+
+                // 3. 할인가격이 높은 순서로 정렬
+                return priceAFinal - priceBFinal;
+            });
+            break;
+
+        case 'alpha':
+            sortedGames = $games.sort((a, b) => {
+                const nameA = a.querySelector('.gameName').innerText;
+                const nameB = b.querySelector('.gameName').innerText;
+                return nameA.localeCompare(nameB, 'ko');
+            });
+            break;
+
+        case 'newest':
+            sortedGames = $games.sort((a, b) => {
+                const dateA = new Date(a.querySelector('.game-open-date').innerText);
+                const dateB = new Date(b.querySelector('.game-open-date').innerText);
+                return dateB - dateA; // 최신순 정렬 (내림차순)
+            });
+            break;
+
+        case 'price-desc':
+            sortedGames = $games.sort((a, b) => {
+                const priceA = a.querySelector('.gamePrice').innerText.trim() === '무료' ? 0 : parseFloat(a.querySelector('.gamePrice').innerText.replace(/[^0-9.-]+/g, ''));
+                const priceB = b.querySelector('.gamePrice').innerText.trim() === '무료' ? 0 : parseFloat(b.querySelector('.gamePrice').innerText.replace(/[^0-9.-]+/g, ''));
+
+                // '무료'를 마지막에 정렬하고, 나머지는 가격 내림차순으로 정렬
+                if (priceA === 0 && priceB !== 0) return 1;
+                if (priceB === 0 && priceA !== 0) return -1;
+                return priceB - priceA;
+            });
+            break;
+
+
+        case 'price-asc':
+            sortedGames = $games.sort((a, b) => {
+                const priceA = a.querySelector('.gamePrice').innerText.trim() === '무료' ? 0 : parseFloat(a.querySelector('.gamePrice').innerText.replace(/[^0-9.-]+/g, ''));
+                const priceB = b.querySelector('.gamePrice').innerText.trim() === '무료' ? 0 : parseFloat(b.querySelector('.gamePrice').innerText.replace(/[^0-9.-]+/g, ''));
+
+                // '무료'를 우선 정렬하고, 나머지는 가격 오름차순으로 정렬
+                if (priceA === 0 && priceB !== 0) return -1;
+                if (priceB === 0 && priceA !== 0) return 1;
+                return priceA - priceB;
+            });
+            break;
+
+        default:
+            sortedGames = $games; // 정렬하지 않음
+    }
+
+    // 정렬된 게임을 DOM에 재배치
+    sortedGames.forEach((game) => {
+        $gameList.appendChild(game); //정렬된 순서대로 재추가
+    });
+};
+
 //endregion
 
 //region 제거 버튼 누를 시
@@ -239,6 +446,9 @@ function toggleFilterList(btn) {
             }
             else if(response.result === 'failure_not_found'){
                 alert('오류: 찾을 수 없습니다.');
+            }
+            else if(response.result === 'failure_age_limit'){
+                alert('오류: 구매할 수 없는 나이의 게임이라서 장바구니 담기에 실패하였습니다.');
             }
             else if(response.result === 'success'){
                 btn.querySelector(':scope > .text').innerText = '장바구니 보기';

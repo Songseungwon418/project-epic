@@ -297,6 +297,8 @@ if ($cartAddButton) {
                 alert('이미 장바구니에 있습니다.');
             } else if (response.result === 'failure_not_found') {
                 alert('장바구니 담기에 실패하였습니다.');
+            }else if(response.result === 'failure_age_limit'){
+                alert('구매할 수 없는 나이의 게임이라서 장바구니 담기에 실패하였습니다.');
             } else if (response.result === 'success') {
                 alert('장바구니에 추가되었습니다.');
                 location.reload();

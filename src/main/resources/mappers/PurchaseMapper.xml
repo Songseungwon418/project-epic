@@ -132,57 +132,28 @@
             keyColumn="index"
             keyProperty="index"
             parameterType="com.ssw.epicgames.entities.PurchaseEntity">
-        INSERT INTO `epic_games`.`purchase` (`user_email`, `pay_id`,`game_index`, `date`, `game_price`, `discount_amount`, `final_price`, `addr`, `deleted_at`)
+        INSERT INTO `epic_games`.`purchase` (`user_email`, `pay_id`, `game_index`, `date`, `game_price`, `discount_amount`, `final_price`, `addr`, `deleted_at`)
         VALUES (#{userEmail}, #{payId}, #{gameIndex}, #{date}, #{gamePrice}, #{discountAmount}, #{finalPrice}, #{addr}, #{deletedAt})
     </insert>
 
-    <!--  결제 내역 삽입  -->
-    <insert id="insertPay" parameterType="com.ssw.epicgames.entities.PayEntity">
-        INSERT INTO `epic_games`.`pay` (`id`, `user_email`, `imp_uid`, `title`,`name`, `amount`, `method`, `paid_at`, `pg_provider`, `status`, `currency`, `card_name`, `card_number`, `pg_tid`)
-        VALUES (#{id}, #{userEmail}, #{impUid}, #{title}, #{name}, #{amount}, #{method}, #{paidAt}, #{pgProvider}, #{status}, #{currency}, #{cardName}, #{cardNumber}, #{pgTid})
-    </insert>
-    <!--  결제 id로 결제 내역 조회  -->
-    <select id="selectPayById" resultType="com.ssw.epicgames.entities.PayEntity">
-        SELECT id          AS `id`,
-               user_email  AS `userEmail`,
-               imp_uid     AS `impUid`,
-               title       AS `title`,
-               name        AS `name`,
-               amount      AS `amount`,
-               method      AS `method`,
-               paid_at     AS `paidAt`,
-               pg_provider AS `pgProvider`,
-               status      AS `status`,
-               currency    AS `currency`,
-               card_name   AS `cardName`,
-               card_number AS `cardNumber`,
-               pg_tid      AS `pgTid`
-        FROM `epic_games`.`pay`
-        WHERE `id` = #{id}
-    </select>
-    <!-- 유저에 해당하는 결제 내역들 조회   -->
-    <select id="selectPayByUser" resultType="com.ssw.epicgames.entities.PayEntity">
-        SELECT id          AS `id`,
-               user_email  AS `userEmail`,
-               imp_uid     AS `impUid`,
-               title       AS `title`,
-               name        AS `name`,
-               amount      AS `amount`,
-               method      AS `method`,
-               paid_at     AS `paidAt`,
-               pg_provider AS `pgProvider`,
-               status      AS `status`,
-               currency    AS `currency`,
-               card_name   AS `cardName`,
-               card_number AS `cardNumber`,
-               pg_tid      AS `pgTid`
-        FROM `epic_games`.`pay`
-        WHERE `user_email` = #{userEmail}
-        ORDER BY `paid_at` DESC
-    </select>
+    <!--  구매 내역 수정  -->
+    <update id="updatePurchase" parameterType="com.ssw.epicgames.entities.PurchaseEntity">
+        UPDATE `epic_games`.`purchase`
+        SET `index`           = #{index},
+            `user_email`      = #{userEmail},
+            `pay_id`          = #{payId},
+            `game_index`      = #{gameIndex},
+            `date`            = #{date},
+            `game_price`      = #{gamePrice},
+            `discount_amount` = #{discountAmount},
+            `final_price`     = #{finalPrice},
+            `addr`            = #{addr},
+            `deleted_at`      = #{deletedAt}
+        WHERE `index` = #{index}
+    </update>
 
     <!-- 결제 id로 해당하는 구매 내역들 조회   -->
-    <select id="selectPurchaseBypayId" resultType="com.ssw.epicgames.entities.PurchaseEntity">
+    <select id="selectPurchaseByPayId" resultType="com.ssw.epicgames.entities.PurchaseEntity">
         SELECT `index`           AS `index`,
                `user_email`      AS `userEmail`,
                `pay_id`          AS `payId`,
@@ -194,13 +165,104 @@
                `addr`            AS `addr`,
                `deleted_at`      AS `deletedAt`
         FROM `epic_games`.`purchase`
-        WHERE `pay_id` = #{id}
+        WHERE `pay_id` = #{payId}
     </select>
-    <!--  게임 index로 구매 내역 유무 조회  -->
+
+    <!-- 결제 id와 게임index로 해당하는 구매 내역 조회   -->
+    <select id="selectPurchaseByPayIdANDGameIndex" resultType="com.ssw.epicgames.entities.PurchaseEntity">
+        SELECT `index`           AS `index`,
+               `user_email`      AS `userEmail`,
+               `pay_id`          AS `payId`,
+               `game_index`      AS `gameIndex`,
+               `date`            AS `date`,
+               `game_price`      AS `gamePrice`,
+               `discount_amount` AS `discountAmount`,
+               `final_price`     AS `finalPrice`,
+               `addr`            AS `addr`,
+               `deleted_at`      AS `deletedAt`
+        FROM `epic_games`.`purchase`
+        WHERE `pay_id` = #{id} AND `game_index` = #{gameIndex}
+    </select>
+
+    <!--  게임 index로 구매 내역 유무 조회(검색되는 개수로 구매 유무 구분)  -->
     <select id="selectPurchaseByGameIndex" resultType="_int">
         SELECT COUNT(*)
         FROM `epic_games`.`purchase`
-        WHERE `user_email` = #{userEmail} AND `game_index` = #{gameIndex}
+        WHERE `user_email` = #{userEmail}
+          AND `game_index` = #{gameIndex}
+          AND `deleted_at` IS NULL
+    </select>
+
+    <!--  결제 내역 삽입  -->
+    <insert id="insertPay" parameterType="com.ssw.epicgames.entities.PayEntity">
+        INSERT INTO `epic_games`.`pay` (`id`, `user_email`, `imp_uid`, `title`, `name`, `amount`, `refund_amount`,`method`, `paid_at`, `pg_provider`, `status`, `currency`, `card_name`, `card_number`, `pg_tid`, `updated_at`)
+        VALUES (#{id}, #{userEmail}, #{impUid}, #{title}, #{name}, #{amount},  #{refundAmount}, #{method}, #{paidAt}, #{pgProvider}, #{status}, #{currency}, #{cardName}, #{cardNumber}, #{pgTid}, #{updatedAt})
+    </insert>
+
+    <!--  결제 내역 수정  -->
+    <update id="updatePay" parameterType="com.ssw.epicgames.entities.PayEntity">
+        UPDATE `epic_games`.`pay`
+        SET `id`            = #{id},
+            `user_email`    = #{userEmail},
+            `imp_uid`       = #{impUid},
+            `title`         = #{title},
+            `name`          = #{name},
+            `amount`        = #{amount},
+            `refund_amount` = #{refundAmount},
+            `method`        = #{method},
+            `paid_at`       = #{paidAt},
+            `pg_provider`   = #{pgProvider},
+            `status`        = #{status},
+            `currency`      = #{currency},
+            `card_name`     = #{cardName},
+            `card_number`   = #{cardNumber},
+            `pg_tid`        = #{pgTid},
+            `updated_at`    = #{updatedAt}
+        WHERE `id` = #{id}
+    </update>
+
+    <!-- 유저 이메일과 결제 id로 결제 내역 조회  -->
+    <select id="selectPayById" resultType="com.ssw.epicgames.entities.PayEntity">
+        SELECT `id`            AS `id`,
+               `user_email`    AS `userEmail`,
+               `imp_uid`       AS `impUid`,
+               `title`         AS `title`,
+               `name`          AS `name`,
+               `amount`        AS `amount`,
+               `refund_amount` AS `refundAmount`,
+               `method`        AS `method`,
+               `paid_at`       AS `paidAt`,
+               `pg_provider`   AS `pgProvider`,
+               `status`        AS `status`,
+               `currency`      AS `currency`,
+               `card_name`     AS `cardName`,
+               `card_number`   AS `cardNumber`,
+               `pg_tid`        AS `pgTid`,
+               `updated_at`    AS `updatedAt`
+        FROM `epic_games`.`pay`
+        WHERE `id` = #{id}
+    </select>
+    <!-- 유저에 해당하는 결제 내역들 조회   -->
+    <select id="selectPayByUser" resultType="com.ssw.epicgames.entities.PayEntity">
+        SELECT `id`            AS `id`,
+               `user_email`    AS `userEmail`,
+               `imp_uid`       AS `impUid`,
+               `title`         AS `title`,
+               `name`          AS `name`,
+               `amount`        AS `amount`,
+               `refund_amount` AS `refundAmount`,
+               `method`        AS `method`,
+               `paid_at`       AS `paidAt`,
+               `pg_provider`   AS `pgProvider`,
+               `status`        AS `status`,
+               `currency`      AS `currency`,
+               `card_name`     AS `cardName`,
+               `card_number`   AS `cardNumber`,
+               `pg_tid`        AS `pgTid`,
+               `updated_at`    AS `updatedAt`
+        FROM `epic_games`.`pay`
+        WHERE `user_email` = #{userEmail}
+        ORDER BY `paid_at` DESC
     </select>
 
 <!-- endregion -->

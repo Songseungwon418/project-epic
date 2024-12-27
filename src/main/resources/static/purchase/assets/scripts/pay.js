@@ -102,7 +102,7 @@ $closeBtn.onclick = () => {
     // 결재 진행
     function payment() {
         let requestData;
-        name = name.length > 10 ? `${name}... 그 외` : `${name} 그 외`; // 주문명 생성
+        name = name.length > 10 ? `${name}...그 외` : `${name}그 외`; // 주문명 생성 -> 게임이 1개가 아닐 시 설정하게 조건 추가 필요
         try{
             requestData = {
                 ...user,
@@ -187,21 +187,21 @@ $closeBtn.onclick = () => {
             const response = JSON.parse(xhr.responseText);
             if (response['result'] === 'failure'){
                 alert('구매에 실패하였습니다.');
-
+                attemptCancel(); // 결제창 닫기
             }else if(response['result'] === 'failure_not_found'){
                 alert('구매할 목록을 찾을 수 없습니다. 구매에 실패하였습니다.');
-
-            }else if(response['result'] === 'failure_age_limit'){
-                alert('구매할 수 없는 나이의 게임이 포함되어있습니다. 구매에 실패하였습니다.');
-
-            }else if (response['result'] === 'failure_duplicate_purchase'){
+                attemptCancel(); // 결제창 닫기
+            } else if (response['result'] === 'failure_duplicate_purchase'){
                 alert('이미 구매한 게임이 포함되어있습니다. 구매에 실패하였습니다.');
-
+                attemptCancel(); // 결제창 닫기
+            } else if (response['result'] === 'failure_age_limit') {
+                alert('구매할 수 없는 나이의 게임이 있습니다. 구매에 실패하였습니다.');
+                attemptCancel(); // 결제창 닫기
             } else if(response['result'] === 'success'){
                 return window.parent.location.href = `/purchase/paysuccess?id=${merchantUid}`; //결과가 true이면 성공페이지로 이동
             }else {
                 alert('알수 없는 이유로 구매에 실패하였습니다.');
-
+                attemptCancel(); // 결제창 닫기
             }
         };
         xhr.open('POST', '/purchase/pay/confirm');

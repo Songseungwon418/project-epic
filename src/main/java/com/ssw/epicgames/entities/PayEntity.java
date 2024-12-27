@@ -14,11 +14,12 @@ import java.time.LocalDateTime;
 @EqualsAndHashCode(of = {"id"})
 public class PayEntity {
     private String id; // merchant_id(주문번호)
-    private String userEmail; // 주문자
+    private String userEmail; // 주문자 이메일(아이디)
     private String impUid; //PortOne 고유 결재 번호, 무료는 결제진행X
     private String title; //주문명
     private String name; //주문자
     private Integer amount; //결재 금액
+    private int refundAmount; //환불한 금액
     private String method; //결제수단
     private LocalDateTime paidAt; //결제 일시
     private String pgProvider; //pg사 구분코드(kakaopay, naverpay 등..)
@@ -27,4 +28,5 @@ public class PayEntity {
     private String cardName; //카드사명(삼성카드, 등...)
     private String cardNumber; //카드번호
     private String pgTid; //카드사 고유 결재번호
+    private LocalDateTime updatedAt; //업데이트 일시
 }

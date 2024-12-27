@@ -16,7 +16,7 @@
 </head>
 <body>
 <th:block th:replace="~{fragments/common.html :: header}"></th:block>
-<div class="overlay" style="display: none"></div>
+<div class="overlay"></div>
 <div class="container">
     <div class="nav" id="nav">
         <ul class="menu">
@@ -101,17 +101,20 @@
                         <th class="line">날짜</th>
                         <th class="content">설명</th>
                         <th class="price-info">가격</th>
-                        <th colspan="2">상태</th>
+                        <th class="status-title">상태</th>
+                        <th class="date"></th>
                     </tr>
                 </thead>
                 <tbody th:each="pay : ${paylist}">
                     <tr class="title">
                         <td class="line" th:text="${#temporals.format(pay.getPay().getPaidAt(), 'yyyy-MM-dd HH:mm:ss')}"></td>
                         <td class="title content" th:text="${pay.getPay().getTitle()}"></td>
-                        <td class="price price-info" th:text="${pay.getPay().getAmount()}"></td>
-                        <td th:text="${pay.getPay().getStatus() == 'paid' ? '구매' : '환불'}"></td>
-                        <td class="refund-container" th:if="${pay.isRefund()}">
-                            <button class="refund-btn" data-id="all">전체환불</button>
+                        <td class="price price-info" th:if="${pay.getPay().getRefundAmount() == 0}">[[${pay.getPay().getAmount()}]]</td>
+                        <td class="price price-info" th:if="${pay.getPay().getRefundAmount() > 0}">[[${pay.getPay().getAmount()-pay.getPay().getRefundAmount()}]]</td>
+                        <td class="status" th:text="${pay.getPay().getStatus() == 'paid' ? '구매' : (pay.getPay().getStatus().equals('partial') ? '부분환불' : '환불')}"></td>
+                        <td class="refund-container">
+                            <button class="refund-btn" data-id="all" th:if="${pay.isRefund() && pay.getPay().getAmount() > pay.getPay().getRefundAmount()}">전체환불</button>
+                            <span th:if="${pay.getPay().getStatus().equals('cancelled')}" th:text="${#temporals.format(pay.getPay().getUpdatedAt(), 'yyyy-MM-dd HH:mm:ss')}"></span>
                         </td>
                     </tr>
                     <tr class="purchase-id">
@@ -138,14 +141,14 @@
                                 <span class="price -current">[[${purchase.getPrice().currentPrice}]]</span>
                             </div>
                         </td>
-                        <td class="line-bottom" th:text="${purchase.getPurchase().getDeletedAt() == null? '구매' : '환불'}"></td>
-                        <td class="line-bottom refund-container" th:if="${purchase.getPurchase().getDeletedAt == null && pay.isRefund()}">
-                            <button class="refund-btn" data-id="partial">환불</button>
+                        <td class="line-bottom status" th:text="${purchase.getPurchase().getDeletedAt() == null? '구매' : '환불'}"></td>
+                        <td class="line-bottom refund-container">
+                            <button class="refund-btn" data-id="partial" th:if="${purchase.getPurchase().getDeletedAt == null && pay.isRefund() && purchase.getPrice().currentPrice != 0}">환불</button>
                             <span class="gameIndex" hidden="hidden" th:text="${purchase.getGame().getIndex()}"></span>
-                            <span class="purchaseIndex" hidden="hidden" th:text="${purchase.getPurchase().getIndex()}"></span>
+                            <span th:if="${purchase.getPurchase().getDeletedAt() != null}" th:text="${#temporals.format(purchase.getPurchase().getDeletedAt(), 'yyyy-MM-dd HH:mm:ss')}"></span>
                         </td>
                     </tr>
-                    <tr class="sub-title">
+                    <tr class="sub-title total-price">
                         <td class="line"></td>
                         <td class="empty"></td>
                         <td class="price-info">
@@ -157,11 +160,21 @@
                                 <span class="text -minus">총 할인가격: </span>
                                 <span class="price -minus">[[${pay.getTotalDiscount()}]]</span>
                             </div>
-                            <div class="info" th:if="${pay.getPay().getAmount() != 0}">
+                            <div class="info" th:if="${pay.getPay().getRefundAmount() != 0}">
+                                <span class="text -minus">총 환불한 금액: </span>
+                                <span class="price -minus">[[${pay.getPay().getRefundAmount()}]]</span>
+                            </div>
+                            <div class="info" th:if="${pay.getPay().getAmount() != 0 && pay.getPay().getRefundAmount() == 0}">
                                 <span class="text">총 구매가격: </span>
                                 <span class="price">[[${pay.getPay().getAmount()}]]</span>
                             </div>
+                            <div class="info" th:if="${pay.getPay().getAmount() != 0 && pay.getPay().getRefundAmount() != 0}">
+                                <span class="text">총 구매가격: </span>
+                                <span class="price">[[${pay.getPay().getAmount() - pay.getPay().getRefundAmount()}]]</span>
+                            </div>
                         </td>
+                        <td class="status"></td>
+                        <td class="refund-container"></td>
                     </tr>
                 </tbody>
             </table>
@@ -182,15 +195,19 @@
 </form>
 
 <form id="refund-dialog">
+    <div class="title">
+        <span class="text">환불하시겠습니까?</span>
+    </div>
     <label class="game-label">
         <div hidden="hidden" id="payId"></div>
         <div hidden="hidden" id="gameIndex"></div>
-        <div hidden="hidden" id="purchaseIndex"></div>
-        <input disabled class="input" name="gameName" type="text">
-        <input disabled class="input" name="price" type="text">
+        <span class="text">게임 이름</span>
+        <input disabled class="input -title" name="gameName" type="text">
+        <span class="text">가격</span>
+        <input disabled class="input -price" name="price" type="text">
     </label>
     <div class="btn-wrapper">
-        <button class="refund-btn" id="refund-btn" type="submit">환불</button>
+        <button class="refund-btn" id="refund-btn" type="submit">확인</button>
         <button class="cancel-btn" id="refund-cancel-btn" type="button">취소</button>
     </div>
 </form>

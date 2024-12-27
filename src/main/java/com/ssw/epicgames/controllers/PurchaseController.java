@@ -251,5 +251,27 @@ public class PurchaseController {
         mav.setViewName("purchase/paysuccess");
         return mav;
     }
+
+    /** 환불 요청 시 */
+    @PatchMapping(value = "/patch", produces = MediaType.APPLICATION_JSON_VALUE)
+    @ResponseBody
+    public String patchPay(@SessionAttribute(value = "user", required = true) UserEntity user,
+                           @RequestParam(value = "payId", required = true) String payId,
+                           @RequestParam(value = "gameIndex", required = false, defaultValue = "0") int gameIndex){
+        Result result; //결과 저장
+        // 로그인 유무
+        if (user == null) {
+            result = CommonResult.FAILURE;
+        } else if (gameIndex == 0) { // 전체 환불
+            result = this.purchaseService.updateProceed(user, payId);
+        } else if (gameIndex > 0) { // 부분 환불
+            result = this.purchaseService.updateProceed(user, payId, gameIndex);
+        } else { // 그 외 알수없는 요청
+            result = CommonResult.FAILURE;
+        }
+        JSONObject response = new JSONObject();
+        response.put(Result.NAME, result.nameToLower());
+        return response.toString();
+    }
     //endregion
 }
