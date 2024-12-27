@@ -116,7 +116,7 @@ const appendComment = (review) => {
                         break;
                     case 'success':
                         alert('댓글을 수정하였습니다.');
-                        loadComments();  // 댓글 리스트 다시 로드
+                        loadComments(currentPage); // 현재 페이지 유지
                         break;
                     default:
                         alert('서버가 알 수 없는 응답을 반환하였습니다. 수정 결과를 반드시 확인해 주세요.');
@@ -144,13 +144,14 @@ const appendComment = (review) => {
 //region 댓글 불러오기
 let currentPage = 1;
 
-const loadComments = (page) => {
+const loadComments = (page = 1) => {
+    currentPage = page > 0 ? page : 1; // 1보다 작은 값은 기본값 1로 처리
     const url = new URL(location.href);
     const xhr = new XMLHttpRequest();
 
     const params = new URLSearchParams({
         gameIndex: url.searchParams.get('index'),
-        page: page,
+        page: currentPage,
     });
 
     xhr.onreadystatechange = () => {
@@ -159,8 +160,6 @@ const loadComments = (page) => {
         }
         if (xhr.status === 200) {
             const response = JSON.parse(xhr.responseText);
-
-            console.log('Response Data:', response);
 
             const reviews = response.reviews || [];
             const pageVo = response.pageVo;
@@ -177,7 +176,7 @@ const loadComments = (page) => {
                 });
             }
 
-            // 페이지네이션 업데이트 (totalCount가 0이면 페이지네이션 하지 않음)
+            // 페이지네이션 업데이트
             if (pageVo.totalCount > 0) {
                 updatePagination(pageVo);
             }
@@ -190,58 +189,67 @@ const loadComments = (page) => {
     xhr.send();
 };
 
+
 const updatePagination = (pageVo) => {
     const $paginationContainer = document.getElementById('pagination');
     $paginationContainer.innerHTML = ''; // 기존 페이지네이션 비우기
 
-    const url = new URL(location.href); // 현재 URL을 가져옴
-    const gameIndex = url.searchParams.get('index'); // URL에서 'index' 파라미터 값 가져오기
-
-    // 첫 페이지로 이동 (맨 앞 버튼)
     if (pageVo.requestPage > pageVo.movableMinPage) {
         const firstButton = document.createElement('button');
         firstButton.classList.add('page', 'first');
-        firstButton.innerText = '<<'; // 맨 앞 버튼
-        firstButton.onclick = () => loadComments(pageVo.movableMinPage);
+        firstButton.innerText = '<<';
+        firstButton.onclick = () => {
+            currentPage = pageVo.movableMinPage;
+            loadComments(currentPage);
+        };
         $paginationContainer.appendChild(firstButton);
     }
 
-    // 이전 페이지로 이동
     if (pageVo.requestPage > 1) {
         const prevButton = document.createElement('button');
         prevButton.classList.add('page', 'prev');
         prevButton.innerText = '<';
-        prevButton.onclick = () => loadComments(pageVo.requestPage - 1);
+        prevButton.onclick = () => {
+            currentPage = pageVo.requestPage - 1;
+            loadComments(currentPage);
+        };
         $paginationContainer.appendChild(prevButton);
     }
 
-    // 페이지 번호 버튼
     for (let i = pageVo.displayMinPage; i <= pageVo.displayMaxPage; i++) {
         const pageButton = document.createElement('button');
         pageButton.innerText = i;
-        pageButton.classList.toggle('-selected', i === pageVo.requestPage); // 현재 페이지 강조
-        pageButton.onclick = () => loadComments(i);
+        pageButton.classList.toggle('-selected', i === pageVo.requestPage);
+        pageButton.onclick = () => {
+            currentPage = i;
+            loadComments(currentPage);
+        };
         $paginationContainer.appendChild(pageButton);
     }
 
-    // 다음 페이지로 이동
     if (pageVo.requestPage < pageVo.movableMaxPage) {
         const nextButton = document.createElement('button');
-        nextButton.classList.add('page', 'next')
+        nextButton.classList.add('page', 'next');
         nextButton.innerText = '>';
-        nextButton.onclick = () => loadComments(pageVo.requestPage + 1);
+        nextButton.onclick = () => {
+            currentPage = pageVo.requestPage + 1;
+            loadComments(currentPage);
+        };
         $paginationContainer.appendChild(nextButton);
     }
 
-    // 마지막 페이지로 이동 (맨 끝 버튼)
     if (pageVo.requestPage < pageVo.movableMaxPage) {
         const lastButton = document.createElement('button');
-        lastButton.classList.add('page', 'last')
-        lastButton.innerText = '>>'; // 맨 끝 버튼
-        lastButton.onclick = () => loadComments(pageVo.movableMaxPage);
+        lastButton.classList.add('page', 'last');
+        lastButton.innerText = '>>';
+        lastButton.onclick = () => {
+            currentPage = pageVo.movableMaxPage;
+            loadComments(currentPage);
+        };
         $paginationContainer.appendChild(lastButton);
     }
 };
+
 
 // 처음 로드 시 댓글 불러오기
 loadComments(currentPage);
@@ -346,7 +354,6 @@ document.addEventListener('DOMContentLoaded', () => {
         $deleteCancelButton.addEventListener('click', () => {
             const $deleteReview = document.getElementById('deleteReview');
 
-            // deleteReview에서 --visible 클래스 제거
             if ($deleteReview) {
                 $deleteReview.classList.remove('--visible');
             }
@@ -358,39 +365,46 @@ document.addEventListener('DOMContentLoaded', () => {
     if ($deleteConfirmButton) {
         $deleteConfirmButton.addEventListener('click', () => {
             const $deleteReview = document.getElementById('deleteReview');
-            const $reviewIndex = $main.querySelector(':scope > .deleteReview > .deleteDialog > .content > .text > .reviewIndex')
+            const $reviewIndex = $main.querySelector(':scope > .deleteReview > .deleteDialog > .content > .text > .reviewIndex');
 
             const xhr = new XMLHttpRequest();
             const formData = new FormData();
             formData.append('index', $reviewIndex.value);
+
             xhr.onreadystatechange = () => {
                 if (xhr.readyState !== XMLHttpRequest.DONE) {
-                    return
-                }
-                if (xhr.status < 200 || xhr.status >= 300) {
-                    alert('댓글을 삭제하지 못하였습니다. 잠시 후 다시 시도해 주세요.')
                     return;
                 }
+                if (xhr.status < 200 || xhr.status >= 300) {
+                    alert('댓글을 삭제하지 못하였습니다. 잠시 후 다시 시도해 주세요.');
+                    return;
+                }
+
                 const response = JSON.parse(xhr.responseText);
-                switch (response['result']) {
-                    case 'failure':
-                        alert('댓글을 삭제하지 못하였습니다. 잠시 후 다시 시도해 주세요.');
-                        break;
-                    case 'success':
-                        alert('댓글을 삭제했습니다.');
-                        loadComments();
-                        $deleteReview.classList.remove('--visible');
-                        break;
-                    default:
-                        alert('서버가 알 수 없는 응답을 반환하였습니다. 삭제 결과를 반드시 확인해 주세요.')
-                        break;
+                if (response['result'] === 'success') {
+                    alert('댓글을 삭제했습니다.');
+
+                    // 삭제 후 페이지 처리
+                    if ($list.children.length === 1 && currentPage > 1) {
+                        currentPage--; // 마지막 댓글 삭제 시 이전 페이지로 이동
+                    }
+
+                    // 댓글 리스트 다시 로드
+                    loadComments(currentPage);
+
+                    // 삭제 창 닫기
+                    $deleteReview.classList.remove('--visible');
+                } else {
+                    alert('알 수 없는 이유로 댓글을 삭제하지 못하였습니다. 잠시 후 다시 시도해 주세요.');
                 }
             };
-            xhr.open('DELETE', '../review/.');
-            xhr.send(formData);
 
+            xhr.open('DELETE', '../review/');
+            xhr.send(formData);
         });
     }
+
+
 });
 //endregion
 

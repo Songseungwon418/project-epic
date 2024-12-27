@@ -6,7 +6,7 @@ import lombok.Setter;
 @Getter
 @Setter
 public class ArticlePageVo {
-    public final int countPerPage = 10;     // 한 페이지에 표시할 게시글 수
+    public final int countPerPage = 20;     // 한 페이지에 표시할 게시글 수
     public final int requestPage;           // 클라이언트가 요청한 페이지 번호
     public final int totalCount;            // 전체 게시글 개수
     public final int displayMinPage;        // 표시할 최소 페이지 번호

@@ -3,6 +3,7 @@ package com.ssw.epicgames.services;
 import com.ssw.epicgames.entities.ArticleEntity;
 import com.ssw.epicgames.entities.ImageEntity;
 import com.ssw.epicgames.mappers.ArticleMapper;
+import com.ssw.epicgames.mappers.CommentMapper;
 import com.ssw.epicgames.mappers.ImageMapper;
 import com.ssw.epicgames.resutls.CommonResult;
 import com.ssw.epicgames.vos.ArticlePageVo;
@@ -17,11 +18,13 @@ import java.time.LocalDateTime;
 public class ArticleService {
     private final ArticleMapper articleMapper;
     private final ImageMapper imageMapper;
+    private final CommentMapper commentMapper;
 
     @Autowired
-    public ArticleService(ArticleMapper articleMapper, ImageMapper imageMapper) {
+    public ArticleService(ArticleMapper articleMapper, ImageMapper imageMapper, CommentMapper commentMapper) {
         this.articleMapper = articleMapper;
         this.imageMapper = imageMapper;
+        this.commentMapper = commentMapper;
     }
 
     public ImageEntity getImage(int index) {
@@ -40,6 +43,49 @@ public class ArticleService {
         }
         image.setCreatedAt(LocalDateTime.now());
         return this.imageMapper.insertImage(image) > 0;
+    }
+
+    public Pair<ArticlePageVo, ArticleVo[]> searchArticles(int page, String filter, String keyword) {
+        page = Math.max(page, 1);
+        if (filter == null || (!filter.equals("all") && !filter.equals("title") && !filter.equals("nickname"))) {
+            filter = "all";
+        }
+        if (keyword == null) {
+            keyword = "";
+        }
+        int totalCount = this.articleMapper.selectArticleCountBySearch(filter, keyword);
+        ArticlePageVo articlePageVo = new ArticlePageVo(page, totalCount);
+        ArticleVo[] articleVos = this.articleMapper.selectArticleBySearch(filter, keyword, articlePageVo.countPerPage, articlePageVo.offsetCount);
+        return Pair.of(articlePageVo, articleVos);
+    }
+
+    public CommonResult modifyArticle(ArticleEntity article) {
+        if (article == null) {
+            return CommonResult.FAILURE;
+        }
+        if (article.getIndex() < 1) {
+            return CommonResult.FAILURE;
+        }
+        if (article.getUserEmail() == null || article.getUserEmail().isEmpty() || article.getUserEmail().length() > 50) {
+            return CommonResult.FAILURE;
+        }
+        if (article.getTitle() == null || article.getTitle().isEmpty() || article.getTitle().length() > 100) {
+            return CommonResult.FAILURE;
+        }
+        if (article.getContent() == null || article.getContent().isEmpty() || article.getContent().length() > 16_777_215) {
+            return CommonResult.FAILURE;
+        }
+        ArticleEntity dbArticle = this.articleMapper.selectArticleByIndex(article.getIndex());
+        if (dbArticle == null) {
+            return CommonResult.FAILURE;
+        }
+        if (dbArticle.getDeletedAt() != null) {
+            return CommonResult.FAILURE;
+        }
+        dbArticle.setTitle(article.getTitle());
+        dbArticle.setContent(article.getContent());
+        dbArticle.setUpdatedAt(LocalDateTime.now());
+        return this.articleMapper.updateArticle(dbArticle) > 0 ? CommonResult.SUCCESS : CommonResult.FAILURE;
     }
 
     public CommonResult deleteArticle(int index) {
@@ -71,6 +117,13 @@ public class ArticleService {
         ArticlePageVo pageVo = new ArticlePageVo(page, totalCount);
         ArticleVo[] articleVos = this.articleMapper.selectAllArticles(pageVo.countPerPage, pageVo.offsetCount);
         return Pair.of(pageVo, articleVos);
+    }
+
+    public int getCommentCount(int index) {
+        if (index < 1) {
+            return 0;
+        }
+        return this.commentMapper.selectCommentCount(index);
     }
 
     public ArticleVo getArticle(int index) {

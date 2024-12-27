@@ -1,4 +1,4 @@
-const $main = document.getElementById('main');
+const $modifyForm = document.getElementById('modifyForm');
 
 const {
     ClassicEditor,
@@ -294,7 +294,7 @@ const editorConfig = {
         ]
     },
     initialData:
-    $main['content'].value,
+    $modifyForm['content'].value,
     language: 'ko',
     link: {
         addTargetToExternalLinks: true,
@@ -384,12 +384,46 @@ const editorConfig = {
     },
 };
 
-
-const $modifyForm = document.getElementById('modifyForm');
 const $userEmail = document.getElementById('userEmail');
 
-ClassicEditor.create($main['content'], editorConfig).then((editor) => {
+ClassicEditor.create($modifyForm['content'], editorConfig).then((editor) => {
     $modifyForm.onsubmit = (e) => {
         e.preventDefault();
+
+        if (!userEmail) {
+            alert('로그인 후 이용가능합니다. 로그인 페이지로 이동합니다.');
+            window.location.href = '/user/';
+            return;
+        }
+
+        const url = new URL(location.href)
+        const xhr = new XMLHttpRequest();
+        const formData = new FormData();
+
+        formData.append('index', url.searchParams.get('index'));
+        formData.append('userEmail', $userEmail.value);
+        formData.append('title', $modifyForm['title'].value);
+        formData.append('content', editor.getData());
+        xhr.onreadystatechange = () => {
+            if (xhr.readyState !== XMLHttpRequest.DONE) {
+                return
+            }
+            if (xhr.status < 200 || xhr.status >= 300) {
+                alert('게시글을 수정하지 못하였습니다. 잠시 후 다시 시도해 주세요.');
+                return;
+            }
+            const response = JSON.parse(xhr.responseText);
+            if (response['result'] === 'success') {
+                location.href = `./read?index=${url.searchParams.get('index')}`;
+            } else {
+                alert('게시글을 수정하지 못하였습니다. 잠시 후 다시 시도해 주세요.')
+            }
+        };
+        xhr.open('PATCH', './modify');
+        xhr.send(formData);
+
+
+
+
     }
 });

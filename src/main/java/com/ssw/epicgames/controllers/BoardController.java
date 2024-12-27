@@ -26,11 +26,22 @@ public class BoardController {
 
     @RequestMapping(value = "/list", method = RequestMethod.GET, produces = MediaType.TEXT_HTML_VALUE)
     public ModelAndView getList(@SessionAttribute(value = "user", required = false) UserEntity user,
-                                @RequestParam(value = "page", required = false, defaultValue = "1") int page) {
+                                @RequestParam(value = "page", required = false, defaultValue = "1") int page,
+                                @RequestParam(value = "filter", required = false) String filter,
+                                @RequestParam(value = "keyword", required = false) String keyword) {
         ModelAndView modelAndView = new ModelAndView();
-        Pair<ArticlePageVo, ArticleVo[]> articles = this.articleService.getAllArticles(page);
-        modelAndView.addObject("articlePageVo", articles.getLeft());
-        modelAndView.addObject("articles", articles.getRight());
+
+        if (filter == null || keyword == null) {
+            Pair<ArticlePageVo, ArticleVo[]> articles = this.articleService.getAllArticles(page);
+            modelAndView.addObject("articlePageVo", articles.getLeft());
+            modelAndView.addObject("articles", articles.getRight());
+        } else {
+            Pair<ArticlePageVo, ArticleVo[]> articles = this.articleService.searchArticles(page, filter, keyword);
+            modelAndView.addObject("articlePageVo", articles.getLeft());
+            modelAndView.addObject("articles", articles.getRight());
+            modelAndView.addObject("filter", filter);
+            modelAndView.addObject("keyword", keyword);
+        }
         modelAndView.addObject("user", user);
         modelAndView.setViewName("board/list");
         return modelAndView;

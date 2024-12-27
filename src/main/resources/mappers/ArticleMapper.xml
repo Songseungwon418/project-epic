@@ -27,22 +27,6 @@
     </update>
 
     <select id="selectArticleByIndex" resultType="com.ssw.epicgames.vos.ArticleVo">
-        SELECT a.`index` AS `index`,
-               a.`user_email` AS `userEmail`,
-               a.`title` AS `title`,
-               a.`content` AS `content`,
-               a.`view` AS `view`,
-               a.`created_at` AS `createdAt`,
-               a.`updated_at` AS `UpdatedAt`,
-               a.`deleted_at` AS `deletedAt`,
-               u.`nickname` AS `nickname`
-        FROM `epic_games`.`articles` AS `a`
-        LEFT JOIN `epic_games`.`user` `u` ON `u`.email = `a`.user_email
-        WHERE `a`.`index` = #{index}
-        AND `a`.`deleted_at` IS NULL
-    </select>
-
-    <select id="selectAllArticles" resultType="com.ssw.epicgames.vos.ArticleVo">
         SELECT a.`index`      AS `index`,
                a.`user_email` AS `userEmail`,
                a.`title`      AS `title`,
@@ -54,22 +38,86 @@
                u.`nickname`   AS `nickname`
         FROM `epic_games`.`articles` AS `a`
                  LEFT JOIN `epic_games`.`user` `u` ON `u`.email = `a`.user_email
-        WHERE `a`.`deleted_at` IS NULL
-        ORDER BY `index` DESC
-        LIMIT #{limitCount} OFFSET #{offsetCount}
+        WHERE `a`.`index` = #{index}
+          AND `a`.`deleted_at` IS NULL
+    </select>
+
+    <select id="selectAllArticles" resultType="com.ssw.epicgames.vos.ArticleVo">
+        SELECT a.`index`                      AS `index`,
+               a.`user_email`                 AS `userEmail`,
+               a.`title`                      AS `title`,
+               a.`content`                    AS `content`,
+               a.`view`                       AS `view`,
+               a.`created_at`                 AS `createdAt`,
+               a.`updated_at`                 AS `updatedAt`,
+               a.`deleted_at`                 AS `deletedAt`,
+               u.`nickname`                   AS `nickname`,
+               (SELECT COUNT(0)
+                FROM `epic_games`.`comments` c
+                WHERE c.`article_index` = a.`index`
+                  AND c.`deleted_at` IS NULL) AS `commentCount`
+        FROM `epic_games`.`articles` a
+                 LEFT JOIN
+             `epic_games`.`user` u
+             ON
+                 u.`email` = a.`user_email`
+        WHERE a.`deleted_at` IS NULL
+        ORDER BY a.`index` DESC
+        LIMIT #{limitCount} OFFSET #{offsetCount};
+
     </select>
 
     <select id="selectArticleCount" resultType="_int">
-        SELECT COUNT(*)
+        SELECT COUNT(0)
         FROM `epic_games`.articles
         WHERE `deleted_at` IS NULL
     </select>
 
     <select id="selectArticleBySearch" resultType="com.ssw.epicgames.vos.ArticleVo">
-
+        SELECT
+        a.`index`                      AS `index`,
+        a.`user_email`                 AS `userEmail`,
+        a.`title`                      AS `title`,
+        a.`content`                    AS `content`,
+        a.`view`                       AS `view`,
+        a.`created_at`                 AS `createdAt`,
+        a.`updated_at`                 AS `updatedAt`,
+        a.`deleted_at`                 AS `deletedAt`,
+        u.`nickname`                   AS `nickname`,
+        (SELECT COUNT(0)
+        FROM `epic_games`.`comments` c
+        WHERE c.`article_index` = a.`index`
+        AND c.`deleted_at` IS NULL) AS `commentCount`
+        FROM `epic_games`.`articles` AS `a`
+        LEFT JOIN `epic_games`.`user` AS `u` ON `u`.`email` = `a`.`user_email`
+        WHERE a.`deleted_at` IS NULL
+        <if test="filter.equals('all')">
+            AND (a.`title` LIKE CONCAT('%', #{keyword}, '%') OR a.`content` LIKE CONCAT('%', #{keyword}, '%'))
+        </if>
+        <if test="filter.equals('title')">
+            AND a.`title` LIKE CONCAT('%', #{keyword}, '%')
+        </if>
+        <if test="filter.equals('nickname')">
+            AND u.`nickname` = #{keyword}
+        </if>
+        ORDER BY `a`.`index` DESC
+        LIMIT #{limitCount} OFFSET #{offsetCount}
     </select>
-    <select id="selectArticleCountBySearch" resultType="_int">
 
+    <select id="selectArticleCountBySearch" resultType="_int">
+        SELECT COUNT(0)
+        FROM `epic_games`.`articles` AS `a`
+        LEFT JOIN `epic_games`.`user` AS `u` ON `a`.`user_email` = `u`.`email`
+        WHERE `a`.`deleted_at` IS NULL
+        <if test="filter.equals('all')">
+            AND (`a`.`title` LIKE CONCAT('%', #{keyword}, '%') OR `a`.`content` LIKE CONCAT('%', #{keyword}, '%'))
+        </if>
+        <if test="filter.equals('title')">
+            AND `a`.`title` LIKE CONCAT('%', #{keyword}, '%')
+        </if>
+        <if test="filter.equals('nickname')">
+            AND `u`.`nickname` = #{keyword}
+        </if>
     </select>
 
 </mapper>

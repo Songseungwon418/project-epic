@@ -239,44 +239,6 @@ document.addEventListener('DOMContentLoaded', function () {
                 }
             }
 
-            // 장르 필터 적용
-            if (selectedFilters.includes('액션 게임')) {
-                const gameGenre = game.querySelector('.gameGenre').innerText; // 게임 장르
-                if (!gameGenre.includes('ACT')) {
-                    isVisible = false;
-                }
-            }
-            if (selectedFilters.includes('RPG 게임')) {
-                const gameGenre = game.querySelector('.gameGenre').innerText;
-                if (!gameGenre.includes('RPG')) {
-                    isVisible = false;
-                }
-            }
-            if (selectedFilters.includes('오픈 월드')) {
-                const gameGenre = game.querySelector('.gameGenre').innerText;
-                if (!gameGenre.includes('OW')) {
-                    isVisible = false;
-                }
-            }
-            if (selectedFilters.includes('RTS 게임')) {
-                const gameGenre = game.querySelector('.gameGenre').innerText;
-                if (!gameGenre.includes('RTS')) {
-                    isVisible = false;
-                }
-            }
-            if (selectedFilters.includes('전략')) {
-                const gameGenre = game.querySelector('.gameGenre').innerText;
-                if (!gameGenre.includes('STR')) {
-                    isVisible = false;
-                }
-            }
-            if (selectedFilters.includes('생존')) {
-                const gameGenre = game.querySelector('.gameGenre').innerText;
-                if (!gameGenre.includes('SG')) {
-                    isVisible = false;
-                }
-            }
-
             // 게임 표시/숨기기
             if (isVisible) {
                 game.style.display = 'block';

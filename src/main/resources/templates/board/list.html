@@ -10,7 +10,6 @@
   <link rel="stylesheet" type="text/css" th:href="@{/assets/styles/common.css}">
   <link rel="stylesheet" type="text/css" th:href="@{/board/assets/styles/list.css}">
   <script defer type="text/javascript" th:src="@{'/assets/scripts/common.js'}"></script>
-  <script defer type="text/javascript" th:src="@{'/board/assets/scripts/list.js'}"></script>
   <script src="https://kit.fontawesome.com/856af35d3d.js" crossorigin="anonymous"></script>
   <style>
     .item.board {
@@ -46,37 +45,35 @@
         <td th:text="${article.getIndex()}"></td>
         <td style="text-align: left">
           <a th:text="${article.getTitle()}" th:href="@{'/article/read' (index=${article.getIndex()})}"></a>
-          <b>[<span>9</span>]</b>
+          <b>[<span th:text="${article.getCommentCount()}"></span>]</b>
         </td>
         <td th:text="${article.getNickname()}"></td>
         <td th:text="${article.getView()}"></td>
         <td th:text="${#temporals.format(article.getCreatedAt(), 'yyyy-MM-dd HH:mm')}"></td>
       </tr>
-
-
       </tbody>
     </table>
-
-<!--    <div class="move" th:if="${articles != null && articles.length > 0}">-->
-<!--      <a class="page first" th:if="${articlePageVo.requestPage > articlePageVo.movableMinPage}" th:href="@{'/board/list' (id=${board.getId()}, page=${articlePageVo.movableMinPage}, filter=${filter}, keyword=${keyword})}">&lt;&lt;</a>-->
-<!--      <a class="page prev" th:if="${articlePageVo.requestPage > articlePageVo.movableMinPage}" th:href="@{'/board/list' (id=${board.getId()}, page=${articlePageVo.requestPage - 1}, filter=${filter}, keyword=${keyword})}">&lt;</a>-->
-<!--      <div class="page-container">-->
-<!--        <a class="page"-->
-<!--           th:each="page : ${#numbers.sequence(articlePageVo.displayMinPage, articlePageVo.displayMaxPage)}"-->
-<!--           th:text="${page}"-->
-<!--           th:href="@{'/board/list' (id=${board.getId()}, page=${page}, filter=${filter}, keyword=${keyword})}"-->
-<!--           th:classappend="${page == articlePageVo.requestPage} ? 'selected'"></a>-->
-<!--      </div>-->
-<!--      <a class="page next" th:if="${articlePageVo.requestPage < articlePageVo.movableMaxPage}" th:href="@{'/board/list' (id=${board.getId()}, page=${articlePageVo.requestPage + 1}, filter=${filter}, keyword=${keyword})}">&gt;</a>-->
-<!--      <a class="page last" th:if="${articlePageVo.requestPage < articlePageVo.movableMaxPage}" th:href="@{'/board/list' (id=${board.getId()}, page=${articlePageVo.movableMaxPage}, filter=${filter}, keyword=${keyword})}">&gt;&gt;</a>-->
-<!--    </div>-->
 
     <div class="button-container">
       <div class="spring"></div>
       <a class="button blue" th:if="${user != null}" th:href="@{'/article/write'}" target="_self">글 쓰기</a>
     </div>
+
+    <div class="move" th:if="${articles != null && articles.length > 0}">
+      <a class="page first" th:if="${articlePageVo.requestPage > articlePageVo.movableMinPage}" th:href="@{'/board/list' (page=${articlePageVo.movableMinPage}, filter=${filter}, keyword=${keyword})}">&lt;&lt;</a>
+      <a class="page prev" th:if="${articlePageVo.requestPage > articlePageVo.movableMinPage}" th:href="@{'/board/list' (page=${articlePageVo.requestPage - 1}, filter=${filter}, keyword=${keyword})}">&lt;</a>
+      <div class="page-container">
+        <a class="page"
+           th:each="page : ${#numbers.sequence(articlePageVo.displayMinPage, articlePageVo.displayMaxPage)}"
+           th:text="${page}"
+           th:href="@{'/board/list' (page=${page}, filter=${filter}, keyword=${keyword})}"
+           th:classappend="${page == articlePageVo.requestPage} ? 'selected'"></a>
+      </div>
+      <a class="page next" th:if="${articlePageVo.requestPage < articlePageVo.movableMaxPage}" th:href="@{'/board/list' (page=${articlePageVo.requestPage + 1}, filter=${filter}, keyword=${keyword})}">&gt;</a>
+      <a class="page last" th:if="${articlePageVo.requestPage < articlePageVo.movableMaxPage}" th:href="@{'/board/list' (page=${articlePageVo.movableMaxPage}, filter=${filter}, keyword=${keyword})}">&gt;&gt;</a>
+    </div>
+
     <form class="search-form">
-      <input name="id" type="hidden">
       <label class="label">
         <select class="field" name="filter">
           <option selected value="all">제목 + 내용</option>

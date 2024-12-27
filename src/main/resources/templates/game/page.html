@@ -20,6 +20,106 @@
 <main id="main" class="main">
     <th:block th:replace="~{fragments/common.html :: mainSearch}"></th:block>
     <th:block th:replace="~{fragments/common.html :: logout}"></th:block>
+
+    <div class="age-check" id="ageCheck" th:if="${gameDetails.game.grGrac == 'ADULT' && user == null}">
+        <div id="cover" class="cover"></div>
+        <div class="ageDialog" id="ageDialog">
+            <div class="text-wrapper">
+                <span class="bgImage"></span>
+                <span class="name" th:text="${gameDetails.game.getName()}"></span>
+                <span class="text">에는 모든 연령에 적합하지 않은 콘텐츠가 포함될 수 있습니다.</span>
+            </div>
+            <div class="birthday-wrapper" id="birthdayWrapper">
+                <span class="text">계속하려면 생년월일을 입력하세요.</span>
+                <div class="info">
+                    <span class="text">개인정보처리방침</span>
+                    <a class="link" href="#" target="_blank">보기
+                        <svg aria-hidden="true" class="eds_5nt5ak0 eds_5nt5ak9" fill="#26bbff" width="22" height="22"
+                             viewBox="0 0 24 24">
+                            <path d="M15.25 4a.75.75 0 0 1 .75-.75h5.75V9a.75.75 0 0 1-1.5 0V5.81l-6.72 6.72a.75.75 0 1 1-1.06-1.06l6.72-6.72H16a.75.75 0 0 1-.75-.75M6.5 7.75a.75.75 0 0 0-.75.75v10c0 .414.336.75.75.75h10a.75.75 0 0 0 .75-.75V16a.75.75 0 0 1 1.5 0v2.5a2.25 2.25 0 0 1-2.25 2.25h-10a2.25 2.25 0 0 1-2.25-2.25v-10A2.25 2.25 0 0 1 6.5 6.25H9a.75.75 0 0 1 0 1.5z"
+                                  clip-rule="evenodd" fill-rule="evenodd"></path>
+                        </svg>
+                    </a>
+                </div>
+                <div class="date-wrapper">
+                    <div class="year select">
+                        <button class="btn-select" type="button" onclick="toggleSelect('year')">
+                                <span class="text">
+                                    <span class="date">YYYY</span>
+                                    <span class="icon-wrapper">
+                                        <span class="bar"></span>
+                                        <span class="image"><svg th:class="icon" xmlns="http://www.w3.org/2000/svg"
+                                                                 class="css-2ltokv" viewBox="0 0 24 24"
+                                                                 aria-hidden="true" data-testid="ArrowStrokeDownIcon"
+                                                                 focusable="false"><path fill-rule="evenodd"
+                                                                                         clip-rule="evenodd"
+                                                                                         d="M18.707 9.707L12 16.414 5.293 9.707l1.414-1.414L12 13.586l5.293-5.293 1.414 1.414z"></path></svg></span>
+                                    </span>
+                                </span>
+                        </button>
+                        <ul class="list-member" id="year-list">
+                            <li th:each="year : ${#numbers.sequence(#dates.format(#dates.createNow(), 'yyyy'), 1900)}">
+                                <button type="button" th:text="${year}"></button>
+                            </li>
+                        </ul>
+                    </div>
+
+                    <div class="month select">
+                        <button class="btn-select" type="button" onclick="toggleSelect('month')">
+                                <span class="text">
+                                    <span class="date">MM</span>
+                                    <span class="icon-wrapper">
+                                        <span class="bar"></span>
+                                        <span class="image"><svg th:class="icon" xmlns="http://www.w3.org/2000/svg"
+                                                                 class="css-2ltokv" viewBox="0 0 24 24"
+                                                                 aria-hidden="true" data-testid="ArrowStrokeDownIcon"
+                                                                 focusable="false"><path fill-rule="evenodd"
+                                                                                         clip-rule="evenodd"
+                                                                                         d="M18.707 9.707L12 16.414 5.293 9.707l1.414-1.414L12 13.586l5.293-5.293 1.414 1.414z"></path></svg></span>
+                                    </span>
+                                </span>
+                        </button>
+                        <ul class="list-member" id="month-list">
+                            <li th:each="month : ${#numbers.sequence(1, 12)}">
+                                <button type="button" th:text="${month < 10 ? '0' + month : month}"></button>
+                            </li>
+                        </ul>
+                    </div>
+                    <div class="day select">
+                        <button class="btn-select" type="button" onclick="toggleSelect('day')">
+                                <span class="text">
+                                    <span class="date">DD</span>
+                                    <span class="icon-wrapper">
+                                        <span class="bar"></span>
+                                        <span class="image"><svg th:class="icon" xmlns="http://www.w3.org/2000/svg"
+                                                                 class="css-2ltokv" viewBox="0 0 24 24"
+                                                                 aria-hidden="true" data-testid="ArrowStrokeDownIcon"
+                                                                 focusable="false"><path fill-rule="evenodd"
+                                                                                         clip-rule="evenodd"
+                                                                                         d="M18.707 9.707L12 16.414 5.293 9.707l1.414-1.414L12 13.586l5.293-5.293 1.414 1.414z"></path></svg></span>
+                                    </span>
+
+                                </span>
+                        </button>
+                        <ul class="list-member" id="day-list">
+                            <li th:each="day : ${#numbers.sequence(1, 31)}">
+                                <button type="button" th:text="${day < 10 ? '0' + day : day}"></button>
+                            </li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+            <div class="button-wrapper">
+                <a class="link" th:href="@{'/'}" target="_self">
+                    <span class="text">스토어로 돌아가기</span>
+                </a>
+                <button class="continue" id="continueButton">
+                    <span class="text">계속</span>
+                </button>
+            </div>
+        </div>
+    </div>
+
     <div class="deleteReview" id="deleteReview">
         <div id="deleteCover" class="deleteCover"></div>
         <div class="deleteDialog" id="deleteDialog">
@@ -79,7 +179,8 @@
 
                             <div class="image-container">
                                 <div class="image-wrapper">
-                                    <div class="image" th:each="image, iterStat : ${gameDetails.media}" data-index="${iterStat.index}">
+                                    <div class="image" th:each="image, iterStat : ${gameDetails.media}"
+                                         data-index="${iterStat.index}">
                                         <img th:src="@{'/game/image?index=' + ${gameDetails.game.index} + '&type=gameImage&itemIndex=' + ${iterStat.index}}"
                                              alt="서브이미지">
                                     </div>
@@ -259,7 +360,8 @@
                             <div class="gamerating-wrapper">
                                 <div class="gameRating">
                                     <div class="logo-wrapper">
-                                        <img th:src="@{'/game/image?index=' + ${gameDetails.game.index} + '&type=gameRating'}" alt="게임연령로고">
+                                        <img th:src="@{'/game/image?index=' + ${gameDetails.game.index} + '&type=gameRating'}"
+                                             alt="게임연령로고">
                                     </div>
 
                                     <div class="text-wrapper">
@@ -391,20 +493,22 @@
                                 <div class="star-rating">
                                     <input type="radio" id="5-stars" name="rating" value="5" required/>
                                     <label for="5-stars" class="star">&#9733;</label>
-                                    <input type="radio" id="4-stars" name="rating" value="4" />
+                                    <input type="radio" id="4-stars" name="rating" value="4"/>
                                     <label for="4-stars" class="star">&#9733;</label>
-                                    <input type="radio" id="3-stars" name="rating" value="3" />
+                                    <input type="radio" id="3-stars" name="rating" value="3"/>
                                     <label for="3-stars" class="star">&#9733;</label>
-                                    <input type="radio" id="2-stars" name="rating" value="2" />
+                                    <input type="radio" id="2-stars" name="rating" value="2"/>
                                     <label for="2-stars" class="star">&#9733;</label>
-                                    <input type="radio" id="1-star" name="rating" value="1" />
+                                    <input type="radio" id="1-star" name="rating" value="1"/>
                                     <label for="1-star" class="star">&#9733;</label>
                                 </div>
                             </div>
                             <label class="label">
                                 <span class="text">구매후기</span>
-                                <textarea name="content" class="field" maxlength="16777215" minlength="1" required placeholder="게임과 관련없는 리뷰는 고지없이 삭제될 수 있습니다."></textarea>
-                                <input id="purchaseIndex" class="purchaseIndex" th:if="${purchaseIndex != null}" th:value="${purchaseIndex}" hidden="hidden">
+                                <textarea name="content" class="field" maxlength="16777215" minlength="1" required
+                                          spellcheck="false" placeholder="게임과 관련없는 리뷰는 고지없이 삭제될 수 있습니다."></textarea>
+                                <input id="purchaseIndex" class="purchaseIndex" th:if="${purchaseIndex != null}"
+                                       th:value="${purchaseIndex}" hidden="hidden">
                             </label>
                         </div>
                         <div class="button-container">
