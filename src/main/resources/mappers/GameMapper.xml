@@ -3,6 +3,15 @@
         PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
         "https://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.ssw.epicgames.mappers.GameMapper">
+    <!--  게임 삽입  -->
+    <insert id="insertGame"
+            useGeneratedKeys="true"
+            keyColumn="index"
+            keyProperty="index"
+            parameterType="com.ssw.epicgames.entities.GameEntity">
+        INSERT INTO `epic_games`.`game` (`gr_grac`, `name`, `price`, `summary`, `description`, `company`, `open_date`, `main_image`, `logo`, `min_os`, `min_cpu`, `min_ram`, `min_storage`, `min_gpu`, `rec_os`, `rec_cpu`, `rec_ram`, `rec_storage`, `rec_gpu`)
+        VALUES (#{grGrac}, #{name}, #{price}, #{summary}, #{description}, #{company}, #{openDate}, #{mainImage}, #{mainLogo}, #{minOs}, #{minCpu}, #{minRam}, #{minStorage}, #{minGpu}, #{recOs}, #{recCpu}, #{recRam}, #{recStorage}, #{recGpu})
+    </insert>
 
     <select id="selectAllGames" resultType="com.ssw.epicgames.vos.GameVo">
         SELECT `game`.`index`                                                AS `index`,
