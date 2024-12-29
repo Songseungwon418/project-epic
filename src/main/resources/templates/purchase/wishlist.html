@@ -70,7 +70,7 @@
                             <div class="img-container">
                                 <a class="link-image" th:href="@{'/game/page' (index=${wishlist.getGame().getIndex()})}">
                                     <div class="image-wrapper">
-                                        <img class="image" th:src="@{'/game/cover?index=' + ${wishlist.getGame().getIndex()}}" alt="표지이미지">
+                                        <img class="image" loading="lazy" th:src="@{'/game/cover?index=' + ${wishlist.getGame().getIndex()}}" alt="표지이미지">
                                     </div>
                                 </a>
                                 <span class="logo-wrapper" aria-hidden="true">
@@ -120,7 +120,7 @@
                                    target="_blank">
                                     <div class="link-wrapper">
                                         <div class="img-wrapper">
-                                            <img th:alt="${wishlist.getGameRating().getTitle()}" th:src="@{'/game/image?index=' + ${wishlist.getGame().getIndex()} + '&type=gameRating'}">
+                                            <img loading="lazy" th:alt="${wishlist.getGameRating().getTitle()}" th:src="@{'/game/image?index=' + ${wishlist.getGame().getIndex()} + '&type=gameRating'}">
                                         </div>
                                         <div class="content-wrapper">
                                             <span class="title" th:text="${wishlist.getGameRating().getTitle()}"></span>
@@ -134,7 +134,7 @@
                                     <span class="text">셀프 환불</span>
                                     <div class="icon-wrapper">
                                         <span class="info_text">환불은 72시간 이내에 가능합니다.</span>
-                                        <img src="/purchase/assets/images/help-24.png" height="24"
+                                        <img loading="lazy" src="/purchase/assets/images/help-24.png" height="24"
                                              width="24"/>
                                     </div>
                                 </div>

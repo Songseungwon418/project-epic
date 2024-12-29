@@ -250,6 +250,9 @@ document.addEventListener('DOMContentLoaded', () => {
                 $closeRefundDialogBtn.click();
             } else if(response['result'] === 'success'){
                 alert('환불 성공하였습니다.');
+                document.body.style.cursor = 'not-allowed'; // 마우스 클릭 금지표시
+                $closeRefundDialogBtn.click();// 모달창 닫기
+                Loading.show();
                 return window.parent.location.href = '/page/setting?showPurchaseList=true'; // 결제내역 재접속
             }else {
                 alert('알수 없는 이유로 환불에 실패하였습니다.');

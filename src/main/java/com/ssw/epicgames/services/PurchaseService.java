@@ -476,9 +476,10 @@ public class PurchaseService {
                 GameEntity game = this.gameService.getGameByIndex(purchase.getGameIndex());
                 PriceVo price = this.priceService.discountInfo(game.getIndex(), game.getPrice());
 
-                // 환불 유무 확인(구매면 null)
+                totalGameAmount += game.getPrice();//원본 게임 가격 더함(총 가격 구하기)-환불여부 상관없이
+
+                // 환불 유무 확인(구매면 null) - 구매한 게임의 할인 가격만
                 if (purchase.getDeletedAt() == null){
-                    totalGameAmount += game.getPrice();//원본 게임 가격 더함(총 가격 구하기)
                     totalDiscount += price.getDiscountPrice(); // 할인가격 더함(총 할인 가격 구하기)
                 }
 
