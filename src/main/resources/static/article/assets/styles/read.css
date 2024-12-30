@@ -292,7 +292,6 @@
   align-items: stretch;
   justify-content: flex-start;
   gap: 0.5rem;
-  margin-bottom: 4rem;
 }
 #main > .mainSection > .comment-container > .title {
   color: #ffffff;
@@ -368,7 +367,7 @@
   font-weight: 500;
 }
 #main > .mainSection > .comment-container > .no-comment {
-  margin-top: 5rem;
+  margin: 5rem 0;
   display: flex;
   flex-direction: column;
   align-items: center;
@@ -457,7 +456,7 @@
   outline: none;
   border: none;
   color: #9e9e9e;
-  margin-top: 0.1rem;
+  margin-bottom: 0.1rem;
 }
 #main > .mainSection > .comment-container > .list > .item > .action-container .action.commentDelete:hover {
   box-shadow: inset 0 -0.15rem 0 0 #dbdbdb;
@@ -498,7 +497,6 @@
 #main > .mainSection > .prev-next {
   width: 100%;
   height: auto;
-  margin-top: 3rem;
   margin-bottom: 3rem;
   display: flex;
   flex-direction: column;

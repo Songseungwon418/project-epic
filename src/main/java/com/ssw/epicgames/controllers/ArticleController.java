@@ -96,6 +96,7 @@ public class ArticleController {
         int commentCount = this.articleService.getCommentCount(index);
         ArticleEntity nextArticle = this.articleService.getNextArticle(index);
         ArticleEntity prevArticle = this.articleService.getPrevArticle(index);
+
         modelAndView.addObject("nextArticle", nextArticle);
         modelAndView.addObject("prevArticle", prevArticle);
         modelAndView.addObject("commentCount", commentCount);
