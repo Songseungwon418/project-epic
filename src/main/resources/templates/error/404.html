@@ -1,0 +1,35 @@
+<!doctype html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport"
+          content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>에러페이지</title>
+    <link rel="stylesheet" th:href="@{'/error/assets/styles/404.css'}">
+    <link rel="shortcut icon" th:href="@{'/assets/images/favicon.png'}">
+    <link rel="stylesheet" type="text/css" th:href="@{'/assets/styles/common.css'}">
+    <script defer type="text/javascript" th:src="@{'/assets/scripts/common.js'}"></script>
+</head>
+<body>
+<th:block th:replace="~{fragments/common.html :: header}"></th:block>
+<div class="container">
+    <div class="main" id="main">
+        <th:block th:replace="~{fragments/common.html :: logout}"></th:block>
+        <div class="error-cover">
+            <img class="img" th:src="@{/error/assets/images/commonerror.png}" alt="에러이미지">
+        </div>
+        <div class="error-container">
+            <div class="error-wrapper">
+                <span class="error-text">404</span>
+                <span class="center">|</span>
+                <span class="error-message">페이지를<br>찾을 수 없음</span>
+            </div>
+            <div class="text">검색하신 페이지를 찾을 수 없습니다. 링크/URL을<br> 확인하거나 저희 홈 페이지에서 처음부터 시작해 보세요.</div>
+            <a class="home" th:href="@{'/'}">홈페이지</a>
+        </div>
+    </div>
+</div>
+<th:block th:replace="~{fragments/common.html :: footer}"></th:block>
+</body>
+</html>

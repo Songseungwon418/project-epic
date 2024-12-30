@@ -1,0 +1,142 @@
+<!doctype html>
+<html lang="ko" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport"
+          content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>에픽게임즈 개인정보 처리방침</title>
+    <link rel="shortcut icon" th:href="@{'/assets/images/favicon.png'}">
+    <link rel="stylesheet" type="text/css" th:href="@{'/assets/styles/common.css'}">
+    <script defer type="text/javascript" th:src="@{'/assets/scripts/common.js'}"></script>
+
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            line-height: 1.6;
+            margin: 0;
+            padding: 0;
+            background-color: #f4f4f4;
+            color: #333;
+        }
+
+        .container {
+            display: flex;
+            flex-direction: column;
+            gap: 2rem;
+            width: 80%;
+            margin: 2rem auto;
+            background-color: #fff;
+            padding: 2rem;
+            border-radius: 8px;
+            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+        }
+
+        .wrapper {
+            display: flex;
+            flex-direction: column;
+        }
+
+        .title {
+            margin-top: 2rem;
+            font-size: 30px;
+            font-weight: 700;
+        }
+
+        p {
+            margin-top: 1rem;
+            letter-spacing: 0.1rem;
+        }
+
+        .sub-title {
+            margin-top: 1rem;
+            font-size: 18px;
+            font-weight: 600;
+        }
+
+
+        .wrapper > ul > li {
+            list-style: circle;
+            margin-left: 5rem;
+            margin-top: 1rem;
+        }
+    </style>
+</head>
+<body>
+<th:block th:replace="~{fragments/common.html :: header}"></th:block>
+<div class="container">
+    <div class="main" id="main">
+        <th:block th:replace="~{fragments/common.html :: logout}"></th:block>
+        <div class="wrapper">
+            <span class="title">Epic Games TEST 개인정보 처리방침</span>
+            <p>본 개인정보 처리방침은 EPIC-GAMES 에서 제공하는 서비스를 이용하는 모든 이용자의 개인정보 보호를 위해 수집, 처리, 보호하는 방침을 설명합니다.</p>
+        </div>
+        <div class="wrapper">
+            <span class="sub-title">1. 개인정보 수집 및 이용 목적</span>
+            <p>EPIC-GAMES는 회원가입 및 서비스 제공을 위해 아래와 같은 목적을 위해 개인정보를 수집합니다:</p>
+            <ul>
+                <li>회원 가입 및 관리: 회원 가입, 본인 인증, 서비스 제공 등을 위한 개인정보 수집.</li>
+                <li>서비스 제공: 콘텐츠 제공, 본인 인증, 맞춤형 서비스 제공 등을 위한 개인정보 처리.</li>
+            </ul>
+        </div>
+        <div class="wrapper">
+            <span class="sub-title">2. 수집하는 개인정보 항목</span>
+            <p>EPIC-GAMES은 아래와 같은 개인정보를 수집합니다:</p>
+            <ul>
+                <li>필수 항목: 이메일, 비밀번호, 로그인 ID, 성별</li>
+                <li>자동 수집 항목: 서비스 이용 기록, 접속 로그, 쿠키, 접속 IP 정보</li>
+            </ul>
+        </div>
+        <div class="wrapper">
+            <span class="sub-title">3. 개인정보 보유 및 이용 기간</span>
+            <p>개인정보는 원칙적으로 서비스 제공 목적이 달성되면 즉시 파기합니다. 단, 법령에 따른 의무 보관 기간이 있는 경우에는 해당 기간 동안 보관합니다.</p>
+            <p>예시: 소비자의 불만 또는 분쟁처리에 관한 기록은 3년간 보관됩니다.</p>
+        </div>
+        <div class="wrapper">
+            <span class="sub-title">4. 개인정보 제3자 제공</span>
+            <p>EPIC-GAMES는 이용자의 동의나 법률에 따른 특별한 경우 외에는 제3자에게 개인정보를 제공하지 않습니다.</p>
+        </div>
+        <div class="wrapper">
+            <span class="sub-title">5. 개인정보 처리 위탁</span>
+            <p>EPIC-GAMES는 개인정보 처리 업무를 제3자에게 위탁할 수 있으며, 위탁 계약 시 개인정보 보호를 위한 안전조치를 포함합니다.</p>
+        </div>
+        <div class="wrapper">
+            <span class="sub-title">6. 이용자의 권리</span>
+            <p>이용자는 언제든지 자신의 개인정보에 대해 열람, 정정, 삭제, 처리 정지 등을 요구할 수 있습니다. 이러한 권리는 본인 확인을 거쳐 법적인 절차에 따라 처리됩니다.</p>
+        </div>
+        <div class="wrapper">
+            <span class="sub-title">7. 개인정보 파기</span>
+            <p>개인정보는 이용 목적이 달성되면 지체 없이 파기됩니다.</p>
+            <p>파기 방법: 전자적 파일은 복구 불가능한 방법으로 삭제하며, 종이 문서는 파쇄합니다.</p>
+        </div>
+        <div class="wrapper">
+            <span class="sub-title">8. 쿠키 사용</span>
+            <p>EPIC-GAMES는 서비스 제공을 위한 쿠키를 사용합니다. 쿠키는 사용자의 방문 기록을 저장하여 더 나은 서비스 제공을 목표로 합니다.</p>
+            <p>이용자는 브라우저 설정을 통해 쿠키 사용을 거부할 수 있습니다.</p>
+        </div>
+        <div class="wrapper">
+            <span class="sub-title">9. 개인정보 보호책임자</span>
+            <p>EPIC-GAMES의 개인정보 보호를 위한 책임자는 아래와 같습니다:</p>
+            <ul>
+                <li>이름: 개인정보 보호책임자</li>
+                <li>부서: 개인정보 보호팀</li>
+                <li>연락처: 010-1111-2222, abc1234@gamil.com</li>
+            </ul>
+        </div>
+        <div class="wrapper">
+            <span class="sub-title">10. 개인정보 처리방침 변경</span>
+            <p>개인정보 처리방침이 변경될 경우, 변경 사항은 7일 전에 공지됩니다.</p>
+        </div>
+        <div class="wrapper">
+            <span class="sub-title">11. 안전성 확보 조치</span>
+            <p>EPIC-GAMES는 개인정보 보호를 위해 다음과 같은 안전성 확보 조치를 취하고 있습니다:</p>
+            <ul>
+                <li>내부 관리 계획 수립</li>
+                <li>해킹 및 바이러스 방지 대책</li>
+            </ul>
+        </div>
+    </div>
+</div>
+<th:block th:replace="~{fragments/common.html :: footer}"></th:block>
+</body>
+</html>
