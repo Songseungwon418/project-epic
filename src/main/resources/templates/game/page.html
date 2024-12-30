@@ -32,7 +32,7 @@
                 <span class="name" th:text="${gameDetails.game.getName()}"></span>
                 <span class="text">에는 모든 연령에 적합하지 않은 콘텐츠가 포함될 수 있습니다.</span>
             </div>
-            <div class="no-adult" id="noAdult" th:if="${!isAdult}">
+            <div class="no-adult" id="noAdult" th:if="${!isAdult} and ${user != null}">
                 <span class="text">죄송합니다. 이 콘텐츠를 이용할 수 없습니다.</span>
             </div>
             <div class="birthday-wrapper" id="birthdayWrapper" th:if="${user == null}">
