@@ -10,12 +10,17 @@ import java.util.List;
 @Mapper
 public interface GameMapper {
 
+    /** 게임 추가(삽입) */
+    int insertGame(GameEntity game);
+
     GameVo[] selectAllGames();
 
     GameVo[] selectGamesByKeyword(@Param("keyword") String keyword);
 
+    /** 게임인덱스로 게임 조회 */
     GameEntity selectGameInfoByIndex(int index);
 
+    /** 모든 게임 조회 */
     GameEntity[] selectAllGameInfo();
 
     GameRatingEntity selectGameRatingByIndex(@Param("index") int index);

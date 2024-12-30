@@ -7,6 +7,8 @@
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
     <title>나의 위시리스트</title>
     <link rel="shortcut icon" th:href="@{'/assets/images/favicon.png'}">
+    <link rel="stylesheet" th:href="@{'/assets/styles/loading.css'}">
+    <script th:src="@{'/assets/scripts/loading.js'}"></script>
     <link rel="stylesheet" th:href="@{'/assets/styles/common.css'}">
     <script defer th:src="@{'/assets/scripts/common.js'}"></script>
     <link rel="stylesheet" th:href="@{'/purchase/assets/styles/cart_wishlist.css'}">
@@ -14,6 +16,7 @@
     <script defer th:src="@{'/purchase/assets/scripts/wishlist.js'}"></script>
 </head>
 <body>
+<th:block th:replace="~{fragments/loading.html :: loading}"></th:block>
 <th:block th:replace="~{fragments/common.html :: header}"></th:block>
 <main class="main" id="main">
     <th:block th:replace="~{fragments/common.html :: mainSearch}"></th:block>
@@ -70,7 +73,7 @@
                             <div class="img-container">
                                 <a class="link-image" th:href="@{'/game/page' (index=${wishlist.getGame().getIndex()})}">
                                     <div class="image-wrapper">
-                                        <img class="image" th:src="@{'/game/cover?index=' + ${wishlist.getGame().getIndex()}}" alt="표지이미지">
+                                        <img class="image" loading="lazy" th:src="@{'/game/cover?index=' + ${wishlist.getGame().getIndex()}}" alt="표지이미지">
                                     </div>
                                 </a>
                                 <span class="logo-wrapper" aria-hidden="true">
@@ -120,7 +123,7 @@
                                    target="_blank">
                                     <div class="link-wrapper">
                                         <div class="img-wrapper">
-                                            <img th:alt="${wishlist.getGameRating().getTitle()}" th:src="@{'/game/image?index=' + ${wishlist.getGame().getIndex()} + '&type=gameRating'}">
+                                            <img loading="lazy" th:alt="${wishlist.getGameRating().getTitle()}" th:src="@{'/game/image?index=' + ${wishlist.getGame().getIndex()} + '&type=gameRating'}">
                                         </div>
                                         <div class="content-wrapper">
                                             <span class="title" th:text="${wishlist.getGameRating().getTitle()}"></span>
@@ -134,7 +137,7 @@
                                     <span class="text">셀프 환불</span>
                                     <div class="icon-wrapper">
                                         <span class="info_text">환불은 72시간 이내에 가능합니다.</span>
-                                        <img src="/purchase/assets/images/help-24.png" height="24"
+                                        <img loading="lazy" src="/purchase/assets/images/help-24.png" height="24"
                                              width="24"/>
                                     </div>
                                 </div>
@@ -260,7 +263,7 @@
                     </div>
                 </aside>
             </section>
-            <section class="view-content-container" th:if="${wishlists == null || wishlists.length == 0}">
+            <section class="view-content-container" th:unless="${wishlists != null && wishlists.length > 0}">
                 <div class="view-content-wrapper empty">
                     <div class="empty-wrapper">
                             <span class="logo">

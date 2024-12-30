@@ -165,7 +165,7 @@ public class PurchaseController {
         mav.addObject("impNumber", impNumber);
 
         if (user == null) { // 로그인 유무, 로그인이 안되었을 시 로그인 화면으로
-            mav.setViewName("user/login");
+            mav.setViewName("redirect:/user/");
         }
         //장바구니 페이지에서 구매 버튼을 누를 시
         else if (gameIndex == 0) {

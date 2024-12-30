@@ -8,6 +8,7 @@ import com.ssw.epicgames.services.*;
 import com.ssw.epicgames.vos.GameVo;
 import com.ssw.epicgames.vos.PriceVo;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.cache.annotation.Cacheable;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
@@ -68,14 +69,18 @@ public class GameController {
     //region 마이페이지 이미지
     @RequestMapping(value = "/cover", method = RequestMethod.GET)
     @ResponseBody
+    @Cacheable(value = "myPageImages", key = "#index") //서버 캐시 이용
     public ResponseEntity<byte[]> getCover(@RequestParam(value = "index") int index) {
         GameEntity game = this.gameService.getGameByIndex(index);
         if (game == null) {
             return ResponseEntity.notFound().build();
         }
+        String eTag = String.valueOf(game.hashCode()); // ETag 설정
         return ResponseEntity
                 .ok()
                 .header("Content-Type", "image/jpeg")
+                .header("Cache-Control", "public, max-age=3600") // 1시간 동안 캐시
+                .header("ETag", eTag) // ETag로 이미지 구분
                 .body(game.getMainImage());
     }
     //endregion
@@ -83,6 +88,7 @@ public class GameController {
     //region 게임 상세 페이지 이미지
     @RequestMapping(value = "/image", method = RequestMethod.GET)
     @ResponseBody
+    @Cacheable(value = "gameDetailsImages", key = "#index + '-' + #type + '-' + #itemIndex")
     public ResponseEntity<byte[]> getImage(@RequestParam(value = "index") int index,
                                            @RequestParam(value = "type") String type,
                                            @RequestParam(value = "itemIndex", required = false) Integer itemIndex) {
@@ -142,9 +148,13 @@ public class GameController {
             return ResponseEntity.notFound().build(); // 이미지가 없으면 404 반환
         }
 
+        String eTag = String.valueOf(gameDetails.getGame().hashCode()); // ETag 설정
+
         return ResponseEntity
                 .ok()
                 .header("Content-Type", contentType)
+                .header("Cache-Control", "public, max-age=3600") // 1시간 동안 캐시
+                .header("ETag", eTag)
                 .body(imageData);
     }
     //endregion
@@ -192,6 +202,7 @@ public class GameController {
     // 전체 게임 이미지 조회
     @RequestMapping(value = "/genre-image-all", method = RequestMethod.GET)
     @ResponseBody
+    @Cacheable(value = "gameGenreImages", key = "#index + '-' + #tag")
     public ResponseEntity<byte[]> getAllGameImageByGenre(@RequestParam(value = "index") int index,
                                                          @RequestParam(value = "tag") String tag) {
         GameVo[] games = this.genreService.getGamesByGenre(tag);
@@ -206,15 +217,19 @@ public class GameController {
             return ResponseEntity.notFound().build();
         }
 
+        String eTag = String.valueOf(game.hashCode()); // ETag 설정
         return ResponseEntity
                 .ok()
                 .header("Content-Type", "image/jpeg")
+                .header("Cache-Control", "public, max-age=3600") // 1시간 동안 캐시
+                .header("ETag", eTag)
                 .body(game.getMainImage());
     }
 
     // 키워드로 검색된 게임 이미지 조회
     @RequestMapping(value = "/genre-image-search", method = RequestMethod.GET)
     @ResponseBody
+    @Cacheable(value = "gameGenreSearchImages", key = "#index + '-' + (#keyword != null ? #keyword : 'default') + '-' + #tag")
     public ResponseEntity<byte[]> getSearchGameImageByGenre(@RequestParam(value = "index") int index,
                                                             @RequestParam(value = "keyword") String keyword,
                                                             @RequestParam(value = "tag") String tag) {
@@ -230,9 +245,12 @@ public class GameController {
             return ResponseEntity.notFound().build();
         }
 
+        String eTag = String.valueOf(game.hashCode()); // ETag 설정
         return ResponseEntity
                 .ok()
                 .header("Content-Type", "image/jpeg")
+                .header("Cache-Control", "public, max-age=3600") // 1시간 동안 캐시
+                .header("ETag", eTag)
                 .body(game.getMainImage());
     }
     //endregion
@@ -293,20 +311,26 @@ public class GameController {
     // 전체 게임 이미지 조회
     @RequestMapping(value = "/browse-image-all", method = RequestMethod.GET)
     @ResponseBody
+    @Cacheable(value = "gameImages", key = "#index")
     public ResponseEntity<byte[]> getAllGameImage(@RequestParam(value = "index") int index) {
         GameVo game = this.gameService.selectGameByIndex(index);
         if (game == null || game.getMainImage() == null) {
             return ResponseEntity.notFound().build();
         }
+
+        String eTag = String.valueOf(game.hashCode()); // ETag 설정
         return ResponseEntity
                 .ok()
                 .header("Content-Type", "image/jpeg")
+                .header("Cache-Control", "public, max-age=3600") // 1시간 동안 캐시
+                .header("ETag", eTag)
                 .body(game.getMainImage());
     }
 
     // 키워드로 검색된 게임 이미지 조회
     @RequestMapping(value = "/browse-image-search", method = RequestMethod.GET)
     @ResponseBody
+    @Cacheable(value = "gameSearchImages", key = "#index + '-' + (#keyword != null ? #keyword : 'default')")
     public ResponseEntity<byte[]> getSearchGameImage(@RequestParam(value = "index") int index,
                                                      @RequestParam(value = "keyword") String keyword) {
         GameVo[] games = this.gameService.getGamesByKeyword(keyword);
@@ -317,9 +341,13 @@ public class GameController {
         if (game == null || game.getMainImage() == null) {
             return ResponseEntity.notFound().build();
         }
+
+        String eTag = String.valueOf(game.hashCode()); // ETag 설정
         return ResponseEntity
                 .ok()
                 .header("Content-Type", "image/jpeg")
+                .header("Cache-Control", "public, max-age=3600") // 1시간 동안 캐시
+                .header("ETag", eTag)
                 .body(game.getMainImage());
     }
     //endregion
@@ -358,5 +386,12 @@ public class GameController {
         modelAndView.setViewName("game/browse");
         return modelAndView;
     }
+    //endregion
+
+    //region 게임 추가
+    /** 게임 추가 화면 페이지*/
+    @GetMapping(value = "/add-game")
+    public void addGame() {}
+
     //endregion
 }

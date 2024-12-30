@@ -161,9 +161,6 @@ document.addEventListener('DOMContentLoaded', function() {
         }
     }
 });
-
-
-
 //endregion
 
 //region 정렬 필터 관련
@@ -319,6 +316,7 @@ const sortGameList = (criteria) => {
                 return;
             }
             document.body.style.cursor = 'default';
+            document.body.userSelect = 'all';
             if (xhr.status < 200 || xhr.status >= 300){
                 alert('서버가 알 수 없는 응답을 반환하였습니다. 잠시 후 시도해 주세요.');
                 return;
@@ -362,6 +360,7 @@ const sortGameList = (criteria) => {
                         if(xhr.readyState !== XMLHttpRequest.DONE){
                             return;
                         }
+
                         if (xhr.status < 200 || xhr.status >= 300){
                             alert('서버가 알 수 없는 응답을 반환하였습니다. 잠시 후 시도해 주세요.');
                             return;
@@ -405,6 +404,7 @@ const sortGameList = (criteria) => {
         xhr.open('PATCH', '/purchase/wishlist/delete');
         xhr.send(formData);
         document.body.style.cursor = 'not-allowed';
+        document.body.userSelect = 'none';
     }));
 }
 //endregion
@@ -433,6 +433,8 @@ const sortGameList = (criteria) => {
                 return;
             }
             document.body.style.cursor = 'default';
+            document.body.userSelect = 'all';
+            Loading.hide();
             if (xhr.status < 200 || xhr.status >= 300){
                 alert('서버가 알 수 없는 응답을 반환하였습니다. 잠시 후 시도해 주세요.');
                 return;
@@ -460,6 +462,8 @@ const sortGameList = (criteria) => {
         xhr.open('POST', '/purchase/cart/add'); // 장바구니에 추가
         xhr.send(formData);
         document.body.style.cursor = 'not-allowed';
+        document.body.userSelect = 'none';
+        Loading.show();
     });
 }
 //endregion

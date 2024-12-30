@@ -65,6 +65,8 @@ if($openModalBtn !== null){
                     alert('오류: 이미 장바구니에 없어서 제거에 실패하였습니다.');
                 }
                 else if(response.result === 'success'){
+                    document.body.style.cursor = 'not-allowed';
+                    Loading.show();
                     location.reload();
                 }
             };

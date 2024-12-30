@@ -352,19 +352,26 @@ if ($cartDeleteButton) {
     const $gameBuyButton = document.getElementById('buy-btn');
     const modal = document.getElementById('pay-modal');
     const iframe = document.getElementById('paymentIframe');
+    const userEmail = document.getElementById('userEmail').value;
 
     if ($gameBuyButton !== null) {
-        // 모달을 여는 함수
+        // 버튼 클릭 시 모달창 띄움
         $gameBuyButton.addEventListener('click', function () {
-            // 현제 페이지에서 주소의 파라미터값들을 가져옴
-            const urlParams = new URLSearchParams(window.location.search);
-            // 가져온 파라미터값들 중 'index'라는 파라미터 값을 가져옴
-            let gameIndex = urlParams.get('index');
+            // 로그인 유무 확인
+            if (!userEmail) {
+                alert('로그인 후 이용가능합니다. 로그인 페이지로 이동합니다.');
+                window.location.href = '../user/';
+            }else {
+                // 현제 페이지에서 주소의 파라미터값들을 가져옴
+                const urlParams = new URLSearchParams(window.location.search);
+                // 가져온 파라미터값들 중 'index'라는 파라미터 값을 가져옴
+                let gameIndex = urlParams.get('index');
 
-            // 모달을 보이도록 설정
-            iframe.src = `/purchase/pay?index=${gameIndex}`; //주소에 파라미터값을 설정하여 보냄
-            modal.style.display = 'flex';
-            document.body.style.overflow = 'hidden';
+                // 모달을 보이도록 설정
+                iframe.src = `/purchase/pay?index=${gameIndex}`; //주소에 파라미터값을 설정하여 보냄
+                modal.style.display = 'flex';
+                document.body.style.overflow = 'hidden';
+            }
         });
 
         // 모달 외부 클릭 시 닫기
