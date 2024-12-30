@@ -1,0 +1,65 @@
+.container {
+  background: linear-gradient(to bottom, rgb(102, 102, 102), rgba(0, 0, 0, 0.5));
+}
+.container > .main {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+.container > .main > .error-cover {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 1;
+}
+.container > .main > .error-cover > .img {
+  width: 70rem;
+  height: 70rem;
+  opacity: 0.1;
+}
+.container > .main > .error-container {
+  width: 45rem;
+  height: auto;
+  position: absolute;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 3rem;
+  color: #ffffff;
+  z-index: 100;
+}
+.container > .main > .error-container > .error-wrapper {
+  display: flex;
+  flex-direction: row;
+  justify-content: center;
+  align-items: center;
+  gap: 0.8rem;
+}
+.container > .main > .error-container > .error-wrapper > .error-text {
+  font-size: 100px;
+  font-weight: 700;
+}
+.container > .main > .error-container > .error-wrapper > .center {
+  font-size: 90px;
+  font-weight: 300;
+}
+.container > .main > .error-container > .error-wrapper > .error-message {
+  width: 100%;
+  font-size: 27px;
+  font-weight: 500;
+  line-height: 1.2;
+}
+.container > .main > .error-container > .text {
+  font-size: 18px;
+  font-weight: 400;
+  line-height: 1.5;
+}
+.container > .main > .error-container > .home {
+  border: 0.0625rem solid #0074E4;
+  border-radius: 1rem;
+  background-color: #0074E4;
+  padding: 1.5rem 2rem;
+}
+
+/*# sourceMappingURL=404.css.map */
