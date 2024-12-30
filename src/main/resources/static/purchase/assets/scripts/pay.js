@@ -38,13 +38,16 @@ HTMLElement.prototype.hide = function () {
     return this;
 };
 
-// 페이지 접속 시 자바스크립트를 불러오면서 로딩화면 띄워주고 메인화면 숨김처리
-$loading.show();
+document.addEventListener("DOMContentLoaded", function () {
+    // 페이지 로딩 시 로딩 화면 보이기
+    window.addEventListener('beforeunload', function () {
+        $loading.show();
+    });
 
-// 3초 뒤에 로딩화면 숨김처리, 메인 화면 보여줌
-setTimeout(() => {
-   $loading.hide();
-}, 1500);
+    window.addEventListener('load', function () {
+        $loading.hide();
+    });
+});
 //endregion
 
 // 닫기 버튼 누를 시 아래 함수 실행

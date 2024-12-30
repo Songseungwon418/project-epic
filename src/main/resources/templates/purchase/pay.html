@@ -39,11 +39,11 @@
                 <div class="loading-close-btn-container">
                     <div class="loading-close" role="button" onclick="attemptCancel();">×</div>
                 </div>
-                <img src="https://static-assets-prod.epicgames.com/payment-web/static/assets/logo-epic-2de7f988e4229d74524cbe146a320be7.png">
+                <img src="https://static-assets-prod.epicgames.com/payment-web/static/assets/logo-epic-2de7f988e4229d74524cbe146a320be7.png" loading="lazy">
                 <span class="text -loading">
-            <span class="_text">주문을 불러오는 중</span>
-            <img class="_img" src="/purchase/assets/images/dotsLoading.gif">
-        </span>
+                <span class="_text">주문을 불러오는 중</span>
+                    <img class="_img" src="/purchase/assets/images/dotsLoading.gif">
+                </span>
             </div>
             <div id="loading-success" class="loading-message">
                 <div class="loading-close-btn-container">
@@ -51,9 +51,9 @@
                 </div>
                 <img src="https://static-assets-prod.epicgames.com/payment-web/static/assets/logo-epic-2de7f988e4229d74524cbe146a320be7.png">
                 <span class="text -loading">
-            <span class="_text">주문해 주셔서 감사합니다.</span>
-            <img class="_img" src="/purchase/assets/images/dotsLoading.gif">
-        </span>
+                    <span class="_text">주문해 주셔서 감사합니다.</span>
+                    <img class="_img" src="/purchase/assets/images/dotsLoading.gif">
+                </span>
             </div>
             <div id="network-error" class="loading-message">
                 <div class="loading-close-btn-container">
@@ -71,7 +71,7 @@
                 <span class="text">콘텐츠를 로드하려는 중 인터넷 속도가 느린 것이 감지되었습니다.</span>
             </div>
         </section>
-        <section id="main-container" class="payment-purchase-container">
+        <section id="main-container" class="payment-purchase-container" th:if="${carts != null || game != null}">
             <button class="payment-purchase-close" aria-label="close">
                 <svg class="payment-icon" width="24" height="24" viewBox="0 0 24 24" fill="none"
                      xmlns="http://www.w3.org/2000/svg">
