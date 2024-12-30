@@ -7,6 +7,8 @@
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
     <title th:text="${user.nickname + '님의 업적을 둘러보세요.'}"></title>
     <link rel="shortcut icon" th:href="@{'/assets/images/favicon.png'}">
+    <link rel="stylesheet" th:href="@{'/assets/styles/loading.css'}">
+    <script th:src="@{'/assets/scripts/loading.js'}"></script>
     <link rel="stylesheet" type="text/css" th:href="@{/assets/styles/common.css}">
     <link rel="stylesheet" th:href="@{/pages/My/styles/myPage.css}" type="text/css">
     <script defer th:src="@{/pages/My/scripts/myPage.js}" type="text/javascript"></script>
@@ -14,7 +16,7 @@
     <script src="https://kit.fontawesome.com/856af35d3d.js" crossorigin="anonymous"></script>
 </head>
 <body>
-
+<th:block th:replace="~{fragments/loading.html :: loading}"></th:block>
 <div id="overlay"></div>
 
 <th:block th:replace="~{fragments/common.html :: header}"></th:block>

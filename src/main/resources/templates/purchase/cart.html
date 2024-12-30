@@ -7,6 +7,8 @@
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
     <title>장바구니</title>
     <link rel="shortcut icon" th:href="@{'/assets/images/favicon.png'}">
+    <link rel="stylesheet" th:href="@{'/assets/styles/loading.css'}">
+    <script th:src="@{'/assets/scripts/loading.js'}"></script>
     <link rel="stylesheet" th:href="@{'/assets/styles/common.css'}">
     <script defer th:src="@{'/assets/scripts/common.js'}"></script>
     <link rel="stylesheet" th:href="@{'/purchase/assets/styles/cart_wishlist.css'}">
@@ -14,6 +16,7 @@
     <script defer th:src="@{'/purchase/assets/scripts/cart.js'}"></script>
 </head>
 <body>
+<th:block th:replace="~{fragments/loading.html :: loading}"></th:block>
 <th:block th:replace="~{fragments/common.html :: header}"></th:block>
 <main class="main" id="main">
     <th:block th:replace="~{fragments/common.html :: mainSearch}"></th:block>
@@ -23,6 +26,7 @@
             <section class="view-header">
                 <h1 class="title">나의 장바구니</h1>
             </section>
+            <!--    장바구니 있을 때       -->
             <section class="view-content-container" th:if="${carts != null && carts.length > 0}">
                 <div class="view-content-wrapper">
                     <div class="game-list">
@@ -35,7 +39,7 @@
                             <div class="img-container">
                                 <a class="link-image" th:href="@{'/game/page' (index=${cart.getGame().getIndex()})}">
                                     <div class="image-wrapper">
-                                        <img class="image" th:src="@{'/game/cover?index=' + ${cart.getGame().getIndex()}}" alt="표지이미지">
+                                        <img class="image" th:src="@{'/game/cover?index=' + ${cart.getGame().getIndex()}}" alt="표지이미지" loading="lazy">
                                     </div>
                                 </a>
                                 <span class="logo-wrapper" aria-hidden="true">
@@ -73,7 +77,7 @@
                                 <div class="link">
                                     <div class="link-wrapper">
                                         <div class="img-wrapper">
-                                            <img th:alt="${cart.getGameRating().getTitle()}" th:src="@{'/game/image?index=' + ${cart.getGame().getIndex()} + '&type=gameRating'}">
+                                            <img th:alt="${cart.getGameRating().getTitle()}" th:src="@{'/game/image?index=' + ${cart.getGame().getIndex()} + '&type=gameRating'}" loading="lazy">
                                         </div>
                                         <div class="content-wrapper">
                                             <span class="title" th:text="${cart.getGameRating().getTitle()}"></span>
@@ -142,7 +146,8 @@
                     </div>
                 </div>
             </section>
-            <section class="view-content-container" th:if="${carts == null || carts.length == 0}">
+            <!--    장바구니가 비였을 때     -->
+            <section class="view-content-container" th:unless="${carts != null && carts.length > 0}">
                 <div class="view-content-wrapper empty">
                     <div class="empty-wrapper">
                         <span class="logo">

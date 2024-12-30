@@ -1012,7 +1012,7 @@ body {
   }
 }
 
-/* 결재 페이지 모달창 */
+//region 결재 페이지 모달창
 #cart-pay-modal {
   display: none; /* 초기 상태에서는 보이지 않음 */
   position: fixed;
@@ -1064,8 +1064,9 @@ body {
     }
   }
 }
+//endregion
 
-
+//region 반응형
 @media (max-width: 430px) {
   .view-content-container {
     flex-wrap: wrap;
@@ -1245,7 +1246,6 @@ body {
   }
 }
 
-
 @media screen and (max-height: 961px) {
   .modal-content {
     height: 100% !important;
@@ -1253,3 +1253,4 @@ body {
     max-height: 961px !important;
   }
 }
+//endregion

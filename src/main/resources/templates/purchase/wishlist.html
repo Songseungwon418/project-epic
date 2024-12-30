@@ -7,6 +7,8 @@
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
     <title>나의 위시리스트</title>
     <link rel="shortcut icon" th:href="@{'/assets/images/favicon.png'}">
+    <link rel="stylesheet" th:href="@{'/assets/styles/loading.css'}">
+    <script th:src="@{'/assets/scripts/loading.js'}"></script>
     <link rel="stylesheet" th:href="@{'/assets/styles/common.css'}">
     <script defer th:src="@{'/assets/scripts/common.js'}"></script>
     <link rel="stylesheet" th:href="@{'/purchase/assets/styles/cart_wishlist.css'}">
@@ -14,6 +16,7 @@
     <script defer th:src="@{'/purchase/assets/scripts/wishlist.js'}"></script>
 </head>
 <body>
+<th:block th:replace="~{fragments/loading.html :: loading}"></th:block>
 <th:block th:replace="~{fragments/common.html :: header}"></th:block>
 <main class="main" id="main">
     <th:block th:replace="~{fragments/common.html :: mainSearch}"></th:block>
@@ -260,7 +263,7 @@
                     </div>
                 </aside>
             </section>
-            <section class="view-content-container" th:if="${wishlists == null || wishlists.length == 0}">
+            <section class="view-content-container" th:unless="${wishlists != null && wishlists.length > 0}">
                 <div class="view-content-wrapper empty">
                     <div class="empty-wrapper">
                             <span class="logo">

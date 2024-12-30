@@ -332,4 +332,11 @@ public class GameController {
         return modelAndView;
     }
     //endregion
+
+    //region 게임 추가
+    /** 게임 추가 화면 페이지*/
+    @GetMapping(value = "/add-game")
+    public void addGame() {}
+
+    //endregion
 }

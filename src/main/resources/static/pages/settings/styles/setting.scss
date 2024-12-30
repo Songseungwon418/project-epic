@@ -4,6 +4,7 @@ body {
     width: 10px;
     background: #141414;
   }
+  //드래그 가능한 스크롤 핸들 막대
   &::-webkit-scrollbar-thumb {
     border-radius: 5px;
     background-color: lighten(#141414, 20%);
@@ -12,6 +13,7 @@ body {
       background-color: lighten(#141414, 30%);
     }
   }
+  //스크롤바 막대가 움직이는 영역 뒷 배경
   &::-webkit-scrollbar-track {
     background: #141414;
   }

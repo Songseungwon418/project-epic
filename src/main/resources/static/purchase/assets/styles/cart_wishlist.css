@@ -858,7 +858,6 @@ body {
   background-color: #404044;
 }
 
-/* 결재 페이지 모달창 */
 #cart-pay-modal {
   display: none; /* 초기 상태에서는 보이지 않음 */
   position: fixed;

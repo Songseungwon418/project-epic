@@ -1,0 +1,141 @@
+<!DOCTYPE html>
+<html lang="ko" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport"
+          content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>게임 등록</title>
+    <link rel="shortcut icon" th:href="@{'/assets/images/favicon.png'}">
+    <link rel="stylesheet" th:href="@{'/assets/styles/loading.css'}">
+    <script th:src="@{'/assets/scripts/loading.js'}"></script>
+    <link rel="stylesheet" th:href="@{'/assets/styles/common.css'}">
+    <script defer th:src="@{'/assets/scripts/common.js'}"></script>
+    <link rel="stylesheet" th:href="@{'/game/assets/styles/add-game.css'}">
+</head>
+<body>
+<th:block th:replace="~{fragments/loading.html :: loading}"></th:block>
+<th:block th:replace="~{fragments/common.html :: header}"></th:block>
+<main class="main" id="main">
+    <form id="add-game-form" th:action="@{/game/add}" th:method="post">
+        <h2 class="title">게임 등록</h2>
+        <label class="label">
+            <span class="title">게임 이름</span>
+            <input class="field" name="name" type="text" maxlength="100" minlength="1" required>
+            <span class="_warning">올바른 게임 이름을 입력해 주세요.</span>
+        </label>
+        <label class="label">
+            <span class="title">게임 등급</span>
+            <select class="field" name="grGrac" id="grGrac">
+                <option value="" disabled selected>선택하세요</option> <!-- 기본 값으로 '선택하세요' 표시 -->
+                <option value="all">전체 이용가</option> <!-- 전체 이용가 등급 -->
+                <option value="12Y">12세 이상</option> <!-- 12세 이상 등급 -->
+                <option value="15Y">15세 이상</option> <!-- 15세 이상 등급 -->
+                <option value="ADULT">청소년이용불가</option> <!-- 18세 이상 등급 -->
+            </select>
+            <span class="_warning">올바른 게임 등급을 입력해 주세요.</span>
+        </label>
+        <label class="label">
+            <span class="title">게임 가격</span>
+            <input class="field" name="price" type="text">
+        </label>
+        <label class="label">
+            <span class="title">게임 설명</span>
+            <textarea class="content" name="content"></textarea>
+        </label>
+        <label class="label">
+            <span class="title">게임 회사</span>
+            <input class="field" name="company" type="text">
+        </label>
+        <label class="label">
+            <span class="title">게임 발매일</span>
+            <input class="field" name="openDate" type="date">
+        </label>
+        <label class="label cover">
+            <span class="title">메인 이미지</span>
+            <span class="row">
+                <span class="preview-wrapper">
+                    <span class="text">메인 이미지 찾기</span>
+                    <img alt="" class="image" src="" style="display: none;">
+                </span>
+                <span class="input-wrapper">
+                    <input hidden required accept="image/*" name="mainImage" type="file">
+                    <span class="tip">* 메인 이미지의 확장자는 <code>jpeg</code>이어야 합니다.</span>
+                    <span class="tip">* 메인 이미지의 파일 크기는 1MB를 초과하지 않아야 합니다.</span>
+                </span>
+            </span>
+        </label>
+        <label class="label cover">
+            <span class="title">로고</span>
+            <span class="row">
+                <span class="preview-wrapper">
+                    <span class="text">메인 로고 찾기</span>
+                    <img alt="" class="image" src="" style="display: none;">
+                </span>
+                <span class="input-wrapper">
+                    <input hidden required accept="image/*" name="mainLogo" type="file">
+                    <span class="tip">* 메인 로고의 확장자는 <code>png</code>이어야 합니다.</span>
+                    <span class="tip">* 메인 로고의 파일 크기는 1MB를 초과하지 않아야 합니다.</span>
+                </span>
+            </span>
+        </label>
+        <div class="spec-list">
+            <div class="list min">
+                <span class="title">최소 사양</span>
+                <label class="label">
+                    <span class="text">OS</span>
+                    <select class="field" name="minOs" id="minOs">
+                        <option value="" disabled selected>선택하세요</option>
+                        <option value="window">window</option>
+                        <option value="mac">mac</option>
+                    </select>
+                </label>
+                <label class="label">
+                    <span class="text">CPU</span>
+                    <input class="field" name="minCpu" type="text">
+                </label>
+                <label class="label">
+                    <span class="text">GPU</span>
+                    <input class="field" name="minGpu" type="text">
+                </label>
+                <label class="label">
+                    <span class="text">RAM</span>
+                    <input class="field" name="minRam" type="text">
+                </label>
+                <label class="label">
+                    <span class="text">스토리지</span>
+                    <input class="field" name="minStorage" type="text">
+                </label>
+            </div>
+            <div class="list rec">
+                <span class="title">권장 사양</span>
+                <label class="label">
+                    <span class="text">OS</span>
+                    <select class="field" name="recOs" id="recOs">
+                        <option value="" disabled selected>선택하세요</option>
+                        <option value="window">window</option>
+                        <option value="mac">mac</option>
+                    </select>
+                </label>
+                <label class="label">
+                    <span class="text">CPU</span>
+                    <input class="field" name="recCpu" type="text">
+                </label>
+                <label class="label">
+                    <span class="text">GPU</span>
+                    <input class="field" name="recGpu" type="text">
+                </label>
+                <label class="label">
+                    <span class="text">RAM</span>
+                    <input class="field" name="recRam" type="text">
+                </label>
+                <label class="label">
+                    <span class="text">스토리지</span>
+                    <input class="field" name="recStorage" type="text">
+                </label>
+            </div>
+        </div>
+    </form>
+</main>
+</body>
+</html>
