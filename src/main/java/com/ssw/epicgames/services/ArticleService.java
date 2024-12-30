@@ -45,6 +45,20 @@ public class ArticleService {
         return this.imageMapper.insertImage(image) > 0;
     }
 
+    public ArticleEntity getNextArticle(int index) {
+        if (index < 1) {
+            return null;
+        }
+        return this.articleMapper.selectNextArticle(index);
+    }
+
+    public ArticleEntity getPrevArticle(int index) {
+        if (index < 1) {
+            return null;
+        }
+        return this.articleMapper.selectPrevArticle(index);
+    }
+
     public Pair<ArticlePageVo, ArticleVo[]> searchArticles(int page, String filter, String keyword) {
         page = Math.max(page, 1);
         if (filter == null || (!filter.equals("all") && !filter.equals("title") && !filter.equals("nickname"))) {

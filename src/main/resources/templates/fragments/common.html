@@ -370,22 +370,44 @@
 
 <div class="search-container" th:fragment="mainSearch">
     <div class="area">
-        <form class="searchForm" id="searchForm" action="/game/browse" method="GET">
-            <button class="submit-button" type="submit">
-                <svg xmlns="http://www.w3.org/2000/svg" class="icon svg css-uwwqev" viewBox="0 0 21 20"
-                     preserveAspectRatio="xMidYMid meet">
-                    <g transform="scale(1 -1) rotate(-45 -11.93502884 -2)" stroke="currentColor" stroke-width="1.65"
-                       fill="none" fill-rule="evenodd">
-                        <circle cx="7.70710678" cy="7.70710678" r="7"></circle>
-                        <path d="M15.2071068 8.62132034h5.6923881" stroke-linecap="square"></path>
-                    </g>
-                </svg>
-            </button>
-            <label class="label">
-                <input name="keyword" class="search" placeholder="스토어 검색" autocomplete="off" spellcheck="false"
-                       type="search" th:value="${keyword}">
-            </label>
-        </form>
+        <div class="form">
+            <form class="searchForm" id="searchForm" action="/game/browse" method="GET">
+                <button class="submit-button" type="submit">
+                    <svg xmlns="http://www.w3.org/2000/svg" class="icon svg css-uwwqev" viewBox="0 0 21 20"
+                         preserveAspectRatio="xMidYMid meet">
+                        <g transform="scale(1 -1) rotate(-45 -11.93502884 -2)" stroke="currentColor" stroke-width="1.65"
+                           fill="none" fill-rule="evenodd">
+                            <circle cx="7.70710678" cy="7.70710678" r="7"></circle>
+                            <path d="M15.2071068 8.62132034h5.6923881" stroke-linecap="square"></path>
+                        </g>
+                    </svg>
+                </button>
+                <label class="label">
+                    <input name="keyword" class="search" placeholder="스토어 검색" autocomplete="off" spellcheck="false"
+                           type="search" th:value="${keyword}">
+                </label>
+            </form>
+            <div class="result">
+                <div class="result-wrapper">
+                    <span class="message init">
+                         <i class="icon fa-solid fa-magnifying-glass"></i>
+                         <span class="text">검색어를 입력해 주세요.</span>
+                    </span>
+                    <span class="message loading" style="display: none">
+                          <i class="icon fa-solid fa-spinner"></i>
+                    </span>
+                    <span class="message empty" style="display: none">
+                          <i class="icon fa-regular fa-file"></i>
+                          <span class="text">표시할 검색 결과가 없습니다.</span>
+                    </span>
+                    <span class="message error" style="display: none">
+                          <i class="icon fa-solid fa-exclamation"></i>
+                          <span class="text">검색 도중 오류가 발생하였습니다.</span>
+                    </span>
+                </div>
+            </div>
+        </div>
+
 
         <div class="link-container">
             <ul class="list">
@@ -396,7 +418,8 @@
             <span class="spring"></span>
             <ul class="list" th:if="${isLoggedIn}">
                 <li class="item wishlist"><a th:href="@{'/purchase/wishlist'}" target="_self">위시리스트</a></li>
-                <li class="item cart" style="font-size: 1.7rem"><a th:href="@{'/purchase/cart'}" target="_self">장바구니</a></li>
+                <li class="item cart" style="font-size: 1.7rem"><a th:href="@{'/purchase/cart'}" target="_self">장바구니</a>
+                </li>
             </ul>
         </div>
     </div>

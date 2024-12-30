@@ -119,7 +119,8 @@
 
         <div class="comment-container">
             <h2 class="title" th:text="${'댓글(' + (commentCount) + ')'}"></h2>
-            <form id="commentForm" class="form">
+            <span class="line" th:if="${user == null}"></span>
+            <form id="commentForm" class="form" th:if="${user != null}">
                 <label class="label spring">
                     <span class="text">내용</span>
                     <textarea name="content" class="field" maxlength="100" minlength="1" placeholder="댓글 내용을 작성해 주세요."
@@ -138,6 +139,22 @@
             <ul class="list">
 
             </ul>
+        </div>
+        <div class="prev-next Article">
+            <span class="line" th:if="${nextArticle != null}"></span>
+            <div class="prev article" th:if="${nextArticle != null}">
+                <span class="text">다음글 ▲</span>
+                <a class="link" target="_self" th:href="@{'/article/read?index=' + ${nextArticle.index}}"
+                   th:text="${nextArticle.title}"></a>
+            </div>
+            <span class="line"></span>
+
+            <div class="next article" th:if="${prevArticle != null}">
+                <span class="text">이전글 ▼</span>
+                <a class="link" target="_self" th:href="@{'/article/read?index=' + ${prevArticle.index}}"
+                   th:text="${prevArticle.title}"></a>
+            </div>
+            <span class="line" th:if="${prevArticle != null}"></span>
         </div>
     </div>
 </main>

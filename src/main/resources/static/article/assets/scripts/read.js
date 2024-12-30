@@ -280,7 +280,6 @@ const loadComments = () => {
 loadComments();
 
 const postComment = ($form) => {
-
     if ($form['content'].value === '') {
         alert('내용을 입력해 주세요.');
         return;
@@ -297,22 +296,42 @@ const postComment = ($form) => {
     formData.append('articleIndex', url.searchParams.get('index'));
     formData.append('userEmail', $userEmail.value);
     formData.append('content', $form['content'].value);
+
     xhr.onreadystatechange = () => {
         if (xhr.readyState !== XMLHttpRequest.DONE) {
             return;
         }
-        if (xhr.state < 200 || xhr.state >= 300) {
-            alert('댓글을 작성하지 못하였습니다. 잠시 후 다시 시도해 주세요.')
+        if (xhr.status < 200 || xhr.status >= 300) {
+            alert('댓글을 작성하지 못하였습니다. 잠시 후 다시 시도해 주세요.');
             return;
         }
+
+        const response = JSON.parse(xhr.responseText);
+        if (response.result !== 'success') {
+            alert('댓글 작성에 실패했습니다.');
+            return;
+        }
+
+        const commentCount = response.commentCount;
+        const $commentCount = document.querySelector('.comment-container .title');
+        $commentCount.textContent = `댓글(${commentCount})`;
+
+        if (commentCount > 0) {
+            const $noComment = document.querySelector('.no-comment');
+            if ($noComment) {
+                $noComment.style.display = 'none';
+            }
+        }
+
         $form['content'].value = '';
         $form['content'].focus();
-        loadComments();
-
+        loadComments()
     };
+
     xhr.open('POST', '../comment/');
     xhr.send(formData);
 };
+
 
 const $commentForm = document.getElementById('commentForm');
 $commentForm.onsubmit = (e) => {

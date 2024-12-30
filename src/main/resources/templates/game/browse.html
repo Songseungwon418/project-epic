@@ -183,7 +183,7 @@
                                  th:if="${keyword != null && !keyword.isEmpty()}">
 
                             <button class="wishlist add" type="button"
-                                    th:if="${gameWishlistStatus[game.getIndex()] == null or !gameWishlistStatus[game.getIndex()]}"
+                                    th:if="${gameWishlistStatus[game.getIndex()] == null or !gameWishlistStatus[game.getIndex()]} and !${purchasedGameIndices.contains(game.getIndex())}"
                                     th:data-game-index="${game.getIndex()}">
                                 <img class="plus"
                                      src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABgAAAAYCAYAAADgdz34AAAACXBIWXMAAAsTAAALEwEAmpwYAAAA4klEQVR4nN2UUQrCMBBEH5X2UFLPYKnaXkmtt1DqkaxWL6H+RwLrT0nMWvPlwEAIm5kwmyz8OzKgBlqgA57CTvYqqRmFBXADTIBXoPxGeALsFMJmwAZINAZjxI1wo4nF/MjCJ54pMp8CeaCm9zW+VtzujVDdCgeOEQ0OLoNLRIPOZXD3ZB6CqydWS2WQB+VhpjU4R4zo5DJoIxrsXQZVRIOlyyCTwfXpYO7JfPjRUl/DSsXtTIBzAmh+EF+jgB2525GTNOELFJJnSLjXxOJDKoPLzhb7th9Cu7Z79rV4G/ofeAG5NRUWhxZUbAAAAABJRU5ErkJggg=="

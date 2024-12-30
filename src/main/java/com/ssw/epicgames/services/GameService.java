@@ -5,8 +5,18 @@ import com.ssw.epicgames.entities.*;
 import com.ssw.epicgames.mappers.GameMapper;
 import com.ssw.epicgames.mappers.GenreMapper;
 import com.ssw.epicgames.vos.GameVo;
+import org.json.JSONArray;
+import org.json.JSONObject;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+
+import java.io.IOException;
+import java.net.URI;
+import java.net.URLEncoder;
+import java.net.http.HttpClient;
+import java.net.http.HttpRequest;
+import java.net.http.HttpResponse;
+import java.nio.charset.StandardCharsets;
 
 @Service
 public class GameService {

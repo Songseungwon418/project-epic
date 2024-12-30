@@ -21,7 +21,7 @@
     <th:block th:replace="~{fragments/common.html :: mainSearch}"></th:block>
     <th:block th:replace="~{fragments/common.html :: logout}"></th:block>
 
-    <div class="age-check" id="ageCheck" th:if="${gameDetails.game.grGrac == 'ADULT' && user == null}">
+    <div class="age-check" id="ageCheck" th:if="${gameDetails.game.grGrac == 'ADULT' && (user == null || (user != null && !isAdult))}">>
         <div id="cover" class="cover"></div>
         <div class="ageDialog" id="ageDialog">
             <div class="text-wrapper">
@@ -29,7 +29,10 @@
                 <span class="name" th:text="${gameDetails.game.getName()}"></span>
                 <span class="text">에는 모든 연령에 적합하지 않은 콘텐츠가 포함될 수 있습니다.</span>
             </div>
-            <div class="birthday-wrapper" id="birthdayWrapper">
+            <div class="no-adult" id="noAdult" th:if="${!isAdult}">
+                <span class="text">죄송합니다. 이 콘텐츠를 이용할 수 없습니다.</span>
+            </div>
+            <div class="birthday-wrapper" id="birthdayWrapper" th:if="${user == null}">
                 <span class="text">계속하려면 생년월일을 입력하세요.</span>
                 <div class="info">
                     <span class="text">개인정보처리방침</span>
@@ -113,7 +116,7 @@
                 <a class="link" th:href="@{'/'}" target="_self">
                     <span class="text">스토어로 돌아가기</span>
                 </a>
-                <button class="continue" id="continueButton">
+                <button class="continue" id="continueButton" th:if="${user == null}">
                     <span class="text">계속</span>
                 </button>
             </div>
