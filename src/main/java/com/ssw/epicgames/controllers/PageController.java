@@ -88,14 +88,14 @@ public class PageController {
                                   @RequestParam(value = "email", required = false) String email) {
         ModelAndView modelAndView = new ModelAndView();
 
+        //유저의 친구 찾기
+        boolean isFriend = this.pageService.isFriend(user.getEmail(), email);
+        modelAndView.addObject("isFriend", isFriend);
+
         if (user == null && email == null) {
             modelAndView.setViewName("redirect:/user/");
             return modelAndView;
         }
-
-        FriendsEntity[] friendsEntity = this.pageService.getFriendByEmail(user.getEmail());
-        modelAndView.addObject("friendsEntity", friendsEntity);
-
 
         if (email != null) {
             user = this.userService.getUserByEmail(email);
@@ -119,12 +119,25 @@ public class PageController {
         return modelAndView;
     }
 
+    @RequestMapping(value = "/profile", method = RequestMethod.POST, produces = MediaType.APPLICATION_JSON_VALUE)
+    @ResponseBody
+    public String postMyPage(FriendsEntity friend) {
+        Result result = this.pageService.insertFriend(friend);
+        JSONObject response = new JSONObject();
+        response.put(Result.NAME, result.nameToLower());
+        return response.toString();
+    }
+
 
     @RequestMapping(value = "/friend", method = RequestMethod.GET, produces = MediaType.TEXT_HTML_VALUE)
     public ModelAndView getFriendPage(@SessionAttribute("user") UserEntity user,
                                       @RequestParam(value = "email", required = false) String email,
                                       @RequestParam(value = "keyword", required = false) String keyword) {
         ModelAndView modelAndView = new ModelAndView();
+
+        //유저의 친구 찾기
+        boolean isFriend = this.pageService.isFriend(user.getEmail(), email);
+        modelAndView.addObject("isFriend", isFriend);
 
         if (user == null && email == null) {
             modelAndView.setViewName("redirect:/user/");
@@ -161,6 +174,15 @@ public class PageController {
         modelAndView.addObject("friendCount", friends.length);  // 친구 수 추가
         modelAndView.setViewName("pages/friends/friend");
         return modelAndView;
+    }
+
+    @RequestMapping(value = "/friend", method = RequestMethod.POST, produces = MediaType.APPLICATION_JSON_VALUE)
+    @ResponseBody
+    public String postFriendPage(FriendsEntity friend) {
+        Result result = this.pageService.insertFriend(friend);
+        JSONObject response = new JSONObject();
+        response.put(Result.NAME, result.nameToLower());
+        return response.toString();
     }
 
     @RequestMapping(value = "/setting", method = RequestMethod.GET, produces = MediaType.TEXT_HTML_VALUE)
@@ -217,4 +239,11 @@ public class PageController {
         return response.toString();
     }
     //endregion
+
+    @RequestMapping(value = "/privacyPolicy", method = RequestMethod.GET, produces = MediaType.TEXT_HTML_VALUE)
+    public ModelAndView getPrivacyPolicyPage() {
+        ModelAndView modelAndView = new ModelAndView();
+        modelAndView.setViewName("pages/privacyPolicy");
+        return modelAndView;
+    }
 }

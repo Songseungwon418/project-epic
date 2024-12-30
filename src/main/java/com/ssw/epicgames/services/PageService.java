@@ -5,15 +5,13 @@ import com.ssw.epicgames.entities.*;
 import com.ssw.epicgames.mappers.*;
 import com.ssw.epicgames.resutls.CommonResult;
 import com.ssw.epicgames.resutls.Result;
+import com.ssw.epicgames.resutls.friends.FriendsResult;
 import com.ssw.epicgames.resutls.user.DeletedUserResult;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
 
 import java.time.LocalDateTime;
-import java.util.HashSet;
-import java.util.List;
-import java.util.Set;
 
 
 @Service
@@ -40,13 +38,45 @@ public class PageService {
         return this.achievementMapper.getAchievementByIndex(index);
     }
 
-    //
-    public FriendsEntity[] getFriendByEmail(String email) {
-        if(email == null || email.isEmpty()) {
-            return null;
+    //regin 친구 추가
+    public Result insertFriend(FriendsEntity friend) {
+        if(friend == null ||
+        friend.getUser_email() == null || friend.getUser_email().length() < 8 || friend.getUser_email().length() > 50 ||
+        friend.getFriend_email() == null || friend.getFriend_email().length() < 8 || friend.getFriend_email().length() > 50) {
+            return CommonResult.FAILURE;
         }
-        return this.friendMapper.selectFriendByEmail(email);
+
+        FriendsEntity[] friendEntity = this.friendMapper.selectUserFriends(friend.getUser_email(), friend.getFriend_email());
+                for(FriendsEntity friendList : friendEntity) {
+                    if(friendList.getFriend_email().equals(friend.getFriend_email())) {
+                        return FriendsResult.FRIENDSHIP_EXISTS;
+                    }
+                }
+
+        if(this.userMapper.selectUserByEmail(friend.getFriend_email()) == null) {
+            return FriendsResult.USER_NOT_FOUND;
+        }
+
+        friend.setUser_email(friend.getUser_email());
+        friend.setFriend_email(friend.getFriend_email());
+        friend.setCreatedAt(LocalDateTime.now());
+        friend.setDeletedAt(null);
+
+        return this.friendMapper.insertFriend(friend) > 0 ? CommonResult.SUCCESS : CommonResult.FAILURE;
     }
+    //endregion
+
+    //region 친구 찾기
+    public boolean isFriend(String userEmail, String friendEmail) {
+        FriendsEntity[] friends = this.friendMapper.selectUserFriends(userEmail, friendEmail);
+        for (FriendsEntity friend : friends) {
+            if(friend.getFriend_email().equals(friendEmail)) {
+                return true;
+            }
+        }
+        return false;
+    }
+    //endregion
 
     //region 친구 찾기 배열
     public UserEntity[] getFriendsByEmail(String email) {

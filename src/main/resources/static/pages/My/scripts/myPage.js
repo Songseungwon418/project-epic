@@ -39,3 +39,38 @@ function applyFilter(criteria) {
 }
 
 //endregion
+
+const $friendAdd = document.getElementById('friendAdd');
+
+$friendAdd.onsubmit = (e) => {
+    e.preventDefault();
+
+    const xhr = new XMLHttpRequest();
+    const formData = new FormData();
+    formData.append('user_email', $friendAdd['user_email'].value);
+    formData.append('friend_email', $friendAdd['friend_email'].value);
+    xhr.onreadystatechange = () => {
+        if (xhr.readyState !== XMLHttpRequest.DONE) {
+            return;
+        }
+        if (xhr.status < 200 || xhr.status >= 300) {
+            alert("요청을 보내던중 오류가 발생하였습니다.");
+            return;
+        }
+
+        const response = JSON.parse(xhr.responseText);
+        if(response['result'] === 'failure') {
+            alert('친구 추가를 실패하였습니다. 다시 시도해 주세요.')
+        }
+        else if(response['result'] === 'friendship_exists') {
+            alert('이미 친구가 되어 있습니다.')
+        } else if(response['result'] === 'user_not_found') {
+            alert('사용자를 찾을 수 없습니다.')}
+        else if(response['result'] === 'success') {
+            alert('친구가 추가되었습니다.')
+            location.reload();
+        }
+    };
+    xhr.open('POST', `/page/profile?email=${$friendAdd['friend_email'].value}`);
+    xhr.send(formData);
+}
