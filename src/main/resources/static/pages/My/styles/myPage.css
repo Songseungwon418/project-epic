@@ -111,8 +111,9 @@
   font-size: 1.5rem;
   font-weight: 700;
   padding: 2.3rem;
-  border: 0.0625rem solid;
+  border: 0.0625rem solid #ffffff;
   border-radius: 2rem;
+  color: #Ffffff;
 }
 #main > .mainSection > .myName-container > .level > .button:hover {
   background-color: rgb(50, 50, 62.5);

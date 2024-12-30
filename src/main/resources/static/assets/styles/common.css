@@ -536,14 +536,78 @@ button {
     justify-content: flex-start;
 }
 
-#main > .search-container > .area > .searchForm {
+#main > .search-container > .area > .form {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    justify-content: flex-start;
+    box-sizing: border-box;
+    position: relative;
+}
+
+#main > .search-container > .area > .form > .result {
+    display: none;
+    background-color: #18181cff;
+    width: 200%;
+    height: auto;
+    max-height: 24.5rem;
+    top: 6.2rem;
+    color: #ffffffa6;
+    border-radius: 0.5rem;
+    position: absolute;
+    overflow: hidden;
+}
+
+#main > .search-container > .area > .form > .result > .result-wrapper {
+    width: 100%;
+    height: auto;
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    justify-content: flex-start;
+    gap: 1rem;
+    padding: 1.5rem;
+}
+
+#main > .search-container > .area > .form > .result > .result-wrapper > .message {
+    width: 100%;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    gap: 0.8rem;
+}
+
+#main > .search-container > .area > .form > .result > .result-wrapper > .item {
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    justify-content: flex-start;
+    gap: 1.5rem;
+    color: #ffffff;
+    font-weight: bold;
+    letter-spacing: normal;
+}
+
+#main > .search-container > .area > .form > .result > .result-wrapper > .item:hover {
+    text-decoration: underline;
+    text-underline-offset: 0.2rem;
+}
+
+#main > .search-container > .area > .form > .result > .result-wrapper > .item > img {
+    width: 3rem;
+    height: 4rem;
+    border-radius: 0.3rem;
+}
+
+#main > .search-container > .area > .form > .searchForm {
     position: relative;
     margin-bottom: 1rem;
 }
-#main > .search-container > .area > .searchForm > .submit-button {
+#main > .search-container > .area > .form > .searchForm > .submit-button {
     border: none;
 }
-#main > .search-container > .area > .searchForm > .submit-button > .icon {
+#main > .search-container > .area > .form > .searchForm > .submit-button > .icon {
     position: absolute;
     left: 1.8rem;
     top: 2.8rem;
@@ -551,10 +615,10 @@ button {
     width: 1.4rem;
     z-index: 3;
 }
-#main > .search-container > .area > .searchForm > .label {
+#main > .search-container > .area > .form > .searchForm > .label {
     position: relative;
 }
-#main > .search-container > .area > .searchForm > .label > .search {
+#main > .search-container > .area > .form > .searchForm > .label > .search {
     background-color: #202024;
     height: 4.3rem;
     width: 24.5rem;
@@ -567,15 +631,15 @@ button {
     outline: none;
     border: none;
 }
-#main > .search-container > .area > .searchForm > .label > .search::placeholder {
+#main > .search-container > .area > .form > .searchForm > .label > .search::placeholder {
     font-weight: bolder;
 }
-#main > .search-container > .area > .searchForm > .label > .search:hover {
+#main > .search-container > .area > .form > .searchForm > .label > .search:hover {
     background-color: #404040;
     outline: none;
     border: none;
 }
-#main > .search-container > .area > .searchForm > .label > .search:focus-within {
+#main > .search-container > .area > .form > .searchForm > .label > .search:focus-within {
     background-color: #404040;
     outline: none;
     border: none;

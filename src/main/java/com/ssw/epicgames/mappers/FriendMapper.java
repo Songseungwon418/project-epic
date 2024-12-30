@@ -9,7 +9,8 @@ import org.apache.ibatis.annotations.Param;
 public interface FriendMapper {
     int insertFriend(FriendsEntity friendsEntity);
 
-    FriendsEntity[] selectFriendByEmail(@Param("email") String email);
+    FriendsEntity[] selectUserFriends(@Param("user_email") String user_email,
+                                      @Param("friend_email") String friend_email);
 
     FriendsEntity[] selectFriendsByUserEmail(@Param("user_email") String user_email);
 

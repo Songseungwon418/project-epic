@@ -64,10 +64,14 @@
                 <a th:href="@{'/page/setting'}" class="button">계정 설정</a>
                 <a th:href="@{'/page/setting?showPurchaseList=true'}" class="button">결제 내역</a>
             </div>
-            <div class="level" th:if="${session.user != null && param.email != null && !param.email.isEmpty() && !param.email.contains(session.user.email)}">
-                <a href="#" class="button">친구 추가</a>
-                <a href="#" class="button">친구임</a>
-            </div>
+            <form id="friendAdd" class="level" th:if="${session.user != null && param.email != null && !param.email.isEmpty() && !param.email.contains(session.user.email)}">
+                <label hidden="hidden">
+                    <input name="user_email" type="text" th:value="${session.user.email}">
+                    <input name="friend_email" type="text" th:value="${param.email}">
+                </label>
+                <button th:if="${!isFriend}" class="button" type="submit">친구 추가</button>
+                <a th:if="${isFriend}" href="#" class="button">친구임</a>
+            </form>
         </div>
         <div class="center-bar">
             <span class="achievement">업적</span>

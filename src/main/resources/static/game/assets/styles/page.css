@@ -54,6 +54,11 @@
   text-align: center;
   line-height: 1.2;
 }
+#main > .age-check > .ageDialog > .no-adult > .text {
+  color: rgba(255, 255, 255, 0.6509803922);
+  font-size: 1.5rem;
+  margin: 2rem 0;
+}
 #main > .age-check > .ageDialog > .birthday-wrapper {
   display: flex;
   flex-direction: column;

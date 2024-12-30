@@ -75,7 +75,8 @@
                 <a th:href="@{'/page/setting?showPurchaseList=true'}" class="button">결제 내역</a>
             </div>
             <div class="level" th:if="${session.user != null && param.email != null && !param.email.isEmpty() && !param.email.contains(session.user.email)}">
-                <a href="#" class="button">친구 추가</a>
+                <a th:if="${!isFriend}" href="#" class="button">친구 추가</a>
+                <a th:if="${isFriend}" href="#" class="button">친구임</a>
             </div>
         </div>
         <div class="center-bar">
