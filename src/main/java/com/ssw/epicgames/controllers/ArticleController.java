@@ -94,6 +94,10 @@ public class ArticleController {
         ModelAndView modelAndView = new ModelAndView();
         ArticleVo article = this.articleService.getArticle(index);
         int commentCount = this.articleService.getCommentCount(index);
+        ArticleEntity nextArticle = this.articleService.getNextArticle(index);
+        ArticleEntity prevArticle = this.articleService.getPrevArticle(index);
+        modelAndView.addObject("nextArticle", nextArticle);
+        modelAndView.addObject("prevArticle", prevArticle);
         modelAndView.addObject("commentCount", commentCount);
         modelAndView.addObject("article", article);
         modelAndView.addObject("user", user);

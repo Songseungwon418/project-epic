@@ -1,21 +1,25 @@
 package com.ssw.epicgames.controllers;
 
 import com.ssw.epicgames.DTO.GameDTO;
+import com.ssw.epicgames.DTO.PayDTO;
 import com.ssw.epicgames.DTO.WishlistDTO;
 import com.ssw.epicgames.entities.*;
 import com.ssw.epicgames.services.*;
 import com.ssw.epicgames.vos.GameVo;
 import com.ssw.epicgames.vos.PriceVo;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.ModelAndView;
 
+import java.io.IOException;
 import java.time.LocalDate;
 import java.time.Period;
 import java.util.*;
+import java.util.stream.Collectors;
 
 @Controller
 @RequestMapping(value = "/game")
@@ -37,6 +41,29 @@ public class GameController {
         this.cartService = cartService;
         this.purchaseService = purchaseService;
     }
+
+    //region 게임검색결과
+    @RequestMapping(value = "/search-game", method = RequestMethod.GET, produces = MediaType.APPLICATION_JSON_VALUE)
+    @ResponseBody
+    public ResponseEntity<GameVo[]> getSearchGame(@RequestParam(value = "keyword", required = false) String keyword) {
+        if (keyword == null || keyword.trim().isEmpty()) {
+            return ResponseEntity.ok(new GameVo[0]);
+        }
+
+        try {
+            GameVo[] games = gameService.getGamesByKeyword(keyword);
+
+            if (games == null || games.length == 0) {
+                return ResponseEntity.ok(new GameVo[0]);
+            }
+
+            return ResponseEntity.ok(games);
+        } catch (Exception e) {
+            e.printStackTrace();
+            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(new GameVo[0]);
+        }
+    }
+    //endregion
 
     //region 마이페이지 이미지
     @RequestMapping(value = "/cover", method = RequestMethod.GET)
@@ -138,6 +165,13 @@ public class GameController {
         boolean isInCart = this.cartService.isInCart(index, user);
         Integer cartIndex = this.cartService.getCartIndex(index, user);
 
+        boolean isAdult = false;
+        if (user != null && user.getBirthdate() != null) {
+            LocalDate currentDate = LocalDate.now();
+            int age = Period.between(user.getBirthdate(), currentDate).getYears();
+            isAdult = age >= 19;
+        }
+
         modelAndView.addObject("user", user);
         modelAndView.addObject("gameDetails", gameDetails);
         modelAndView.addObject("priceVo", priceVo);
@@ -146,6 +180,7 @@ public class GameController {
         modelAndView.addObject("wishlistIndex", wishlistIndex);
         modelAndView.addObject("isInCart", isInCart);
         modelAndView.addObject("cartIndex", cartIndex);
+        modelAndView.addObject("isAdult", isAdult);
 
         modelAndView.setViewName("game/page");
         return modelAndView;
@@ -225,9 +260,17 @@ public class GameController {
 
         Map<Integer, Boolean> gameWishlistStatus = new HashMap<>();
         Map<Integer, Integer> gameWishlistIndices = new HashMap<>();
+        Set<Integer> purchasedGameIndices = new HashSet<>();
 
         if (user != null && games != null) {
             WishlistDTO[] wishlists = this.purchaseService.getWishlists(user);
+            List<PayDTO> paylist = this.purchaseService.getPurchasesByUser(user);
+
+            purchasedGameIndices = paylist.stream()
+                    .filter(Objects::nonNull)
+                    .flatMap(payDTO -> payDTO.getPurchase().stream())
+                    .map(purchaseDTO -> purchaseDTO.getGame().getIndex())
+                    .collect(Collectors.toSet());
 
             if (wishlists != null) {
                 gameWishlistStatus = this.wishlistService.getWishlistStatus(games, wishlists);
@@ -237,6 +280,7 @@ public class GameController {
 
         modelAndView.addObject("gameWishlistStatus", gameWishlistStatus);
         modelAndView.addObject("gameWishlistIndices", gameWishlistIndices);
+        modelAndView.addObject("purchasedGameIndices", purchasedGameIndices);
         modelAndView.addObject("user", user);
 
         modelAndView.setViewName("game/genre");
@@ -296,10 +340,21 @@ public class GameController {
         }
 
         Map<String, Object> wishlistData = this.wishlistService.getWishlistStatus(user, games);
+        Set<Integer> purchasedGameIndices = new HashSet<>();
+
+        if (user != null) {
+            List<PayDTO> paylist = this.purchaseService.getPurchasesByUser(user);
+
+            purchasedGameIndices = paylist.stream()
+                    .filter(Objects::nonNull)
+                    .flatMap(payDTO -> payDTO.getPurchase().stream())
+                    .map(purchaseDTO -> purchaseDTO.getGame().getIndex())
+                    .collect(Collectors.toSet());
+        }
+
         modelAndView.addAllObjects(wishlistData);
-
+        modelAndView.addObject("purchasedGameIndices", purchasedGameIndices);
         modelAndView.addObject("user", user);
-
         modelAndView.setViewName("game/browse");
         return modelAndView;
     }

@@ -86,7 +86,7 @@ if ($continueButton) {
             age--;
         }
 
-        if (age >= 18) {
+        if (age >= 19) {
             $ageCheck.classList.add('-remove');
         } else {
             $continueButton.style.display = 'none'

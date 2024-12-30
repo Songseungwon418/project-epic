@@ -27,7 +27,8 @@ public interface ArticleMapper {
     int selectArticleCountBySearch(@Param("filter") String filter,
                                    @Param("keyword") String keyword);
 
+    ArticleEntity selectNextArticle(@Param("index") int index);
 
-
+    ArticleEntity selectPrevArticle(@Param("index") int index);
 
 }

@@ -2,6 +2,7 @@ package com.ssw.epicgames.controllers;
 
 import com.ssw.epicgames.entities.CommentEntity;
 import com.ssw.epicgames.resutls.CommonResult;
+import com.ssw.epicgames.services.ArticleService;
 import com.ssw.epicgames.services.CommentService;
 import com.ssw.epicgames.vos.CommentVo;
 import org.json.JSONObject;
@@ -18,10 +19,12 @@ import org.springframework.web.bind.annotation.ResponseBody;
 @RequestMapping(value = "/comment")
 public class CommentController {
     private final CommentService commentService;
+    private final ArticleService articleService;
 
     @Autowired
-    public CommentController(CommentService commentService) {
+    public CommentController(CommentService commentService, ArticleService articleService) {
         this.commentService = commentService;
+        this.articleService = articleService;
     }
 
     @RequestMapping(value = "/", method = RequestMethod.PATCH, produces = MediaType.APPLICATION_JSON_VALUE)
@@ -58,6 +61,13 @@ public class CommentController {
         CommonResult result = this.commentService.writeComment(comment);
         JSONObject response = new JSONObject();
         response.put("result", result.name().toLowerCase());
+
+        if (result == CommonResult.SUCCESS) {
+            int commentCount = this.articleService.getCommentCount(comment.getArticleIndex());
+            response.put("commentCount", commentCount);
+        }
+
         return response.toString();
     }
+
 }

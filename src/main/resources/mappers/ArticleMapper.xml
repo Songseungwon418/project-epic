@@ -119,5 +119,22 @@
             AND `u`.`nickname` = #{keyword}
         </if>
     </select>
-
+    <select id="selectNextArticle" resultType="com.ssw.epicgames.entities.ArticleEntity">
+        SELECT `index`      AS `index`,
+               `title`      AS `title`
+        FROM `epic_games`.`articles`
+        WHERE `index` > #{index}
+          AND `deleted_at` IS NULL
+        ORDER BY `index`
+        LIMIT 1
+    </select>
+    <select id="selectPrevArticle" resultType="com.ssw.epicgames.entities.ArticleEntity">
+        SELECT `index`      AS `index`,
+               `title`      AS `title`
+        FROM `epic_games`.`articles`
+        WHERE #{index} > `index`
+          AND `deleted_at` IS NULL
+        ORDER BY `index` DESC
+        LIMIT 1
+    </select>
 </mapper>
