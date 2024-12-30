@@ -510,6 +510,9 @@
   height: 0.0625rem;
   background-color: rgba(255, 255, 255, 0.1411764706);
 }
+#main > .mainSection > .prev-next > .article {
+  margin-left: 2rem;
+}
 #main > .mainSection > .prev-next > .article > .link {
   margin-left: 1.5rem;
   color: #d4d5d6;
