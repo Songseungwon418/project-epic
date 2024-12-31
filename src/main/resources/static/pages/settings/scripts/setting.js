@@ -172,34 +172,34 @@ document.addEventListener('DOMContentLoaded', () => {
 
     // 전체 환불 혹은 환불 누를 시
     $RefundRequestBtns.forEach(btn => btn.addEventListener('click', (e) => {
-        const row = e.target.closest('tr'); // 클릭한 버튼이 속한 행
+            const row = e.target.closest('tr'); // 클릭한 버튼이 속한 행
 
-        // payId 가지고 옴
-        const payIdRow = row.parentNode.querySelector(':scope > .purchase-id');
-        const payIdData = payIdRow ? payIdRow.querySelector('.content').innerText : "";
-        const payId = payIdData.replace("주문Id: ", "").trim();
-        if (btn.dataset.id === 'all') {
-            // 폼에 값 채우기
-            $payId.innerText = payId;
-            $gameIndex.innerText = "";
-            $gameName.value = row.querySelector('.title.content').innerText;
-            $price.value = row.querySelector('.price.price-info').innerText;
-        } else {
-            // '환불' 버튼 클릭 시, 해당 행의 게임 정보 추출
-            const gameIndex = row.querySelector('.gameIndex').innerText;
-            const gameName = row.querySelector('.line-bottom').innerText;
-            const price = row.querySelector('.price.-current').innerText;
+            // payId 가지고 옴
+            const payIdRow = row.parentNode.querySelector(':scope > .purchase-id');
+            const payIdData = payIdRow ? payIdRow.querySelector('.content').innerText : "";
+            const payId = payIdData.replace("주문Id: ", "").trim();
+            if (btn.dataset.id === 'all') {
+                // 폼에 값 채우기
+                $payId.innerText = payId;
+                $gameIndex.innerText = "";
+                $gameName.value = row.querySelector('.title.content').innerText;
+                $price.value = row.querySelector('.price.price-info').innerText;
+            } else {
+                // '환불' 버튼 클릭 시, 해당 행의 게임 정보 추출
+                const gameIndex = row.querySelector('.gameIndex').innerText;
+                const gameName = row.querySelector('.line-bottom').innerText;
+                const price = row.querySelector('.price.-current').innerText;
 
-            // 폼에 값 채우기
-            $payId.innerText = payId;
-            $gameIndex.innerText = gameIndex;
-            $gameName.value = gameName;
-            $price.value = price;
-        }
+                // 폼에 값 채우기
+                $payId.innerText = payId;
+                $gameIndex.innerText = gameIndex;
+                $gameName.value = gameName;
+                $price.value = price;
+            }
 
-        // dialog와 overlay 보이게 하기
-        $refundDialog.classList.add('-visible');
-        $overlay.classList.add('show');
+            // dialog와 overlay 보이게 하기
+            $refundDialog.classList.add('-visible');
+            $overlay.classList.add('show');
         })
     );
 
