@@ -390,4 +390,32 @@
   opacity: 1;
 }
 
+@media screen and (max-width: 90rem) {
+  #main > .mainSection > .gameSection > .game-container > .allGame > .game-wrapper {
+    grid-template-columns: repeat(3, 1fr);
+    grid-gap: 1.5rem;
+  }
+}
+@media screen and (max-width: 72rem) {
+  #main > .mainSection > .gameSection > .game-container > .allGame > .game-wrapper {
+    grid-template-columns: repeat(4, 1fr);
+    grid-gap: 1.5rem;
+  }
+  #main > .mainSection > .gameSection > .game-container > .filter-container {
+    display: none;
+  }
+}
+@media screen and (max-width: 62rem) {
+  #main > .mainSection > .gameSection > .game-container > .allGame > .game-wrapper {
+    grid-template-columns: repeat(3, 1fr);
+    grid-gap: 1.5rem;
+  }
+}
+@media screen and (max-width: 45rem) {
+  #main > .mainSection > .gameSection > .game-container > .allGame > .game-wrapper {
+    grid-template-columns: repeat(2, 1fr);
+    grid-gap: 1.5rem;
+  }
+}
+
 /*# sourceMappingURL=genre.css.map */
