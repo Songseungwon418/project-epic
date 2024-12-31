@@ -42,10 +42,12 @@ document.addEventListener("DOMContentLoaded", function () {
     // 페이지 로딩 시 로딩 화면 보이기
     window.addEventListener('beforeunload', function () {
         $loading.show();
+        $mainContainer.style.display = 'none';
     });
 
     window.addEventListener('load', function () {
         $loading.hide();
+        $mainContainer.style.display = 'flex';
     });
 });
 //endregion

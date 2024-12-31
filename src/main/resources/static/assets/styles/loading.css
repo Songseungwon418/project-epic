@@ -13,6 +13,7 @@
   justify-content: center;
   user-select: none;
   cursor: not-allowed;
+  overflow: hidden hidden !important;
   z-index: 999999;
   /* 로딩 스피너 스타일 */
 }
