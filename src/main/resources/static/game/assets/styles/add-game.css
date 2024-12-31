@@ -19,6 +19,7 @@ body {
   margin-right: auto;
 }
 #main > #add-game-form {
+  margin-bottom: 40px;
   padding: 20px;
   align-items: stretch;
   display: flex;
@@ -33,6 +34,14 @@ body {
   font-weight: 700;
   color: #ffffff;
 }
+#main > #add-game-form > .cover.logo > .row > .input-wrapper {
+  width: 180px;
+  height: 102px;
+}
+#main > #add-game-form > .cover.mainImage > .row > .input-wrapper {
+  width: 150px;
+  height: 204px;
+}
 #main > #add-game-form > .cover > .row {
   align-items: flex-start;
   display: flex;
@@ -40,15 +49,20 @@ body {
   gap: 10px;
   justify-content: flex-start;
 }
-#main > #add-game-form > .cover > .row > .preview-wrapper {
-  width: 180px;
-  height: 180px;
+#main > #add-game-form > .cover > .row > .input-wrapper {
   border: 1px solid #424242;
   border-radius: 2.5px;
   overflow: hidden;
   position: relative;
+  cursor: pointer;
 }
-#main > #add-game-form > .cover > .row > .preview-wrapper > * {
+#main > #add-game-form > .cover > .row > .input-wrapper:hover {
+  border: 1px solid #6a6868;
+}
+#main > #add-game-form > .cover > .row > .input-wrapper:active {
+  border: 2px solid #6a6868;
+}
+#main > #add-game-form > .cover > .row > .input-wrapper > * {
   top: 0;
   left: 0;
   width: 100%;
@@ -56,7 +70,7 @@ body {
   box-sizing: border-box;
   position: absolute;
 }
-#main > #add-game-form > .cover > .row > .preview-wrapper > .text {
+#main > #add-game-form > .cover > .row > .input-wrapper > ._text {
   align-items: center;
   display: flex;
   flex-direction: row;
@@ -65,11 +79,11 @@ body {
   padding: 5px;
   text-align: center;
 }
-#main > #add-game-form > .cover > .row > .preview-wrapper > .image {
+#main > #add-game-form > .cover > .row > .input-wrapper > .image {
   object-fit: cover;
   object-position: center;
 }
-#main > #add-game-form > .cover > .row > .input-wrapper {
+#main > #add-game-form > .cover > .row > .info-wrapper {
   padding: 10px 0;
   align-items: flex-start;
   display: flex;
@@ -77,7 +91,7 @@ body {
   gap: 5px;
   justify-content: flex-start;
 }
-#main > #add-game-form > .cover > .row > .input-wrapper > .tip > code {
+#main > #add-game-form > .cover > .row > .info-wrapper > .tip > code {
   background-color: #424242;
   border-radius: 2px;
   font-size: 12px;
@@ -100,60 +114,100 @@ body {
   justify-content: stretch;
   gap: 10px;
 }
+#main > #add-game-form > .button-container {
+  margin-top: 10px;
+  align-items: center;
+  display: flex;
+  flex-direction: column;
+  gap: 5px;
+  justify-content: flex-end;
+}
 
-.label {
+.--label {
   align-items: stretch;
   display: flex;
   flex-direction: column;
   gap: 5px;
   justify-content: flex-start;
 }
-.label.-invalid > ._text {
+.--label.-invalid > ._text {
   color: #e74c3c;
 }
-.label.-invalid > ._field:not(:disabled) {
+.--label.-invalid > ._field:not(:disabled) {
   border-color: #e74c3c !important;
 }
-.label.-invalid > ._warning {
+.--label.-invalid > ._warning {
   color: #e74c3c;
   display: block;
 }
-.label > .text {
+.--label > ._text {
   font-size: 14px;
 }
-.label > ._warning {
+.--label > ._warning {
   display: none;
   font-size: 16px;
 }
 
-.field {
+.--field {
   padding: 4.5px 5px;
   min-width: 300px;
   transition-duration: 250ms;
   transition-property: border-color;
   transition-timing-function: ease;
 }
-.field.-dark {
+.--field.-dark {
   background-color: #222324;
   border: 1px solid #424242;
   color: #ffffff;
 }
-.field.-dark:hover {
+.--field.-dark:hover {
   border-color: rgb(91.5, 91.5, 91.5);
 }
-.field.-dark:focus {
+.--field.-dark:focus {
   border-color: #01d345;
 }
-.field.-light {
+.--field.-light {
   background-color: #ffffff;
   border: 1px solid #eeeeee;
   color: #212121;
 }
-.field.-light:hover {
+.--field.-light:hover {
   border-color: rgb(212.5, 212.5, 212.5);
 }
-.field.-light:focus {
+.--field.-light:focus {
   border-color: #01cd3d;
+}
+
+.--obj-button {
+  align-items: center;
+  display: flex;
+  flex-direction: row;
+  gap: 10px;
+  justify-content: flex-start;
+  font-size: 18px;
+  font-weight: 600;
+  cursor: pointer;
+  transition-duration: 125ms;
+  transition-property: background-color;
+  transition-timing-function: ease;
+  user-select: none;
+  white-space: nowrap;
+}
+.--obj-button.-simple-candy {
+  border-color: rgb(46.3857142857, 47.75, 49.1142857143);
+  border-style: solid;
+  border-width: 1px;
+  border-radius: 999rem;
+  color: #bdbdbd;
+  padding: 5px 10px;
+}
+.--obj-button.-simple-candy:hover {
+  border-color: rgb(52.5785714286, 54.125, 55.6714285714);
+  color: rgb(214.5, 214.5, 214.5);
+}
+.--obj-button.-simple-candy:hover {
+  border-color: rgb(58.7714285714, 60.5, 62.2285714286);
+  color: #f0f0f0;
 }
 
 /*# sourceMappingURL=add-game.css.map */
