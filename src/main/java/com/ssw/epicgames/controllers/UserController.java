@@ -7,15 +7,13 @@ import com.ssw.epicgames.resutls.Result;
 import com.ssw.epicgames.services.UserService;
 import jakarta.mail.MessagingException;
 import jakarta.servlet.http.HttpServletRequest;
+import jakarta.servlet.http.HttpServletResponse;
 import jakarta.servlet.http.HttpSession;
 import org.json.JSONObject;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.MediaType;
 import org.springframework.stereotype.Controller;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestMethod;
-import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.ModelAndView;
 
 @Controller
@@ -52,7 +50,11 @@ public class UserController {
 
     @RequestMapping(value = "/login", method = RequestMethod.GET, produces = MediaType.APPLICATION_JSON_VALUE)
     @ResponseBody
-    public String getLogin(HttpSession session, UserEntity user) {
+    public String getLogin(@RequestHeader(value = "x-request-by", required = false) String _requestBy,
+                           HttpSession session, UserEntity user) {
+        if (_requestBy == null || !_requestBy.equals("xmlhttprequest")) {
+            throw new RuntimeException("fuck you");
+        }
 
 //        if(session.getAttribute("user") != null) {
 //            return "이미 로그인 되어있습니다.";

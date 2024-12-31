@@ -88,6 +88,7 @@ public class PageController {
                                   @RequestParam(value = "email", required = false) String email) {
         ModelAndView modelAndView = new ModelAndView();
 
+
         //유저의 친구 찾기
         boolean isFriend = this.pageService.isFriend(user.getEmail(), email);
         modelAndView.addObject("isFriend", isFriend);

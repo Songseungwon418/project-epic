@@ -51,6 +51,7 @@ $loginForm.onsubmit = (e) => {
         }
     };
     xhr.open('GET', url.toString());
+    xhr.setRequestHeader('x-request-by', 'xmlhttprequest');
     xhr.send();
 }
 //endregion
