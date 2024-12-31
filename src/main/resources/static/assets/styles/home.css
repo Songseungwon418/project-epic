@@ -821,6 +821,9 @@
   object-fit: cover;
   border-radius: 1rem;
 }
+#main > .mainSection > .dealSection > .deal-container > .deal > .imageLink > .link > .image:hover {
+  filter: brightness(1.1);
+}
 #main > .mainSection > .dealSection > .deal-container > .deal > .text-wrapper {
   width: 100%;
   height: 100%;
@@ -851,6 +854,30 @@
   border-radius: 1rem;
   padding: 1.2rem 1.8rem;
   box-sizing: border-box;
+}
+#main > .mainSection > .dealSection > .deal-container > .deal > .text-wrapper > .link > button:hover {
+  background-color: #636366;
+}
+
+@media screen and (max-width: 92rem) {
+  #main > .mainSection > .rolling-banner > .side-banner {
+    display: none;
+  }
+  #main > .mainSection > .rolling-banner > .main-banner {
+    width: 100%;
+  }
+}
+@media screen and (max-width: 65rem) {
+  #main > .mainSection > .event-container {
+    width: 100%;
+    justify-content: space-around;
+  }
+  #main > .mainSection > .event-container > .event {
+    width: calc(50% - 1rem);
+  }
+  #main > .mainSection > .event-container > .event:nth-of-type(3) {
+    display: none;
+  }
 }
 
 /*# sourceMappingURL=home.css.map */
