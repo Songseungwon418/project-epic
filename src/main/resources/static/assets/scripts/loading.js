@@ -6,13 +6,11 @@ document.addEventListener("DOMContentLoaded", function () {
     window.addEventListener('beforeunload', function () {
         if ($loading) {
             $loading.style.display = 'flex';  // 페이지 이동 전 로딩 화면 표시
-            // 스크롤 방지
-            document.body.style.overflow = 'hidden';
 
-            // 10초 후 로딩 화면 숨기기
+            // 15초 후 로딩 화면 숨기기 - 무한 반복 방지
             setTimeout(function () {
                 $loading.style.display = 'none';  // 로딩 화면 숨기기
-            }, 5000);  // 5초 후 로딩 화면 숨김
+            }, 15000);  // 15초 후 로딩 화면 숨김
         }
     });
 

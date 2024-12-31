@@ -326,7 +326,6 @@ public class GameController {
     // 키워드로 검색된 게임 이미지 조회
     @RequestMapping(value = "/browse-image-search", method = RequestMethod.GET)
     @ResponseBody
-    @Cacheable(value = "gameSearchImages", key = "#index + '-' + (#keyword != null ? #keyword : 'default')")
     public ResponseEntity<byte[]> getSearchGameImage(@RequestParam(value = "index") int index,
                                                      @RequestParam(value = "keyword") String keyword) {
         GameVo[] games = this.gameService.getGamesByKeyword(keyword);
