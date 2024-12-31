@@ -3,6 +3,7 @@ package com.ssw.epicgames.entities;
 import lombok.EqualsAndHashCode;
 import lombok.Getter;
 import lombok.Setter;
+import org.springframework.format.annotation.DateTimeFormat;
 
 import java.util.Base64;
 import java.util.Date;
@@ -18,7 +19,10 @@ public class GameEntity {
     private String summary;
     private String description;
     private String company;
+
+    @DateTimeFormat(pattern = "yyyy-MM-dd")
     private Date openDate;
+
     private byte[] mainImage;
     private byte[] mainLogo;
     private String minOs;

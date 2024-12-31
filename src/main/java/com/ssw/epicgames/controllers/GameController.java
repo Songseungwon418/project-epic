@@ -4,9 +4,12 @@ import com.ssw.epicgames.DTO.GameDTO;
 import com.ssw.epicgames.DTO.PayDTO;
 import com.ssw.epicgames.DTO.WishlistDTO;
 import com.ssw.epicgames.entities.*;
+import com.ssw.epicgames.resutls.CommonResult;
+import com.ssw.epicgames.resutls.Result;
 import com.ssw.epicgames.services.*;
 import com.ssw.epicgames.vos.GameVo;
 import com.ssw.epicgames.vos.PriceVo;
+import org.json.JSONObject;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.cache.annotation.Cacheable;
 import org.springframework.http.CacheControl;
@@ -385,8 +388,29 @@ public class GameController {
 
     //region 게임 추가
     /** 게임 추가 화면 페이지*/
-    @GetMapping(value = "/add-game")
-    public void addGame() {}
+    @GetMapping(value = "/add-game", produces = MediaType.TEXT_HTML_VALUE)
+    public ModelAndView addGame() {
+        ModelAndView mav = new ModelAndView();
+        mav.setViewName("game/add-game");
+        return mav;
+    }
+
+    @PostMapping(value = "/add", produces = MediaType.APPLICATION_JSON_VALUE)
+    @ResponseBody
+    public String addGame(@ModelAttribute GameEntity game) {
+        System.out.println(game.getName());
+        System.out.println(game.getGrGrac());
+        System.out.println(game.getCompany());
+        System.out.println(game.getOpenDate());
+        System.out.println(game.getMainImage());
+        System.out.println(game.getMainLogo());
+
+        Result result = CommonResult.SUCCESS;
+
+        JSONObject response = new JSONObject();
+        response.put(Result.NAME, result.nameToLower());
+        return response.toString();
+    }
 
     //endregion
 }
