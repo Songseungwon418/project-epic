@@ -32,107 +32,57 @@ $addGameform['logo'].onchange = () => {
 }
 
 // 추가 이미지 관련
-/**이미지 선택 처리 함수*/
-function handleFileSelect(event, $imageTag) {
-    const files = event.target.files;
+// 각 추가 이미지 필드에 이벤트 추가
+const addAdditionalImageEvents = () => {
+    // 1번 이미지
+    const $image1Text = $addGameform.querySelector(':scope > .image > .image-column > .image-wrapper:nth-child(1) > ._text');
+    const $image1Image = $addGameform.querySelector(':scope > .image > .image-column > .image-wrapper:nth-child(1) > .image');
+    $addGameform['image1'].onchange = () => handleImageChange($addGameform['image1'], $image1Text, $image1Image);
 
-    // 선택한 파일들이 4개 이하인 경우만 처리
-    if (files.length > 4) {
-        alert('최대 4개의 이미지만 선택 가능합니다.');
-        return;
-    }
+    // 2번 이미지
+    const $image2Text = $addGameform.querySelector(':scope > .image > .image-column > .image-wrapper:nth-child(2) > ._text');
+    const $image2Image = $addGameform.querySelector(':scope > .image > .image-column > .image-wrapper:nth-child(2) > .image');
+    $addGameform['image2'].onchange = () => handleImageChange($addGameform['image2'], $image2Text, $image2Image);
 
-    // 기존의 이미지를 초기화 (기존 이미지들만 제거)
-    $imageTag.innerHTML = '';
+    // 3번 이미지
+    const $image3Text = $addGameform.querySelector(':scope > .image > .image-column > .image-wrapper:nth-child(3) > ._text');
+    const $image3Image = $addGameform.querySelector(':scope > .image > .image-column > .image-wrapper:nth-child(3) > .image');
+    $addGameform['image3'].onchange = () => handleImageChange($addGameform['image3'], $image3Text, $image3Image);
 
-    // 파일을 하나씩 처리
-    for (let i = 0; i < files.length; i++) {
-        const file = files[i];
+    // 4번 이미지
+    const $image4Text = $addGameform.querySelector(':scope > .image > .image-column > .image-wrapper:nth-child(4) > ._text');
+    const $image4Image = $addGameform.querySelector(':scope > .image > .image-column > .image-wrapper:nth-child(4) > .image');
+    $addGameform['image4'].onchange = () => handleImageChange($addGameform['image4'], $image4Text, $image4Image);
 
-        // 파일이 이미지인지 확인
-        if (!file.type.startsWith('image/')) {
-            alert('이미지 파일만 선택할 수 있습니다.');
-            continue;
-        }
-
-        const reader = new FileReader();
-        reader.onload = function(e) {
-            // 새로운 input-wrapper 요소를 생성
-            const newWrapper = document.createElement('label');
-            newWrapper.classList.add('input-wrapper');
-
-            // 미리보기 이미지를 추가
-            const image = document.createElement('img');
-            image.src = e.target.result;
-            image.alt = file.name;
-
-            // 미리보기 이미지가 나타나게 설정
-            newWrapper.appendChild(image);
-
-            // 새로운 input[type="file"]을 추가 (파일을 다시 선택할 수 있도록 하기 위함)
-            const newInput = document.createElement('input');
-            newInput.type = 'file';
-            newInput.name = 'images';
-            newInput.accept = 'image/jpeg';
-            newInput.hidden = true;  // input은 숨김 상태로 유지
-
-            // 파일 선택 이벤트 리스너 추가 (선택 시 이미지 갱신)
-            newInput.addEventListener('change', function(event) {
-                const selectedFile = event.target.files[0];
-                if (selectedFile && selectedFile.type.startsWith('image/')) {
-                    const reader = new FileReader();
-                    reader.onload = function(e) {
-                        image.src = e.target.result;  // 기존 이미지를 새로 선택한 이미지로 업데이트
-                    };
-                    reader.readAsDataURL(selectedFile);
-                } else {
-                    alert('이미지 파일만 선택할 수 있습니다.');
-                }
-            });
-
-            newWrapper.appendChild(newInput);
-
-            // 새로 생성된 wrapper를 image-column에 추가
-            $imageTag.appendChild(newWrapper);
-        };
-
-        // 파일을 읽기
-        reader.readAsDataURL(file);
-    }
 }
 
-document.querySelector('input[name="images"]').addEventListener('change', function(event) {
-    const files = event.target.files;
-    const $imageColumn = document.querySelector('.image-column');
+// 추가 이미지 초기화 버튼 처리
+const resetAdditionalImages = () => {
+    const imageWrappers = $addGameform.querySelectorAll('.image-column .image-wrapper');
 
-    handleFileSelect(event, $imageColumn);
-});
+    imageWrappers.forEach((wrapper) => {
+        const inputElement = wrapper.querySelector('input[type="file"]');
+        const textElement = wrapper.querySelector('._text');
+        const imageElement = wrapper.querySelector('img');
 
-// 추가 이미지 초기화 버튼
-document.querySelector('.reset-button').onclick = (e) => {
-    e.preventDefault();
-
-    // 파일 입력을 초기화
-    const fileInput = document.querySelector('input[name="images"]');
-    fileInput.value = '';  // 파일 선택 초기화
-
-    // 미리보기 이미지들을 모두 제거
-    const imageColumn = document.querySelector('.image-column');
-    imageColumn.innerHTML = '';  // 미리보기 이미지들 초기화
-    imageColumn.innerHTML =
-        `<label class="input-wrapper">
-            <span class="_text">이미지 찾기</span>
-            <img alt="" class="image" src="" style="display: none;">
-            <input hidden required accept="image/jpeg" name="images" type="file" multiple>
-        </label>`;
-
-    // 새로 추가된 input[type="file"]에 change 이벤트 리스너 재등록
-    document.querySelector('input[name="images"]').addEventListener('change', function(event) {
-        const imageColumn = document.querySelector('.image-column');
-        handleFileSelect(event, imageColumn);
+        // 파일 초기화
+        inputElement.value = '';
+        // 텍스트는 보이고 이미지는 숨김
+        textElement.style.display = 'flex';
+        imageElement.style.display = 'none';
     });
 };
 
+// 초기화 버튼 이벤트 리스너 등록
+document.querySelector('.reset-button').addEventListener('click', (e) => {
+    e.preventDefault();
+    resetAdditionalImages();
+});
+
+// 초기화 시 추가 이미지 이벤트 리스너 등록
+document.addEventListener('DOMContentLoaded', () => {
+    addAdditionalImageEvents();
+});
 //endregion
 
 //region CKEditor5 사용(게임 상세 설명란)

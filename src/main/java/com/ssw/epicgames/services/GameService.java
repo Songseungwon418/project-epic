@@ -82,36 +82,32 @@ public class GameService {
 
     /** 게임 등록 */
     @Transactional
-    public Result addGame(GameEntity game, MultipartFile[] images, String tag1, String tag2) throws IOException {
+    public Result addGame(GameEntity game, List<MultipartFile> images, String tag1, String tag2) throws IOException {
         // 데이터 유효성 검사
         if (game == null ||
             tag1 == null || tag2 == null || tag1.isEmpty() || tag2.isEmpty() ||
-            images == null || images.length == 0) {
+            images == null || images.isEmpty()) {
             return CommonResult.FAILURE;
         }
 
         // 게임 등록
         if(this.gameMapper.insertGame(game) <= 0){
-            throw new RuntimeException("게임 등록 실패");
+            throw new TransactionalException("게임 등록 실패");
         }
         // 위 삽입 구문이 실행되면 game 객체에 index 값이 자동으로 설정됨
         int gameIndex = game.getIndex();  // game 객체에서 index 값을 가져옴
         // no 값이 잘 설정되었는지 확인
         System.out.println("생성된 game index: " + gameIndex);
 
-        // 게임 이미지들의 유효성 추가 검사 및 바이트형식으로 변환 후 db에 삽입
         for (MultipartFile image : images) {
-            // 데이터 유효성 검사(크기 및 확장자)
-            if (image.getSize() > 10485760) { // 10MB 크기 제한
-                throw new IOException("파일 크기가 너무 큽니다.");
+            // 각 이미지 데이터 유효성 검사
+            if (image.isEmpty()) {
+                throw new TransactionalException("이미지가 비어 있습니다.");
             }
-            String filename = image.getOriginalFilename();
-            if (filename != null) {
-                String extension = filename.substring(filename.lastIndexOf(".") + 1).toLowerCase();
-                // 이미지, 동영상 형식인지 검사
-                if (!Arrays.asList("jpg", "jpeg", "png", "gif", "mp4", "avi", "mov", "mkv").contains(extension)) {
-                    throw new IOException("유효하지 않은 파일 형식입니다.");
-                }
+            // 이미지 파일의 바이트를 확인
+            byte[] imageBytes = image.getBytes();
+            if (imageBytes.length == 0) {
+                throw new TransactionalException("이미지 바이트 변환 실패");
             }
 
             // 미디어 객체 생성
@@ -134,14 +130,13 @@ public class GameService {
         }
 
         // region 등록된 게임의 분류들을 추가
-        // 받아온 태그들을 리스트로 묶기
-        List<String> tags = Arrays.asList(tag1, tag2);
+        List<String> tags = Arrays.asList(tag1, tag2); // 받아온 태그들을 리스트로 묶기
         // 배치 처리로 한 번에 삽입
         if (this.gameMapper.insertGameGenreMapping(gameIndex, tags) <= 0) {
             throw new TransactionalException("게임과 분류 맵핑 실패");
         }
         //endregion
-
+        System.out.println("게임 생성 완료");
         return CommonResult.SUCCESS;
     }
 }
