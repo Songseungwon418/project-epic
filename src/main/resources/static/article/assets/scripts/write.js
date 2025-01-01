@@ -408,6 +408,7 @@ ClassicEditor.create($writeForm['content'], editorConfig).then((editor) => {
             if (xhr.readyState !== XMLHttpRequest.DONE) {
                 return
             }
+
             if (xhr.status < 200 || xhr.status >= 300) {
                 alert('게시글을 작성하지 못하였습니다. 잠시 후 다시 시도해 주세요.');
                 return;

@@ -9,6 +9,7 @@ import com.ssw.epicgames.resutls.Result;
 import com.ssw.epicgames.services.*;
 import com.ssw.epicgames.vos.GameVo;
 import com.ssw.epicgames.vos.PriceVo;
+import jakarta.servlet.http.HttpServletRequest;
 import org.json.JSONObject;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.cache.annotation.Cacheable;
@@ -17,7 +18,9 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
+import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.servlet.ModelAndView;
 
 import java.io.IOException;
@@ -395,21 +398,32 @@ public class GameController {
         return mav;
     }
 
-    @PostMapping(value = "/add", produces = MediaType.APPLICATION_JSON_VALUE)
-    @ResponseBody
-    public String addGame(@ModelAttribute GameEntity game) {
-        System.out.println(game.getName());
-        System.out.println(game.getGrGrac());
-        System.out.println(game.getCompany());
-        System.out.println(game.getOpenDate());
-        System.out.println(game.getMainImage());
-        System.out.println(game.getMainLogo());
+    @PostMapping(value = "/add", produces = MediaType.TEXT_HTML_VALUE)
+    public String postAddGame(
+            Model model,
+            @RequestParam(value = "image", required = true) MultipartFile image,
+            @RequestParam(value = "logo", required = true) MultipartFile logo,
+            @RequestParam(value = "images", required = true) MultipartFile[] images,
+            @RequestParam(value = "tag1", required = true) String tag1,
+            @RequestParam(value = "tag2", required = true) String tag2,
+            GameEntity game ) throws IOException {
 
-        Result result = CommonResult.SUCCESS;
+        // 메인 이미지 처리
+        if (image != null && !image.isEmpty()) {
+            game.setMainImage(image.getBytes()); // 게임의 메인이미지에 바이트형식으로 저장
+        }
 
-        JSONObject response = new JSONObject();
-        response.put(Result.NAME, result.nameToLower());
-        return response.toString();
+        // 메인 로그 이미지 처리
+        if (logo != null && !logo.isEmpty()) {
+            game.setMainLogo(logo.getBytes()); // 게임의 로그이미지에 바이트형식으로 저장
+        }
+
+        Result result = this.gameService.addGame(game, images, tag1, tag2);
+        model.addAttribute("result", result.name().toLowerCase());
+        if (result == CommonResult.SUCCESS) {
+            return String.format("redirect:/game/page?index=%d", game.getIndex());
+        }
+        return "game/add-game";
     }
 
     //endregion

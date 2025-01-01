@@ -25,6 +25,9 @@
         <ul class="menu">
             <li class="item" rel="user.setting" th:classappend="${showPurchaseList ? '' : '-selected'}">계정 설정</li>
             <li class="item" rel="user.purchaseList" th:classappend="${showPurchaseList ? '-selected' : ''}">결제 내역</li>
+            <li class="item" rel="user.gameAdd">
+                <a id="add-game-link" th:href="@{'/game/add-game'}">게임 등록</a>
+            </li>
         </ul>
     </div>
     <div class="main" id="main">
