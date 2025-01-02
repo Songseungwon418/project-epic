@@ -546,6 +546,7 @@
   height: 90%;
   border-radius: 1rem;
   overflow: hidden;
+  cursor: pointer;
 }
 #main > .mainSection > .gameArea > .game-container > .game-description > .main > .media-container > .image-container > .image-wrapper > .image > img {
   width: 100%;

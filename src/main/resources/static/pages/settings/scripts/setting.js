@@ -28,7 +28,9 @@ $mainContainer.onsubmit = (e) => {
                 icon: "success",
                 title: "성공",
                 text: "계정 수정에 성공하였습니다."
-            })
+            }).then(() => {
+                location.reload();
+            });
         }else if (response['result'] === 'failure') {
             alert("계정 수정에 실패하였습니다");
         } else if (response['result'] === 'failure_duplicate_phone') {

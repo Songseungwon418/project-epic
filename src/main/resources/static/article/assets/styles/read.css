@@ -464,6 +464,7 @@
 #main > .mainSection > .comment-container > .list > .item > .action-container:has([type=radio][value=reply]:checked) ~ .form.reply,
 #main > .mainSection > .comment-container > .list > .item > .action-container:has([type=radio][value=modify]:checked) ~ .form.modify {
   display: flex;
+  margin-bottom: 0.8rem;
 }
 #main > .mainSection > .comment-container > .list > .item > .form {
   display: none;

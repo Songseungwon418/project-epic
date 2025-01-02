@@ -196,7 +196,11 @@ function filterGenre(element) {
             return;
         }
         if (xhr.status < 200 || xhr.status >= 300){
-            alert('게임 분류 목록을 불러오는데 실패하였습니다. 잠시 후 시도해주세요.');
+            Swal.fire({
+                title: "게임 분류 목록을 불러오는데 실패하였습니다.",
+                text: "잠시 후 시도해 주세요.",
+                icon: "warning"
+            });
             return;
         }
         const response = JSON.parse(xhr.responseText);
