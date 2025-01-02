@@ -12,6 +12,30 @@
         INSERT INTO `epic_games`.`game` (`gr_grac`, `name`, `price`, `summary`, `description`, `company`, `open_date`, `main_image`, `logo`, `min_os`, `min_cpu`, `min_ram`, `min_storage`, `min_gpu`, `rec_os`, `rec_cpu`, `rec_ram`, `rec_storage`, `rec_gpu`)
         VALUES (#{grGrac}, #{name}, #{price}, #{summary}, #{description}, #{company}, #{openDate}, #{mainImage}, #{mainLogo}, #{minOs}, #{minCpu}, #{minRam}, #{minStorage}, #{minGpu}, #{recOs}, #{recCpu}, #{recRam}, #{recStorage}, #{recGpu})
     </insert>
+<!--  region 게임 삽입 시 필요한 맵핑 테이블 삽입  -->
+    <!--  이미지(미디어) 삽입  -->
+    <insert id="insertGameMedia"
+            useGeneratedKeys="true"
+            keyColumn="no"
+            keyProperty="no"
+            parameterType="com.ssw.epicgames.entities.MediaEntity">
+        INSERT INTO `epic_games`.`media` (`image`, `video`)
+        VALUES (#{image}, #{video})
+    </insert>
+    <!--  게임 이미지 맵핑 테이블 삽입  -->
+    <insert id="insertGameMediaMapping">
+        INSERT INTO `epic_games`.`game_media_mapping` (`game_index`, `media_no`)
+        VALUES (#{gameIndex}, #{mediaNo})
+    </insert>
+    <!--  게임 분류 맵핑 테이블 삽입  -->
+    <insert id="insertGameGenreMapping">
+        INSERT INTO `epic_games`.`game_genre_mapping` (`game_index`, `genre_tag`)
+        VALUES
+        <foreach collection="tags" item="tag" separator=",">
+            (#{gameIndex}, #{tag})
+        </foreach>
+    </insert>
+<!--  endregion  -->
 
     <select id="selectAllGames" resultType="com.ssw.epicgames.vos.GameVo">
         SELECT `game`.`index`                                                AS `index`,
@@ -123,6 +147,7 @@
                  JOIN `epic_games`.`game_media_mapping` AS `gmm` on `media`.`no` = `gmm`.`media_no`
         WHERE `game_index` = #{index};
     </select>
+
     <select id="selectGameGenreByIndex" resultType="com.ssw.epicgames.entities.GenreEntity">
         SELECT genre.tag AS `tag`,
                genre.name AS `name`

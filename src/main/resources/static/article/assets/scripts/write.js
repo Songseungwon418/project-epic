@@ -413,6 +413,7 @@ ClassicEditor.create($writeForm['content'], editorConfig).then((editor) => {
             if (xhr.readyState !== XMLHttpRequest.DONE) {
                 return
             }
+
             if (xhr.status < 200 || xhr.status >= 300) {
                 Swal.fire({
                     title: "서버가 알 수 없는 응답을 반환하였습니다.",

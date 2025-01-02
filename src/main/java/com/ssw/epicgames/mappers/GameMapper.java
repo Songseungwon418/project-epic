@@ -13,6 +13,20 @@ public interface GameMapper {
     /** 게임 추가(삽입) */
     int insertGame(GameEntity game);
 
+    /** 미디어 추가(삽입) */
+    int insertGameMedia(MediaEntity media);
+
+    /** 게임과 미디어 맵핑(삽입) */
+    int insertGameMediaMapping(
+            @Param("gameIndex")int gameIndex,
+            @Param("mediaNo")int mediaNo);
+
+    /** 게임 분류 맵핑 추가(삽입) */
+    int insertGameGenreMapping(
+            @Param("gameIndex")int gameIndex,
+            @Param("tags") List<String> tags
+            );
+
     GameVo[] selectAllGames();
 
     GameVo[] selectGamesByKeyword(@Param("keyword") String keyword);

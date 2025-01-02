@@ -52,6 +52,9 @@ public class PurchaseController {
     /** 장바구니 화면 출력 */
     @GetMapping(value = "/cart", produces = MediaType.TEXT_HTML_VALUE)
     public ModelAndView getCart(@SessionAttribute(value = "user", required = false) UserEntity user) {
+//        if (user == null) {
+//            return new ModelAndView("redirect:/user/");
+//        }
         CartDTO[] carts = this.purchaseService.getCarts(user);
         ModelAndView mav = new ModelAndView();
         if (carts != null) {
@@ -98,6 +101,9 @@ public class PurchaseController {
     /** 위시리스트 화면 출력 */
     @GetMapping(value = "/wishlist", produces = MediaType.TEXT_HTML_VALUE)
     public ModelAndView getWishlist(@SessionAttribute(value = "user", required = false) UserEntity user) {
+//        if (user == null) {
+//            return new ModelAndView("redirect:/user/");
+//        }
         WishlistDTO[] wishlists =this.purchaseService.getWishlists(user);
         ModelAndView mav = new ModelAndView();
         if (wishlists != null) {
@@ -164,11 +170,12 @@ public class PurchaseController {
         mav.addObject("kakaoAppKey", kakaopayAppKey);
         mav.addObject("impNumber", impNumber);
 
-        if (user == null) { // 로그인 유무, 로그인이 안되었을 시 로그인 화면으로
-            mav.setViewName("redirect:/user/");
-        }
+        // 로그인 유무, 로그인이 안되었을 시 로그인 화면으로
+//        if (user == null) {
+//            return new ModelAndView("redirect:/user/");
+//        }
         //장바구니 페이지에서 구매 버튼을 누를 시
-        else if (gameIndex == 0) {
+        if (gameIndex == 0) {
             // db에서 장바구니에 담긴 목록들 불러옴
             CartDTO[] carts = this.purchaseService.getCarts(user);
             // 장바구니가 비여있지않으면 목록을 보여줌
@@ -192,7 +199,7 @@ public class PurchaseController {
         }
         // 잘못된 요청일 경우
         else {
-            mav.setViewName("/");
+            return new ModelAndView("redirect:/");
         }
         return mav;
     }

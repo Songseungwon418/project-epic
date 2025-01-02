@@ -11,15 +11,31 @@
     <script th:src="@{'/assets/scripts/loading.js'}"></script>
     <link rel="stylesheet" th:href="@{'/assets/styles/common.css'}">
     <script defer th:src="@{'/assets/scripts/common.js'}"></script>
-    <link rel="stylesheet" th:href="@{'/game/assets/styles/add-game.css'}">
-    <script defer th:src="@{'/game/assets/scripts/add-game.js'}"></script>
-
+    <link rel="stylesheet" th:href="@{'/game/assets/styles/addGame.css'}">
+    <script defer th:src="@{'/game/assets/scripts/addGame.js'}"></script>
+    <link rel="stylesheet" type="text/css" th:href="@{/assets/libraries/ckeditor/ckeditor5.css}">
+    <link rel="stylesheet" type="text/css" th:href="@{/assets/libraries/ckeditor/ckeditor5-content.css}">
+    <link rel="stylesheet" type="text/css" th:href="@{/assets/libraries/ckeditor/ckeditor5-editor.css}">
+    <script type="text/javascript" th:src="@{'/assets/libraries/ckeditor/ckeditor5.umd.js'}"></script>
+    <script type="text/javascript" th:src="@{'/assets/libraries/ckeditor/ko.umd.js'}"></script>
+    <script th:if="${result == 'failure'}">
+        alert('게임 등록에 실패하였습니다.');
+        if (history.length === 1) {
+            window.close();
+        } else {
+            history.back();
+        }
+    </script>
 </head>
 <body>
 <th:block th:replace="~{fragments/loading.html :: loading}"></th:block>
 <th:block th:replace="~{fragments/common.html :: header}"></th:block>
+
 <main class="main" id="main">
-    <form id="add-game-form" th:action="@{'/game/add'}" th:method="post">
+    <th:block th:replace="~{fragments/common.html :: mainSearch}"></th:block>
+    <th:block th:replace="~{fragments/common.html :: logout}"></th:block>
+
+    <form id="add-game-form" th:action="@{'/game/add'}" th:method="post" enctype="multipart/form-data">
         <h2 class="title">게임 등록</h2>
         <label class="--label">
             <span class="title">게임 이름</span>
@@ -35,15 +51,38 @@
                 <option value="15Y">15세 이상</option> <!-- 15세 이상 등급 -->
                 <option value="ADULT">청소년이용불가</option> <!-- 18세 이상 등급 -->
             </select>
-            <span class="_warning">올바른 게임 등급을 입력해 주세요.</span>
         </label>
         <label class="--label">
             <span class="title">게임 가격</span>
-            <input class="--field" name="price" type="text">
+            <input class="--field" name="price" type="number">
+            <span class="_warning">올바른 게임 가격을 입력해 주세요.</span>
         </label>
         <label class="--label">
-            <span class="title">게임 설명</span>
-            <textarea class="content" name="content"></textarea>
+            <span class="title">게임 분류 대표 2가지</span>
+            <div class="tag-wrapper">
+                <select class="--field" name="tag1" id="tag1">
+                    <option value="" disabled selected>선택하세요</option> <!-- 기본 값으로 '선택하세요' 표시 -->
+                    <option value="RPG">RPG</option>
+                    <option value="OW">오픈월드</option>
+                    <option value="ACT">액션</option>
+                    <option value="RTS">실시간전략</option>
+                    <option value="SG">생존</option>
+                    <option value="STR">전략</option>
+                </select>
+                <select class="--field" name="tag2" id="tag2">
+                    <option value="" disabled selected>선택하세요</option> <!-- 기본 값으로 '선택하세요' 표시 -->
+                    <option value="RPG">RPG</option>
+                    <option value="OW">오픈월드</option>
+                    <option value="ACT">액션</option>
+                    <option value="RTS">실시간전략</option>
+                    <option value="SG">생존</option>
+                    <option value="STR">전략</option>
+                </select>
+            </div>
+        </label>
+        <label class="--label">
+            <span class="title">게임 요약</span>
+            <textarea class="summary" name="summary"></textarea>
         </label>
         <label class="--label">
             <span class="title">게임 회사</span>
@@ -56,10 +95,10 @@
         <div class="--label cover mainImage">
             <span class="title">메인 이미지</span>
             <span class="row">
-                <label class="input-wrapper">
+                <label class="image-wrapper">
                     <span class="_text">메인 이미지 찾기</span>
                     <img alt="" class="image" src="" style="display: none;">
-                    <input hidden required accept="image/*" name="mainImage" type="file">
+                    <input hidden required accept="image/jpeg" name="image" type="file">
                 </label>
                 <span class="info-wrapper">
                     <span class="tip">* 메인 이미지의 확장자는 <code>jpeg</code>이어야 합니다.</span>
@@ -70,15 +109,46 @@
         <div class="--label cover logo">
             <span class="title">로고</span>
             <span class="row">
-                <label class="input-wrapper">
+                <label class="image-wrapper">
                     <span class="_text">메인 로고 찾기</span>
                     <img alt="" class="image" src="" style="display: none;">
-                    <input hidden required accept="image/*" name="mainLogo" type="file">
+                    <input hidden required accept="image/png" name="logo" type="file">
                 </label>
                 <span class="info-wrapper">
-                    <span class="tip">* 메인 로고의 확장자는 <code>png</code>이어야 합니다.</span>
+                    <span class="tip">* 메인 로고의 확장자는 <code>jpeg</code>이어야 합니다.</span>
                     <span class="tip">* 메인 로고의 파일 크기는 1MB를 초과하지 않아야 합니다.</span>
                 </span>
+            </span>
+        </div>
+        <div class="--label cover image">
+            <span class="title">추가 이미지</span>
+            <button class="reset-button" type="button">추가 이미지 초기화</button>
+            <span class="image-column">
+                <label class="image-wrapper">
+                    <span class="_text">이미지 1 찾기</span>
+                    <img alt="" class="image" src="" style="display: none;">
+                    <input hidden required accept="image/jpeg" name="image1" type="file">
+                </label>
+                <label class="image-wrapper">
+                    <span class="_text">이미지 2 찾기</span>
+                    <img alt="" class="image" src="" style="display: none;">
+                    <input hidden required accept="image/jpeg" name="image2" type="file">
+                </label>
+                <label class="image-wrapper">
+                    <span class="_text">이미지 3 찾기</span>
+                    <img alt="" class="image" src="" style="display: none;">
+                    <input hidden required accept="image/jpeg" name="image3" type="file">
+                </label>
+                <label class="image-wrapper">
+                    <span class="_text">이미지 4 찾기</span>
+                    <img alt="" class="image" src="" style="display: none;">
+                    <input hidden required accept="image/jpeg" name="image4" type="file">
+                </label>
+            </span>
+            <span class="info-wrappers">
+                <span class="tip">* 추가 이미지의 확장자는 <code>jpeg</code>이어야 합니다.</span>
+                <span class="tip">* 추가 이미지의 파일 크기는 1MB를 초과하지 않아야 합니다.</span>
+                <span class="tip">* 추가 이미지는 최소 1개에서 최대 4개까지 가능합니다.</span>
             </span>
         </div>
         <div class="spec-list">
@@ -86,11 +156,7 @@
                 <span class="title">최소 사양</span>
                 <label class="--label">
                     <span class="_text">OS</span>
-                    <select class="--field" name="minOs" id="minOs">
-                        <option value="" disabled selected>선택하세요</option>
-                        <option value="window">window</option>
-                        <option value="mac">mac</option>
-                    </select>
+                    <input class="--field" name="minOs" type="text">
                 </label>
                 <label class="--label">
                     <span class="_text">CPU</span>
@@ -113,11 +179,7 @@
                 <span class="title">권장 사양</span>
                 <label class="--label">
                     <span class="_text">OS</span>
-                    <select class="--field" name="recOs" id="recOs">
-                        <option value="" disabled selected>선택하세요</option>
-                        <option value="window">window</option>
-                        <option value="mac">mac</option>
-                    </select>
+                    <input class="--field" name="recOs" type="text">
                 </label>
                 <label class="--label">
                     <span class="_text">CPU</span>
@@ -137,8 +199,13 @@
                 </label>
             </div>
         </div>
+        <label class="--label">
+            <span class="title">게임 설명</span>
+            <textarea class="description" id="description" name="description"></textarea>
+        </label>
         <div class="button-container">
             <button class="--obj-button -simple-candy" type="submit">게임 등록</button>
+            <a class="--obj-button -simple-candy" th:href="@{/page/setting}">취소</a>
         </div>
     </form>
 </main>
