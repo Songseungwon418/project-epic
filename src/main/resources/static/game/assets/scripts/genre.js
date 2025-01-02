@@ -10,7 +10,7 @@ const description = {
 
 document.addEventListener('DOMContentLoaded', () => {
     const $genreTagElement = document.getElementById('genreTag');
-    const genreTag = $genreTagElement ? $genreTagElement.textContent.trim() : null;
+    const genreTag = $genreTagElement ? $genreTagElement.innerText.trim() : null;
 
     const $subTitle = document.getElementById('subTitle');
     if (genreTag && description[genreTag]) {
@@ -18,6 +18,30 @@ document.addEventListener('DOMContentLoaded', () => {
     } else {
         $subTitle.textContent = '해당 장르에 대한 설명이 없습니다.';
     }
+});
+//endregion
+
+//region 할인게임 정상가 천단위 표시
+document.addEventListener("DOMContentLoaded", function () {
+    const $gamePrices = document.querySelectorAll('.origin-price');
+
+    $gamePrices.forEach(gamePrice => {
+        const rawPrice = parseInt(gamePrice.textContent.trim(), 10);
+
+        gamePrice.textContent = `￦${rawPrice.toLocaleString()}`;
+    });
+});
+//endregion
+
+//region 할인게임 할인가 천단위 표시
+document.addEventListener("DOMContentLoaded", function () {
+    const $gamePrices = document.querySelectorAll('.sale-price');
+
+    $gamePrices.forEach(gamePrice => {
+        const rawPrice = parseInt(gamePrice.textContent.trim(), 10);
+
+        gamePrice.textContent = `￦${rawPrice.toLocaleString()}`;
+    });
 });
 //endregion
 
@@ -119,6 +143,12 @@ document.addEventListener("DOMContentLoaded", function () {
 //endregion
 
 //region 필터관련
+const $genreTag = document.getElementById('genreTag').innerText;
+const $refreshButton = document.querySelector('.refresh');
+$refreshButton.onclick = () => {
+    location.href = `/game/genre?tag=${$genreTag}`;
+}
+
 document.addEventListener('DOMContentLoaded', function () {
     // 필터 토글 버튼 클릭 시 필터 목록 표시/숨기기
     const $buttons = document.querySelectorAll('.filter-toggle-button');
@@ -271,8 +301,13 @@ if ($WishlistButtons.length > 0) {
 
             // 로그인 여부 확인
             if (!userEmail) {
-                alert('로그인 후 이용가능합니다. 로그인 페이지로 이동합니다.');
-                window.location.href = '/user/';
+                Swal.fire({
+                    icon: "info",
+                    title: "로그인 후 이용 가능합니다.",
+                    text: "로그인 페이지로 이동합니다."
+                }).then(() => {
+                    window.location.href = '/user/';
+                });
                 return;
             }
 
@@ -287,19 +322,40 @@ if ($WishlistButtons.length > 0) {
                     return;
                 }
                 if (xhr.status < 200 || xhr.status >= 300) {
-                    alert('서버가 알 수 없는 응답을 반환하였습니다. 잠시 후 시도해 주세요.');
+                    Swal.fire({
+                        title: "서버가 알 수 없는 응답을 반환하였습니다.",
+                        text: "잠시 후 시도해 주세요.",
+                        icon: "warning"
+                    });
                     return;
                 }
                 const response = JSON.parse(xhr.responseText);
                 if (response.result === 'failure') {
-                    alert('위시리스트 담기에 실패하였습니다.');
+                    Swal.fire({
+                        title: "실패",
+                        text: "위시리스트 담기에 실패하였습니다.",
+                        icon: "error"
+                    });
                 } else if (response.result === 'failure_duplicate_cart') {
-                    alert('이미 위시리스트에 있습니다.');
+                    Swal.fire({
+                        title: "실패",
+                        text: "이미 위시리스트에 있습니다.",
+                        icon: "error"
+                    });
                 } else if (response.result === 'failure_not_found') {
-                    alert('찾을 수 없습니다.');
+                    Swal.fire({
+                        title: "실패",
+                        text: "찾을 수 없습니다.",
+                        icon: "error"
+                    });
                 } else if (response.result === 'success') {
-                    alert('위시리스트에 추가되었습니다.');
-                    location.reload();
+                    Swal.fire({
+                        icon: "success",
+                        title: "성공",
+                        text: "위시리스트에 추가되었습니다."
+                    }).then(() => {
+                        location.reload();
+                    });
                 }
             };
             xhr.open('POST', '../purchase/wishlist/add');
@@ -329,17 +385,34 @@ if ($WishlistDeleteButtons.length > 0) {
                     return;
                 }
                 if (xhr.status < 200 || xhr.status >= 300) {
-                    alert('서버가 알 수 없는 응답을 반환하였습니다. 잠시 후 시도해 주세요.');
+                    Swal.fire({
+                        title: "서버가 알 수 없는 응답을 반환하였습니다.",
+                        text: "잠시 후 시도해 주세요.",
+                        icon: "warning"
+                    });
                     return;
                 }
                 const response = JSON.parse(xhr.responseText);
                 if (response.result === 'failure') {
-                    alert('위시리스트에서 제거에 실패하였습니다.');
+                    Swal.fire({
+                        title: "실패",
+                        text: "위시리스트에서 제거에 실패하였습니다.",
+                        icon: "error"
+                    });
                 } else if (response.result === 'failure_not_found') {
-                    alert('위시리스트에서 이미 삭제되었거나 오류로 인해 제거에 실패하였습니다.');
+                    Swal.fire({
+                        title: "실패",
+                        text: "위시리스트에서 이미 삭제되었거나 오류로 인해 제거에 실패하였습니다.",
+                        icon: "error"
+                    });
                 } else if (response.result === 'success') {
-                    alert('위시리스트에서 제거하였습니다.');
-                    location.reload();
+                    Swal.fire({
+                        icon: "success",
+                        title: "성공",
+                        text: "위시리스트에서 제거하였습니다."
+                    }).then(() => {
+                        location.reload();
+                    });
                 }
             }
             xhr.open('PATCH', '../purchase/wishlist/delete');

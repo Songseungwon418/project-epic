@@ -9,6 +9,8 @@ import com.ssw.epicgames.resutls.Result;
 import com.ssw.epicgames.services.PageService;
 import com.ssw.epicgames.services.PurchaseService;
 import com.ssw.epicgames.services.UserService;
+import jakarta.mail.MessagingException;
+import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpSession;
 import org.json.JSONObject;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -208,6 +210,16 @@ public class PageController {
         return modelAndView;
     }
 
+    @RequestMapping(value = "/setting", method = RequestMethod.POST, produces =  MediaType.APPLICATION_JSON_VALUE)
+    @ResponseBody
+    public String postSetting(@SessionAttribute("user") UserEntity user,
+                              HttpServletRequest request) throws MessagingException {
+        Result result = this.userService.provokeForgotPassword(request, user.getEmail());
+        JSONObject response = new JSONObject();
+        response.put(Result.NAME, result.nameToLower());
+        return response.toString();
+    }
+
     //region 개인 정보 수정
     @RequestMapping(value = "/setting", method = RequestMethod.PATCH, produces = MediaType.APPLICATION_JSON_VALUE)
     @ResponseBody
@@ -216,6 +228,7 @@ public class PageController {
         JSONObject response = new JSONObject();
         Result result;
         if (loginUser != null) {
+            user.setEmail(loginUser.getEmail());
             result = this.pageService.patchUser(user);
             if (result == CommonResult.SUCCESS) {
                 loginUser.setNickname(user.getNickname());
@@ -241,7 +254,7 @@ public class PageController {
     }
     //endregion
 
-    @RequestMapping(value = "/privacyPolicy", method = RequestMethod.GET, produces = MediaType.TEXT_HTML_VALUE)
+        @RequestMapping(value = "/privacyPolicy", method = RequestMethod.GET, produces = MediaType.TEXT_HTML_VALUE)
     public ModelAndView getPrivacyPolicyPage() {
         ModelAndView modelAndView = new ModelAndView();
         modelAndView.setViewName("pages/privacyPolicy");

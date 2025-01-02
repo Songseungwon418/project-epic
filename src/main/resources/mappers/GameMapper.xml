@@ -63,6 +63,19 @@
         GROUP BY `game`.`index`, `game`.`name`, `game`.`price`, `game`.`main_image`
     </select>
 
+    <select id="selectSaleGameIndex" resultType="com.ssw.epicgames.vos.GameVo">
+        SELECT
+            g.`index` AS `index`,
+            g.`price` AS `price`,
+            d.`discount_percent` AS `discountPercent`
+        FROM
+            `epic_games`.`game` g
+                JOIN `epic_games`.`game_discounts_mapping` gdm ON g.`index` = gdm.`game_index`
+                JOIN `epic_games`.`discounts` d ON gdm.`discounts_id` = d.`id`
+        WHERE
+            NOW() BETWEEN d.start_date AND d.end_date
+          AND d.`active` = 1 AND g.`price` != 0
+    </select>
 
     <!--   모든 게임들 선택   -->
     <select id="selectAllGameInfo" resultType="com.ssw.epicgames.entities.GameEntity">

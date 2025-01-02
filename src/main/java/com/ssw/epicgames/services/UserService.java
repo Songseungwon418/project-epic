@@ -86,7 +86,7 @@ public class UserService {
                 user.getPassword() == null || user.getPassword().length() < 6 || user.getPassword().length() > 50 ||
                 user.getName() == null || user.getName().isEmpty() || user.getName().length() > 30 ||
                 user.getNickname() == null || user.getNickname().length() < 2 || user.getNickname().length() > 10 ||
-                user.getBirthdate() == null || user.getBirthdate().isAfter(LocalDate.now()) ||
+                user.getBirthdate() == null ||
                 user.getPhone() == null || user.getPhone().length() != 11) {
             return CommonResult.FAILURE;
         }
@@ -110,6 +110,11 @@ public class UserService {
             return RegisterResult.FAILURE_DUPLICATE_NICKNAME;
         }
 
+        // 생년월일이 미래인 경우
+        if(user.getBirthdate().isAfter(LocalDate.now())) {
+            return RegisterResult.FAILURE_INVALID_DATE_FORMAT;
+        }
+
         BCryptPasswordEncoder encoder = new BCryptPasswordEncoder();
         user.setPassword(encoder.encode(user.getPassword()));
         user.setName(user.getName());
@@ -124,6 +129,7 @@ public class UserService {
         if(this.userMapper.insertUser(user) == 0) {
             throw new TransactionException();
         }
+
         EmailTokenEntity emailToken = new EmailTokenEntity();
         emailToken.setUserEmail(user.getEmail());
         emailToken.setKey(CryptoUtils.hashSha512(String.format("%s%s%f%f",

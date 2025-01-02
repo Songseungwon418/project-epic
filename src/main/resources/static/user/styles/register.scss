@@ -137,10 +137,11 @@ body {
   background-color: #18181c;
   border-radius: 10px;
   padding: 20px;
-  color: #ffffffA6;
+  color: #ffffff;
   z-index: 30;
   display: none;
   letter-spacing: 0.05rem;
+  line-height: 1.2;
   gap: 1rem;
 
   &::-webkit-scrollbar {
@@ -262,7 +263,7 @@ body {
 
       > .input {
         width: 100%;
-        background-color: #ffffff;
+        background-color: #dedede;
         border: 0.0625rem solid #656565;
         border-radius: 1.2rem;
         padding: 13px 20px 12px;
@@ -270,20 +271,12 @@ body {
         font-weight: 600 !important;
         color: #000000 !important;
 
-        &:-webkit-autofill {
-          background-color: #ffffff !important;
-          color: #ffffff !important;
-          border: 0.0625rem solid #656565 !important;
-          box-shadow: 0 0 0 30px #656565 inset !important;
-        }
-
-
         &.invalid {
           border-color: red;
         }
 
         &::placeholder {
-          color: #ffffff;
+          color: #000000;
         }
       }
 

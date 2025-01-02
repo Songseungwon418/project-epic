@@ -68,7 +68,6 @@ if ($continueButton) {
         const day = parseInt(document.querySelector('.day .btn-select .text .date').innerText);
 
         if (isNaN(year) || isNaN(month) || isNaN(day)) {
-            alert('생년월일을 모두 선택하세요.');
             return;
         }
 
@@ -193,8 +192,13 @@ if ($wishlistButton) {
         const gameIndex = url.searchParams.get('index');
 
         if (!userEmail) {
-            alert('로그인 후 이용가능합니다. 로그인 페이지로 이동합니다.');
-            window.location.href = '../user/';
+            Swal.fire({
+                icon: "info",
+                title: "로그인 후 이용 가능합니다.",
+                text: "로그인 페이지로 이동합니다."
+            }).then(() => {
+                window.location.href = '/user/';
+            });
             return;
         }
         formData.append('gameIndex', gameIndex);
@@ -206,19 +210,40 @@ if ($wishlistButton) {
                 return;
             }
             if (xhr.status < 200 || xhr.status >= 300) {
-                alert('서버가 알 수 없는 응답을 반환하였습니다. 잠시 후 시도해 주세요.');
+                Swal.fire({
+                    title: "서버가 알 수 없는 응답을 반환하였습니다.",
+                    text: "잠시 후 시도해 주세요.",
+                    icon: "warning"
+                });
                 return;
             }
             const response = JSON.parse(xhr.responseText);
             if (response.result === 'failure') {
-                alert('위시리스트 담기에 실패하였습니다.');
+                Swal.fire({
+                    title: "실패",
+                    text: "위시리스트 담기에 실패하였습니다.",
+                    icon: "error"
+                });
             } else if (response.result === 'failure_duplicate_cart') {
-                alert('이미 위시리스트에 있습니다.');
+                Swal.fire({
+                    title: "실패",
+                    text: "이미 위시리스트에 있습니다.",
+                    icon: "error"
+                });
             } else if (response.result === 'failure_not_found') {
-                alert('찾을 수 없습니다.');
+                Swal.fire({
+                    title: "실패",
+                    text: "찾을 수 없습니다.",
+                    icon: "error"
+                });
             } else if (response.result === 'success') {
-                alert('위시리스트에 추가되었습니다.');
-                location.reload();
+                Swal.fire({
+                    icon: "success",
+                    title: "성공",
+                    text: "위시리스트에 추가되었습니다."
+                }).then(() => {
+                    location.reload();
+                });
             }
         };
 
@@ -244,15 +269,32 @@ if ($wishlistDeleteButton) {
                 if (xhr.status >= 200 && xhr.status < 300) {
                     const response = JSON.parse(xhr.responseText);
                     if (response.result === 'failure') {
-                        alert('위시리스트에서 제거에 실패하였습니다.');
+                        Swal.fire({
+                            title: "실패",
+                            text: "위시리스트에서 제거에 실패하였습니다.",
+                            icon: "error"
+                        });
                     } else if (response.result === 'failure_not_found') {
-                        alert('위시리스트에서 이미 삭제되었거나 오류로 인해 제거에 실패하였습니다.');
+                        Swal.fire({
+                            title: "실패",
+                            text: "위시리스트에서 이미 삭제되었거나 오류로 인해 제거에 실패하였습니다.",
+                            icon: "error"
+                        });
                     } else if (response.result === 'success') {
-                        alert('위시리스트에서 제거하였습니다.');
-                        location.reload();
+                        Swal.fire({
+                            icon: "success",
+                            title: "성공",
+                            text: "위시리스트에서 제거하였습니다."
+                        }).then(() => {
+                            location.reload();
+                        });
                     }
                 } else {
-                    alert('서버가 알 수 없는 응답을 반환하였습니다. 잠시 후 시도해 주세요.');
+                    Swal.fire({
+                        title: "서버가 알 수 없는 응답을 반환하였습니다.",
+                        text: "잠시 후 시도해 주세요.",
+                        icon: "warning"
+                    });
                 }
             }
         };
@@ -273,8 +315,13 @@ if ($cartAddButton) {
         const gameIndex = url.searchParams.get('index');
 
         if (!userEmail) {
-            alert('로그인 후 이용가능합니다. 로그인 페이지로 이동합니다.');
-            window.location.href = '../user/';
+            Swal.fire({
+                icon: "info",
+                title: "로그인 후 이용 가능합니다.",
+                text: "로그인 페이지로 이동합니다."
+            }).then(() => {
+                window.location.href = '/user/';
+            });
             return;
         }
 
@@ -287,29 +334,52 @@ if ($cartAddButton) {
                 return;
             }
             if (xhr.status < 200 || xhr.status >= 300) {
-                alert('서버가 알 수 없는 응답을 반환하였습니다. 잠시 후 시도해 주세요.');
+                Swal.fire({
+                    title: "서버가 알 수 없는 응답을 반환하였습니다.",
+                    text: "잠시 후 시도해 주세요.",
+                    icon: "warning"
+                });
                 return;
             }
             const response = JSON.parse(xhr.responseText);
             if (response.result === 'failure') {
-                alert('장바구니 담기에 실패하였습니다.');
+                Swal.fire({
+                    title: "실패",
+                    text: "장바구니 담기에 실패하였습니다.",
+                    icon: "error"
+                });
             } else if (response.result === 'failure_duplicate_cart') {
-                alert('이미 장바구니에 있습니다.');
+                Swal.fire({
+                    title: "실패",
+                    text: "이미 장바구니에 있습니다.",
+                    icon: "error"
+                });
             } else if (response.result === 'failure_not_found') {
-                alert('장바구니 담기에 실패하였습니다.');
+                Swal.fire({
+                    title: "실패",
+                    text: "찾을 수 없습니다.",
+                    icon: "error"
+                });
             }else if(response.result === 'failure_age_limit'){
-                alert('구매할 수 없는 나이의 게임이라서 장바구니 담기에 실패하였습니다.');
+                Swal.fire({
+                    title: "실패",
+                    text: "구매할 수 없는 연령의 게임입니다.",
+                    icon: "error"
+                });
             } else if (response.result === 'success') {
-                alert('장바구니에 추가되었습니다.');
-                location.reload();
+                Swal.fire({
+                    icon: "success",
+                    title: "성공",
+                    text: "장바구니에 추가되었습니다."
+                }).then(() => {
+                    location.reload();
+                });
             }
         };
         xhr.open('POST', '../purchase/cart/add');
         xhr.send(formData);
     };
 }
-
-
 //endregion
 
 //region 장바구니 제거
@@ -328,15 +398,32 @@ if ($cartDeleteButton) {
                 if (xhr.status >= 200 && xhr.status < 300) {
                     const response = JSON.parse(xhr.responseText);
                     if (response.result === 'failure') {
-                        alert('장바구니에서 제거에 실패하였습니다.');
+                        Swal.fire({
+                            title: "실패",
+                            text: "장바구니에서 제거에 실패하였습니다.",
+                            icon: "error"
+                        });
                     } else if (response.result === 'failure_not_found') {
-                        alert('장바구니에서 이미 삭제되었거나 오류로 인해 제거에 실패하였습니다.');
+                        Swal.fire({
+                            title: "실패",
+                            text: "장바구니에서 이미 삭제되었거나 오류로 인해 제거에 실패하였습니다.",
+                            icon: "error"
+                        });
                     } else if (response.result === 'success') {
-                        alert('장바구니에서 제거하였습니다.');
-                        location.reload();
+                        Swal.fire({
+                            icon: "success",
+                            title: "성공",
+                            text: "장바구니에서 제거하였습니다."
+                        }).then(() => {
+                            location.reload();
+                        });
                     }
                 } else {
-                    alert('서버가 알 수 없는 응답을 반환하였습니다. 잠시 후 시도해 주세요.');
+                    Swal.fire({
+                        title: "서버가 알 수 없는 응답을 반환하였습니다.",
+                        text: "잠시 후 시도해 주세요.",
+                        icon: "warning"
+                    });
                 }
             }
         };
@@ -359,8 +446,13 @@ if ($cartDeleteButton) {
         $gameBuyButton.addEventListener('click', function () {
             // 로그인 유무 확인
             if (!userEmail) {
-                alert('로그인 후 이용가능합니다. 로그인 페이지로 이동합니다.');
-                window.location.href = '../user/';
+                Swal.fire({
+                    icon: "info",
+                    title: "로그인 후 이용 가능합니다.",
+                    text: "로그인 페이지로 이동합니다."
+                }).then(() => {
+                    window.location.href = '/user/';
+                });
             }else {
                 // 현제 페이지에서 주소의 파라미터값들을 가져옴
                 const urlParams = new URLSearchParams(window.location.search);
