@@ -10,7 +10,6 @@ public class SessionInterceptor implements HandlerInterceptor {
     /** 인증된 유저로 로그인 했는지 확인 - 컨트롤러에 가기전에 작동하여 확인 후 컨트롤러로 넘어감 */
     @Override
     public boolean preHandle(HttpServletRequest request, HttpServletResponse response, Object handler) throws Exception {
-        System.out.println("SessionInterceptor.preHandle 실행됨");
 
         // 현재 HTTP 요청에서 세션을 가져옵니다.
         HttpSession session = request.getSession();

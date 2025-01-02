@@ -157,20 +157,49 @@ $registerForm.onsubmit = (e) => {
         }
         const response = JSON.parse(xhr.responseText);
         if (response['result'] === 'failure') {
-            alert("회원가입 도중 문제가 발생했습니다. 입력한 정보를 확인하고 다시 시도해 주세요.");
+            Swal.fire({
+                title : "회원가입 도중 문제가 발생하였습니다.",
+                text : "입력한 정보를 확인하고 다시 시도해 주세요.",
+                icon : "warning"
+            });
         } else if (response['result'] === 'failure_duplicate_email') {
-            alert("입력하신 이메일은 이미 사용중입니다. 다른 이메일을 사용해주세요.");
+            Swal.fire({
+                title : "입력하신 이메일은 이미 사용중입니다.",
+                text : "다른 이메일을 사용해주세요.",
+                icon : "warning"
+            });
         } else if(response['result'] === 'failure_not_email_format') {
-            alert("이메일 주소가 올바르지 않습니다. 이메일 형식은 'example@domain.com'와 같이 '@'와 '.'가 포함되어야 합니다. ")
+            Swal.fire({
+                title : "이메일 주소가 올바르지 않습니다.",
+                text : "메일 형식은 'example@domain.com'와 같이 '@'와 '.'가 포함되어야 합니다.",
+                icon : "warning"
+            });
         } else if (response['result'] === 'failure_duplicate_phone') {
-            alert("입력하신 연락처는 이미 사용중입니다. 다른 연락처를 사용해 주세요.");
+            Swal.fire({
+                title : "입력하신 연락처는 이미 사용중입니다.",
+                text : "다른 연락처를 사용해 주세요.",
+                icon : "warning"
+            });
         } else if (response['result'] === 'failure_duplicate_nickname') {
-            alert("입력하신 닉네임은 이미 사용중입니다. 다른 닉네임을 사용해 주세요.");
+            Swal.fire({
+                title : "입력하신 닉네임은 이미 사용중입니다.",
+                text : "다른 닉네임을 사용해 주세요.",
+                icon : "warning"
+            });
         } else if(response['result'] === 'failure_invalid_date_format') {
-            alert("입력하신 날짜는 현재시간을 넘어간 시간입니다. 사용자의 생년월일을 작성해주세요.")
+            Swal.fire({
+                title : "날짜를 다시 확인해 주세요.",
+                text : "입력하신 날짜는 현재시간을 넘어간 시간입니다. 사용자의 생년월일을 작성해주세요.",
+                icon : "warning"
+            });
         } else if (response['result'] === 'success') {
-            alert("회원가입이 완료되었습니다. 입력하신 이메일로 계정을 인증할 수 있는 링크를 전송하였습니다. 계정 인증 후 로그인 할 수 있으며, 해당 링크는 24시간 동안만 유효합니다.")
-            location.href = '/user/';
+            Swal.fire({
+                icon: "success",
+                title: "회원가입이 완료되었습니다.",
+                text: "입력하신 이메일로 계정을 인증할 수 있는 링크를 전송하였습니다. 계정 인증 후 로그인 할 수 있으며, 해당 링크는 24시간 동안만 유효합니다."
+            }).then(() => {
+                location.href = '/user/';
+            });
         }
     };
     xhr.open('POST', '/user/register');

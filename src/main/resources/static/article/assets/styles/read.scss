@@ -573,6 +573,7 @@
     > .action-container:has([type="radio"][value="reply"]:checked) ~ .form.reply,
     > .action-container:has([type="radio"][value="modify"]:checked) ~ .form.modify {
       display: flex;
+      margin-bottom: 0.8rem;
     }
 
     > .form {
