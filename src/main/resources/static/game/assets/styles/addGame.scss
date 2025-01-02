@@ -278,36 +278,15 @@ body {
   gap: 5px;
   justify-content: flex-start;
 
-  &.-invalid {
-    $color: #e74c3c;
-
-    > ._text {
-      color: $color;
-    }
-
-    > ._field:not(:disabled) {
-      border-color: $color !important;
-    }
-
-    > ._warning {
-      color: $color;
-      display: block;
-    }
-  }
-
   > ._text {
     font-size: 14px;
-  }
-
-  > ._warning {
-    display: none;
-    font-size: 16px;
   }
 }
 
 .--field {
   padding: 4.5px 5px;
   min-width: 300px;
+  outline: none;
   transition-duration: 250ms;
   transition-property: border-color;
   transition-timing-function: ease;
@@ -323,7 +302,7 @@ body {
     }
 
     &:focus {
-      border-color: #01d345;
+      border-color: lighten($border_color, 50%);
     }
   }
 

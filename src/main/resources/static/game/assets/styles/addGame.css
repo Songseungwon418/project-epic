@@ -229,27 +229,14 @@ body {
   gap: 5px;
   justify-content: flex-start;
 }
-.--label.-invalid > ._text {
-  color: #e74c3c;
-}
-.--label.-invalid > ._field:not(:disabled) {
-  border-color: #e74c3c !important;
-}
-.--label.-invalid > ._warning {
-  color: #e74c3c;
-  display: block;
-}
 .--label > ._text {
   font-size: 14px;
-}
-.--label > ._warning {
-  display: none;
-  font-size: 16px;
 }
 
 .--field {
   padding: 4.5px 5px;
   min-width: 300px;
+  outline: none;
   transition-duration: 250ms;
   transition-property: border-color;
   transition-timing-function: ease;
@@ -263,7 +250,7 @@ body {
   border-color: rgb(91.5, 91.5, 91.5);
 }
 .--field.-dark:focus {
-  border-color: #01d345;
+  border-color: rgb(193.5, 193.5, 193.5);
 }
 .--field.-light {
   background-color: #ffffff;

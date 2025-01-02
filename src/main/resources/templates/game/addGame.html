@@ -18,13 +18,19 @@
     <link rel="stylesheet" type="text/css" th:href="@{/assets/libraries/ckeditor/ckeditor5-editor.css}">
     <script type="text/javascript" th:src="@{'/assets/libraries/ckeditor/ckeditor5.umd.js'}"></script>
     <script type="text/javascript" th:src="@{'/assets/libraries/ckeditor/ko.umd.js'}"></script>
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@9"></script>
     <script th:if="${result == 'failure'}">
-        alert('게임 등록에 실패하였습니다.');
-        if (history.length === 1) {
-            window.close();
-        } else {
-            history.back();
-        }
+        Swal.fire({
+            icon: "error",
+            title: "게임 등록 실패",
+            text: "게임 등록에 실패하였습니다."
+        }).then(() => {
+            if (history.length === 1) {
+                window.close();
+            } else {
+                history.back();
+            }
+        });
     </script>
 </head>
 <body>
@@ -39,12 +45,11 @@
         <h2 class="title">게임 등록</h2>
         <label class="--label">
             <span class="title">게임 이름</span>
-            <input class="--field" name="name" type="text" maxlength="100" minlength="1" required>
-            <span class="_warning">올바른 게임 이름을 입력해 주세요.</span>
+            <input class="--field -dark" name="name" type="text" maxlength="100" minlength="1" required>
         </label>
         <label class="--label">
             <span class="title">게임 등급</span>
-            <select class="--field" name="grGrac" id="grGrac">
+            <select class="--field -dark" name="grGrac" id="grGrac" required>
                 <option value="" disabled selected>선택하세요</option> <!-- 기본 값으로 '선택하세요' 표시 -->
                 <option value="all">전체 이용가</option> <!-- 전체 이용가 등급 -->
                 <option value="12Y">12세 이상</option> <!-- 12세 이상 등급 -->
@@ -54,13 +59,12 @@
         </label>
         <label class="--label">
             <span class="title">게임 가격</span>
-            <input class="--field" name="price" type="number">
-            <span class="_warning">올바른 게임 가격을 입력해 주세요.</span>
+            <input class="--field -dark" name="price" type="number" required min="0" max="9999999">
         </label>
         <label class="--label">
             <span class="title">게임 분류 대표 2가지</span>
             <div class="tag-wrapper">
-                <select class="--field" name="tag1" id="tag1">
+                <select class="--field -dark" name="tag1" id="tag1" required>
                     <option value="" disabled selected>선택하세요</option> <!-- 기본 값으로 '선택하세요' 표시 -->
                     <option value="RPG">RPG</option>
                     <option value="OW">오픈월드</option>
@@ -69,7 +73,7 @@
                     <option value="SG">생존</option>
                     <option value="STR">전략</option>
                 </select>
-                <select class="--field" name="tag2" id="tag2">
+                <select class="--field -dark" name="tag2" id="tag2" required>
                     <option value="" disabled selected>선택하세요</option> <!-- 기본 값으로 '선택하세요' 표시 -->
                     <option value="RPG">RPG</option>
                     <option value="OW">오픈월드</option>
@@ -82,15 +86,15 @@
         </label>
         <label class="--label">
             <span class="title">게임 요약</span>
-            <textarea class="summary" name="summary"></textarea>
+            <textarea class="summary --field -dark" name="summary"></textarea>
         </label>
         <label class="--label">
             <span class="title">게임 회사</span>
-            <input class="--field" name="company" type="text">
+            <input class="--field -dark" name="company" type="text" required>
         </label>
         <label class="--label">
             <span class="title">게임 발매일</span>
-            <input class="--field" name="openDate" type="date">
+            <input class="--field -dark" name="openDate" type="date" required>
         </label>
         <div class="--label cover mainImage">
             <span class="title">메인 이미지</span>
@@ -156,46 +160,46 @@
                 <span class="title">최소 사양</span>
                 <label class="--label">
                     <span class="_text">OS</span>
-                    <input class="--field" name="minOs" type="text">
+                    <input class="--field -dark" name="minOs" type="text">
                 </label>
                 <label class="--label">
                     <span class="_text">CPU</span>
-                    <input class="--field" name="minCpu" type="text">
+                    <input class="--field -dark" name="minCpu" type="text">
                 </label>
                 <label class="--label">
                     <span class="_text">GPU</span>
-                    <input class="--field" name="minGpu" type="text">
+                    <input class="--field -dark" name="minGpu" type="text">
                 </label>
                 <label class="--label">
                     <span class="_text">RAM</span>
-                    <input class="--field" name="minRam" type="text">
+                    <input class="--field -dark" name="minRam" type="text">
                 </label>
                 <label class="--label">
                     <span class="_text">스토리지</span>
-                    <input class="--field" name="minStorage" type="text">
+                    <input class="--field -dark" name="minStorage" type="text">
                 </label>
             </div>
             <div class="list rec">
                 <span class="title">권장 사양</span>
                 <label class="--label">
                     <span class="_text">OS</span>
-                    <input class="--field" name="recOs" type="text">
+                    <input class="--field -dark" name="recOs" type="text">
                 </label>
                 <label class="--label">
                     <span class="_text">CPU</span>
-                    <input class="--field" name="recCpu" type="text">
+                    <input class="--field -dark" name="recCpu" type="text">
                 </label>
                 <label class="--label">
                     <span class="_text">GPU</span>
-                    <input class="--field" name="recGpu" type="text">
+                    <input class="--field -dark" name="recGpu" type="text">
                 </label>
                 <label class="--label">
                     <span class="_text">RAM</span>
-                    <input class="--field" name="recRam" type="text">
+                    <input class="--field -dark" name="recRam" type="text">
                 </label>
                 <label class="--label">
                     <span class="_text">스토리지</span>
-                    <input class="--field" name="recStorage" type="text">
+                    <input class="--field -dark" name="recStorage" type="text">
                 </label>
             </div>
         </div>

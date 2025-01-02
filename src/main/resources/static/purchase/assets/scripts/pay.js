@@ -69,7 +69,7 @@ $closeBtn.onclick = () => {
     const $mainContainer = document.getElementById('main-container');
     const $payTitle =$mainContainer.querySelector(':scope > .payment-summaries > .pay-summaries-container > .pay-content > .pay-content-info > .pay-title');
     const $userEmail = $mainContainer.querySelector(':scope > .payment-summaries > .pay-summaries-container > .pay-content > .info-data > .user-email');
-    const $totalPrice = $mainContainer.querySelector(':scope > .payment-summaries > .pay-summaries-container > .pay-order-prices > .payment-price > .payment-price-value');
+    const $totalPrice = $mainContainer.querySelector(':scope > .payment-summaries > .pay-summaries-container > .pay-order-prices > .payment-price > .price.payment-price-value.-total');
     const $payBtn = document.getElementById('payment-btn');// 구매 버튼
     const uuid = crypto.randomUUID().substring(0,8);
     const merchantUid = `pid-${uuid}`; // 주문번호 생성
@@ -186,33 +186,67 @@ $closeBtn.onclick = () => {
             }
             $loadingSuccess.hide();
             if (xhr.status < 200 || xhr.status >= 300){
-                alert('서버가 알 수 없는 응답을 반환하였습니다. 잠시 후 시도해 주세요.');
+                Swal.fire({
+                    title: "서버가 알 수 없는 응답을 반환하였습니다.",
+                    text: "잠시 후 시도해 주세요.",
+                    icon: "warning"
+                });
                 return;
             }
             const response = JSON.parse(xhr.responseText);
             if (response['result'] === 'failure'){
-                alert('구매에 실패하였습니다.');
-                attemptCancel(); // 결제창 닫기
+                Swal.fire({
+                    title: "실패",
+                    text: "구매에 실패하였습니다.",
+                    icon: "error"
+                }).then(() => {
+                    attemptCancel(); // 결제창 닫기
+                });
             }else if(response['result'] === 'failure_not_found'){
-                alert('구매할 목록을 찾을 수 없습니다. 구매에 실패하였습니다.');
-                attemptCancel(); // 결제창 닫기
+                Swal.fire({
+                    title: "실패",
+                    text: "구매할 목록을 찾을 수 없습니다. 구매에 실패하였습니다.",
+                    icon: "error"
+                }).then(() => {
+                    attemptCancel(); // 결제창 닫기
+                });
             } else if (response['result'] === 'failure_duplicate_purchase'){
-                alert('이미 구매한 게임이 포함되어있습니다. 구매에 실패하였습니다.');
-                attemptCancel(); // 결제창 닫기
+                Swal.fire({
+                    title: "실패",
+                    text: "이미 구매한 게임이 포함되어있습니다. 구매에 실패하였습니다.",
+                    icon: "error"
+                }).then(() => {
+                    attemptCancel(); // 결제창 닫기
+                });
             } else if (response['result'] === 'failure_age_limit') {
-                alert('구매할 수 없는 나이의 게임이 있습니다. 구매에 실패하였습니다.');
-                attemptCancel(); // 결제창 닫기
+                Swal.fire({
+                    title: "실패",
+                    text: "구매할 수 없는 나이의 게임이 있습니다. 구매에 실패하였습니다.",
+                    icon: "error"
+                }).then(() => {
+                    attemptCancel(); // 결제창 닫기
+                });
             } else if(response['result'] === 'success'){
-                return window.parent.location.href = `/purchase/paysuccess?id=${merchantUid}`; //결과가 true이면 성공페이지로 이동
+                Swal.fire({
+                    icon: "success",
+                    title: "성공",
+                    text: "구매에 성공하였습니다."
+                }).then(() => {
+                    window.parent.location.href = `/purchase/paysuccess?id=${merchantUid}`; //결과가 true이면 성공페이지로 이동
+                });
             }else {
-                alert('알수 없는 이유로 구매에 실패하였습니다.');
-                attemptCancel(); // 결제창 닫기
+                Swal.fire({
+                    title: "실패",
+                    text: "알수없는 이유로 실행 취소 요청이 실패하였습니다.",
+                    icon: "error"
+                }).then(() => {
+                    attemptCancel(); // 결제창 닫기
+                });
             }
         };
         xhr.open('POST', '/purchase/pay/confirm');
         xhr.send(formData);
         $loadingSuccess.show();
     }
-
 }
 //endregion
