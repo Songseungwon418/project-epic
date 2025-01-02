@@ -7,10 +7,12 @@ import com.ssw.epicgames.resutls.CommonResult;
 import com.ssw.epicgames.resutls.Result;
 import com.ssw.epicgames.resutls.friends.FriendsResult;
 import com.ssw.epicgames.resutls.user.DeletedUserResult;
+import com.ssw.epicgames.resutls.user.RegisterResult;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
 
+import java.time.LocalDate;
 import java.time.LocalDateTime;
 
 
@@ -112,12 +114,24 @@ public class PageService {
             return CommonResult.FAILURE;
         }
 
+        UserEntity dbUser;
+        if((dbUser = this.userMapper.selectUserByNickname(user.getNickname())) != null && !user.getEmail().equals(dbUser.getEmail())) {
+            return RegisterResult.FAILURE_DUPLICATE_NICKNAME;
+        }
+
+        if((dbUser = this.userMapper.selectUserByPhone(user.getPhone())) != null && !user.getEmail().equals(dbUser.getEmail())) {
+            return RegisterResult.FAILURE_DUPLICATE_PHONE;
+        }
+
+        if (user.getBirthdate().isAfter(LocalDate.now())) {
+            return RegisterResult.FAILURE_INVALID_DATE_FORMAT;
+        }
+
         UserEntity userEntity = this.userMapper.selectUserByEmail(user.getEmail());
         if (userEntity == null) {
             return CommonResult.FAILURE;    // 사용자가 존재하지 않으면 실패
         }
 
-        userEntity.setEmail(user.getEmail());
         userEntity.setName(user.getName());
         userEntity.setNickname(user.getNickname());
         userEntity.setPhone(user.getPhone());

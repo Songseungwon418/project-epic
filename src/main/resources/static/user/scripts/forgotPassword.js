@@ -1,5 +1,4 @@
 const $forgotForm = document.getElementById("forgotForm");
-const $result = document.getElementById("result");
 
 $forgotForm.onsubmit = (e) => {
     e.preventDefault();

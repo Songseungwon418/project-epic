@@ -7,7 +7,6 @@ import com.ssw.epicgames.resutls.Result;
 import com.ssw.epicgames.services.UserService;
 import jakarta.mail.MessagingException;
 import jakarta.servlet.http.HttpServletRequest;
-import jakarta.servlet.http.HttpServletResponse;
 import jakarta.servlet.http.HttpSession;
 import org.json.JSONObject;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -36,7 +35,7 @@ public class UserController {
     }
 
     @RequestMapping(value = "/", method = RequestMethod.GET, produces = MediaType.TEXT_HTML_VALUE)
-    public ModelAndView getIndex(HttpSession session) {
+    public ModelAndView getLogin(HttpSession session) {
         ModelAndView modelAndView = new ModelAndView();
         //이미 로그인된 유저면
         if (session.getAttribute("user") != null) {
@@ -48,14 +47,9 @@ public class UserController {
         return modelAndView;
     }
 
-    @RequestMapping(value = "/login", method = RequestMethod.GET, produces = MediaType.APPLICATION_JSON_VALUE)
+    @RequestMapping(value = "/", method = RequestMethod.POST, produces = MediaType.APPLICATION_JSON_VALUE)
     @ResponseBody
-    public String getLogin(@RequestHeader(value = "x-request-by", required = false) String _requestBy,
-                           HttpSession session, UserEntity user) {
-        if (_requestBy == null || !_requestBy.equals("xmlhttprequest")) {
-            throw new RuntimeException("fuck you");
-        }
-
+    public String postLogin(HttpSession session, UserEntity user) {
 //        if(session.getAttribute("user") != null) {
 //            return "이미 로그인 되어있습니다.";
 //        }
@@ -104,7 +98,7 @@ public class UserController {
 
     @RequestMapping(value = "/forgot-password", method = RequestMethod.POST, produces = MediaType.APPLICATION_JSON_VALUE)
     @ResponseBody
-    public String forgotPassword(HttpServletRequest request,
+    public String postForgotPassword(HttpServletRequest request,
                                  @RequestParam(value = "email", required = false) String email) throws MessagingException {
         Result result = this.userService.provokeForgotPassword(request, email);
         JSONObject response = new JSONObject();

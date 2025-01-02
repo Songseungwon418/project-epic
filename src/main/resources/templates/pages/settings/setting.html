@@ -43,13 +43,13 @@
                                    th:value="${user.nickname}">
                         </label>
                     </div>
-                    <div class="id-wrapper">
-                        <span class="text">이메일 주소</span>
-                        <label class="label email-addr">
-                            <input readonly autocomplete="email" class="input" maxlength="50" minlength="8" name="email"
-                                   spellcheck="false" type="email" th:value="${user.email}">
-                        </label>
-                    </div>
+<!--                    <div class="id-wrapper">-->
+<!--                        <span class="text">이메일 주소</span>-->
+<!--                        <label class="label email-addr">-->
+<!--                            <input readonly autocomplete="email" class="input" maxlength="50" minlength="8" name="email"-->
+<!--                                   spellcheck="false" type="email" th:value="${user.email}">-->
+<!--                        </label>-->
+<!--                    </div>-->
                 </div>
                 <div class="wrapper">
                     <label class="label language">
@@ -85,10 +85,11 @@
                 </div>
                 <button class="storage" type="submit">변경사항 저장</button>
             </form>
-            <div class="recover-password">
+            <form class="recover-password main-container" id="recoverPassword">
                 <span class="text">비밀번호 재설정</span>
-                <span class="recover-text">비밀번호를 재설정 하려면 <a class="a-tg" th:href="@{/user/forgot-password}">비밀번호 재설정</a>페이지로 이동 하시면 아이디를 작성하고 사용하고계신 이메일로 인증 링크가 발송됩니다.<br> 링크에 들어가시면 비밀번호를 재설정이 가능합니다.</span>
-            </div>
+                <span class="recover-text">비밀번호를 재설정 하려면 <a class="a-tg" th:href="@{/user/recover-password}">비밀번호 재설정</a>페이지로 이동 하시면 아이디를 작성하고 사용하고계신 이메일로 인증 링크가 발송됩니다.<br> 링크에 들어가시면 비밀번호를 재설정이 가능합니다.</span>
+                <button class="storage" type="submit">비밀번호 재설정</button>
+            </form>
             <div class="delete" id="deleted">
                 <span class="text">계정 삭제</span>
                 <span class="sub-text">계정 삭제 요청을 클릭하여 모든 개인 정보, 구매 내역, 게임 진행 상황, 인게임 콘텐츠, 언리얼 프로젝트 및 에픽게임즈 지갑 계정을 포함한 에픽게임즈 계정을 영구히 삭제하는 절차를 시작합니다. 에픽게임즈 계정이 삭제되고 나면 지갑 잔액도 영구히 삭제됩니다.</span>

@@ -6,38 +6,6 @@ function toggleArrow() {
     dropdown.style.display = dropdown.style.display === 'block' ? 'none' : 'block';
 }
 
-function applyFilter(criteria) {
-    const dropdown = document.getElementById('filter-dropdown');
-    dropdown.style.display = 'none'; // 드롭다운 닫기
-    const games = Array.from(document.querySelectorAll('.game'));
-
-    // 정렬 로직
-    if (criteria === 'name') {
-        games.sort((a, b) => {
-            const nameA = a.querySelector('.game-name').textContent.trim();
-            const nameB = b.querySelector('.game-name').textContent.trim();
-            return nameA.localeCompare(nameB); // 이름순 정렬
-        });
-    } else if (criteria === 'achievements-desc') {
-        games.sort((a, b) => {
-            const achievementsA = a.querySelectorAll('.achievement-image .image').length;
-            const achievementsB = b.querySelectorAll('.achievement-image .image').length;
-            return achievementsB - achievementsA; // 업적 많은순
-        });
-    } else if (criteria === 'achievements-asc') {
-        games.sort((a, b) => {
-            const achievementsA = a.querySelectorAll('.achievement-image .image').length;
-            const achievementsB = b.querySelectorAll('.achievement-image .image').length;
-            return achievementsA - achievementsB; // 업적 적은순
-        });
-    }
-
-    // 정렬된 게임을 다시 렌더링
-    const container = document.querySelector('.games-container'); // 부모 요소
-    container.innerHTML = ''; // 기존 내용 제거
-    games.forEach(game => container.appendChild(game)); // 정렬된 요소 추가
-}
-
 //endregion
 
 const $friendAdd = document.getElementById('friendAdd');
@@ -73,4 +41,61 @@ $friendAdd.onsubmit = (e) => {
     };
     xhr.open('POST', `/page/profile?email=${$friendAdd['friend_email'].value}`);
     xhr.send(formData);
+}
+
+function applyFilter(_type) {
+    document.querySelector('.filter-text').innerText = _type;
+    document.querySelector('.filter-dropdown').style.display = 'none';
+
+    const gameWrapper = document.querySelector('.gameWrap');
+
+    // .game-wrapper 안의 모든 .game 요소를 배열로 변환
+    const games = Array.from(gameWrapper.querySelectorAll('.game'));
+    let sortedGames;
+
+    // 정렬 조건
+    switch (_type) {
+
+        case '이름 순서': // 이름순
+            sortedGames = games.sort((a, b) => {
+                const nameA = a.querySelector('.game-name').innerText;
+                const nameB = b.querySelector('.game-name').innerText;
+                return nameA.localeCompare(nameB, 'ko');
+            });
+            break;
+
+        case '업적 많은 순':
+            sortedGames = games.sort((a, b) => {
+                const priceA = Number(a.querySelector('.gauge-text').innerText.replace('%', ''));
+                const priceB = Number(b.querySelector('.gauge-text').innerText.replace('%', ''));
+
+                // '무료'를 마지막에 정렬하고, 나머지는 가격 내림차순으로 정렬
+                if (priceA === 0 && priceB !== 0) return 1;
+                if (priceB === 0 && priceA !== 0) return -1;
+                return priceB - priceA;
+            });
+            break;
+
+
+        case '업적 적은 순':
+            sortedGames = games.sort((a, b) => {
+                const priceA = Number(a.querySelector('.gauge-text').innerText.replace('%', ''));
+                const priceB = Number(b.querySelector('.gauge-text').innerText.replace('%', ''));
+
+                // '무료'를 우선 정렬하고, 나머지는 가격 오름차순으로 정렬
+                if (priceA === 0 && priceB !== 0) return -1;
+                if (priceB === 0 && priceA !== 0) return 1;
+                return priceA - priceB;
+            });
+            break;
+
+
+        default:
+            sortedGames = games; // 정렬하지 않음
+    }
+
+    // 정렬된 게임을 DOM에 재배치
+    sortedGames.forEach((game) => {
+        gameWrapper.appendChild(game); // game-wrapper에 정렬된 순서대로 재추가
+    });
 }
