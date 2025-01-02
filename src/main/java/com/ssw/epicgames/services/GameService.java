@@ -2,14 +2,19 @@ package com.ssw.epicgames.services;
 
 import com.ssw.epicgames.DTO.GameDTO;
 import com.ssw.epicgames.entities.*;
+import com.ssw.epicgames.exceptions.TransactionalException;
 import com.ssw.epicgames.mappers.GameMapper;
 import com.ssw.epicgames.mappers.GenreMapper;
+import com.ssw.epicgames.resutls.CommonResult;
+import com.ssw.epicgames.resutls.Result;
 import com.ssw.epicgames.vos.GameVo;
 import org.json.JSONArray;
 import org.json.JSONObject;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.cache.annotation.Cacheable;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
+import org.springframework.web.multipart.MultipartFile;
 
 import java.io.IOException;
 import java.net.URI;

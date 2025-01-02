@@ -30,7 +30,11 @@
 <body>
 <th:block th:replace="~{fragments/loading.html :: loading}"></th:block>
 <th:block th:replace="~{fragments/common.html :: header}"></th:block>
+
 <main class="main" id="main">
+    <th:block th:replace="~{fragments/common.html :: mainSearch}"></th:block>
+    <th:block th:replace="~{fragments/common.html :: logout}"></th:block>
+
     <form id="add-game-form" th:action="@{'/game/add'}" th:method="post" enctype="multipart/form-data">
         <h2 class="title">게임 등록</h2>
         <label class="--label">
