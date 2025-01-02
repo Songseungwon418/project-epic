@@ -11,6 +11,7 @@
     <script th:src="@{'/assets/scripts/loading.js'}"></script>
     <link rel="stylesheet" type="text/css" th:href="@{'/assets/styles/common.css'}">
     <link rel="stylesheet" th:href="@{'/pages/settings/styles/setting.css'}" type="text/css">
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@9"></script>
     <script defer th:src="@{'/pages/settings/scripts/setting.js'}" type="text/javascript"></script>
     <script defer type="text/javascript" th:src="@{'/assets/scripts/common.js'}"></script>
     <script src="https://kit.fontawesome.com/856af35d3d.js" crossorigin="anonymous"></script>
@@ -101,85 +102,85 @@
             <h2 class="title">거래</h2>
             <table class="purchase-table" id="purchase-table">
                 <thead>
-                    <tr>
-                        <th class="line">날짜</th>
-                        <th class="content">설명</th>
-                        <th class="price-info">가격</th>
-                        <th class="status-title">상태</th>
-                        <th class="date"></th>
-                    </tr>
+                <tr>
+                    <th class="line">날짜</th>
+                    <th class="content">설명</th>
+                    <th class="price-info">가격</th>
+                    <th class="status-title">상태</th>
+                    <th class="date"></th>
+                </tr>
                 </thead>
                 <tbody th:each="pay : ${paylist}">
-                    <tr class="title">
-                        <td class="line" th:text="${#temporals.format(pay.getPay().getPaidAt(), 'yyyy-MM-dd HH:mm:ss')}"></td>
-                        <td class="title content" th:text="${pay.getPay().getTitle()}"></td>
-                        <td class="price price-info" th:if="${pay.getPay().getRefundAmount() == 0}">[[${pay.getPay().getAmount()}]]</td>
-                        <td class="price price-info" th:if="${pay.getPay().getRefundAmount() > 0}">[[${pay.getPay().getAmount()-pay.getPay().getRefundAmount()}]]</td>
-                        <td class="status" th:text="${pay.getPay().getStatus() == 'paid' ? '구매' : (pay.getPay().getStatus().equals('partial') ? '부분환불' : '환불')}"></td>
-                        <td class="refund-container">
-                            <button class="refund-btn" data-id="all" th:if="${pay.isRefund() && pay.getPay().getAmount() > pay.getPay().getRefundAmount()}">전체환불</button>
-                            <span th:if="${pay.getPay().getStatus().equals('cancelled')}" th:text="${#temporals.format(pay.getPay().getUpdatedAt(), 'yyyy-MM-dd HH:mm:ss')}"></span>
-                        </td>
-                    </tr>
-                    <tr class="purchase-id">
-                        <td class="line"></td>
-                        <td class="text content" colspan="4">주문Id: [[${pay.getPay().getId()}]]</td>
-                    </tr>
-                    <tr class="sub-title" th:each="purchase : ${pay.getPurchase()}">
-                        <td class="line"></td>
-                        <td class="line-bottom" th:text="${purchase.getGame().getName()}"></td>
-                        <td class="price-info line-bottom">
-                            <div class="info" th:if="${purchase.getGame().getPrice() != 0}">
-                                <span class="text">게임가격: </span>
-                                <span class="price">[[${purchase.getGame().getPrice()}]]</span>
-                            </div>
-                            <div class="info" th:if="${purchase.getGame().getPrice() == 0}">
-                                <span class="price">[[${purchase.getGame().getPrice()}]]</span>
-                            </div>
-                            <div class="info" th:if="${purchase.getPrice().discountPrice != 0}">
-                                <span class="text -minus">할인가격: </span>
-                                <span class="price -minus">[[${purchase.getPrice().discountPrice}]]</span>
-                            </div>
-                            <div class="info" th:if="${purchase.getPrice().currentPrice != 0}">
-                                <span class="text">실 구매가격: </span>
-                                <span class="price -current">[[${purchase.getPrice().currentPrice}]]</span>
-                            </div>
-                        </td>
-                        <td class="line-bottom status" th:text="${purchase.getPurchase().getDeletedAt() == null? '구매' : '환불'}"></td>
-                        <td class="line-bottom refund-container">
-                            <button class="refund-btn" data-id="partial" th:if="${purchase.getPurchase().getDeletedAt == null && pay.isRefund() && purchase.getPrice().currentPrice != 0}">환불</button>
-                            <span class="gameIndex" hidden="hidden" th:text="${purchase.getGame().getIndex()}"></span>
-                            <span th:if="${purchase.getPurchase().getDeletedAt() != null}" th:text="${#temporals.format(purchase.getPurchase().getDeletedAt(), 'yyyy-MM-dd HH:mm:ss')}"></span>
-                        </td>
-                    </tr>
-                    <tr class="sub-title total-price">
-                        <td class="line"></td>
-                        <td class="empty"></td>
-                        <td class="price-info">
-                            <div class="info">
-                                <span class="text">총 게임가격: </span>
-                                <span class="price">[[${pay.getTotalGameAmount()}]]</span>
-                            </div>
-                            <div class="info" th:if="${pay.getTotalDiscount() != 0}">
-                                <span class="text -minus">총 할인가격: </span>
-                                <span class="price -minus">[[${pay.getTotalDiscount()}]]</span>
-                            </div>
-                            <div class="info" th:if="${pay.getPay().getRefundAmount() != 0}">
-                                <span class="text -minus">총 환불한 금액: </span>
-                                <span class="price -minus">[[${pay.getPay().getRefundAmount()}]]</span>
-                            </div>
-                            <div class="info" th:if="${pay.getPay().getAmount() != 0 && pay.getPay().getRefundAmount() == 0}">
-                                <span class="text">총 구매가격: </span>
-                                <span class="price">[[${pay.getPay().getAmount()}]]</span>
-                            </div>
-                            <div class="info" th:if="${pay.getPay().getAmount() != 0 && pay.getPay().getRefundAmount() != 0}">
-                                <span class="text">총 구매가격: </span>
-                                <span class="price">[[${pay.getPay().getAmount() - pay.getPay().getRefundAmount()}]]</span>
-                            </div>
-                        </td>
-                        <td class="status"></td>
-                        <td class="refund-container"></td>
-                    </tr>
+                <tr class="title">
+                    <td class="line" th:text="${#temporals.format(pay.getPay().getPaidAt(), 'yyyy-MM-dd HH:mm:ss')}"></td>
+                    <td class="title content" th:text="${pay.getPay().getTitle()}"></td>
+                    <td class="price price-info" th:if="${pay.getPay().getRefundAmount() == 0}">[[${pay.getPay().getAmount()}]]</td>
+                    <td class="price price-info" th:if="${pay.getPay().getRefundAmount() > 0}">[[${pay.getPay().getAmount()-pay.getPay().getRefundAmount()}]]</td>
+                    <td class="status" th:text="${pay.getPay().getStatus() == 'paid' ? '구매' : (pay.getPay().getStatus().equals('partial') ? '부분환불' : '환불')}"></td>
+                    <td class="refund-container">
+                        <button class="refund-btn" data-id="all" th:if="${pay.isRefund() && pay.getPay().getAmount() > pay.getPay().getRefundAmount()}">전체환불</button>
+                        <span th:if="${pay.getPay().getStatus().equals('cancelled')}" th:text="${#temporals.format(pay.getPay().getUpdatedAt(), 'yyyy-MM-dd HH:mm:ss')}"></span>
+                    </td>
+                </tr>
+                <tr class="purchase-id">
+                    <td class="line"></td>
+                    <td class="text content" colspan="4">주문Id: [[${pay.getPay().getId()}]]</td>
+                </tr>
+                <tr class="sub-title" th:each="purchase : ${pay.getPurchase()}">
+                    <td class="line"></td>
+                    <td class="line-bottom" th:text="${purchase.getGame().getName()}"></td>
+                    <td class="price-info line-bottom">
+                        <div class="info" th:if="${purchase.getGame().getPrice() != 0}">
+                            <span class="text">게임가격: </span>
+                            <span class="price">[[${purchase.getGame().getPrice()}]]</span>
+                        </div>
+                        <div class="info" th:if="${purchase.getGame().getPrice() == 0}">
+                            <span class="price">[[${purchase.getGame().getPrice()}]]</span>
+                        </div>
+                        <div class="info" th:if="${purchase.getPrice().discountPrice != 0}">
+                            <span class="text -minus">할인가격: </span>
+                            <span class="price -minus">[[${purchase.getPrice().discountPrice}]]</span>
+                        </div>
+                        <div class="info" th:if="${purchase.getPrice().currentPrice != 0}">
+                            <span class="text">실 구매가격: </span>
+                            <span class="price -current">[[${purchase.getPrice().currentPrice}]]</span>
+                        </div>
+                    </td>
+                    <td class="line-bottom status" th:text="${purchase.getPurchase().getDeletedAt() == null? '구매' : '환불'}"></td>
+                    <td class="line-bottom refund-container">
+                        <button class="refund-btn" data-id="partial" th:if="${purchase.getPurchase().getDeletedAt == null && pay.isRefund() && purchase.getPrice().currentPrice != 0}">환불</button>
+                        <span class="gameIndex" hidden="hidden" th:text="${purchase.getGame().getIndex()}"></span>
+                        <span th:if="${purchase.getPurchase().getDeletedAt() != null}" th:text="${#temporals.format(purchase.getPurchase().getDeletedAt(), 'yyyy-MM-dd HH:mm:ss')}"></span>
+                    </td>
+                </tr>
+                <tr class="sub-title total-price">
+                    <td class="line"></td>
+                    <td class="empty"></td>
+                    <td class="price-info">
+                        <div class="info">
+                            <span class="text">총 게임가격: </span>
+                            <span class="price">[[${pay.getTotalGameAmount()}]]</span>
+                        </div>
+                        <div class="info" th:if="${pay.getTotalDiscount() != 0}">
+                            <span class="text -minus">총 할인가격: </span>
+                            <span class="price -minus">[[${pay.getTotalDiscount()}]]</span>
+                        </div>
+                        <div class="info" th:if="${pay.getPay().getRefundAmount() != 0}">
+                            <span class="text -minus">총 환불한 금액: </span>
+                            <span class="price -minus">[[${pay.getPay().getRefundAmount()}]]</span>
+                        </div>
+                        <div class="info" th:if="${pay.getPay().getAmount() != 0 && pay.getPay().getRefundAmount() == 0}">
+                            <span class="text">총 구매가격: </span>
+                            <span class="price">[[${pay.getPay().getAmount()}]]</span>
+                        </div>
+                        <div class="info" th:if="${pay.getPay().getAmount() != 0 && pay.getPay().getRefundAmount() != 0}">
+                            <span class="text">총 구매가격: </span>
+                            <span class="price">[[${pay.getPay().getAmount() - pay.getPay().getRefundAmount()}]]</span>
+                        </div>
+                    </td>
+                    <td class="status"></td>
+                    <td class="refund-container"></td>
+                </tr>
                 </tbody>
             </table>
         </div>

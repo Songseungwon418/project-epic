@@ -12,6 +12,7 @@
     <link rel="stylesheet" type="text/css" th:href="@{/assets/styles/common.css}">
     <link rel="stylesheet" type="text/css" th:href="@{/assets/styles/home.css}">
     <link rel="stylesheet" type="text/css" th:href="@{/game/assets/styles/browse.css}">
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@9"></script>
     <script defer type="text/javascript" th:src="@{'/game/assets/scripts/browse.js'}"></script>
     <script defer type="text/javascript" th:src="@{'/assets/scripts/common.js'}"></script>
     <script src="https://kit.fontawesome.com/856af35d3d.js" crossorigin="anonymous"></script>
@@ -201,7 +202,6 @@
                                      src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABgAAAAYCAYAAADgdz34AAAACXBIWXMAAAsTAAALEwEAmpwYAAAA6klEQVR4nOWVfQqCQBTEfxjZJcq6QwR9nqhI0o5RHaauIYaH6OMWGwsvELHV1e2PaGBAdJ1Zx33vwT+gAyyBGDgJI7nntRHuATvgCagPfAAh4NuK94HEIFxkBozqig9lZ8qSdyCoE0vWQFwJ06q4ohbiSrg1nRbTD1UWUZWerpUDcSWclxnsHRpEZQbHwqIzMAHGFZzI2vy7B9cGlzoG8bcjWjg0mJYZeA0rWBV4MzXB0IHBGgN0mV9biCdAlwoEUo1NohlUiedNUsud6xZvBV8al+lr9LNNnVhM8KS36On2Hpn6etZ2ZP4GXgs7DahOGsTvAAAAAElFTkSuQmCC"
                                      alt="plus--v1">
                             </button>
-
                             <div th:if="${gameWishlistStatus[game.getIndex()] == null or !gameWishlistStatus[game.getIndex()]}" class="tooltip">
                                 위시리스트에 추가
                             </div>
@@ -210,21 +210,30 @@
                             </div>
                         </div>
                         <div class="text-wrapper">
-                            <span style="margin-top: -0.5rem">기본 게임</span>
+                            <span>기본 게임</span>
                             <span class="gameName" th:text="${game.getName()}"></span>
-                            <span class="gamePrice" th:text="${game.getPrice()}"></span>
+                            <span class="gamePrice" th:if="${!#lists.contains(onSaleGames, game)}" th:text="${game.getPrice()}"></span>
+                            <div class="sale-info" th:if="${#lists.contains(onSaleGames, game)}">
+                                <div class="sale-percentage">
+                                    <span class="text" th:text="${'-10%'}"></span>
+                                </div>
+                                <del class="origin-price" th:text="${game.price}"></del>
+                                <span class="gamePrice" th:text="${game.price * 0.9}"></span>
+                            </div>
                             <span class="gameGenre" th:text="${game.getGenre()}" style="display: none"></span>
                             <span class="gameAge" th:text="${game.getGrGrac()}" style="display: none"></span>
                             <input id="userEmail" th:value="${userEmail}" type="hidden">
                         </div>
                     </a>
                 </div>
-
-
             </div>
 
             <div class="filter-container">
-                <h3 class="text">필터</h3>
+                <div class="text-wrapper">
+                    <h3 class="text">필터</h3>
+                    <span class="spring"></span>
+                    <button class="refresh" type="button">초기화</button>
+                </div>
 
                 <form class="keywordForm" id="keywordForm">
                     <button class="submit-button" type="submit">

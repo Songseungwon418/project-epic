@@ -11,6 +11,7 @@
     <script th:src="@{'/assets/scripts/loading.js'}"></script>
     <link rel="stylesheet" type="text/css" th:href="@{/assets/styles/common.css}">
     <link rel="stylesheet" type="text/css" th:href="@{/game/assets/styles/page.css}">
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@9"></script>
     <script defer type="text/javascript" th:src="@{'/game/assets/scripts/page.js'}"></script>
     <script defer type="text/javascript" th:src="@{'/game/assets/scripts/review.js'}"></script>
     <script defer type="text/javascript" th:src="@{'/assets/scripts/common.js'}"></script>
@@ -24,7 +25,8 @@
     <th:block th:replace="~{fragments/common.html :: mainSearch}"></th:block>
     <th:block th:replace="~{fragments/common.html :: logout}"></th:block>
 
-    <div class="age-check" id="ageCheck" th:if="${gameDetails.game.grGrac == 'ADULT' && (user == null || (user != null && !isAdult))}">>
+    <div class="age-check" id="ageCheck"
+         th:if="${gameDetails.game.grGrac == 'ADULT' && (user == null || (user != null && !isAdult))}">>
         <div id="cover" class="cover"></div>
         <div class="ageDialog" id="ageDialog">
             <div class="text-wrapper">
@@ -97,12 +99,13 @@
                                     <span class="date">DD</span>
                                     <span class="icon-wrapper">
                                         <span class="bar"></span>
-                                        <span class="image"><svg th:class="icon" xmlns="http://www.w3.org/2000/svg"
-                                                                 class="css-2ltokv" viewBox="0 0 24 24"
-                                                                 aria-hidden="true" data-testid="ArrowStrokeDownIcon"
-                                                                 focusable="false"><path fill-rule="evenodd"
-                                                                                         clip-rule="evenodd"
-                                                                                         d="M18.707 9.707L12 16.414 5.293 9.707l1.414-1.414L12 13.586l5.293-5.293 1.414 1.414z"></path></svg></span>
+                                        <span class="image"><svg th:class="icon" xmlns="http://www.w3.org/2000/svg" class="css-2ltokv" viewBox="0 0 24 24" aria-hidden="true" data-testid="ArrowStrokeDownIcon" focusable="false">
+                                            <path fill-rule="evenodd"
+                                                  clip-rule="evenodd"
+                                                  d="M18.707 9.707L12 16.414 5.293 9.707l1.414-1.414L12 13.586l5.293-5.293 1.414 1.414z">
+                                            </path>
+                                        </svg>
+                                        </span>
                                     </span>
 
                                 </span>
@@ -373,7 +376,7 @@
                                     <div class="text-wrapper">
                                         <span class="main text" th:text="${gameDetails.gameRating.getTitle()}"></span>
                                         <span class="sub text"
-                                              th:text="${gameDetails.gameRating.getTitle() == '전체이용가'? '' : '폭력성'}"></span>
+                                              th:text="${gameDetails.gameRating.getSubTitle()}"></span>
                                     </div>
                                 </div>
                             </div>

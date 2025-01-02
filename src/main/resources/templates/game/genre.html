@@ -11,6 +11,7 @@
     <script th:src="@{'/assets/scripts/loading.js'}"></script>
     <link rel="stylesheet" type="text/css" th:href="@{/assets/styles/common.css}">
     <link rel="stylesheet" type="text/css" th:href="@{/game/assets/styles/genre.css}">
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@9"></script>
     <script defer type="text/javascript" th:src="@{'/game/assets/scripts/genre.js'}"></script>
     <script defer type="text/javascript" th:src="@{'/assets/scripts/common.js'}"></script>
     <script src="https://kit.fontawesome.com/856af35d3d.js" crossorigin="anonymous"></script>
@@ -26,7 +27,8 @@
     <div class="mainSection">
         <section class="title">
             <div class="text">
-                <span class="main" th:text="${genre.getName() == '롤플레잉' ? 'RPG' : (genre.getName() == '실시간전략' ? 'RTS' : genre.getName())}"></span>
+                <span class="main"
+                      th:text="${genre.getName() == '롤플레잉' ? 'RPG' : (genre.getName() == '실시간전략' ? 'RTS' : genre.getName())}"></span>
                 <span id="genreTag" style="display:none;" th:text="${genre.getTag()}"></span>
                 <span class="sub" id="subTitle"></span>
             </div>
@@ -69,12 +71,15 @@
                     </div>
 
                     <div class="game-wrapper" id="gameWrapper">
-                        <a class="game" th:each="game, iterStat : ${games}" th:href="@{'/game/page' (index=${game.getIndex()})}" target="_self">
+                        <a class="game" th:each="game, iterStat : ${games}"
+                           th:href="@{'/game/page' (index=${game.getIndex()})}" target="_self">
                             <div class="mainImage">
-                                <img th:src="@{'/game/genre-image-all?index=' + ${iterStat.index} + '&tag=' + ${genre.getTag()}}" alt="게임포스터"
+                                <img th:src="@{'/game/genre-image-all?index=' + ${iterStat.index} + '&tag=' + ${genre.getTag()}}"
+                                     alt="게임포스터"
                                      th:if="${keyword == null || keyword.isEmpty()}">
                                 <!-- 검색된 게임 이미지 경로 -->
-                                <img th:src="@{'/game/genre-image-search?index=' + ${iterStat.index} + '&tag=' + ${genre.getTag()}  + '&keyword=' + ${keyword}}" alt="게임포스터"
+                                <img th:src="@{'/game/genre-image-search?index=' + ${iterStat.index} + '&tag=' + ${genre.getTag()}  + '&keyword=' + ${keyword}}"
+                                     alt="게임포스터"
                                      th:if="${keyword != null && !keyword.isEmpty()}">
 
                                 <button class="wishlist add" type="button"
@@ -94,18 +99,28 @@
                                          alt="plus--v1">
                                 </button>
 
-                                <div th:if="${gameWishlistStatus[game.getIndex()] == null or !gameWishlistStatus[game.getIndex()]}" class="tooltip">
+                                <div th:if="${gameWishlistStatus[game.getIndex()] == null or !gameWishlistStatus[game.getIndex()]}"
+                                     class="tooltip">
                                     위시리스트에 추가
                                 </div>
-                                <div th:if="${gameWishlistStatus[game.getIndex()] != null and gameWishlistStatus[game.getIndex()]}" class="tooltip">
+                                <div th:if="${gameWishlistStatus[game.getIndex()] != null and gameWishlistStatus[game.getIndex()]}"
+                                     class="tooltip">
                                     위시리스트에서 제거
                                 </div>
                             </div>
 
                             <div class="text-wrapper">
-                                <span style="margin-top: -0.5rem">기본 게임</span>
+                                <span>기본 게임</span>
                                 <span class="gameName" th:text="${game.name}"></span>
-                                <span class="gamePrice" th:text="${game.price}"></span>
+                                <span class="gamePrice" th:if="${!#lists.contains(onSaleGames, game)}"
+                                      th:text="${game.getPrice()}"></span>
+                                <div class="sale-info" th:if="${#lists.contains(onSaleGames, game)}">
+                                    <div class="sale-percentage">
+                                        <span class="text" th:text="${'-10%'}"></span>
+                                    </div>
+                                    <del class="origin-price" th:text="${game.price}"></del>
+                                    <span class="gamePrice" th:text="${game.price * 0.9}"></span>
+                                </div>
                                 <span class="gameGenre" th:text="${game.genre}" style="display: none"></span>
                                 <span class="gameAge" th:text="${game.grGrac}" style="display: none"></span>
                                 <input id="userEmail" th:value="${userEmail}" type="hidden">
@@ -117,7 +132,11 @@
                 </div>
 
                 <div class="filter-container">
-                    <h3 class="text">필터</h3>
+                    <div class="text-wrapper">
+                        <h3 class="text">필터</h3>
+                        <span class="spring"></span>
+                        <button class="refresh" type="button">초기화</button>
+                    </div>
 
                     <form class="keywordForm" id="keywordForm">
 
@@ -134,7 +153,8 @@
                         </button>
                         <label class="label">
                             <input name="tag" th:value="${genre.getTag()}" type="hidden">
-                            <input name="keyword" class="keyword" placeholder="키워드" autocomplete="off" spellcheck="false"
+                            <input name="keyword" class="keyword" placeholder="키워드" autocomplete="off"
+                                   spellcheck="false"
                                    type="search">
                         </label>
                     </form>
@@ -317,3 +337,4 @@
 <th:block th:replace="~{fragments/common.html :: footer}"></th:block>
 </body>
 </html>
+

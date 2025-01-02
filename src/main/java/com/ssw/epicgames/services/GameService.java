@@ -8,6 +8,7 @@ import com.ssw.epicgames.vos.GameVo;
 import org.json.JSONArray;
 import org.json.JSONObject;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.cache.annotation.Cacheable;
 import org.springframework.stereotype.Service;
 
 import java.io.IOException;
@@ -17,6 +18,9 @@ import java.net.http.HttpClient;
 import java.net.http.HttpRequest;
 import java.net.http.HttpResponse;
 import java.nio.charset.StandardCharsets;
+import java.time.LocalDateTime;
+import java.util.List;
+import java.util.stream.Collectors;
 
 @Service
 public class GameService {
@@ -60,6 +64,10 @@ public class GameService {
             return null;
         }
         return allGames[index];
+    }
+
+    public List<GameVo> getOnSaleGames() {
+        return gameMapper.selectSaleGameIndex();
     }
 
     public GameVo[] getAllGames() {

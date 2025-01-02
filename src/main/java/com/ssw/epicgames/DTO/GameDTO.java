@@ -7,6 +7,8 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.ToString;
 
+import java.io.Serializable;
+
 @Getter
 @AllArgsConstructor // 모든 필드를 인자로 받는 생성자 생성
 @NoArgsConstructor  // 기본 생성자 생성 (필요한 경우)
