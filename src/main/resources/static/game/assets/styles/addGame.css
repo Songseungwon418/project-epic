@@ -1,0 +1,317 @@
+html,
+body {
+  width: 100vw;
+  min-height: 100vh;
+  overflow-x: hidden;
+  overflow-y: auto;
+  color: #ffffff !important;
+}
+
+#main {
+  font-family: "Inter", sans-serif;
+  font-optical-sizing: auto;
+  font-weight: 400;
+  font-style: normal;
+  position: relative;
+  width: 75%;
+  max-width: 1600px;
+  margin-left: auto;
+  margin-right: auto;
+}
+#main > #add-game-form {
+  margin-bottom: 40px;
+  padding: 20px;
+  align-items: stretch;
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  justify-content: flex-start;
+  align-content: center;
+  flex-wrap: wrap;
+}
+#main > #add-game-form > .title {
+  font-size: 30px;
+  font-weight: 700;
+  color: #ffffff;
+}
+#main > #add-game-form > .cover.logo > .row > .image-wrapper {
+  width: 180px;
+  height: 102px;
+}
+#main > #add-game-form > .cover.mainImage > .row > .image-wrapper {
+  width: 150px;
+  height: 204px;
+}
+#main > #add-game-form > .cover > .row {
+  align-items: flex-start;
+  display: flex;
+  flex-direction: row;
+  gap: 10px;
+  justify-content: flex-start;
+}
+#main > #add-game-form > .cover > .row > .image-wrapper {
+  border: 1px solid #424242;
+  border-radius: 2.5px;
+  overflow: hidden;
+  position: relative;
+  cursor: pointer;
+}
+#main > #add-game-form > .cover > .row > .image-wrapper:hover {
+  border: 1px solid #6a6868;
+}
+#main > #add-game-form > .cover > .row > .image-wrapper:active {
+  border: 2px solid #6a6868;
+}
+#main > #add-game-form > .cover > .row > .image-wrapper > * {
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  box-sizing: border-box;
+  position: absolute;
+}
+#main > #add-game-form > .cover > .row > .image-wrapper > ._text {
+  align-items: center;
+  display: flex;
+  flex-direction: row;
+  justify-content: center;
+  color: #a0a0a0;
+  padding: 5px;
+  text-align: center;
+}
+#main > #add-game-form > .cover > .row > .image-wrapper > .image {
+  object-fit: cover;
+  object-position: center;
+}
+#main > #add-game-form > .cover > .row > .info-wrapper {
+  padding: 10px 0;
+  align-items: flex-start;
+  display: flex;
+  flex-direction: column;
+  gap: 5px;
+  justify-content: flex-start;
+}
+#main > #add-game-form > .cover > .row > .info-wrapper > .tip > code {
+  background-color: #424242;
+  border-radius: 2px;
+  font-size: 12px;
+  font-weight: 500;
+  padding: 1px 2px;
+  font-family: inherit;
+}
+#main > #add-game-form > .cover.image > .reset-button {
+  width: 130px;
+  border: none;
+  outline: none;
+  color: #a0a0a0;
+  text-align: center;
+  font-size: 12px;
+  padding: 1px 5px;
+}
+#main > #add-game-form > .cover.image > .reset-button:hover {
+  text-decoration: underline;
+  color: #ffffff;
+}
+#main > #add-game-form > .cover.image > .image-column {
+  align-items: flex-start;
+  display: flex;
+  flex-direction: row;
+  gap: 10px;
+  justify-content: flex-start;
+}
+#main > #add-game-form > .cover.image > .image-column > .image-wrapper {
+  width: 180px;
+  height: 150px;
+  border: 1px solid #424242;
+  border-radius: 2.5px;
+  overflow: hidden;
+  position: relative;
+  cursor: pointer;
+}
+#main > #add-game-form > .cover.image > .image-column > .image-wrapper:hover {
+  border: 1px solid #6a6868;
+}
+#main > #add-game-form > .cover.image > .image-column > .image-wrapper:active {
+  border: 2px solid #6a6868;
+}
+#main > #add-game-form > .cover.image > .image-column > .image-wrapper > * {
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  box-sizing: border-box;
+  position: absolute;
+}
+#main > #add-game-form > .cover.image > .image-column > .image-wrapper > ._text {
+  align-items: center;
+  display: flex;
+  flex-direction: row;
+  justify-content: center;
+  color: #a0a0a0;
+  padding: 5px;
+  text-align: center;
+}
+#main > #add-game-form > .cover.image > .image-column > .image-wrapper > .image {
+  object-fit: cover;
+  object-position: center;
+}
+#main > #add-game-form > .cover.image > .info-wrappers {
+  padding: 10px 0;
+  align-items: flex-start;
+  display: flex;
+  flex-direction: column;
+  gap: 5px;
+  justify-content: flex-start;
+}
+#main > #add-game-form > .cover.image > .info-wrappers > .tip > code {
+  background-color: #424242;
+  border-radius: 2px;
+  font-size: 12px;
+  font-weight: 500;
+  padding: 1px 2px;
+  font-family: inherit;
+}
+#main > #add-game-form > .spec-list {
+  display: flex;
+  flex-direction: row;
+  align-items: stretch;
+  justify-content: stretch;
+  gap: 5px;
+}
+#main > #add-game-form > .spec-list > .list {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  align-items: stretch;
+  justify-content: stretch;
+  gap: 10px;
+}
+#main > #add-game-form > .--label > .tag-wrapper {
+  align-items: stretch;
+  display: flex;
+  flex-direction: row;
+  gap: 20px;
+  justify-content: stretch;
+}
+#main > #add-game-form > .--label > .tag-wrapper > .--field {
+  flex: 1;
+}
+#main > #add-game-form > .--label > .summary {
+  padding: 4.5px 5px;
+  min-width: 300px;
+  height: 150px;
+  overflow: auto;
+  resize: none;
+}
+#main > #add-game-form > .--label > .description {
+  padding: 4.5px 5px;
+  min-width: 300px;
+  height: 500px;
+  overflow: auto;
+  resize: none;
+}
+#main > #add-game-form > .button-container {
+  margin-top: 10px;
+  align-items: center;
+  display: flex;
+  flex-direction: row;
+  gap: 10px;
+  justify-content: flex-end;
+}
+#main > #add-game-form > .button-container > a {
+  padding: 8px 20px;
+}
+
+.--label {
+  align-items: stretch;
+  display: flex;
+  flex-direction: column;
+  gap: 5px;
+  justify-content: flex-start;
+}
+.--label.-invalid > ._text {
+  color: #e74c3c;
+}
+.--label.-invalid > ._field:not(:disabled) {
+  border-color: #e74c3c !important;
+}
+.--label.-invalid > ._warning {
+  color: #e74c3c;
+  display: block;
+}
+.--label > ._text {
+  font-size: 14px;
+}
+.--label > ._warning {
+  display: none;
+  font-size: 16px;
+}
+
+.--field {
+  padding: 4.5px 5px;
+  min-width: 300px;
+  transition-duration: 250ms;
+  transition-property: border-color;
+  transition-timing-function: ease;
+}
+.--field.-dark {
+  background-color: #222324;
+  border: 1px solid #424242;
+  color: #ffffff;
+}
+.--field.-dark:hover {
+  border-color: rgb(91.5, 91.5, 91.5);
+}
+.--field.-dark:focus {
+  border-color: #01d345;
+}
+.--field.-light {
+  background-color: #ffffff;
+  border: 1px solid #eeeeee;
+  color: #212121;
+}
+.--field.-light:hover {
+  border-color: rgb(212.5, 212.5, 212.5);
+}
+.--field.-light:focus {
+  border-color: #01cd3d;
+}
+
+.--obj-button {
+  align-items: center;
+  display: flex;
+  flex-direction: row;
+  gap: 10px;
+  justify-content: flex-start;
+  font-size: 18px;
+  font-weight: 600;
+  cursor: pointer;
+  transition-duration: 125ms;
+  transition-property: background-color;
+  transition-timing-function: ease;
+  user-select: none;
+  white-space: nowrap;
+}
+.--obj-button.-simple-candy {
+  border-color: rgb(46.3857142857, 47.75, 49.1142857143);
+  border-style: solid;
+  border-width: 1px;
+  border-radius: 999rem;
+  color: #bdbdbd;
+  padding: 5px 10px;
+}
+.--obj-button.-simple-candy:hover {
+  border-color: rgb(52.5785714286, 54.125, 55.6714285714);
+  color: rgb(214.5, 214.5, 214.5);
+}
+.--obj-button.-simple-candy:hover {
+  border-color: rgb(58.7714285714, 60.5, 62.2285714286);
+  color: #f0f0f0;
+}
+
+.ck.ck-reset.ck-editor.ck-rounded-corners {
+  max-height: 500px;
+  overflow: auto;
+}
+
+/*# sourceMappingURL=addGame.css.map */

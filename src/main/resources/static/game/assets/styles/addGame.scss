@@ -379,3 +379,9 @@ body {
     }
   }
 }
+
+// CKEditor5 크기 지정함
+.ck.ck-reset.ck-editor.ck-rounded-corners {
+  max-height: 500px;
+  overflow: auto;
+}
