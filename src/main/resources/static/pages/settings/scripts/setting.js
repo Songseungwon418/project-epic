@@ -23,7 +23,11 @@ $mainContainer.onsubmit = (e) => {
         }
         const response = JSON.parse(xhr.responseText);
         if (response['result'] === 'success') {
-            alert("계정 수정에 성공하였습니다");
+            Swal.fire({
+                icon: "success",
+                title: "성공",
+                text: "계정 수정에 성공하였습니다."
+            })
         }else if (response['result'] === 'failure') {
             alert("계정 수정에 실패하였습니다");
         }

@@ -21,6 +21,9 @@ public interface GameMapper {
     GameEntity selectGameInfoByIndex(int index);
 
     /** 모든 게임 조회 */
+
+    List<GameVo> selectSaleGameIndex();
+
     GameEntity[] selectAllGameInfo();
 
     GameRatingEntity selectGameRatingByIndex(@Param("index") int index);

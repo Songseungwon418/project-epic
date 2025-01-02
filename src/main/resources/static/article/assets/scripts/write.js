@@ -393,8 +393,13 @@ ClassicEditor.create($writeForm['content'], editorConfig).then((editor) => {
         e.preventDefault();
 
         if (!userEmail) {
-            alert('로그인 후 이용가능합니다. 로그인 페이지로 이동합니다.');
-            window.location.href = '/user/';
+            Swal.fire({
+                icon: "info",
+                title: "로그인 후 이용 가능합니다.",
+                text: "로그인 페이지로 이동합니다."
+            }).then(() => {
+                window.location.href = '/user/';
+            });
             return;
         }
 
@@ -409,14 +414,22 @@ ClassicEditor.create($writeForm['content'], editorConfig).then((editor) => {
                 return
             }
             if (xhr.status < 200 || xhr.status >= 300) {
-                alert('게시글을 작성하지 못하였습니다. 잠시 후 다시 시도해 주세요.');
+                Swal.fire({
+                    title: "서버가 알 수 없는 응답을 반환하였습니다.",
+                    text: "잠시 후 시도해 주세요.",
+                    icon: "warning"
+                });
                 return;
             }
             const response = JSON.parse(xhr.responseText);
             if (response['result'] === 'success') {
                 location.href = `./read?index=${response['index']}`;
             } else {
-                alert('게시글을 작성하지 못하였습니다. 잠시 후 다시 시도해 주세요.')
+                Swal.fire({
+                    title: "실패",
+                    text: "게시글을 작성하지 못하였습니다. 잠시 후 다시 시도해 주세요.",
+                    icon: "error"
+                });
             }
         };
         xhr.open('POST', location.href);

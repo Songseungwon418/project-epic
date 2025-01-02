@@ -42,20 +42,37 @@ document.addEventListener('DOMContentLoaded', () => {
                     return
                 }
                 if (xhr.status < 200 || xhr.status >= 300) {
-                    alert('게시글을 삭제하지 못하였습니다. 잠시 후 다시 시도해 주세요.')
+                    Swal.fire({
+                        title: "실패",
+                        text: "게시글을 삭제하지 못하였습니다. 잠시 후 다시 시도해 주세요.",
+                        icon: "error"
+                    });
                     return;
                 }
                 const response = JSON.parse(xhr.responseText);
                 switch (response['result']) {
                     case 'failure':
-                        alert('게시글을 삭제하지 못하였습니다. 잠시 후 다시 시도해 주세요.');
+                        Swal.fire({
+                            title: "실패",
+                            text: "게시글을 삭제하지 못하였습니다. 잠시 후 다시 시도해 주세요.",
+                            icon: "error"
+                        });
                         break;
                     case 'success':
-                        alert('게시글을 삭제했습니다.');
-                        location.href = $main.querySelector('.button.back').href;
+                        Swal.fire({
+                            icon: "success",
+                            title: "성공",
+                            text: "게시글을 삭제했습니다."
+                        }).then(() => {
+                            location.href = $main.querySelector('.button.back').href;
+                        });
                         break;
                     default:
-                        alert('서버가 알 수 없는 응답을 반환하였습니다. 삭제 결과를 반드시 확인해 주세요.')
+                        Swal.fire({
+                            title: "서버가 알 수 없는 응답을 반환하였습니다.",
+                            text: "삭제 결과를 반드시 확인해 주세요.",
+                            icon: "question"
+                        });
                         break;
                 }
             };
@@ -95,7 +112,11 @@ document.addEventListener('DOMContentLoaded', () => {
     if ($DeleteCommentConfirm) {
         $DeleteCommentConfirm.addEventListener('click', () => {
             if (!selectedCommentIndex) {
-                alert('삭제할 댓글이 선택되지 않았습니다.');
+                Swal.fire({
+                    title: "삭제할 댓글이 선택되지 않았습니다.",
+                    text: "잠시 후 시도해 주세요.",
+                    icon: "question"
+                });
                 return;
             }
             const url = location.href;
@@ -107,20 +128,37 @@ document.addEventListener('DOMContentLoaded', () => {
                     return
                 }
                 if (xhr.status < 200 || xhr.status >= 300) {
-                    alert('댓글을 삭제하지 못하였습니다. 잠시 후 다시 시도해 주세요.')
+                    Swal.fire({
+                        title: "실패",
+                        text: "댓글을 삭제하지 못하였습니다. 잠시 후 다시 시도해 주세요.",
+                        icon: "error"
+                    });
                     return;
                 }
                 const response = JSON.parse(xhr.responseText);
                 switch (response['result']) {
                     case 'failure':
-                        alert('댓글을 삭제하지 못하였습니다. 잠시 후 다시 시도해 주세요.');
+                        Swal.fire({
+                            title: "실패",
+                            text: "댓글을 삭제하지 못하였습니다. 잠시 후 다시 시도해 주세요.",
+                            icon: "error"
+                        });
                         break;
                     case 'success':
-                        alert('댓글을 삭제했습니다.');
-                        location.reload();
+                        Swal.fire({
+                            icon: "success",
+                            title: "성공",
+                            text: "댓글을 삭제했습니다."
+                        }).then(() => {
+                            location.reload();
+                        });
                         break;
                     default:
-                        alert('서버가 알 수 없는 응답을 반환하였습니다. 삭제 결과를 반드시 확인해 주세요.')
+                        Swal.fire({
+                            title: "서버가 알 수 없는 응답을 반환하였습니다.",
+                            text: "삭제결과를 반드시 확인해 주세요.",
+                            icon: "question"
+                        });
                         break;
                 }
             };
@@ -164,7 +202,7 @@ const appendComment = (comment) => {
                 <input name="commentIndex" type="hidden" value="${comment['index']}">
                     <label class="label spring">
                         <span class="text">내용</span>
-                        <textarea name="content" class="field" maxlength="100" minlength="1" placeholder="답글 내용을 작성해 주세요." required></textarea>
+                        <textarea name="content" class="field" spellcheck="false" maxlength="100" minlength="1" placeholder="답글 내용을 작성해 주세요." required></textarea>
                     </label>
                     <div class="button-container">
                         <button class="button reply" type="submit">답글 쓰기</button>
@@ -175,7 +213,7 @@ const appendComment = (comment) => {
                 <form class="form modify">
                     <label class="label spring">
                         <span class="text">내용</span>
-                        <textarea name="content" class="field" maxlength="100" minlength="1" required>${comment['content']}</textarea>
+                        <textarea name="content" class="field" spellcheck="false" maxlength="100" minlength="1" required>${comment['content']}</textarea>
                     </label>
                     <div class="button-container">
                         <button class="button modify" type="submit">댓글 수정</button>
@@ -211,7 +249,7 @@ const appendComment = (comment) => {
         e.preventDefault();
 
         if ($modifyForm['content'].value === '') {
-            alert('내용을 입력해 주세요.');
+            Swal.fire("내용을 입력해 주세요.");
             return;
         }
 
@@ -224,20 +262,36 @@ const appendComment = (comment) => {
                 return;
             }
             if (xhr.state < 200 || xhr.state >= 300) {
-                alert('댓글을 수정하지 못하였습니다. 잠시 후 다시 시도해 주세요.')
+                Swal.fire({
+                    title: "서버가 알 수 없는 응답을 반환하였습니다.",
+                    text: "잠시 후 시도해 주세요.",
+                    icon: "warning"
+                });
                 return;
             }
             const response = JSON.parse(xhr.responseText);
             switch (response['result']) {
                 case 'failure':
-                    alert('알 수 없는 이유로 댓글을 수정하지 못하였습니다. 잠시 후 다시 시도해 주세요.');
+                    Swal.fire({
+                        title: "실패",
+                        text: "댓글을 수정하지 못하였습니다. 잠시 후 다시 시도해 주세요.",
+                        icon: "error"
+                    });
                     break;
                 case 'success':
                     loadComments();
-                    alert('댓글을 수정했습니다.')
+                    Swal.fire({
+                        title: "성공",
+                        text: "댓글을 수정하였습니다.",
+                        icon: "success"
+                    });
                     break;
                 default:
-                    alert('서버가 알 수 없는 응답을 반환하였습니다. 수정 결과를 반드시 확인해 주세요.')
+                    Swal.fire({
+                        title: "서버가 알 수 없는 응답을 반환하였습니다.",
+                        text: "수정결과를 반드시 확인해 주세요.",
+                        icon: "question"
+                    });
                     break;
             }
         };
@@ -266,7 +320,11 @@ const loadComments = () => {
             return;
         }
         if (xhr.state < 200 || xhr.state >= 300) {
-            alert('댓글 정보를 불러오지 못하였습니다. 잠시 후 다시 시도해 주세요.')
+            Swal.fire({
+                title: "서버가 알 수 없는 응답을 반환하였습니다.",
+                text: "잠시 후 시도해 주세요.",
+                icon: "warning"
+            });
             return;
         }
         const allComments = JSON.parse(xhr.responseText);
@@ -281,7 +339,7 @@ loadComments();
 
 const postComment = ($form) => {
     if ($form['content'].value === '') {
-        alert('내용을 입력해 주세요.');
+        Swal.fire("내용을 입력해 주세요.");
         return;
     }
 
@@ -302,13 +360,21 @@ const postComment = ($form) => {
             return;
         }
         if (xhr.status < 200 || xhr.status >= 300) {
-            alert('댓글을 작성하지 못하였습니다. 잠시 후 다시 시도해 주세요.');
+            Swal.fire({
+                title: "서버가 알 수 없는 응답을 반환하였습니다.",
+                text: "잠시 후 시도해 주세요.",
+                icon: "warning"
+            });
             return;
         }
 
         const response = JSON.parse(xhr.responseText);
         if (response.result !== 'success') {
-            alert('댓글 작성에 실패했습니다.');
+            Swal.fire({
+                title: "실패",
+                text: "댓글을 수정하지 못하였습니다. 잠시 후 다시 시도해 주세요.",
+                icon: "error"
+            });
             return;
         }
 
