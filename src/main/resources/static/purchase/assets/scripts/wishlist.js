@@ -318,15 +318,27 @@ const sortGameList = (criteria) => {
             document.body.style.cursor = 'default';
             document.body.userSelect = 'all';
             if (xhr.status < 200 || xhr.status >= 300){
-                alert('서버가 알 수 없는 응답을 반환하였습니다. 잠시 후 시도해 주세요.');
+                Swal.fire({
+                    title: "서버가 알 수 없는 응답을 반환하였습니다.",
+                    text: "잠시 후 시도해 주세요.",
+                    icon: "warning"
+                });
                 return;
             }
             const response = JSON.parse(xhr.responseText);
             if (response.result === 'failure'){
-                alert('오류: 제거에 실패하였습니다.');
+                Swal.fire({
+                    title: "실패",
+                    text: "제거에 실패하였습니다.",
+                    icon: "error"
+                });
             }
             else if(response.result === 'failure_not_found'){
-                alert('오류: 이미 위시리스트에 없어서 제거에 실패하였습니다.');
+                Swal.fire({
+                    title: "실패",
+                    text: "이미 위시리스트에 없어서 제거에 실패하였습니다.",
+                    icon: "error"
+                });
             }
             else if(response.result === 'success'){
                 const $removeContainer = document.createElement('div');
@@ -360,26 +372,45 @@ const sortGameList = (criteria) => {
                         if(xhr.readyState !== XMLHttpRequest.DONE){
                             return;
                         }
-
                         if (xhr.status < 200 || xhr.status >= 300){
-                            alert('서버가 알 수 없는 응답을 반환하였습니다. 잠시 후 시도해 주세요.');
+                            Swal.fire({
+                                title: "서버가 알 수 없는 응답을 반환하였습니다.",
+                                text: "잠시 후 시도해 주세요.",
+                                icon: "warning"
+                            });
                             return;
                         }
                         const response = JSON.parse(xhr.responseText);
                         if (response.result === 'failure'){
-                            alert('오류: 잘못된 요청입니다.(실패)');
+                            Swal.fire({
+                                title: "실패",
+                                text: "잘못된 요청입니다.",
+                                icon: "error"
+                            });
                         }
                         else if(response.result === 'failure_not_found'){
-                            alert('오류: 잘못된 요청입니다.(존재하지않음)');
+                            Swal.fire({
+                                title: "실패",
+                                text: "찾을 수 없습니다.",
+                                icon: "error"
+                            });
                         }
                         else if (response.result === 'failure_duplicate_wishlist'){
-                           alert('오류: 이미 실행 취소된 목록입니다.');
+                            Swal.fire({
+                                title: "실패",
+                                text: "이미 실행 취소된 목록입니다.",
+                                icon: "error"
+                            });
                         }
                         else if(response.result === 'success'){
                             $removeContainer.remove(); // 제거됨부분 없앰
                             $gameCard.removeHide(); // 해당 게임 목록 다시 보여줌
                         } else {
-                            alert('오류: 알수없는 이유로 실행 취소 요청이 실패하였습니다.');
+                            Swal.fire({
+                                title: "실패",
+                                text: "알수없는 이유로 실행 취소 요청이 실패하였습니다.",
+                                icon: "error"
+                            });
                         }
                     };
                     xhr.open('PATCH', '/purchase/wishlist/cancel');
@@ -398,7 +429,11 @@ const sortGameList = (criteria) => {
                 // 해당 게임 목록 없앰
                 $gameCard.removeShow();
             } else {
-                alert('오류: 알수없는 이유로 제거에 실패하였습니다.');
+                Swal.fire({
+                    title: "실패",
+                    text: "알수없는 이유로 제거에 실패하였습니다.",
+                    icon: "error"
+                });
             }
         };
         xhr.open('PATCH', '/purchase/wishlist/delete');
@@ -436,21 +471,41 @@ const sortGameList = (criteria) => {
             document.body.userSelect = 'all';
             Loading.hide();
             if (xhr.status < 200 || xhr.status >= 300){
-                alert('서버가 알 수 없는 응답을 반환하였습니다. 잠시 후 시도해 주세요.');
+                Swal.fire({
+                    title: "서버가 알 수 없는 응답을 반환하였습니다.",
+                    text: "잠시 후 시도해 주세요.",
+                    icon: "warning"
+                });
                 return;
             }
             const response = JSON.parse(xhr.responseText);
             if (response.result === 'failure'){
-                alert('오류: 장바구니 담기에 실패하였습니다.');
+                Swal.fire({
+                    title: "실패",
+                    text: "장바구니 담기에 실패하였습니다.",
+                    icon: "error"
+                });
             }
             else if(response.result === 'failure_duplicate_cart'){
-                alert('오류: 이미 장바구니에 있습니다.');
+                Swal.fire({
+                    title: "실패",
+                    text: "이미 장바구니에 있습니다.",
+                    icon: "error"
+                });
             }
             else if(response.result === 'failure_not_found'){
-                alert('오류: 찾을 수 없습니다.');
+                Swal.fire({
+                    title: "실패",
+                    text: "찾을 수 없습니다.",
+                    icon: "error"
+                });
             }
             else if(response.result === 'failure_age_limit'){
-                alert('오류: 구매할 수 없는 나이의 게임이라서 장바구니 담기에 실패하였습니다.');
+                Swal.fire({
+                    title: "실패",
+                    text: "구매할 수 없는 나이의 게임이라서 장바구니 담기에 실패하였습니다.",
+                    icon: "error"
+                });
             }
             else if(response.result === 'success'){
                 btn.querySelector(':scope > .text').innerText = '장바구니 보기';

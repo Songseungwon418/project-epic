@@ -469,6 +469,7 @@ public class PurchaseService {
         for (PayEntity pay: payList) {
             int totalGameAmount = 0;
             int totalDiscount = 0;
+            int totalAmount = 0;
             String payId = pay.getId();
             List<PurchaseEntity> purchaseList = this.purchaseMapper.selectPurchaseByPayId(payId);
             List<PurchaseDTO> purchaseDTOList = new ArrayList<>();  // PurchaseDTO 객체를 저장할 PurchaseDTO 리스트
@@ -476,7 +477,8 @@ public class PurchaseService {
                 GameEntity game = this.gameService.getGameByIndex(purchase.getGameIndex());
                 PriceVo price = this.priceService.discountInfo(game.getIndex(), game.getPrice());
 
-                totalGameAmount += game.getPrice();//원본 게임 가격 더함(총 가격 구하기)-환불여부 상관없이
+                totalAmount += price.getCurrentPrice();//실 구매 가격
+                totalGameAmount += game.getPrice(); // 총 게임 가격
 
                 // 환불 유무 확인(구매면 null) - 구매한 게임의 할인 가격만
                 if (purchase.getDeletedAt() == null){
@@ -500,6 +502,7 @@ public class PurchaseService {
             PayDTO payDTO = PayDTO.builder()
                     .pay(pay)
                     .purchase(purchaseDTOList.isEmpty() ? null : purchaseDTOList)
+                    .totalAmount(totalAmount) // 실제 구매 총 가격
                     .totalGameAmount(totalGameAmount) // 할인적용안된 게임의 총 가격
                     .totalDiscount(totalDiscount) // 총 할인금액
                     .isRefund(isRefund) //환불여부

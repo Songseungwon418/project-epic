@@ -235,6 +235,9 @@ document.addEventListener('DOMContentLoaded', () => {
 
 //region 환불관련
 {
+    // 로딩 화면 요소
+    const $loading = document.getElementById("loading");
+
     const $purchaseTable = document.getElementById('purchase-table');
     const $RefundRequestBtns = $purchaseTable.querySelectorAll('.refund-btn');
     const $refundDialog = document.getElementById('refund-dialog');
@@ -304,37 +307,67 @@ document.addEventListener('DOMContentLoaded', () => {
             if(xhr.readyState !== XMLHttpRequest.DONE){
                 return;
             }
-            Loading.hide();
+            $loading.style.display = 'none';  // 로딩 화면 숨기기
             if (xhr.status < 200 || xhr.status >= 300){
-                alert('서버가 알 수 없는 응답을 반환하였습니다. 잠시 후 시도해 주세요.');
+                Swal.fire({
+                    title: "서버가 알 수 없는 응답을 반환하였습니다.",
+                    text: "잠시 후 시도해 주세요.",
+                    icon: "warning"
+                });
                 return;
             }
             const response = JSON.parse(xhr.responseText);
             if (response['result'] === 'failure' || response['result'] === 'failure_unsigned'){
-                alert('환불에 실패하였습니다.');
-                // 모달창 닫기
-                $closeRefundDialogBtn.click();
+                Swal.fire({
+                    title: "실패",
+                    text: "환불에 실패하였습니다.",
+                    icon: "error"
+                }).then(() => {
+                    // 모달창 닫기
+                    $closeRefundDialogBtn.click();
+                });
             }else if (response['result'] === 'failure_duplicate_refund'){
-                alert('이미 환불한 내역입니다. 환불에 실패하였습니다.');
-                // 모달창 닫기
-                $closeRefundDialogBtn.click();
+                Swal.fire({
+                    title: "실패",
+                    text: "이미 환불한 내역입니다. 환불에 실패하였습니다.",
+                    icon: "error"
+                }).then(() => {
+                    // 모달창 닫기
+                    $closeRefundDialogBtn.click();
+                });
             } else if (response['result'] === 'failure_date_passed') {
-                alert('환불할 수 있는 기간이 지났습니다. 환불에 실패하였습니다.');
-                // 모달창 닫기
-                $closeRefundDialogBtn.click();
+                Swal.fire({
+                    title: "실패",
+                    text: "환불할 수 있는 기간이 지났습니다. 환불에 실패하였습니다.",
+                    icon: "error"
+                }).then(() => {
+                    // 모달창 닫기
+                    $closeRefundDialogBtn.click();
+                });
             } else if(response['result'] === 'success'){
-                alert('환불 성공하였습니다.');
-                document.body.style.cursor = 'not-allowed'; // 마우스 클릭 금지표시
                 $closeRefundDialogBtn.click();// 모달창 닫기
-                Loading.show();
-                return window.parent.location.href = '/page/setting?showPurchaseList=true'; // 결제내역 재접속
+                Swal.fire({
+                    icon: "success",
+                    title: "성공",
+                    text: "환불 성공하였습니다."
+                }).then(() => {
+                    document.body.style.cursor = 'not-allowed'; // 마우스 클릭 금지표시
+                    return window.parent.location.href = '/page/setting?showPurchaseList=true'; // 결제내역 재접속
+                });
             }else {
-                alert('알수 없는 이유로 환불에 실패하였습니다.');
+                Swal.fire({
+                    title: "실패",
+                    text: "알수 없는 이유로 환불에 실패하였습니다.",
+                    icon: "error"
+                }).then(() => {
+                    // 모달창 닫기
+                    $closeRefundDialogBtn.click();
+                });
             }
         };
         xhr.open('PATCH', '/purchase/patch');
         xhr.send(formData);
-        Loading.show();
+        $loading.style.display = 'flex';  // 페이지 이동 전 로딩 화면 표시
     };
 }
 //endregion

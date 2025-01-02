@@ -53,16 +53,28 @@ if($openModalBtn !== null){
                     return;
                 }
                 if (xhr.status < 200 || xhr.status >= 300){
-                    alert('서버가 알 수 없는 응답을 반환하였습니다. 잠시 후 시도해 주세요.');
+                    Swal.fire({
+                        title: "서버가 알 수 없는 응답을 반환하였습니다.",
+                        text: "잠시 후 시도해 주세요.",
+                        icon: "warning"
+                    });
                     return;
                 }
                 //요청 성공 로직 구현
                 const response = JSON.parse(xhr.responseText);
                 if (response.result === 'failure'){
-                    alert('오류: 제거에 실패하였습니다.');
+                    Swal.fire({
+                        title: "실패",
+                        text: "제거에 실패하였습니다.",
+                        icon: "error"
+                    });
                 }
                 else if(response.result === 'failure_not_found'){
-                    alert('오류: 이미 장바구니에 없어서 제거에 실패하였습니다.');
+                    Swal.fire({
+                        title: "실패",
+                        text: "이미 장바구니에 없어서 제거에 실패하였습니다.",
+                        icon: "error"
+                    });
                 }
                 else if(response.result === 'success'){
                     document.body.style.cursor = 'not-allowed';
@@ -104,19 +116,35 @@ if($openModalBtn !== null){
                 }
                 document.body.style.cursor = 'default';
                 if (xhr.status < 200 || xhr.status >= 300){
-                    alert('서버가 알 수 없는 응답을 반환하였습니다. 잠시 후 시도해 주세요.');
+                    Swal.fire({
+                        title: "서버가 알 수 없는 응답을 반환하였습니다.",
+                        text: "잠시 후 시도해 주세요.",
+                        icon: "warning"
+                    });
                     return;
                 }
                 //요청 성공 로직 구현
                 const response = JSON.parse(xhr.responseText);
                 if (response.result === 'failure'){
-                    alert('오류: 위시리스트 담기에 실패하였습니다.');
+                    Swal.fire({
+                        title: "실패",
+                        text: "위시리스트 담기에 실패하였습니다.",
+                        icon: "error"
+                    });
                 }
                 else if(response.result === 'failure_duplicate_wishlist'){
-                    alert('오류: 이미 위시리스트에 있습니다.');
+                    Swal.fire({
+                        title: "실패",
+                        text: "이미 위시리스트에 있습니다.",
+                        icon: "error"
+                    });
                 }
                 else if(response.result === 'failure_not_found'){
-                    alert('오류: 찾을 수 없습니다.');
+                    Swal.fire({
+                        title: "실패",
+                        text: "찾을 수 없습니다.",
+                        icon: "error"
+                    });
                 }
                 else if(response.result === 'success'){
                     btn.innerText = '위시리스트 보기';
