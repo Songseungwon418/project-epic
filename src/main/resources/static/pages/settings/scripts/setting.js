@@ -19,7 +19,11 @@ $mainContainer.onsubmit = (e) => {
             return;
         }
         if (xhr.status < 200 || xhr.status >= 300) {
-            alert("오류가 발생하였습니다. 다시 시도해 주세요.");
+            Swal.fire({
+                title: "서버가 알 수 없는 응답을 반환하였습니다.",
+                text: "잠시 후 시도해 주세요.",
+                icon: "warning"
+            });
             return;
         }
         const response = JSON.parse(xhr.responseText);
@@ -32,13 +36,29 @@ $mainContainer.onsubmit = (e) => {
                 location.reload();
             });
         }else if (response['result'] === 'failure') {
-            alert("계정 수정에 실패하였습니다");
+            Swal.fire({
+                title: "실패하였습니다.",
+                text: "계정수정에 실패하였습니다. 다시 한번 확인해 주세요.",
+                icon: "warning"
+            });
         } else if (response['result'] === 'failure_duplicate_phone') {
-            alert("입력하신 연락처는 이미 사용중입니다. 다른 연락처를 사용해 주세요.");
+            Swal.fire({
+                title: "연락처가 이미 사용중 입니다.",
+                text: "입력하신 연락처는 이미 사용중입니다. 다른 연락처를 사용해 주세요.",
+                icon: "warning"
+            });
         } else if (response['result'] === 'failure_duplicate_nickname') {
-            alert("입력하신 닉네임은 이미 사용중입니다. 다른 닉네임을 사용해 주세요.");
+            Swal.fire({
+                title: "닉네임이 이미 사용중 입니다.",
+                text: "입력하신 닉네임은 이미 사용중입니다. 다른 닉네임을 사용해 주세요.",
+                icon: "warning"
+            });
         } else if(response['result'] === 'failure_invalid_date_format') {
-            alert("입력하신 날짜는 현재시간을 넘어간 시간입니다. 사용자의 생년월일을 작성해주세요.")
+            Swal.fire({
+                title: "날짜를 다시 확인해 주세요.",
+                text: "입력하신 날짜는 현재시간을 넘어간 시간입니다. 사용자의 생년월일을 입력해주세요.",
+                icon: "warning"
+            });
         }
     };
     xhr.open('PATCH', '/page/setting');
@@ -57,16 +77,28 @@ $recoverPassword.onsubmit = (e) => {
         }
         $loading.style.display = 'none';
         if (xhr.status < 200 || xhr.status >= 300) {
-            alert("요청을 전송하는 도중 오류가 발생하였습니다. 잠시 후 다시 시도해 주세요.")
+            Swal.fire({
+                title: "서버가 알 수 없는 응답을 반환하였습니다.",
+                text: "잠시 후 시도해 주세요.",
+                icon: "warning"
+            });
             return;
         }
         const response = JSON.parse(xhr.responseText);
         if(response['result'] === 'failure') {
-            alert("입력하신 이메일과 일치하는 계정 정보를 찾을 수 없습니다. 다시 입력해주세요.")
-            return;
+            Swal.fire({
+                title: "찾을 수 없습니다.",
+                text: "입력하신 이메일과 일치하는 계정 정보를 찾을 수 없습니다. 다시 입력해주세요.",
+                icon: "warning"
+            });
         } else if (response['result'] === 'success') {
-            alert("입력하신 이메일로 비밀번호를 재설정할 수 있는 링크를 포함한 메일을 전송하였습니다.")
-            location.reload();
+            Swal.fire({
+                icon: "success",
+                title: "이메일을 확인해 주세요.",
+                text: "이메일로 비밀번호를 재설정할 수 있는 링크를 포함한 메일을 전송하였습니다."
+            }).then(() => {
+                location.href = '/page/setting'
+            });
         }
     };
     xhr.open('POST', `/page/setting`);
