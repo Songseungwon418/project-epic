@@ -311,24 +311,62 @@
               font-size: 1.3rem;
               color: #ffffffa6;
               letter-spacing: normal;
+              margin-top: -1.5rem;
 
               display: flex;
               flex-direction: column;
               align-items: flex-start;
               justify-content: flex-start;
-              gap: 1.2rem;
+              gap: 0.5rem;
 
               > .gameName {
                 color: #ffffff;
                 font-size: 1.7rem;
                 font-weight: bold;
+                line-height: 1.2;
               }
 
               > .gamePrice {
                 color: #ffffff;
                 font-size: 1.4rem;
                 font-weight: bold;
-                margin-top: 0.5rem;
+                margin-top: 0.6rem;
+              }
+
+              > .sale-info {
+                display: flex;
+                flex-direction: row;
+                align-items: center;
+                justify-content: center;
+                gap: 1rem;
+                margin-top: 0.3rem;
+
+
+                > .sale-percentage {
+                  width: 5rem;
+                  height: 2rem;
+                  border-radius: 2rem;
+                  background-color: #26BBFF;
+                  text-align: center;
+                  line-height: 1.6;
+
+                  > .text {
+                    color: #000000;
+                    font-weight: 500;
+                    letter-spacing: 0.05rem;
+                  }
+                }
+
+                > .origin-price {
+                  color: #ffffffa6;
+                  font-size: 1.38rem;
+                }
+
+                > .gamePrice {
+                  color: #ffffff;
+                  font-size: 1.38rem;
+                  font-weight: bold;
+                }
               }
             }
           }
@@ -340,15 +378,37 @@
         width: 20%;
         margin-top: 2rem;
 
-        > .text {
-          color: #ffffff;
-          font-size: 1.8rem;
-          font-weight: bold;
+        > .text-wrapper{
+          width: 100%;
+          display: flex;
+          flex-direction: row;
+          align-items: center;
+          justify-content: flex-start;
+
+          > .text {
+            color: #ffffff;
+            font-size: 1.8rem;
+            font-weight: bold;
+          }
+
+          > .spring {
+            flex-grow: 1;
+          }
+
+          > .refresh {
+            outline: none;
+            border: none;
+            color: #26BBFF;
+
+            &:hover {
+              text-decoration: underline;
+            }
+          }
         }
+
 
         > .keywordForm {
           position: relative;
-          margin-top: 1rem;
 
           > .submit-button {
             border: none;

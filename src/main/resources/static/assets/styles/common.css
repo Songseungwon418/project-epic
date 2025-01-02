@@ -160,7 +160,7 @@ button {
 }
 #header > .header-container > .menu-toggle > .menu {
     display: none;
-    top: 4.8rem;
+    top: 4.5rem;
     left: 0;
     position: absolute;
     max-height: 54rem;
@@ -365,7 +365,7 @@ button {
 #header .header-nav > .release > .item-container {
     display: none;
     position: absolute;
-    top: 4rem;
+    top: 3.5rem;
     left: 1rem;
     height: 18rem;
     width: 23rem;

@@ -62,7 +62,7 @@ const appendComment = (review) => {
                     </div>
                     <label class="label">
                         <span class="text">구매후기</span>
-                        <textarea name="modifyContent" class="field" maxlength="16777215" minlength="1" required placeholder="수정할 내용을 입력해 주세요.">${review['content']}</textarea>
+                        <textarea name="modifyContent" class="field" spellcheck="false" maxlength="16777215" minlength="1" required placeholder="수정할 내용을 입력해 주세요.">${review['content']}</textarea>
                     </label>
                 </div>
                 <div class="button-container">
@@ -84,12 +84,12 @@ const appendComment = (review) => {
             const $starRating = $modifyForm.querySelector('[name="starRating"]:checked');
 
             if (!$modifyContent.value.trim()) {
-                alert('내용을 입력해 주세요.');
+                Swal.fire("내용을 입력해 주세요.");
                 return;
             }
 
             if (!$starRating) {
-                alert('별점을 선택해 주세요.');
+                Swal.fire("별점을 선택해 주세요.");
                 return;
             }
 
@@ -105,21 +105,38 @@ const appendComment = (review) => {
                     return;
                 }
                 if (xhr.status < 200 || xhr.status >= 300) {
-                    alert('댓글을 수정하지 못하였습니다. 잠시 후 다시 시도해 주세요.');
+                    Swal.fire({
+                        title: "서버가 알 수 없는 응답을 반환하였습니다.",
+                        text: "수정 결과를 반드시 확인해 주세요.",
+                        icon: "warning"
+                    });
                     return;
                 }
 
                 const response = JSON.parse(xhr.responseText);
                 switch (response['result']) {
                     case 'failure':
-                        alert('알 수 없는 이유로 댓글을 수정하지 못하였습니다. 잠시 후 다시 시도해 주세요.');
+                        Swal.fire({
+                            title: "실패",
+                            text: "댓글을 수정하지 못하였습니다. 잠시 후 다시 시도해 주세요.",
+                            icon: "error"
+                        });
                         break;
                     case 'success':
-                        alert('댓글을 수정하였습니다.');
-                        loadComments(currentPage); // 현재 페이지 유지
+                        Swal.fire({
+                            icon: "success",
+                            title: "성공",
+                            text: "댓글을 수정하였습니다."
+                        }).then(() => {
+                            loadComments(currentPage)
+                        });
                         break;
                     default:
-                        alert('서버가 알 수 없는 응답을 반환하였습니다. 수정 결과를 반드시 확인해 주세요.');
+                        Swal.fire({
+                            title: "서버가 알 수 없는 응답을 반환하였습니다.",
+                            text: "수정 결과를 반드시 확인해 주세요.",
+                            icon: "warning"
+                        });
                         break;
                 }
             };
@@ -166,10 +183,21 @@ const loadComments = (page = 1) => {
 
             $list.innerHTML = ''; // 댓글 리스트 초기화
             if (reviews.length === 0) {
-                const $noReviewsMessage = document.createElement('div');
-                $noReviewsMessage.className = 'nothing';
+                const $noReviews = document.createElement('div');
+                $noReviews.className = 'nothing';
+
+                const $noReviewImage = document.createElement('img');
+                $noReviewImage.classList.add('image')
+                $noReviewImage.src = 'data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAADIAAAAyCAYAAAAeP4ixAAAACXBIWXMAAAsTAAALEwEAmpwYAAADrklEQVR4nO3ZW4ydUxQH8I1WK1Va4cU1k6pLSkIj4UFKPGk8SCvVUYk3SUWFCHGLCE9IXcoTwQsRDaJJXeoaEkHdBq1BkCalioigF0r4yc5ZJ/kyvm/OmZnvnPkq809OMjNr77X+e/Ze66z93ylNYQpT6AtwFC7EnXgaQ/gaP8Qn//xh2O7AMhyZmgAci9uwSTV+iU8VPsGt2VeahAUswgb8HWT+wfu4B4M4FXNK5s3BQlyEe2OH2si+XsCZ/dqB5wvBv8Q1OHoCPo/Btfiq4PdZzKuXfSvYPrgauyPQp1iS/15jjH1xAYYjxi5cWVsMHIinCs7zgvarxXl5vGmxQ+1/2pOZw0SdHoKNhV04vjbGnWOfiM8i9juYO15HB0UJzXgJs2tn25nDbLwSHD4YM4d8dKKCtBNvRs/YduYys8DluTEda9wcE3NJndVTpt3n6VBwuqHbSafgT/yKgdQQYB5+wx6c3M2E9pm8NDUMuKyds50Gnh0DP+5liR0vtHJ3c3BcNNrA3NBlLE8NBVYEx7VVAw6O3NiO6amhwP7RTe8pLcfRVmc8mBoOPBxcl5YZ7w7jstRwYHlwXV1mfDmMx6WGAycE1xfLjO2+pmN+4Dx8i2+wuF/jRuRJxnCZ8TvsTF0gAraxtV/jiohOfFuZIf9Hdqf/wUI2haOZXThZHMG34tx+jev2aLWTfX5qOLTuKpXJfnsYV6SGQ0vgqCy/+Q6e8UBqOPBIcF1SZpyFHfgpn8HUUGAGfsQflTdGPBYrHUwNBS4Ojk+MNmhhiG3DDW3jp4UIoqOQh2di4OWpYcCq4Lahm8EDkSu7mtR3YX7uPKJ9X9DtpJWx8s1lGm6/oSVN5VtrxnVjnfxQTHxjMpUUHBC6Wsb6LK2O1cH0gp6Ulb5De8Z29J14LTi8N27pNGp2+x6f1fLTa2dbHXsBPo/Yb0/4iIdysTrK8l+4qTa21SX2evwei1g7YRF7RIDzw/H3tTn977PCIL6IOLlCrepFoMMjwJs1+x2IHdhSuJOs65nKWdCT1lTYb8RduCRk17kjH2nimeK0aDPuw0cjnt7W44yeLKBAIivhGeeUnOk1qrEjdOQqZHH6lr7ozDgiEn1LsY7nhx+8HoS2xyNnPiaPR6XJPdu2nFfxPP1uvEDlu8/SfFx7Tr4I3B9kV8bvh4UOlpVJQbhvr1njAk4Kwjvj/XBd9DttPFpreewF4jvkrZJznb9TXsVZaW8ArsDPoXAMxfm+am8QKKaQJhn/Alh2rBucIzJ9AAAAAElFTkSuQmCC'
+
+                const $noReviewsMessage = document.createElement('span');
+                $noReviewsMessage.classList.add('text');
                 $noReviewsMessage.innerText = '아직 작성된 리뷰가 없습니다.';
-                $list.append($noReviewsMessage);
+
+                $noReviews.append($noReviewImage);
+                $noReviews.append($noReviewsMessage);
+
+                $list.append($noReviews);
             } else {
                 reviews.forEach(comment => {
                     appendComment(comment); // 댓글 추가
@@ -181,7 +209,11 @@ const loadComments = (page = 1) => {
                 updatePagination(pageVo);
             }
         } else {
-            alert('댓글을 불러오지 못하였습니다. 잠시 후 다시 시도해 주세요.');
+            Swal.fire({
+                title: "실패",
+                text: "댓글을 불러오지 못하였습니다. 잠시 후 다시 시도해 주세요.",
+                icon: "error"
+            });
         }
     };
 
@@ -278,27 +310,48 @@ const postComment = ($form) => {
             return
         }
         if (xhr.status < 200 || xhr.status >= 300) {
-            alert('리뷰를 작성하지 못하였습니다. 잠시 후 시도해 주세요.')
+            Swal.fire({
+                title: "서버가 알 수 없는 응답을 반환하였습니다.",
+                text: "작성 결과를 반드시 확인해 주세요.",
+                icon: "warning"
+            });
             return;
         }
         const response = JSON.parse(xhr.responseText)
         switch (response['result']) {
             case 'failure':
-                alert('리뷰 작성에 실패하였습니다. 잠시 후 다시 시도해 주세요.');
+                Swal.fire({
+                    title: "실패",
+                    text: "리뷰를 작성하지 못하였습니다. 잠시 후 시도해 주세요.",
+                    icon: "error"
+                });
                 break;
 
             case 'failure_deleted_review':
-                alert('이미 삭제된 리뷰가 있습니다.');
+                Swal.fire({
+                    title: "실패",
+                    text: "이미 삭제된 리뷰가 있습니다.",
+                    icon: "error"
+                });
                 break;
 
             case 'failure_duplicate_review':
-                alert('이미 작성한 리뷰가 있습니다.');
+                Swal.fire({
+                    title: "실패",
+                    text: "이미 작성한 리뷰가 있습니다.",
+                    icon: "error"
+                });
                 break;
 
             case 'success':
-                alert('리뷰를 작성했습니다.')
-                $commentForm.reset();
-                loadComments();
+                Swal.fire({
+                    icon: "success",
+                    title: "성공",
+                    text: "리뷰를 작성했습니다."
+                }).then(() => {
+                    $commentForm.reset();
+                    loadComments();
+                });
                 break;
         }
     };
@@ -376,26 +429,33 @@ document.addEventListener('DOMContentLoaded', () => {
                     return;
                 }
                 if (xhr.status < 200 || xhr.status >= 300) {
-                    alert('댓글을 삭제하지 못하였습니다. 잠시 후 다시 시도해 주세요.');
+                    Swal.fire({
+                        title: "서버가 알 수 없는 응답을 반환하였습니다.",
+                        text: "삭제 결과를 반드시 확인해 주세요.",
+                        icon: "warning"
+                    });
                     return;
                 }
 
                 const response = JSON.parse(xhr.responseText);
                 if (response['result'] === 'success') {
-                    alert('댓글을 삭제했습니다.');
-
-                    // 삭제 후 페이지 처리
-                    if ($list.children.length === 1 && currentPage > 1) {
-                        currentPage--; // 마지막 댓글 삭제 시 이전 페이지로 이동
-                    }
-
-                    // 댓글 리스트 다시 로드
-                    loadComments(currentPage);
-
-                    // 삭제 창 닫기
-                    $deleteReview.classList.remove('--visible');
+                    Swal.fire({
+                        icon: "success",
+                        title: "성공",
+                        text: "댓글을 삭제했습니다."
+                    }).then(() => {
+                        if ($list.children.length === 1 && currentPage > 1) {
+                            currentPage--;
+                        }
+                        loadComments(currentPage);
+                        $deleteReview.classList.remove('--visible')
+                    });
                 } else {
-                    alert('알 수 없는 이유로 댓글을 삭제하지 못하였습니다. 잠시 후 다시 시도해 주세요.');
+                    Swal.fire({
+                        title: "서버가 알 수 없는 응답을 반환하였습니다.",
+                        text: "잠시 후 시도해 주세요.",
+                        icon: "warning"
+                    });
                 }
             };
 

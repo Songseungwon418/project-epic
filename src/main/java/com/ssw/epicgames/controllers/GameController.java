@@ -272,6 +272,9 @@ public class GameController {
                 : this.genreService.getGamesByGenreAndKeyword(tag, keyword);
         modelAndView.addObject("games", games);
 
+        List<GameVo> onSaleGames = this.gameService.getOnSaleGames();
+        modelAndView.addObject("onSaleGames", onSaleGames);
+
         if (keyword != null && !keyword.isEmpty()) {
             modelAndView.addObject("keyword", keyword);
         }
@@ -360,6 +363,9 @@ public class GameController {
                 ? this.gameService.getAllGames()
                 : this.gameService.getGamesByKeyword(keyword);
         modelAndView.addObject("games", games);
+
+        List<GameVo> onSaleGames = this.gameService.getOnSaleGames();
+        modelAndView.addObject("onSaleGames", onSaleGames);
 
         if (keyword != null && !keyword.isEmpty()) {
             modelAndView.addObject("keyword", keyword);
