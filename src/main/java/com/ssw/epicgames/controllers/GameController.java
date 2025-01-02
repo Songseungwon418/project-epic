@@ -389,7 +389,10 @@ public class GameController {
     //region 게임 추가
     /** 게임 추가 화면 페이지*/
     @GetMapping(value = "/addGame", produces = MediaType.TEXT_HTML_VALUE)
-    public ModelAndView addGame() {
+    public ModelAndView addGame(@SessionAttribute UserEntity user) {
+        if (user == null) {
+            return new ModelAndView("redirect:/user/");
+        }
         ModelAndView mav = new ModelAndView();
         mav.setViewName("game/addGame");
         return mav;
