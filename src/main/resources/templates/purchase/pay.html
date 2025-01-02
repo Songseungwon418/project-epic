@@ -211,7 +211,7 @@
                     <div class="pay-order-prices">
                         <div class="payment-price">
                             <span class="payment-price-label">가격</span>
-                            <span class="price payment-price-value" th:text="${price.currentPrice}"></span>
+                            <span class="price payment-price-value" th:text="${price.originalPrice}"></span>
                         </div>
                         <div class="payment-price" th:if="${price.discountPrice != 0}">
                             <span class="payment-price-label">할인 금액</span>
