@@ -34,7 +34,7 @@ $mainContainer.onsubmit = (e) => {
                 text: "계정 수정에 성공하였습니다."
             }).then(() => {
                 location.reload();
-            })
+            });
         }else if (response['result'] === 'failure') {
             Swal.fire({
                 title: "실패하였습니다.",
