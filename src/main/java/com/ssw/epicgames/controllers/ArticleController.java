@@ -9,12 +9,14 @@ import com.ssw.epicgames.services.ArticleService;
 import com.ssw.epicgames.vos.ArticleVo;
 import org.json.JSONObject;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.servlet.ModelAndView;
+import org.springframework.web.servlet.ModelAndViewDefiningException;
 
 import java.io.IOException;
 
@@ -114,6 +116,9 @@ public class ArticleController {
     @RequestMapping(value = "/write", method = RequestMethod.GET, produces = MediaType.TEXT_HTML_VALUE)
     public ModelAndView getWrite(@SessionAttribute(value = "user", required = false) UserEntity user) {
         ModelAndView modelAndView = new ModelAndView();
+        if(user == null) {
+            modelAndView.setViewName("redirect:/user/");
+        }
         modelAndView.addObject("user", user);
         modelAndView.setViewName("article/write");
         return modelAndView;

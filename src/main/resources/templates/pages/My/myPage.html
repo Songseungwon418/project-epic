@@ -60,17 +60,18 @@
                 </div>
             </div>
             <div class="-spring"></div>
-            <div class="level" th:if="${session.user != null && (param.email == null || param.email.isEmpty() || param.email.contains(session.user.email))}">
+            <div class="level"
+                 th:if="${session.user != null && (param.email == null || param.email.isEmpty() || param.email.contains(session.user.email))}">
                 <a th:href="@{'/page/setting'}" class="button">계정 설정</a>
                 <a th:href="@{'/page/setting?showPurchaseList=true'}" class="button">결제 내역</a>
             </div>
-            <form id="friendAdd" class="level" th:if="${session.user != null && param.email != null && !param.email.isEmpty() && !param.email.contains(session.user.email)}">
+            <form id="friendAdd" class="level"
+                  th:if="${session.user != null && param.email != null && !param.email.isEmpty() && !param.email.contains(session.user.email)}">
                 <label hidden="hidden">
                     <input name="user_email" type="text" th:value="${session.user.email}">
                     <input name="friend_email" type="text" th:value="${param.email}">
                 </label>
                 <button th:if="${!isFriend}" class="button" type="submit">친구 추가</button>
-                <a th:if="${isFriend}" href="#" class="button">친구임</a>
             </form>
         </div>
         <div class="center-bar">
@@ -83,48 +84,51 @@
                class="friends">친구</a>
         </div>
         <div class="filter-bar">
-            <span class="text">필터</span>
+            <span class="text">정렬 기준</span>
             <div class="filter" onclick="toggleArrow()">
-                <span class="filter-text">전체</span>
+                <span class="filter-text">기본</span>
                 <img src="/assets/images/index.unsigned/arrow.png" alt="">
             </div>
             <div class="filter-dropdown" id="filter-dropdown">
-                <div class="filter-option" onclick="applyFilter('name')">이름순서</div>
-                <div class="filter-option" onclick="applyFilter('achievements-desc')">업적 많은 순</div>
-                <div class="filter-option" onclick="applyFilter('achievements-asc')">업적 적은 순</div>
+                <div class="filter-option" onclick="applyFilter('이름 순서')">이름 순서</div>
+                <div class="filter-option" onclick="applyFilter('업적 많은 순')">업적 많은 순</div>
+                <div class="filter-option" onclick="applyFilter('업적 적은 순')">업적 적은 순</div>
             </div>
         </div>
-        <a th:href="@{/game/page (index = ${game.getIndex()})}" class="game" th:each="game : ${gameMap.keySet()}">
-            <img class="game-img" th:src="@{/game/cover (index = ${game.getIndex()})}" alt="">
-            <div class="game-wrapper">
-                <div class="game-name" th:text="${game.getName()}"></div>
-                <div class="achievement">
-                    <div class="achievement-progress">
-                        <span class="text">업적</span>
-                        <div class="achievement-img-wrapper">
-                            <div class="achievement-image" th:each="achievement : ${gameMap.get(game)}">
-                                <span th:if="${achievement.getAchievementId() == null}" style="font-size: 15px; font-weight: 600">달성한 업적이 없습니다.</span>
-                                <img class="image" th:if="${achievement.getAchievementId() != null}"
-                                     th:src="@{/page/achievement-cover (index = ${achievement.getAchievementId()})}"
-                                     th:title="${achievement.getAchievementName()}">
+        <div class="gameWrap">
+            <a th:href="@{/game/page (index = ${game.getIndex()})}" class="game" th:each="game : ${gameMap.keySet()}">
+                <img class="game-img" th:src="@{/game/cover (index = ${game.getIndex()})}" alt="">
+                <div class="game-wrapper">
+                    <div class="game-name" th:text="${game.getName()}"></div>
+                    <div class="achievement">
+                        <div class="achievement-progress">
+                            <span class="text">업적</span>
+                            <div class="achievement-img-wrapper">
+                                <div class="achievement-image" th:each="achievement : ${gameMap.get(game)}">
+                                <span th:if="${achievement.getAchievementId() == null}"
+                                      style="font-size: 15px; font-weight: 600">달성한 업적이 없습니다.</span>
+                                    <img class="image" th:if="${achievement.getAchievementId() != null}"
+                                         th:src="@{/page/achievement-cover (index = ${achievement.getAchievementId()})}"
+                                         th:title="${achievement.getAchievementName()}">
+                                </div>
                             </div>
                         </div>
-                    </div>
-                    <div class="achievement-progress">
-                        <span class="text">획득 XP</span>
-                        <div class="reward-container">
-                            <div class="reward" th:text="${gameScoreMap.get(game) + ' / 100 XP'}"></div>
-                        </div>
-                        <div class="gauge-wrapper">
-                            <div class="reward-gauge">
-                                <div class="gauge-bar" th:style="'width: ' + ${gameScoreMap.get(game) + '%'}"></div>
+                        <div class="achievement-progress">
+                            <span class="text">획득 XP</span>
+                            <div class="reward-container">
+                                <div class="reward" th:text="${gameScoreMap.get(game) + ' / 100 XP'}"></div>
                             </div>
-                            <span class="gauge-text" th:text="${gameScoreMap.get(game) + '%'}"></span>
+                            <div class="gauge-wrapper">
+                                <div class="reward-gauge">
+                                    <div class="gauge-bar" th:style="'width: ' + ${gameScoreMap.get(game) + '%'}"></div>
+                                </div>
+                                <span class="gauge-text" th:text="${gameScoreMap.get(game) + '%'}"></span>
+                            </div>
                         </div>
                     </div>
                 </div>
-            </div>
-        </a>
+            </a>
+        </div>
     </div>
 </main>
 <th:block th:replace="~{fragments/common.html :: footer}"></th:block>

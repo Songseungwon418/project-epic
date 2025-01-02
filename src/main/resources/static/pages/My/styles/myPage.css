@@ -54,7 +54,7 @@
   display: flex;
   align-items: center;
   justify-content: center;
-  text-align: center;
+  text-transform: uppercase;
 }
 #main > .mainSection > .myName-container > .my-wrapper > .nickname-wrapper {
   display: flex;
@@ -165,6 +165,7 @@
   }
 }
 #main > .mainSection > .filter-bar .filter {
+  position: relative;
   display: flex;
   flex-direction: row;
   gap: 1rem;
@@ -205,24 +206,27 @@
 #main > .mainSection > .filter-bar .filter.active + .filter-dropdown {
   display: block; /* 활성화 시 표시 */
 }
-#main > .mainSection > .game {
+#main > .mainSection > .gameWrap {
+  width: 100%;
+}
+#main > .mainSection > .gameWrap > .game {
   width: 100%;
   display: flex;
   flex-direction: row;
   padding: 30px 0;
 }
-#main > .mainSection > .game:hover {
+#main > .mainSection > .gameWrap > .game:hover {
   background-color: #4d4d4d;
 }
-#main > .mainSection > .game:active {
+#main > .mainSection > .gameWrap > .game:active {
   background-color: rgb(38.6666666667, 38.6666666667, 48.3333333333);
 }
-#main > .mainSection > .game > .game-img {
+#main > .mainSection > .gameWrap > .game > .game-img {
   width: 180px;
   height: 200px;
   border-radius: 2rem;
 }
-#main > .mainSection > .game > .game-wrapper {
+#main > .mainSection > .gameWrap > .game > .game-wrapper {
   width: 100%;
   display: flex;
   flex-direction: column;
@@ -230,55 +234,55 @@
   justify-content: space-between;
   padding: 0 35px 20px 20px;
 }
-#main > .mainSection > .game > .game-wrapper > .game-name {
+#main > .mainSection > .gameWrap > .game > .game-wrapper > .game-name {
   font-size: 22px;
   font-weight: 600;
 }
-#main > .mainSection > .game > .game-wrapper > .achievement {
+#main > .mainSection > .gameWrap > .game > .game-wrapper > .achievement {
   width: 100%;
   display: flex;
   flex-direction: row;
   gap: 3.5rem;
 }
-#main > .mainSection > .game > .game-wrapper > .achievement > .achievement-progress {
+#main > .mainSection > .gameWrap > .game > .game-wrapper > .achievement > .achievement-progress {
   width: 100%;
   display: flex;
   flex-direction: column;
   gap: 1.8rem;
 }
-#main > .mainSection > .game > .game-wrapper > .achievement > .achievement-progress > .text {
+#main > .mainSection > .gameWrap > .game > .game-wrapper > .achievement > .achievement-progress > .text {
   font-size: 14px;
   color: rgba(255, 255, 255, 0.6509803922);
 }
-#main > .mainSection > .game > .game-wrapper > .achievement > .achievement-progress > .achievement-img-wrapper {
+#main > .mainSection > .gameWrap > .game > .game-wrapper > .achievement > .achievement-progress > .achievement-img-wrapper {
   width: 100%;
   display: flex;
   flex-direction: row;
   gap: 2rem;
 }
-#main > .mainSection > .game > .game-wrapper > .achievement > .achievement-progress > .achievement-img-wrapper > .achievement-image > .image {
+#main > .mainSection > .gameWrap > .game > .game-wrapper > .achievement > .achievement-progress > .achievement-img-wrapper > .achievement-image > .image {
   width: 37px;
   height: 37px;
   border-radius: 999rem;
 }
-#main > .mainSection > .game > .game-wrapper > .achievement > .achievement-progress > .reward-container {
+#main > .mainSection > .gameWrap > .game > .game-wrapper > .achievement > .achievement-progress > .reward-container {
   display: flex;
   flex-direction: row;
   align-items: center;
   justify-content: flex-start;
   gap: 1rem;
 }
-#main > .mainSection > .game > .game-wrapper > .achievement > .achievement-progress > .reward-container > .reward {
+#main > .mainSection > .gameWrap > .game > .game-wrapper > .achievement > .achievement-progress > .reward-container > .reward {
   width: 100%;
   font-size: 25px;
   font-weight: 700;
 }
-#main > .mainSection > .game > .game-wrapper > .achievement > .achievement-progress > .gauge-wrapper {
+#main > .mainSection > .gameWrap > .game > .game-wrapper > .achievement > .achievement-progress > .gauge-wrapper {
   display: flex;
   flex-direction: row;
   gap: 2rem;
 }
-#main > .mainSection > .game > .game-wrapper > .achievement > .achievement-progress > .gauge-wrapper > .reward-gauge {
+#main > .mainSection > .gameWrap > .game > .game-wrapper > .achievement > .achievement-progress > .gauge-wrapper > .reward-gauge {
   width: 50%;
   height: 5px;
   background-color: #b3b1b1;
@@ -287,9 +291,9 @@
   margin-top: 5px;
   position: relative;
 }
-#main > .mainSection > .game > .game-wrapper > .achievement > .achievement-progress > .gauge-wrapper > .reward-gauge > .gauge-bar {
+#main > .mainSection > .gameWrap > .game > .game-wrapper > .achievement > .achievement-progress > .gauge-wrapper > .reward-gauge > .gauge-bar {
   height: 100%;
-  background-color: #ffffff;
+  background-color: #26baff;
   transition: width 0.3s ease-in-out;
   border-radius: 5px 0 0 5px;
 }

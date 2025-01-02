@@ -37,8 +37,9 @@
   gap: 0.8rem;
 }
 .container > .main > .error-container > .error-wrapper > .error-text {
-  font-size: 100px;
+  font-size: 70px;
   font-weight: 700;
+  white-space: nowrap;
 }
 .container > .main > .error-container > .error-wrapper > .center {
   font-size: 90px;
