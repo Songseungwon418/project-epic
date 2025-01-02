@@ -1,13 +1,4 @@
-//region 필터 아래위로
-function toggleArrow() {
-    const filter = document.querySelector('.filter');
-    const dropdown = document.getElementById('filter-dropdown');
-    filter.classList.toggle('active');
-    dropdown.style.display = dropdown.style.display === 'block' ? 'none' : 'block';
-}
-
-//endregion
-
+//region 친구 추가
 const $friendAdd = document.getElementById('friendAdd');
 
 $friendAdd.onsubmit = (e) => {
@@ -22,26 +13,49 @@ $friendAdd.onsubmit = (e) => {
             return;
         }
         if (xhr.status < 200 || xhr.status >= 300) {
-            alert("요청을 보내던중 오류가 발생하였습니다.");
+            Swal.fire({
+                title: "서버가 알 수 없는 응답을 반환하였습니다.",
+                text: "잠시 후 시도해 주세요.",
+                icon: "warning"
+            });
             return;
         }
 
         const response = JSON.parse(xhr.responseText);
         if(response['result'] === 'failure') {
-            alert('친구 추가를 실패하였습니다. 다시 시도해 주세요.')
+            Swal.fire({
+                title: "친구 추가 실패",
+                text: "친구 추가를 실패하였습니다. 다시 시도해 주세요.",
+                icon: "warning"
+            });
         }
         else if(response['result'] === 'friendship_exists') {
-            alert('이미 친구가 되어 있습니다.')
+            Swal.fire("이미 친구가 되어있습니다.");
         } else if(response['result'] === 'user_not_found') {
-            alert('사용자를 찾을 수 없습니다.')}
-        else if(response['result'] === 'success') {
-            alert('친구가 추가되었습니다.')
-            location.reload();
+            Swal.fire("친구의 정보를 찾을 수 없습니다.");
+        } else if(response['result'] === 'success') {
+            Swal.fire({
+                icon: "success",
+                title: "친구추가 성공!",
+                text: "친구가 성공적으로 추가되었습니다."
+            }).then(() => {
+                location.reload();
+            });
         }
     };
     xhr.open('POST', `/page/profile?email=${$friendAdd['friend_email'].value}`);
     xhr.send(formData);
 }
+//endregion
+//region 필터 아래위로
+function toggleArrow() {
+    const filter = document.querySelector('.filter');
+    const dropdown = document.getElementById('filter-dropdown');
+    filter.classList.toggle('active');
+    dropdown.style.display = dropdown.style.display === 'block' ? 'none' : 'block';
+}
+
+//endregion
 
 function applyFilter(_type) {
     document.querySelector('.filter-text').innerText = _type;

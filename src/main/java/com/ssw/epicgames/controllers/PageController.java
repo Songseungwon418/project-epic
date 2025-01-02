@@ -232,7 +232,10 @@ public class PageController {
             result = this.pageService.patchUser(user);
             if (result == CommonResult.SUCCESS) {
                 loginUser.setNickname(user.getNickname());
-                //TODO 나머지 추가할거 추가하기
+                loginUser.setPhone(user.getPhone());
+                loginUser.setAddr(user.getAddr());
+                loginUser.setName(user.getName());
+                loginUser.setBirthdate(user.getBirthdate());
             }
         } else {
             result = CommonResult.FAILURE;
