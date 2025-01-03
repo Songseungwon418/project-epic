@@ -465,7 +465,7 @@ body {
 
                     &:hover >.tooltip-text{
                       display: flex;
-                      opacity: 1;
+                      opacity: 0;
                     }
 
                     > .tooltip-text {
@@ -1111,6 +1111,11 @@ body {
             white-space: nowrap !important;
             overflow: hidden !important;
             text-overflow: ellipsis !important;
+
+            &:hover >.tooltip-text{
+              display: flex !important;
+              opacity: 1 !important;
+            }
           }
         }
       }

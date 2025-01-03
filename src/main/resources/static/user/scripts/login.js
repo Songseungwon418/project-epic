@@ -59,7 +59,7 @@ $loginForm.onsubmit = (e) => {
             const previousUrl = document.referrer; // 이전 URL을 저장
 
             // 현재 호스트가 localhost:8080이 아닌 경우, 홈페이지로 리디렉션
-            if (window.location.hostname !== 'localhost') {
+            if (window.location.hostname !== 'www.hyejis.com') {
                 location.href = '/'; // 홈페이지로 리디렉션
             } else {
                 // localhost:8080에서 접근한 경우, 이전 페이지로 리디렉션

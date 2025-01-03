@@ -406,7 +406,7 @@ body {
 }
 .main > #view-container > .view-wrapper > .view-content-container > .view-content-wrapper > .game-list > .game-card > .content-and-btn > .button-container > .game-card-btn:hover > .tooltip-text {
   display: flex;
-  opacity: 1;
+  opacity: 0;
 }
 .main > #view-container > .view-wrapper > .view-content-container > .view-content-wrapper > .game-list > .game-card > .content-and-btn > .button-container > .game-card-btn > .tooltip-text {
   margin-bottom: 60px;
@@ -942,6 +942,10 @@ body {
     white-space: nowrap !important;
     overflow: hidden !important;
     text-overflow: ellipsis !important;
+  }
+  .view-content-container .view-content-wrapper .game-card .button-container > .game-card-btn:hover > .tooltip-text {
+    display: flex !important;
+    opacity: 1 !important;
   }
   .view-content-container .cart-sidebar {
     width: 100%;
