@@ -75,7 +75,8 @@
 
     <update id="updateUser" parameterType="com.ssw.epicgames.entities.UserEntity">
         UPDATE `epic_games`.`user`
-        SET `password`      = #{password},
+        SET `email`         = #{email},
+            `password`      = #{password},
             `name`          = #{name},
             `birthdate`     = #{birthdate},
             `nickname`      = #{nickname},

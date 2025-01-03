@@ -8,14 +8,17 @@ import com.ssw.epicgames.resutls.Result;
 import com.ssw.epicgames.resutls.friends.FriendsResult;
 import com.ssw.epicgames.resutls.user.DeletedUserResult;
 import com.ssw.epicgames.resutls.user.RegisterResult;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
 
 import java.time.LocalDate;
 import java.time.LocalDateTime;
+import java.util.UUID;
 
 
+@Slf4j
 @Service
 public class PageService {
     private final AchievementMapper achievementMapper;
@@ -145,23 +148,23 @@ public class PageService {
 
     //region 계정 삭제
     public Result deleteUser(String email, String password) {
-        if (email == null || email.isEmpty() ||
-                password == null || password.isEmpty()) {
+        if (email == null || email.isEmpty() || password == null || password.isEmpty()) {
             return CommonResult.FAILURE;
         }
+
         UserEntity dbUser = this.userMapper.selectUserByEmail(email);
-        if (dbUser == null) {        // 사용자가 존재하지 않는 경우
+        if (dbUser == null) {
             return DeletedUserResult.USER_NOT_FOUND;
         }
-        if (!email.equals(dbUser.getEmail())) {       // 클라이언트가 준 이메일과 DB에 있는 이메일이 틀리다면
-            return DeletedUserResult.FAILURE_DUPLICATE_EMAIL;
-        }
+
         BCryptPasswordEncoder encoder = new BCryptPasswordEncoder();
-        if (!encoder.matches(password, dbUser.getPassword())) {     // 클라이언트가 적은 패스워드와 DB에 있는 패스워드가 틀리다면
+        if (!encoder.matches(password, dbUser.getPassword())) {
             return DeletedUserResult.FAILURE_DUPLICATE_PASSWORD;
         }
 
+        // 탈퇴 처리
         dbUser.setDeletedDate(LocalDateTime.now());
+
         return this.userMapper.updateUser(dbUser) > 0 ? CommonResult.SUCCESS : CommonResult.FAILURE;
     }
     //endregion

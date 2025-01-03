@@ -161,10 +161,17 @@ body {
 .agree .button {
   margin-top: 1rem;
   background-color: #65caf8;
+  border-color: #65caf8;
   border-radius: 1rem;
-  width: 50%;
+  width: 100%;
   padding: 10px;
   text-align: center;
+}
+.agree .button:hover {
+  background-color: rgb(125.3913043478, 210.3944099379, 249.1086956522);
+}
+.agree .button:active {
+  background-color: rgb(149.7826086957, 218.7888198758, 250.2173913043);
 }
 
 .register-content {

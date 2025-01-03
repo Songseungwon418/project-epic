@@ -49,6 +49,12 @@ $loginForm.onsubmit = (e) => {
                 text : "해당 계정은 이메일 인증이 완료되지 않았습니다. 이메일을 확인해주세요.",
                 icon : "warning"
             });
+        } else if(response['result'] === 'failure_deleted') {
+            Swal.fire({
+                title: "이미 삭제된 아이디입니다.",
+                text : "해당 이메일은 이미 삭제된 아이디입니다. 다른 아이디로 회원가입 후 로그인 해주세요.",
+                icon : "warning"
+            });
         } else if(response['result'] === 'success') {
             const previousUrl = document.referrer; // 이전 URL을 저장
 

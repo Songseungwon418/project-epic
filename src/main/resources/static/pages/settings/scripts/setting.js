@@ -122,24 +122,48 @@ $deleteDialog.onsubmit = (e) => {
         if (xhr.readyState !== XMLHttpRequest.DONE) {
             return;
         }
+        $loading.style.display = 'none';
         if (xhr.status < 200 || xhr.status >= 300) {
-            alert("오류가 발생하였습니다. 다시 시도해 주세요.");
+            Swal.fire({
+                title: "서버가 알 수 없는 응답을 반환하였습니다.",
+                text: "잠시 후 시도해 주세요.",
+                icon: "warning"
+            });
             return;
         }
         const response = JSON.parse(xhr.responseText);
+        console.log(response['result']);
         if(response['result'] === 'user_not_found') {
-            alert("입력하신 이메일에 해당하는 사용자를 찾을 수 없습니다. 이미 탈퇴했거나 가입하지 않았을 수 있습니다.");
+            Swal.fire({
+                title: "찾을 수 없습니다.",
+                text: "입력하신 이메일과 일치하는 계정 정보를 찾을 수 없습니다. 다시 확인해 주세요.",
+                icon: "warning"
+            });
         } else if(response['result'] === 'failure_duplicate_email') {
-            alert("이메일이 등록된 이메일과 일치하지 않습니다. 다시 확인해 주세요.");
+            Swal.fire({
+                title: "찾을 수 없습니다.",
+                text: "이메일이 등록된 이메일과 일치하지 않습니다. 다시 확인해 주세요.",
+                icon: "warning"
+            });
         } else if(response['result'] === 'failure_duplicate_password') {
-            alert("입력하신 비밀번호가 맞지 않습니다. 올바른 비밀번호를 입력해 주세요.");
+            Swal.fire({
+                title: "비밀번호가 맞지 않습니다.",
+                text: "입력하신 비밀번호가 맞지 않습니다. 올바른 비밀번호를 입력해 주세요.",
+                icon: "warning"
+            });
         } else if(response['result'] === 'success') {
-            alert("회원 탈퇴가 성공적으로 완료되었습니다. 이용해 주셔서 감사합니다.");
-            location.href = '/user/logout';
+            Swal.fire({
+                title: "탈퇴 성공",
+                text: "회원 탈퇴가 성공적으로 완료되었습니다. 이용해 주셔서 감사합니다.",
+                icon: "success"
+            }).then(() => {
+                location.href = '/user/logout';
+            });
         }
     };
     xhr.open('DELETE', '/page/setting');
     xhr.send(formData);
+    $loading.style.display = 'flex'
 }
 //endregion
 

@@ -56,7 +56,7 @@ public class UserService {
         }
         UserEntity dbUser = this.userMapper.selectUserByEmail(user.getEmail());
         if(dbUser == null || dbUser.getDeletedDate() != null) {
-            return CommonResult.FAILURE;
+            return LoginResult.FAILURE_DELETED;
         }
         BCryptPasswordEncoder encoder = new BCryptPasswordEncoder();
         if(!encoder.matches(user.getPassword(), dbUser.getPassword())) {
