@@ -4,7 +4,6 @@
   }
   100% {
     transform: translate3d(0, 0, 0);
-    background-color: #404044;
   }
 }
 @keyframes grow-shrink {
@@ -395,6 +394,7 @@
 #main > .mainSection > .rolling-banner > .side-banner > .side > .value > .title > .text {
   overflow-wrap: break-word;
   white-space: normal;
+  line-height: 1.1;
 }
 #main > .mainSection > .rolling-banner > .side-banner > .side:hover {
   background-color: #28282c;
@@ -412,6 +412,7 @@
   width: 100%;
   height: 100%;
   border-radius: 1rem;
+  background-color: #404044;
 }
 #main > .mainSection > .rolling-banner > .side-banner > .side.-selected > .value .image > img {
   animation-name: grow-shrink;
@@ -588,6 +589,36 @@
   color: #ffffff;
   font-size: 1.4rem;
   margin-top: 1.8rem;
+}
+#main > .mainSection > .newGame > .newGame-container > .newGame-wrapper > .game > .sale-info {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  justify-content: center;
+  margin-top: 1.5rem;
+  gap: 1rem;
+}
+#main > .mainSection > .newGame > .newGame-container > .newGame-wrapper > .game > .sale-info > .sale-percentage {
+  width: 5rem;
+  height: 2rem;
+  border-radius: 2rem;
+  background-color: #26BBFF;
+  text-align: center;
+  line-height: 1.6;
+}
+#main > .mainSection > .newGame > .newGame-container > .newGame-wrapper > .game > .sale-info > .sale-percentage > .text {
+  color: #000000;
+  font-weight: 500;
+  letter-spacing: 0.05rem;
+}
+#main > .mainSection > .newGame > .newGame-container > .newGame-wrapper > .game > .sale-info > .origin-price {
+  color: rgba(255, 255, 255, 0.6509803922);
+  font-size: 1.38rem;
+}
+#main > .mainSection > .newGame > .newGame-container > .newGame-wrapper > .game > .sale-info > .sale-price {
+  color: #ffffff;
+  font-size: 1.38rem;
+  font-weight: bold;
 }
 #main > .mainSection > .saleGame {
   overflow: hidden;
@@ -859,15 +890,13 @@
   background-color: #636366;
 }
 
-@media screen and (max-width: 92rem) {
+@media screen and (max-width: 65rem) {
   #main > .mainSection > .rolling-banner > .side-banner {
     display: none;
   }
   #main > .mainSection > .rolling-banner > .main-banner {
     width: 100%;
   }
-}
-@media screen and (max-width: 65rem) {
   #main > .mainSection > .event-container {
     width: 100%;
     justify-content: space-around;

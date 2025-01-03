@@ -12,6 +12,6 @@ public class WebMvcConfig implements WebMvcConfigurer {
     @Override
     public void addInterceptors(InterceptorRegistry registry) {
         registry.addInterceptor(new SessionInterceptor()) // 사용할 Interceptor 생성
-                .addPathPatterns("/purchase/**", "/page/**", "/article/write", "/game/addGame"); // 로그인해야 접속할 경로
+                .addPathPatterns("/purchase/**", "/page/profile", "/page/friend", "/page/setting", "/article/write", "/article/modify", "/game/addGame"); // 로그인해야 접속할 경로
     }
 }
