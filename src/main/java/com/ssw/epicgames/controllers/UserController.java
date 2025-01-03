@@ -42,7 +42,7 @@ public class UserController {
             //홈으로
             modelAndView.setViewName("redirect:/");
         } else {
-            modelAndView.setViewName("/user/login");
+            modelAndView.setViewName("user/login");
         }
         return modelAndView;
     }
@@ -66,7 +66,7 @@ public class UserController {
     @RequestMapping(value = "/register", method = RequestMethod.GET, produces = MediaType.TEXT_HTML_VALUE)
     public ModelAndView getRegister() {
         ModelAndView modelAndView = new ModelAndView();
-        modelAndView.setViewName("/user/register");
+        modelAndView.setViewName("user/register");
         return modelAndView;
     }
 
@@ -84,14 +84,14 @@ public class UserController {
         Result result = this.userService.validateEmailToken(emailToken);
         ModelAndView modelAndView = new ModelAndView();
         modelAndView.addObject(Result.NAME, result.nameToLower());
-        modelAndView.setViewName("/user/validateEmailToken");
+        modelAndView.setViewName("user/validateEmailToken");
         return modelAndView;
     }
 
     @RequestMapping(value = "/forgot-password", method = RequestMethod.GET, produces = MediaType.TEXT_HTML_VALUE)
     public ModelAndView getForgotPassword() {
         ModelAndView modelAndView = new ModelAndView();
-        modelAndView.setViewName("/user/forgotPassword");
+        modelAndView.setViewName("user/forgotPassword");
         return modelAndView;
     }
 
@@ -112,7 +112,7 @@ public class UserController {
         ModelAndView modelAndView = new ModelAndView();
         modelAndView.addObject("userEmail", userEmail);
         modelAndView.addObject("key", key);
-        modelAndView.setViewName("/user/recoverPassword");
+        modelAndView.setViewName("user/recoverPassword");
         return modelAndView;
     }
 

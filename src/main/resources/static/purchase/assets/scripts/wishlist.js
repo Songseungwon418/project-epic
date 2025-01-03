@@ -378,7 +378,6 @@ sortGameList(starfilterName); //정렬함
                             return;
                         }
                         document.body.style.cursor = 'default';
-                        document.body.style.userSelect = 'all';
                         if (xhr.status < 200 || xhr.status >= 300){
                             Swal.fire({
                                 title: "서버가 알 수 없는 응답을 반환하였습니다.",
@@ -423,7 +422,6 @@ sortGameList(starfilterName); //정렬함
                     xhr.open('PATCH', '/purchase/wishlist/cancel');
                     xhr.send(formData);
                     document.body.style.cursor = 'not-allowed';
-                    document.body.style.userSelect = 'none';
                 };
 
 
@@ -476,8 +474,7 @@ sortGameList(starfilterName); //정렬함
             if(xhr.readyState !== XMLHttpRequest.DONE){
                 return;
             }
-            document.body.style.cursor = 'default';
-            document.body.userSelect = 'all';
+            $loading.style.display = 'none';
             Loading.hide();
             if (xhr.status < 200 || xhr.status >= 300){
                 Swal.fire({
@@ -525,9 +522,7 @@ sortGameList(starfilterName); //정렬함
         };
         xhr.open('POST', '/purchase/cart/add'); // 장바구니에 추가
         xhr.send(formData);
-        document.body.style.cursor = 'not-allowed';
-        document.body.userSelect = 'none';
-        Loading.show();
+        $loading.style.display = 'flex';
     });
 }
 //endregion
