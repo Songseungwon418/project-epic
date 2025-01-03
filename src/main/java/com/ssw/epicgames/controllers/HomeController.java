@@ -4,6 +4,7 @@ import com.ssw.epicgames.DTO.PayDTO;
 import com.ssw.epicgames.DTO.PurchaseDTO;
 import com.ssw.epicgames.DTO.WishlistDTO;
 import com.ssw.epicgames.entities.UserEntity;
+import com.ssw.epicgames.services.GameService;
 import com.ssw.epicgames.services.HomeService;
 import com.ssw.epicgames.services.PurchaseService;
 import com.ssw.epicgames.services.WishlistService;
@@ -27,13 +28,15 @@ public class HomeController {
     private final HomeService homeService;
     private final WishlistService wishlistService;
     private final PurchaseService purchaseService;
+    private final GameService gameService;
 
 
     @Autowired
-    public HomeController(HomeService homeService, PurchaseService purchaseService, WishlistService wishlistService, PurchaseService purchaseService1) {
+    public HomeController(HomeService homeService, PurchaseService purchaseService, WishlistService wishlistService, PurchaseService purchaseService1, GameService gameService) {
         this.homeService = homeService;
         this.wishlistService = wishlistService;
         this.purchaseService = purchaseService1;
+        this.gameService = gameService;
     }
 
     @RequestMapping(value = "/new-game-image", method = RequestMethod.GET)
@@ -71,6 +74,9 @@ public class HomeController {
 
         modelAndView.addObject("newGames", newGames);
         modelAndView.addObject("saleGames", saleGames);
+
+        List<GameVo> onSaleGames = this.gameService.getOnSaleGames();
+        modelAndView.addObject("onSaleGames", onSaleGames);
 
         Map<Integer, Boolean> newGameWishlistStatus = new HashMap<>();
         Map<Integer, Integer> newGameWishlistIndices = new HashMap<>();
