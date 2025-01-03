@@ -7,10 +7,10 @@ document.addEventListener("DOMContentLoaded", function () {
         if ($loading) {
             $loading.style.display = 'flex';  // 페이지 이동 전 로딩 화면 표시
 
-            // 20초 후 로딩 화면 숨기기 - 무한 반복 방지
+            // 5초 후 로딩 화면 숨기기 - 무한 반복 방지
             setTimeout(function () {
                 $loading.style.display = 'none';  // 로딩 화면 숨기기
-            }, 20000);  // 20초 후 로딩 화면 숨김
+            }, 5000);  // 5초 후 로딩 화면 숨김
         }
     });
 

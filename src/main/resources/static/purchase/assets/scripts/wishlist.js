@@ -475,7 +475,6 @@ sortGameList(starfilterName); //정렬함
                 return;
             }
             $loading.style.display = 'none';
-            Loading.hide();
             if (xhr.status < 200 || xhr.status >= 300){
                 Swal.fire({
                     title: "서버가 알 수 없는 응답을 반환하였습니다.",
