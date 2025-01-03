@@ -333,6 +333,59 @@ body::-webkit-scrollbar-track {
 .container > .main > .user-purchaseList > .purchase-table > tbody > .sub-title.total-price {
   font-weight: 600;
 }
+.container > .main > .user-purchaseList > .view-content-wrapper {
+  margin: 100px 5px;
+  text-align: center;
+  display: flex;
+  align-items: stretch;
+  justify-content: stretch;
+  flex-direction: column;
+}
+.container > .main > .user-purchaseList > .view-content-wrapper.empty > .empty-wrapper {
+  display: flex;
+  align-items: stretch;
+  justify-content: stretch;
+  flex-direction: column;
+  gap: 30px;
+}
+.container > .main > .user-purchaseList > .view-content-wrapper.empty > .empty-wrapper > .logo > svg {
+  width: 120px;
+}
+.container > .main > .user-purchaseList > .view-content-wrapper.empty > .empty-wrapper > .info_text {
+  font-size: 24px;
+  font-weight: 600;
+}
+.container > .main > .user-purchaseList > .view-content-wrapper.empty > .empty-wrapper > .info_link {
+  display: flex;
+  align-items: center;
+  flex-direction: column;
+  justify-content: center;
+  flex-wrap: nowrap;
+}
+.container > .main > .user-purchaseList > .view-content-wrapper.empty > .empty-wrapper > .info_link > .link {
+  width: 120px;
+  padding: 10px 10px;
+  transition-duration: 250ms;
+  transition-property: border-color, background-color;
+  transition-timing-function: ease;
+  outline: none;
+  border-radius: 10px;
+  word-break: unset;
+}
+.container > .main > .user-purchaseList > .view-content-wrapper.empty > .empty-wrapper > .info_link > .link.-dark {
+  background-color: #222324;
+  border: 1px solid #424242;
+  color: #ffffff;
+}
+.container > .main > .user-purchaseList > .view-content-wrapper.empty > .empty-wrapper > .info_link > .link.-dark:hover {
+  border-color: rgb(91.5, 91.5, 91.5);
+  background-color: rgb(91.5, 91.5, 91.5);
+}
+.container > .main > .user-purchaseList > .view-content-wrapper.empty > .empty-wrapper > .info_link > .link.-dark:active {
+  border-color: rgb(244.5, 244.5, 244.5);
+  background-color: rgb(244.5, 244.5, 244.5);
+  color: rgb(25.5, 25.5, 25.5);
+}
 
 .dialog {
   top: 50%;

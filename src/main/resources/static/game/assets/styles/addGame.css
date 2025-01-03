@@ -19,6 +19,7 @@ body {
   margin-right: auto;
 }
 #main > #add-game-form {
+  width: 80%;
   margin-bottom: 40px;
   padding: 20px;
   align-items: stretch;
@@ -297,6 +298,7 @@ body {
 }
 
 .ck.ck-reset.ck-editor.ck-rounded-corners {
+  max-width: 900px;
   max-height: 500px;
   overflow: auto;
 }

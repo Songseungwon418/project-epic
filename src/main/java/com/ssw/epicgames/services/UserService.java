@@ -154,7 +154,7 @@ public class UserService {
         String mailText = this.templateEngine.process("email/registerEmail", context);
         MimeMessage mimeMessage = this.mailSender.createMimeMessage();
         MimeMessageHelper mimeMessageHelper = new MimeMessageHelper(mimeMessage);
-        mimeMessageHelper.setFrom("ttig0614@gamil.com");
+        mimeMessageHelper.setFrom("mnuw2626@gamil.com");
         mimeMessageHelper.setTo(emailToken.getUserEmail());
         mimeMessageHelper.setSubject("[EPIC] 회원가입 인증 링크");
         mimeMessageHelper.setText(mailText, true);

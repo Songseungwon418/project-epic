@@ -1,151 +1,149 @@
 //region 검색어 입력 시 검색 결과
 const $searchContainer = document.body.querySelector('.search-container');
-const $area = $searchContainer.querySelector(':scope > .area');
-const $form = $area.querySelector(':scope > .form');
-const $searchForm = $form.querySelector(':scope > .searchForm');
-const $result = $form.querySelector(':scope > .result');
-const $resultWrapper = $result.querySelector(':scope > .result-wrapper');
-const $gameResultInit = $resultWrapper.querySelector(':scope > .init');
-const $gameResultLoading = $resultWrapper.querySelector(':scope > .loading');
-const $gameResultEmpty = $resultWrapper.querySelector(':scope > .empty');
-const $gameResultError = $resultWrapper.querySelector(':scope > .error');
+if ($searchContainer) {
+    const $area = $searchContainer.querySelector(':scope > .area');
+    const $form = $area.querySelector(':scope > .form');
+    const $searchForm = $form.querySelector(':scope > .searchForm');
+    const $result = $form.querySelector(':scope > .result');
+    const $resultWrapper = $result.querySelector(':scope > .result-wrapper');
+    const $gameResultInit = $resultWrapper.querySelector(':scope > .init');
+    const $gameResultLoading = $resultWrapper.querySelector(':scope > .loading');
+    const $gameResultEmpty = $resultWrapper.querySelector(':scope > .empty');
+    const $gameResultError = $resultWrapper.querySelector(':scope > .error');
 
-let gameSearchTimeout;
-let gameSearchLastKeyword;
+    let gameSearchTimeout;
+    let gameSearchLastKeyword;
 
-$searchForm['keyword'].addEventListener('focus', () => {
-    $result.style.display = 'block';
-    if ($searchForm['keyword'].value === '') {
-        $gameResultInit.style.display = 'flex';
-        $gameResultLoading.style.display = 'none';
-    }
-});
-
-$searchForm['keyword'].addEventListener('blur', () => {
-    if ($searchForm['keyword'].value === '') {
-        $result.style.display = 'none';
-    }
-});
-
-$searchForm['keyword'].addEventListener('keyup', () => {
-    $result.querySelectorAll(':scope > .result-wrapper > .item').forEach((x) => x.remove());
-
-    $gameResultEmpty.style.display = 'none';
-    $gameResultError.style.display = 'none';
-
-    if ($searchForm['keyword'].value === '') {
-        $gameResultInit.style.display = 'flex';
-        $gameResultLoading.style.display = 'none';
-    } else {
-        $gameResultLoading.style.display = 'flex';
-        $gameResultInit.style.display = 'none';
-
-        if (typeof gameSearchTimeout === 'number') {
-            clearTimeout(gameSearchTimeout);
+    $searchForm['keyword'].addEventListener('focus', () => {
+        $result.style.display = 'block';
+        if ($searchForm['keyword'].value === '') {
+            $gameResultInit.style.display = 'flex';
+            $gameResultLoading.style.display = 'none';
         }
+    });
 
-        gameSearchLastKeyword = $searchForm['keyword'].value;
+    $searchForm['keyword'].addEventListener('blur', () => {
+        if ($searchForm['keyword'].value === '') {
+            $result.style.display = 'none';
+        }
+    });
 
-        gameSearchTimeout = setTimeout(() => {
-            if (gameSearchLastKeyword !== $searchForm['keyword'].value) {
-                return;
+    $searchForm['keyword'].addEventListener('keyup', () => {
+        $result.querySelectorAll(':scope > .result-wrapper > .item').forEach((x) => x.remove());
+
+        $gameResultEmpty.style.display = 'none';
+        $gameResultError.style.display = 'none';
+
+        if ($searchForm['keyword'].value === '') {
+            $gameResultInit.style.display = 'flex';
+            $gameResultLoading.style.display = 'none';
+        } else {
+            $gameResultLoading.style.display = 'flex';
+            $gameResultInit.style.display = 'none';
+
+            if (typeof gameSearchTimeout === 'number') {
+                clearTimeout(gameSearchTimeout);
             }
 
-            const xhr = new XMLHttpRequest();
-            const url = new URL(location.href);
-            url.pathname = 'game/search-game';
-            url.searchParams.set('keyword', $searchForm['keyword'].value);
+            gameSearchLastKeyword = $searchForm['keyword'].value;
 
-            xhr.onreadystatechange = () => {
-                if (xhr.readyState !== XMLHttpRequest.DONE) {
+            gameSearchTimeout = setTimeout(() => {
+                if (gameSearchLastKeyword !== $searchForm['keyword'].value) {
                     return;
                 }
 
-                $gameResultLoading.style.display = 'none';
+                const xhr = new XMLHttpRequest();
+                const url = new URL(location.href);
+                url.pathname = 'game/search-game';
+                url.searchParams.set('keyword', $searchForm['keyword'].value);
 
-                if (xhr.status < 200 || xhr.status >= 300 || xhr.responseText.length === 0) {
-                    $gameResultError.style.display = 'flex';
-                    return;
-                }
-
-                const response = JSON.parse(xhr.responseText);
-
-                if (response.length === 0) {
-                    $gameResultEmpty.style.display = 'flex';
-                } else {
-                    const maxResults = 4;
-                    const displayedGames = response.slice(0, maxResults);
-                    displayedGames.forEach((game) => {
-                        const $item = document.createElement('a');
-                        $item.classList.add('item');
-                        $item.target = '_self';
-                        $item.href = `/game/page?index=${game['index']}`;
-
-                        const $image = document.createElement('img');
-                        $image.classList.add('image');
-                        $image.src = game['base64Image'];
-
-                        const $name = document.createElement('span');
-                        $name.classList.add('name');
-                        $name.innerText = game['name'];
-
-                        $item.append($image, $name);
-                        $resultWrapper.append($item);
-                    });
-
-                    if (response.length > maxResults) {
-                        const $item = document.createElement('a');
-                        $item.classList.add('item');
-                        $item.target = '_self';
-                        $item.href = `/game/browse?keyword=${gameSearchLastKeyword}`;
-                        $item.innerText = '더 보기';
-                        $resultWrapper.append($item);
+                xhr.onreadystatechange = () => {
+                    if (xhr.readyState !== XMLHttpRequest.DONE) {
+                        return;
                     }
-                }
 
-            };
+                    $gameResultLoading.style.display = 'none';
 
-            xhr.open('GET', url.toString());
-            xhr.send();
+                    if (xhr.status < 200 || xhr.status >= 300 || xhr.responseText.length === 0) {
+                        $gameResultError.style.display = 'flex';
+                        return;
+                    }
 
-        }, 1000);
-    }
-});
+                    const response = JSON.parse(xhr.responseText);
 
-document.addEventListener('click', (event) => {
-    if (!($searchForm.contains(event.target))) {
-        $result.style.display = 'none';
-    }
-});
+                    if (response.length === 0) {
+                        $gameResultEmpty.style.display = 'flex';
+                    } else {
+                        const maxResults = 4;
+                        const displayedGames = response.slice(0, maxResults);
+                        displayedGames.forEach((game) => {
+                            const $item = document.createElement('a');
+                            $item.classList.add('item');
+                            $item.target = '_self';
+                            $item.href = `/game/page?index=${game['index']}`;
 
-$searchForm['keyword'].addEventListener('click', (event) => {
-    event.stopPropagation();
-});
+                            const $image = document.createElement('img');
+                            $image.classList.add('image');
+                            $image.src = game['base64Image'];
 
-//endregion
+                            const $name = document.createElement('span');
+                            $name.classList.add('name');
+                            $name.innerText = game['name'];
 
+                            $item.append($image, $name);
+                            $resultWrapper.append($item);
+                        });
 
+                        if (response.length > maxResults) {
+                            const $item = document.createElement('a');
+                            $item.classList.add('item');
+                            $item.target = '_self';
+                            $item.href = `/game/browse?keyword=${gameSearchLastKeyword}`;
+                            $item.innerText = '더 보기';
+                            $resultWrapper.append($item);
+                        }
+                    }
 
+                };
 
-// region header 언어버튼 클릭 시 나타나는 영역
-document.addEventListener('DOMContentLoaded', () => {
-    const languageToggle = document.querySelector('.language');
-    const button = document.querySelector('.global.icon');
+                xhr.open('GET', url.toString());
+                xhr.send();
 
-    button.addEventListener('click', (e) => {
-        e.stopPropagation();
-        languageToggle.classList.toggle('active');
-    });
-
-    document.addEventListener('click', (e) => {
-        if (!languageToggle.contains(e.target)) {
-            languageToggle.classList.remove('active');
+            }, 1000);
         }
     });
-});
+
+    document.addEventListener('click', (event) => {
+        if (!($searchForm.contains(event.target))) {
+            $result.style.display = 'none';
+        }
+    });
+
+    $searchForm['keyword'].addEventListener('click', (event) => {
+        event.stopPropagation();
+    });
 //endregion
 
-// region footer 화살표 누르면 페이지 상단으로 바로 이동
+//region header 언어버튼 클릭 시 나타나는 영역
+    document.addEventListener('DOMContentLoaded', () => {
+        const languageToggle = document.querySelector('.language');
+        const button = document.querySelector('.global.icon');
+
+        button.addEventListener('click', (e) => {
+            e.stopPropagation();
+            languageToggle.classList.toggle('active');
+        });
+
+        document.addEventListener('click', (e) => {
+            if (!languageToggle.contains(e.target)) {
+                languageToggle.classList.remove('active');
+            }
+        });
+    });
+}
+//endregion
+
+//region footer 화살표 누르면 페이지 상단으로 바로 이동
 const $pageup = document.body.querySelector('[name="pageup"]');
 if ($pageup != null) {
     $pageup.onclick = () => {
