@@ -6,7 +6,7 @@ const $loginForm = document.getElementById("loginForm");
 $loginForm.onsubmit = (e) => {
     e.preventDefault()
 
-    if($loginForm['email'].value.length <= 8 && $loginForm['email'].value.length >= 50) {
+    if ($loginForm['email'].value.length <= 8 && $loginForm['email'].value.length >= 50) {
         alert("올바른 이메일을 입력해 주세요.")
         return;
     }
@@ -40,35 +40,52 @@ $loginForm.onsubmit = (e) => {
         if (response['result'] === 'failure') {
             Swal.fire({
                 title: "다시 확인해 주세요.",
-                text : "이메일 혹은 비밀번호가 올바르지 않습니다. 다시 한번 확인해 주세요.",
-                icon : "warning"
+                text: "이메일 혹은 비밀번호가 올바르지 않습니다. 다시 한번 확인해 주세요.",
+                icon: "warning"
             });
         } else if (response['result'] === 'failure_not_verified') {
             Swal.fire({
                 title: "다시 확인해 주세요.",
-                text : "해당 계정은 이메일 인증이 완료되지 않았습니다. 이메일을 확인해주세요.",
-                icon : "warning"
+                text: "해당 계정은 이메일 인증이 완료되지 않았습니다. 이메일을 확인해주세요.",
+                icon: "warning"
             });
-        } else if(response['result'] === 'failure_deleted') {
+        } else if (response['result'] === 'failure_deleted') {
             Swal.fire({
                 title: "이미 삭제된 아이디입니다.",
-                text : "해당 이메일은 이미 삭제된 아이디입니다. 다른 아이디로 회원가입 후 로그인 해주세요.",
-                icon : "warning"
+                text: "해당 이메일은 이미 삭제된 아이디입니다. 다른 아이디로 회원가입 후 로그인 해주세요.",
+                icon: "warning"
             });
-        } else if(response['result'] === 'success') {
+        } else if (response['result'] === 'success') {
             const previousUrl = document.referrer; // 이전 URL을 저장
+            const currentUrl = new URL(location.href);
 
-            // 현재 호스트가 localhost:8080이 아닌 경우, 홈페이지로 리디렉션
-            if (window.location.hostname !== 'www.hyejis.com' || window.location.hostname !== 'www.stopsoo.com' || window.location.hostname !== 'www.songseungwon.com') {
-                location.href = '/'; // 홈페이지로 리디렉션
-            } else {
-                // localhost:8080에서 접근한 경우, 이전 페이지로 리디렉션
-                if (previousUrl && previousUrl.indexOf('forgot-password') && previousUrl.indexOf('recover-password') === -1) {
-                    location.href = previousUrl; // 이전 페이지로 리디렉션
+            // localhost:8080에서 접근한 경우, 이전 페이지로 리디렉션
+            if (previousUrl.startsWith(currentUrl.origin)) {
+                // 이전 URL에 특정 문자열이 포함된 경우
+                if (
+                    previousUrl.indexOf('forgot-password') !== -1 ||
+                    previousUrl.indexOf('recover-password') !== -1 ||
+                    previousUrl.indexOf('register') !== -1
+                ) {
+                    location.href = '/'; // 홈 페이지로 리디렉션
                 } else {
-                    location.href = '/'; // 이전 페이지 정보가 없으면 홈페이지로
+                    location.href = previousUrl; // 이전 페이지로 리디렉션
                 }
+            } else {
+                location.href = '/'; // 이전 페이지 정보가 없으면 홈 페이지로
             }
+
+            // // 현재 호스트가 localhost:8080이 아닌 경우, 홈페이지로 리디렉션
+            // if (window.location.hostname !== 'www.hyejis.com' || window.location.hostname !== 'www.stopsoo.com' || window.location.hostname !== 'www.songseungwon.com') {
+            //     location.href = '/'; // 홈페이지로 리디렉션
+            // } else {
+            //     // localhost:8080에서 접근한 경우, 이전 페이지로 리디렉션
+            //     if (previousUrl && previousUrl.indexOf('forgot-password') && previousUrl.indexOf('recover-password') === -1) {
+            //         location.href = previousUrl; // 이전 페이지로 리디렉션
+            //     } else {
+            //         location.href = '/'; // 이전 페이지 정보가 없으면 홈페이지로
+            //     }
+            // }
         }
     };
     xhr.open('POST', '/user/');
