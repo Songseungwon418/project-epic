@@ -67,7 +67,7 @@
                                 <div class="price-wrapper">
                                     <div class="discount-per" th:if="${cart.price.discountPrice != 0}">
                                         <span class="discount-per-text">-[[${cart.price.discountPer}]]%</span>
-                                        <span class="price -discount" th:text="${cart.price.discountPrice}"></span>
+                                        <span class="price -original" th:text="${cart.price.originalPrice}"></span>
                                     </div>
                                     <span class="price" th:text="${cart.price.currentPrice == 0 ? '무료' : cart.price.currentPrice}"></span>
                                 </div>

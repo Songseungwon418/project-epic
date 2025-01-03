@@ -1,3 +1,5 @@
+// 로딩 화면 요소
+const $loading = document.getElementById("loading");
 // 게임 목록 가져옴
 const $gameList = document.querySelector('.game-list');
 // $gameList 안의 모든 .game-card 요소를 배열로 변환
@@ -210,24 +212,24 @@ const sortGameList = (criteria) => {
     switch (criteria) {
         case 'sale':
             sortedGames = $games.sort((a, b) => {
-                // price.-discount가 없으면 price.gamePrice를 사용
-                const priceAElement = a.querySelector('.price.-discount');
-                const priceBElement = b.querySelector('.price.-discount');
+                // 할인률
+                const discountAElement = a.querySelector('.discount-per-text');
+                const discountBElement = b.querySelector('.discount-per-text');
 
-                // 할인 가격이 있을 경우 할인된 가격을, 없을 경우에는 gamePrice를 사용
-                const priceA = priceAElement
-                    ? (priceAElement.innerText.trim() === '무료' ? 0 : parseFloat(priceAElement.innerText.replace(/[^0-9.-]+/g, '')))
-                    : null;  // 할인된 가격이 없다면 null로 설정
+                // 할인률이 있을 경우 할인된 가격을, 없을 경우에는 gamePrice를 사용
+                const priceA = discountAElement
+                    ? (discountAElement.innerText.trim() === '무료' ? 0 : parseFloat(discountAElement.innerText.replace(/[^0-9.-]+/g, '')))
+                    : null;  // 할인률이 없다면 null로 설정
 
-                const priceB = priceBElement
-                    ? (priceBElement.innerText.trim() === '무료' ? 0 : parseFloat(priceBElement.innerText.replace(/[^0-9.-]+/g, '')))
-                    : null;  // 할인된 가격이 없다면 null로 설정
+                const priceB = discountBElement
+                    ? (discountBElement.innerText.trim() === '무료' ? 0 : parseFloat(discountBElement.innerText.replace(/[^0-9.-]+/g, '')))
+                    : null;  // 할인률이 없다면 null로 설정
 
-                // 1. 할인된 가격이 있을 경우 우선 정렬
-                if (priceA !== null && priceB === null) return -1;  // A는 할인된 가격이 있고 B는 없을 경우 A가 앞
-                if (priceB !== null && priceA === null) return 1;   // B는 할인된 가격이 있고 A는 없을 경우 B가 앞
+                // 1. 할인률이 있을 경우 우선 정렬
+                if (priceA !== null && priceB === null) return -1;  // A는 할인률이 있고 B는 없을 경우 A가 앞
+                if (priceB !== null && priceA === null) return 1;   // B는 할인률이 있고 A는 없을 경우 B가 앞
 
-                // 2. 할인된 가격이 있으면 할인 가격으로 정렬, 없으면 gamePrice를 사용
+                // 2. 할인률이 있으면 할인률로 정렬, 없으면 gamePrice를 사용
                 const priceAFinal = priceA !== null
                     ? priceA
                     : parseFloat(a.querySelector('.price.gamePrice').innerText.replace(/[^0-9.-]+/g, ''));
@@ -236,7 +238,7 @@ const sortGameList = (criteria) => {
                     ? priceB
                     : parseFloat(b.querySelector('.price.gamePrice').innerText.replace(/[^0-9.-]+/g, ''));
 
-                // 3. 할인가격이 높은 순서로 정렬
+                // 3. 할인률이 높은 순서로 정렬
                 return priceAFinal - priceBFinal;
             });
             break;
@@ -292,6 +294,10 @@ const sortGameList = (criteria) => {
     });
 };
 
+// 위시리스트 맨 처음 정렬(할인중으로 선택되어있음)
+const starfilterName = document.querySelector('.order-filter-container > .order-filter-list > .order-filter-item.selected').getAttribute('name');//처음 선택된 정렬필터의 이름(sale)
+sortGameList(starfilterName); //정렬함
+
 //endregion
 
 //region 제거 버튼 누를 시
@@ -315,8 +321,7 @@ const sortGameList = (criteria) => {
             if(xhr.readyState !== XMLHttpRequest.DONE){
                 return;
             }
-            document.body.style.cursor = 'default';
-            document.body.userSelect = 'all';
+            $loading.style.display = 'none'; // 로딩화면 제거
             if (xhr.status < 200 || xhr.status >= 300){
                 Swal.fire({
                     title: "서버가 알 수 없는 응답을 반환하였습니다.",
@@ -372,6 +377,8 @@ const sortGameList = (criteria) => {
                         if(xhr.readyState !== XMLHttpRequest.DONE){
                             return;
                         }
+                        document.body.style.cursor = 'default';
+                        document.body.style.userSelect = 'all';
                         if (xhr.status < 200 || xhr.status >= 300){
                             Swal.fire({
                                 title: "서버가 알 수 없는 응답을 반환하였습니다.",
@@ -415,6 +422,8 @@ const sortGameList = (criteria) => {
                     };
                     xhr.open('PATCH', '/purchase/wishlist/cancel');
                     xhr.send(formData);
+                    document.body.style.cursor = 'not-allowed';
+                    document.body.style.userSelect = 'none';
                 };
 
 
@@ -438,14 +447,14 @@ const sortGameList = (criteria) => {
         };
         xhr.open('PATCH', '/purchase/wishlist/delete');
         xhr.send(formData);
-        document.body.style.cursor = 'not-allowed';
-        document.body.userSelect = 'none';
+        $loading.style.display = 'flex'; //로딩화면 출력
     }));
 }
 //endregion
 
 //region 장바구니 담기 버튼을 누를 시
 {
+
     const $cartAddBtns = document.querySelectorAll('.game-card-btn.-cart-add.-add');
     $cartAddBtns.forEach(btn => btn.onclick = () => {
         const $gameCard = btn.closest('.game-card');
