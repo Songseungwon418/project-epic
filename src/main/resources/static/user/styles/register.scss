@@ -185,12 +185,22 @@ body {
   }
 
   .button {
+    $background_color: #65caf8;
     margin-top: 1rem;
-    background-color: #65caf8;
+    background-color: $background_color;
+    border-color: $background_color;
     border-radius: 1rem;
-    width: 50%;
+    width: 100%;
     padding: 10px;
     text-align: center;
+
+    &:hover {
+      background-color: lighten($background_color, 5%);
+    }
+
+    &:active {
+      background-color: lighten($background_color, 10%);
+    }
   }
 }
 

@@ -68,7 +68,7 @@ document.addEventListener('DOMContentLoaded', function () {
             registerContent.classList.remove("disabled"); // disabled 클래스 제거하여 활성화
             registerButton.disabled = false; // 회원가입 버튼 활성화
         } else {
-            alert("모든 약관에 동의해야 합니다.");
+            alert("모든 약관을 동의하셔야 합니다.");
         }
     });
 
@@ -152,7 +152,11 @@ $registerForm.onsubmit = (e) => {
         }
         $loading.style.display = 'none';
         if (xhr.status < 200 || xhr.status >= 300) {
-            alert("요청을 보내던중 오류가 발생하였습니다.")
+            Swal.fire({
+                title: "서버가 알 수 없는 응답을 반환하였습니다.",
+                text: "잠시 후 시도해 주세요.",
+                icon: "warning"
+            });
             return;
         }
         const response = JSON.parse(xhr.responseText);

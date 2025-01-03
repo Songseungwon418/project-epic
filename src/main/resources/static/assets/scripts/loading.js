@@ -10,7 +10,7 @@ document.addEventListener("DOMContentLoaded", function () {
             // 20초 후 로딩 화면 숨기기 - 무한 반복 방지
             setTimeout(function () {
                 $loading.style.display = 'none';  // 로딩 화면 숨기기
-            }, 20000);  // 15초 후 로딩 화면 숨김
+            }, 20000);  // 20초 후 로딩 화면 숨김
         }
     });
 
