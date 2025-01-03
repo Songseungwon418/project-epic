@@ -5,12 +5,10 @@
     const list = document.querySelector('.list-member');
     const gameWrapper = document.querySelector('.game-wrapper');
 
-// 드롭다운 토글
     dropdownButton.addEventListener('click', () => {
         dropdownButton.classList.toggle('-selected');
     });
 
-// 드롭다운 리스트 클릭 이벤트
     list.addEventListener('click', (event) => {
         if (event.target.nodeName === "BUTTON") {
             const selectedValue = event.target.innerText;
@@ -78,7 +76,7 @@
 }
 //endregion
 
-//region 모든게임 가격 양식
+//region 게임 할인가 양식
 document.addEventListener("DOMContentLoaded", function () {
     const priceElements = document.querySelectorAll('.gamePrice');
     priceElements.forEach(priceElement => {
@@ -93,21 +91,9 @@ document.addEventListener("DOMContentLoaded", function () {
 });
 //endregion
 
-//region 할인게임 정상가 천단위 표시
+//region 게임 정상가 양식
 document.addEventListener("DOMContentLoaded", function () {
     const $gamePrices = document.querySelectorAll('.origin-price');
-
-    $gamePrices.forEach(gamePrice => {
-        const rawPrice = parseInt(gamePrice.textContent.trim(), 10);
-
-        gamePrice.textContent = `￦${rawPrice.toLocaleString()}`;
-    });
-});
-//endregion
-
-//region 할인게임 할인가 천단위 표시
-document.addEventListener("DOMContentLoaded", function () {
-    const $gamePrices = document.querySelectorAll('.sale-price');
 
     $gamePrices.forEach(gamePrice => {
         const rawPrice = parseInt(gamePrice.textContent.trim(), 10);

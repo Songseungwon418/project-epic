@@ -1,5 +1,4 @@
 // region 사이드배너 클릭 이벤트 및 타이머 설정
-
 {
     document.addEventListener("DOMContentLoaded", () => {
         const $sideBanners = document.querySelectorAll(".side-banner > a");
@@ -147,7 +146,7 @@
 
 //endregion
 
-//region 새로운게임 가격 양식
+//region 게임 정상가 양식
 {
     document.addEventListener("DOMContentLoaded", function () {
         // 모든 .game-price 요소를 선택
@@ -167,7 +166,7 @@
 }
 //endregion
 
-//region 할인게임 정상가 천단위 표시
+//region 할인게임 정상가 양식
 {
     document.addEventListener("DOMContentLoaded", function () {
         const $gamePrices = document.querySelectorAll('.origin-price');
@@ -181,7 +180,7 @@
 }
 //endregion
 
-//region 할인게임 할인가 천단위 표시
+//region 할인게임 할인가 양식
 {
     document.addEventListener("DOMContentLoaded", function () {
         const $gamePrices = document.querySelectorAll('.sale-price');

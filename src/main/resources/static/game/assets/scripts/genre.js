@@ -21,21 +21,24 @@ document.addEventListener('DOMContentLoaded', () => {
 });
 //endregion
 
-//region 할인게임 정상가 천단위 표시
+//region 게임 정상가 양식
 document.addEventListener("DOMContentLoaded", function () {
-    const $gamePrices = document.querySelectorAll('.origin-price');
+    const priceElements = document.querySelectorAll('.gamePrice');
+    priceElements.forEach(priceElement => {
+        const rawPrice = parseInt(priceElement.textContent.trim(), 10);
 
-    $gamePrices.forEach(gamePrice => {
-        const rawPrice = parseInt(gamePrice.textContent.trim(), 10);
-
-        gamePrice.textContent = `￦${rawPrice.toLocaleString()}`;
+        if (rawPrice === 0) {
+            priceElement.textContent = "무료";
+        } else if (!isNaN(rawPrice)) {
+            priceElement.textContent = `￦${rawPrice.toLocaleString()}`;
+        }
     });
 });
 //endregion
 
-//region 할인게임 할인가 천단위 표시
+//region 게임 할인가 양식
 document.addEventListener("DOMContentLoaded", function () {
-    const $gamePrices = document.querySelectorAll('.sale-price');
+    const $gamePrices = document.querySelectorAll('.origin-price');
 
     $gamePrices.forEach(gamePrice => {
         const rawPrice = parseInt(gamePrice.textContent.trim(), 10);
@@ -125,21 +128,6 @@ document.addEventListener("DOMContentLoaded", function () {
     };
 
 }
-//endregion
-
-//region 모든게임 가격 양식
-document.addEventListener("DOMContentLoaded", function () {
-    const priceElements = document.querySelectorAll('.gamePrice');
-    priceElements.forEach(priceElement => {
-        const rawPrice = parseInt(priceElement.textContent.trim(), 10);
-
-        if (rawPrice === 0) {
-            priceElement.textContent = "무료";
-        } else if (!isNaN(rawPrice)) {
-            priceElement.textContent = `￦${rawPrice.toLocaleString()}`;
-        }
-    });
-});
 //endregion
 
 //region 필터관련

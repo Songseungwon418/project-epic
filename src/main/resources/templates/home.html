@@ -233,7 +233,14 @@
 
                         <span class="game-type">기본 게임</span>
                         <span class="game-name" th:text="${game.name}"></span>
-                        <span class="game-price" th:text="${game.price}"></span>
+                        <span class="game-price" th:if="${!#lists.contains(onSaleGames, game)}" th:text="${game.price}"></span>
+                        <div class="sale-info" th:if="${#lists.contains(onSaleGames, game)}">
+                            <div class="sale-percentage">
+                                <span class="text" th:text="${'-10%'}"></span>
+                            </div>
+                            <del class="origin-price" th:text="${game.price}"></del>
+                            <span class="sale-price" th:text="${game.price * 0.9}"></span>
+                        </div>
                         <input id="userEmail" th:value="${userEmail}" type="hidden">
                     </a>
                 </div>
