@@ -19,7 +19,6 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.servlet.ModelAndView;
-
 import java.io.IOException;
 import java.time.LocalDate;
 import java.time.Period;
@@ -218,7 +217,7 @@ public class GameController {
             return ResponseEntity.notFound().build();
         }
 
-        String eTag = String.valueOf(game.hashCode() + game.getMainImage().hashCode()); // ETag 설정
+        String eTag = String.valueOf(game.hashCode()); // ETag 설정
         return ResponseEntity
                 .ok()
                 .eTag(eTag) // ETag를 응답에 추가
@@ -245,7 +244,7 @@ public class GameController {
             return ResponseEntity.notFound().build();
         }
 
-        String eTag = String.valueOf(game.hashCode() + game.getMainImage().hashCode()); // ETag 설정
+        String eTag = String.valueOf(game.hashCode()); // ETag 설정
         return ResponseEntity
                 .ok()
                 .eTag(eTag) // ETag를 응답에 추가
@@ -320,7 +319,7 @@ public class GameController {
             return ResponseEntity.notFound().build();
         }
 
-        String eTag = String.valueOf(game.hashCode() + game.getMainImage().hashCode()); // ETag 설정
+        String eTag = String.valueOf(game.hashCode()); // ETag 설정
         return ResponseEntity
                 .ok()
                 .eTag(eTag) // ETag를 응답에 추가
@@ -343,7 +342,7 @@ public class GameController {
             return ResponseEntity.notFound().build();
         }
 
-        String eTag = String.valueOf(game.hashCode() + game.getMainImage().hashCode()); // ETag 설정
+        String eTag = String.valueOf(game.hashCode()); // ETag 설정
         return ResponseEntity
                 .ok()
                 .eTag(eTag) // ETag를 응답에 추가
@@ -392,18 +391,7 @@ public class GameController {
     }
     //endregion
 
-    //region 게임 추가
-    /** 게임 추가 화면 페이지*/
-    @GetMapping(value = "/addGame", produces = MediaType.TEXT_HTML_VALUE)
-    public ModelAndView addGame(@SessionAttribute UserEntity user) {
-        if (user == null) {
-            return new ModelAndView("redirect:/user/");
-        }
-        ModelAndView mav = new ModelAndView();
-        mav.setViewName("game/addGame");
-        return mav;
-    }
-
+    /** 게임 등록 */
     @PostMapping(value = "/add", produces = MediaType.TEXT_HTML_VALUE)
     public String postAddGame(
             Model model,
