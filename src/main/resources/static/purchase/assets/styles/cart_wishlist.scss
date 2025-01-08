@@ -1169,6 +1169,21 @@ body {
   }
 }
 
+@media (max-width: 913px) {
+  .view-content-container {
+    &.-wishlist {
+      display: flex;
+      flex-direction: column-reverse !important;
+      align-items: stretch;
+      justify-content: stretch;
+
+      > .wishlist-filter-sidebar {
+        width: 100% !important;
+      }
+    }
+  }
+}
+
 @media (min-width: 1024px) and (max-width: 1279px) {
   .view-content-container {
     flex-wrap: nowrap;

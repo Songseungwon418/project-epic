@@ -225,7 +225,7 @@ body::-webkit-scrollbar-track {
   display: none;
   padding: 40px;
   width: 100%;
-  overflow: auto !important;
+  overflow: auto auto !important;
 }
 .container > .main > .user-purchaseList.-visible {
   display: block;

@@ -271,7 +271,7 @@ body {
       display: none;
       padding: 40px;
       width: 100%;
-      overflow: auto !important;
+      overflow: auto auto!important;
 
       &.-visible {
         display: block;

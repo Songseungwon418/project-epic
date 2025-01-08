@@ -123,7 +123,10 @@ if ($searchContainer) {
     });
 
     $searchForm.addEventListener('submit', (event) => {
-        $searchForm['keyword'].value = '';
+        setTimeout(() => {
+            $searchForm['keyword'].value = '';
+            $searchForm['keyword'].focus();
+        }, 1000);
     });
 }
 //endregion

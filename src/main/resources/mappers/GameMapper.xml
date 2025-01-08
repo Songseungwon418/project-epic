@@ -35,6 +35,29 @@
             (#{gameIndex}, #{tag})
         </foreach>
     </insert>
+    <!-- 게임 언어 맵핑 테이블  -->
+    <insert id="insertGameLanguageMapping">
+        INSERT INTO `epic_games`.`game_language_mapping` (`game_index`, `language_id`)
+        VALUES
+        <foreach collection="languageIDs" item="languageId" separator=",">
+            (#{gameIndex}, #{languageId})
+        </foreach>
+    </insert>
+    <!--  게임 언어의 id 전체 들고옴  -->
+    <select id="selectLanguageId" resultType="_int">
+        SELECT `id`
+        FROM `epic_games`.`language`
+    </select>
+
+    <!-- 게임 할인 맵핑 테이블  -->
+    <insert id="insertGameDiscountsMapping">
+        INSERT INTO `epic_games`.`game_discounts_mapping` (`game_index`, `discounts_id`)
+        VALUES
+        <foreach collection="discountsIDs" item="discountsId" separator=",">
+            (#{gameIndex}, #{discountsId})
+        </foreach>
+    </insert>
+
 <!--  endregion  -->
 
     <select id="selectAllGames" resultType="com.ssw.epicgames.vos.GameVo">
@@ -217,6 +240,4 @@
         AND `deleted_at` IS NULL
         LIMIT 1
     </select>
-
-
 </mapper>

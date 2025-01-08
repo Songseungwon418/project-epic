@@ -218,7 +218,7 @@ public class GameController {
             return ResponseEntity.notFound().build();
         }
 
-        String eTag = String.valueOf(game.hashCode()); // ETag 설정
+        String eTag = String.valueOf(game.hashCode() + game.getMainImage().hashCode()); // ETag 설정
         return ResponseEntity
                 .ok()
                 .eTag(eTag) // ETag를 응답에 추가
@@ -245,7 +245,7 @@ public class GameController {
             return ResponseEntity.notFound().build();
         }
 
-        String eTag = String.valueOf(game.hashCode()); // ETag 설정
+        String eTag = String.valueOf(game.hashCode() + game.getMainImage().hashCode()); // ETag 설정
         return ResponseEntity
                 .ok()
                 .eTag(eTag) // ETag를 응답에 추가
@@ -320,7 +320,7 @@ public class GameController {
             return ResponseEntity.notFound().build();
         }
 
-        String eTag = String.valueOf(game.hashCode()); // ETag 설정
+        String eTag = String.valueOf(game.hashCode() + game.getMainImage().hashCode()); // ETag 설정
         return ResponseEntity
                 .ok()
                 .eTag(eTag) // ETag를 응답에 추가
@@ -343,7 +343,7 @@ public class GameController {
             return ResponseEntity.notFound().build();
         }
 
-        String eTag = String.valueOf(game.hashCode()); // ETag 설정
+        String eTag = String.valueOf(game.hashCode() + game.getMainImage().hashCode()); // ETag 설정
         return ResponseEntity
                 .ok()
                 .eTag(eTag) // ETag를 응답에 추가
