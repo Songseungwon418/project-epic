@@ -109,16 +109,24 @@ document.addEventListener('DOMContentLoaded', function() {
 
                 // 게임의 플렛폼을 가져옴
                 const $os = game.querySelectorAll('.logo');
+                let osMatch = false; // OS 필터에 매칭되는지 여부를 추적
+
                 // 하나의 게임에 플랫폼이 여러개 있을 수 있으니까 하나씩 비교함
                 $os.forEach((os) => {
                     let osResult = os.textContent.trim().replace(/\s+/g, '').toLowerCase(); // 게임의 os 문자열을 가져옴
-                    if(filter.includes('windows') && !filter.includes(osResult)) {
-                        isVisible = false; // windows가 아니면 숨김
+                    // 필터에 포함된 플랫폼이 게임의 플랫폼 목록에 포함되는지 체크
+                    if (filter.includes('windows') && osResult.includes('windows')) {
+                        osMatch = true; // Windows가 포함된 게임 찾음
                     }
-                    if(filter.includes('mac') && !filter.includes(osResult)) {
-                        isVisible = false; // mac이 아니면 숨김
+                    if (filter.includes('mac') && osResult.includes('mac')) {
+                        osMatch = true; // Mac이 포함된 게임 찾음
                     }
                 });
+
+                // 필터에 해당하는 OS가 없으면 숨김
+                if ((filter.includes('windows') || filter.includes('mac')) && !osMatch) {
+                    isVisible = false;
+                }
             });
 
             if (isVisible) {

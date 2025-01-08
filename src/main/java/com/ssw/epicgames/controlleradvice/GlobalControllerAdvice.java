@@ -34,14 +34,6 @@ public class GlobalControllerAdvice {
         return user != null ? user.getEmail() : null;
     }
 
-    @RequestMapping(value = "/error", produces = MediaType.TEXT_HTML_VALUE)
-    public ModelAndView getError() {
-        ModelAndView modelAndView = new ModelAndView();
-        modelAndView.addObject("error", "");
-        modelAndView.setViewName("error");
-        return modelAndView;
-    }
-
     @ExceptionHandler(Exception.class)
     public String handleException(Exception ex) throws ModelAndViewDefiningException {
         ModelAndView modelAndView = new ModelAndView();
