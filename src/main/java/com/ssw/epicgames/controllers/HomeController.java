@@ -1,17 +1,16 @@
 package com.ssw.epicgames.controllers;
 
 import com.ssw.epicgames.DTO.PayDTO;
-import com.ssw.epicgames.DTO.PurchaseDTO;
-import com.ssw.epicgames.DTO.WishlistDTO;
 import com.ssw.epicgames.entities.UserEntity;
 import com.ssw.epicgames.services.GameService;
 import com.ssw.epicgames.services.HomeService;
 import com.ssw.epicgames.services.PurchaseService;
 import com.ssw.epicgames.services.WishlistService;
 import com.ssw.epicgames.vos.GameVo;
+import lombok.extern.log4j.Log4j2;
 import org.apache.commons.lang3.tuple.Pair;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.beans.factory.annotation.Value;
+import org.springframework.http.CacheControl;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
@@ -19,8 +18,10 @@ import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.ModelAndView;
 
 import java.util.*;
+import java.util.concurrent.TimeUnit;
 import java.util.stream.Collectors;
 
+@Log4j2
 @Controller
 @RequestMapping(value = "/")
 public class HomeController {
@@ -32,10 +33,10 @@ public class HomeController {
 
 
     @Autowired
-    public HomeController(HomeService homeService, PurchaseService purchaseService, WishlistService wishlistService, PurchaseService purchaseService1, GameService gameService) {
+    public HomeController(HomeService homeService, PurchaseService purchaseService, WishlistService wishlistService, GameService gameService) {
         this.homeService = homeService;
         this.wishlistService = wishlistService;
-        this.purchaseService = purchaseService1;
+        this.purchaseService = purchaseService;
         this.gameService = gameService;
     }
 
@@ -43,24 +44,26 @@ public class HomeController {
     @ResponseBody
     public ResponseEntity<byte[]> getNewGameImage(@RequestParam(value = "index") int index) {
         GameVo game = this.homeService.getGameByIndex(index, false);
-        if (game == null || game.getMainImage() == null) {
-            return ResponseEntity.notFound().build();
-        }
-        return ResponseEntity
-                .ok()
-                .header("Content-Type", "image/jpeg")
-                .body(game.getMainImage());
+        return getResponseEntity(game);
     }
 
     @RequestMapping(value = "/sale-game-image", method = RequestMethod.GET)
     @ResponseBody
     public ResponseEntity<byte[]> getSaleGameImage(@RequestParam(value = "index") int index) {
         GameVo game = this.homeService.getGameByIndex(index, true);
+        return getResponseEntity(game);
+    }
+
+    // 이미지 응답을 메서드로 빼서 사용
+    static ResponseEntity<byte[]> getResponseEntity(GameVo game) {
         if (game == null || game.getMainImage() == null) {
             return ResponseEntity.notFound().build();
         }
+        String eTag = String.valueOf(game.hashCode()); // ETag 설정
         return ResponseEntity
                 .ok()
+                .eTag(eTag) // ETag를 응답에 추가
+                .cacheControl(CacheControl.maxAge(10, TimeUnit.MINUTES)) // 클라이언트에게 10분 동안 캐시하도록 지시
                 .header("Content-Type", "image/jpeg")
                 .body(game.getMainImage());
     }
@@ -113,14 +116,6 @@ public class HomeController {
         modelAndView.addObject("user", user);
 
         modelAndView.setViewName("home");
-        return modelAndView;
-    }
-
-    @RequestMapping(value = "/error", produces = MediaType.TEXT_HTML_VALUE)
-    public ModelAndView getError() {
-        ModelAndView modelAndView = new ModelAndView();
-        modelAndView.addObject("error", "");
-        modelAndView.setViewName("error");
         return modelAndView;
     }
 }
