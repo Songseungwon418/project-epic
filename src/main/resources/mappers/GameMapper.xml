@@ -240,4 +240,16 @@
         AND `deleted_at` IS NULL
         LIMIT 1
     </select>
+
+    <!--  게임 인덱스로 메인이미지 반환  -->
+    <resultMap id="gameImageResultMap" type="com.ssw.epicgames.entities.GameEntity">
+        <result property="mainImage" column="main_image" jdbcType="BLOB"/>
+    </resultMap>
+
+    <select id="selectGameImgByindex" resultMap="gameImageResultMap">
+        SELECT `main_image`
+        FROM `epic_games`.`game`
+        WHERE `index` = #{index}
+    </select>
+
 </mapper>

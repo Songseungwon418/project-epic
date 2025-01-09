@@ -47,13 +47,13 @@
                                    th:value="${user.nickname}">
                         </label>
                     </div>
-<!--                    <div class="id-wrapper">-->
-<!--                        <span class="text">이메일 주소</span>-->
-<!--                        <label class="label email-addr">-->
-<!--                            <input readonly autocomplete="email" class="input" maxlength="50" minlength="8" name="email"-->
-<!--                                   spellcheck="false" type="email" th:value="${user.email}">-->
-<!--                        </label>-->
-<!--                    </div>-->
+                    <!--                    <div class="id-wrapper">-->
+                    <!--                        <span class="text">이메일 주소</span>-->
+                    <!--                        <label class="label email-addr">-->
+                    <!--                            <input readonly autocomplete="email" class="input" maxlength="50" minlength="8" name="email"-->
+                    <!--                                   spellcheck="false" type="email" th:value="${user.email}">-->
+                    <!--                        </label>-->
+                    <!--                    </div>-->
                 </div>
                 <div class="wrapper">
                     <label class="label language">
@@ -103,6 +103,7 @@
         </div>
         <div class="content user-purchaseList" th:classappend="${showPurchaseList ? '-visible' : ''}" rel="user.purchaseList">
             <h2 class="title">거래</h2>
+            <span class="_text">※ 환불은 구매일로부터 72시간이내로 가능합니다.</span>
             <table class="purchase-table" id="purchase-table" th:if="${paylist != null && paylist.size() > 0}">
                 <thead>
                 <tr>

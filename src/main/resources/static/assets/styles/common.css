@@ -908,6 +908,7 @@ button {
     word-wrap: break-word;
     word-break: keep-all;
     letter-spacing: normal;
+    font-size: 1.5rem;
 }
 #footer > .legal-container {
     display: flex;

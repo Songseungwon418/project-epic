@@ -131,7 +131,25 @@ if ($searchContainer) {
 }
 //endregion
 
-//region footer 화살표 누르면 페이지 상단으로 바로 이동
+// region header 언어버튼 클릭 시 나타나는 영역
+document.addEventListener('DOMContentLoaded', () => {
+    const languageToggle = document.querySelector('.language');
+    const button = document.querySelector('.global.icon');
+
+    button.addEventListener('click', (e) => {
+        e.stopPropagation();
+        languageToggle.classList.toggle('active');
+    });
+
+    document.addEventListener('click', (e) => {
+        if (!languageToggle.contains(e.target)) {
+            languageToggle.classList.remove('active');
+        }
+    });
+});
+//endregion
+
+// region footer 화살표 누르면 페이지 상단으로 바로 이동
 const $pageup = document.body.querySelector('[name="pageup"]');
 if ($pageup != null) {
     $pageup.onclick = () => {
@@ -139,7 +157,7 @@ if ($pageup != null) {
 
         const topElement = document.getElementById('main');
         if (topElement) {
-            topElement.scrollIntoView({ behavior: 'smooth' });  // 해당 요소로 부드럽게 이동
+            topElement.scrollIntoView({behavior: 'smooth'});  // 해당 요소로 부드럽게 이동
         }
     }
 }
@@ -178,10 +196,10 @@ if ($pageup != null) {
 function filterGenre(element) {
     const xhr = new XMLHttpRequest();
     xhr.onreadystatechange = () => {
-        if(xhr.readyState !== XMLHttpRequest.DONE){
+        if (xhr.readyState !== XMLHttpRequest.DONE) {
             return;
         }
-        if (xhr.status < 200 || xhr.status >= 300){
+        if (xhr.status < 200 || xhr.status >= 300) {
             Swal.fire({
                 title: "게임 분류 목록을 불러오는데 실패하였습니다.",
                 text: "잠시 후 시도해 주세요.",
@@ -238,6 +256,7 @@ function filterGenre(element) {
     xhr.open('GET', '/genre/');
     xhr.send();
 }
+
 //endregion
 
 //region hide, show 및 findLabel 구현
@@ -267,37 +286,4 @@ HTMLElement.prototype.removeShow = function () {
 HTMLFormElement.prototype.findLabel = function (dataId) {
     return this.querySelector(`label.--obj-label[data-id="${dataId}"]`);
 }
-//endregion
-
-//region 로딩 관련
-// 로딩바 관련 함수
-// class Loading {
-//     /** @type {HTMLElement} */
-//     static $element
-//
-//     static hide() {
-//         Loading.$element.hide();
-//     }
-//
-//     /**
-//      * @param {number} delay
-//      */
-//     static show(delay = 50) {
-//         if (Loading.$element == null) {
-//             const $element = document.createElement('div');
-//             $element.classList.add('---loading');
-//             const $icon = document.createElement('img');
-//             $icon.classList.add('_icon');
-//             $icon.setAttribute('alt', '');
-//             $icon.setAttribute('src', 'data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAADAAAAAwCAYAAABXAvmHAAAACXBIWXMAAAsTAAALEwEAmpwYAAAEUUlEQVR4nO1Zz2/bdBT/CgZiZdphbOMCQhNiQpxAaFL3n3BBExMTEwe6NWvSJE3UcqmaZqVJmiVpOneO47Qy6g5DQtsuuQxOkxgsArs74W9iR+LHgUtLR+vp03WS/a0r27WTECkf6UlWovfy3tfv+97nvRAywAAD+IZhGC+t0/awQtsxWdXXZKo1FKr/rVBt6+roFSMcGdtJTCY3Z9KzzVyhcI/jhYv1ev0I6TXWKX1LUbVpmepNheqGnYxc+cpWovHYf/MLCz+Kovhx1x3/tdl8Q1b1gkL1fw9y3CmAFzIaumrMZTKPb62svNsV5xVV/0RR9T+dHHcbwMiehCPh7QLHfdMxx+uGcWTv1O2dVbV/ZKrVFNq6JKvauXVNO/XwofFKqXRnSBTF929WKp8VFsuVVDr9e2gstHNQIHOZzC/L9fprgTqvqupRWdW+s3de035rapdbrdaQW3uiKJ4slst8PDmxZRfEdCrVliTpRIAnv995meqbsqolHun664e1XSrdGVooFr/HPbALIpA3YZ82mv6k2T5PAkL5lvBFJBrZ3pdO2czP/i/sfucfP2k23yYBQ1hdHU5OTW6wQSxyXPpQBhuqekJR9T+saaO1O+G8OQj2TYTHwzucKL5H/KaOTPWNINPmICxV+cvsnfCcSrsdlmlSuLCkS8gVCvfYZsfXvv3ItQHQA7ZU+qk2XiFJ0rF4wlpi53O5H1wpG4bxMsttUOdJl3FjaVGwcKeJ2FNXBPA5q7R2WC9NKihU1tZOX2M6Nrq5oyIoMVN5aqRHSF2/rpoDQNNzVAKft+Z/6xLpEW6US1VzADPpNHVU2htGzNXnHOkROF64aA4gOTW14aikUP0vSwCt1knSIwiS8AFLuR2V2PrfaDReJT2CIAjH2X7gqIQZ1qyEmkz6KYCxyJildK3cvn2W9FMKJSaTm55rb4dQFoTPPV/i6fRsy6yEMZD0UxnNMUQKMyzpEWbSs9RzI2NrLwZwzLCky6jVam+GroUsBWW5yn/qqAjChKWTWREDOOkXMgdgY2ZWxvYAAzjpYvmMJeJPLXQ6n3/g2gDWfexU5Cr/AkK2WLxvSePQqLeBBsC6j20i2B6QDmOJ579km+lcLvfIsyHsKsPjYcuAjYEbg3d3h/rI9mKlcuZQBrGrZNccWH10IghhdXWYbaKQEncz5cswdpWsUZwStgdBpk14fP9iaz6b/cm3caz3sOZjjeNOoOn5IXuSJB3DhWVzHjI9O6NLkhQME8ai1S6I3RKbmNhCzcYM66VJQSfGlErG+WCWu+Y3gQWT3Q9CMIBjhgV/QTcHk8QJQ/CMz/Llcg30gO2wI0zFCezk7YBdpV2++pVINLLt+8K6DqJSOYO3YbcW9yqh0OjuqVer1XdIt4HuiI1ZNB61cCc3Am4zn88/WK5KH5JeAyQLg0+2WLwLzo7BA5MdqgsEz8mvJzfwHSgJxwsX/hd/sw4wAOl/PAMoIvjFmf3elAAAAABJRU5ErkJggg==');
-//             const $text = document.createElement('span');
-//             $text.classList.add('_text');
-//             $text.innerText = '잠시만 기다려 주세요.';
-//             $element.append($icon, $text);
-//             document.body.prepend($element);
-//             Loading.$element = $element;
-//         }
-//         setTimeout(() => Loading.$element.show(), delay);
-//     }
-// }
 //endregion

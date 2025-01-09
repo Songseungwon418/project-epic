@@ -8,7 +8,6 @@ import com.ssw.epicgames.resutls.CommonResult;
 import com.ssw.epicgames.resutls.Result;
 import com.ssw.epicgames.vos.GameVo;
 import org.springframework.beans.factory.annotation.Autowired;
-
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.multipart.MultipartFile;
@@ -90,9 +89,9 @@ public class GameService {
     public Result addGame(GameEntity game, List<MultipartFile> images, String tag1, String tag2) throws IOException {
         // 데이터 유효성 검사
         if (game == null ||
-            game.getName().length() > 100 || game.getCompany().length() > 50 || game.getMinOs().length() > 50 || game.getMinCpu().length() > 255 || game.getMinRam().length() > 50 || game.getMinStorage().length() > 50 || game.getMinGpu().length() > 255 || game.getRecOs().length() > 50 || game.getRecCpu().length() > 255 || game.getRecRam().length() > 50 || game.getRecStorage().length() > 50 || game.getRecGpu().length() > 255 ||
-            tag1 == null || tag2 == null || tag1.isEmpty() || tag2.isEmpty() ||
-            images == null || images.isEmpty()) {
+                game.getName().length() > 100 || game.getCompany().length() > 50 || game.getMinOs().length() > 50 || game.getMinCpu().length() > 255 || game.getMinRam().length() > 50 || game.getMinStorage().length() > 50 || game.getMinGpu().length() > 255 || game.getRecOs().length() > 50 || game.getRecCpu().length() > 255 || game.getRecRam().length() > 50 || game.getRecStorage().length() > 50 || game.getRecGpu().length() > 255 ||
+                tag1 == null || tag2 == null || tag1.isEmpty() || tag2.isEmpty() ||
+                images == null || images.isEmpty()) {
             return CommonResult.FAILURE;
         }
 
@@ -187,5 +186,9 @@ public class GameService {
 
         System.out.println("게임 생성 완료");
         return CommonResult.SUCCESS;
+    }
+
+    public GameEntity getGameImg(int index) {
+        return this.gameMapper.selectGameImgByindex(index);
     }
 }

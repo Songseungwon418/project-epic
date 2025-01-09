@@ -50,8 +50,8 @@ public class UserService {
     //region 로그인
     public Result login(UserEntity user) {
         if(user == null ||
-                user.getEmail() == null || user.getEmail().length() < 8 || user.getEmail().length() > 50 ||
-                user.getPassword() == null || user.getPassword().length() < 6 || user.getPassword().length() > 50) {
+            user.getEmail() == null || user.getEmail().length() < 8 || user.getEmail().length() > 50 ||
+            user.getPassword() == null || user.getPassword().length() < 6 || user.getPassword().length() > 50) {
             return CommonResult.FAILURE;
         }
         UserEntity dbUser = this.userMapper.selectUserByEmail(user.getEmail());
@@ -241,8 +241,8 @@ public class UserService {
     @Transactional
     public Result validateEmailToken(EmailTokenEntity emailToken) {
         if(emailToken == null ||
-                emailToken.getUserEmail() == null || emailToken.getUserEmail().length() < 8 || emailToken.getUserEmail().length() > 50 ||
-                emailToken.getKey() == null || emailToken.getKey().length() != 128) {
+            emailToken.getUserEmail() == null || emailToken.getUserEmail().length() < 8 || emailToken.getUserEmail().length() > 50 ||
+            emailToken.getKey() == null || emailToken.getKey().length() != 128) {
             return CommonResult.FAILURE;
         }
         EmailTokenEntity dbEmailToken = this.emailTokenMapper.selectEmailTokenByUserEmailAndKey(emailToken.getUserEmail(), emailToken.getKey());

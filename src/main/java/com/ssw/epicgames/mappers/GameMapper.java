@@ -74,4 +74,6 @@ public interface GameMapper {
 
     PurchaseEntity getPurchaseByEmailAndGameIndex(@Param("userEmail") String userEmail,
                                                   @Param("index") int index);
+
+    GameEntity selectGameImgByindex(@Param("index") int index);
 }

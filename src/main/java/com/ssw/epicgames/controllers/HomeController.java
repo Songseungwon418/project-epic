@@ -1,15 +1,18 @@
 package com.ssw.epicgames.controllers;
 
 import com.ssw.epicgames.DTO.PayDTO;
+import com.ssw.epicgames.DTO.PurchaseDTO;
+import com.ssw.epicgames.DTO.WishlistDTO;
+import com.ssw.epicgames.entities.GameEntity;
 import com.ssw.epicgames.entities.UserEntity;
 import com.ssw.epicgames.services.GameService;
 import com.ssw.epicgames.services.HomeService;
 import com.ssw.epicgames.services.PurchaseService;
 import com.ssw.epicgames.services.WishlistService;
 import com.ssw.epicgames.vos.GameVo;
-import lombok.extern.log4j.Log4j2;
 import org.apache.commons.lang3.tuple.Pair;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.http.CacheControl;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
@@ -21,7 +24,6 @@ import java.util.*;
 import java.util.concurrent.TimeUnit;
 import java.util.stream.Collectors;
 
-@Log4j2
 @Controller
 @RequestMapping(value = "/")
 public class HomeController {
@@ -40,30 +42,59 @@ public class HomeController {
         this.gameService = gameService;
     }
 
+//    @RequestMapping(value = "/new-game-image", method = RequestMethod.GET)
+//    @ResponseBody
+//    public ResponseEntity<byte[]> getNewGameImage(@RequestParam(value = "index") int index) {
+//        GameVo game = this.homeService.getGameByIndex(index, false);
+//        if (game == null || game.getMainImage() == null) {
+//            return ResponseEntity.notFound().build();
+//        }
+//        return ResponseEntity
+//                .ok()
+//                .header("Content-Type", "image/jpeg")
+//                .body(game.getMainImage());
+//    }
+
+//    @RequestMapping(value = "/sale-game-image", method = RequestMethod.GET)
+//    @ResponseBody
+//    public ResponseEntity<byte[]> getSaleGameImage(@RequestParam(value = "index") int index) {
+//        GameVo game = this.homeService.getGameByIndex(index, true);
+//        if (game == null || game.getMainImage() == null) {
+//            return ResponseEntity.notFound().build();
+//        }
+//        return ResponseEntity
+//                .ok()
+//                .header("Content-Type", "image/jpeg")
+//                .body(game.getMainImage());
+//    }
+
+    // 최신 게임 이미지 반환
     @RequestMapping(value = "/new-game-image", method = RequestMethod.GET)
     @ResponseBody
     public ResponseEntity<byte[]> getNewGameImage(@RequestParam(value = "index") int index) {
-        GameVo game = this.homeService.getGameByIndex(index, false);
-        return getResponseEntity(game);
+        return getResponseEntity(index);
     }
 
+    // 세일하는 게임 이미지 반환
     @RequestMapping(value = "/sale-game-image", method = RequestMethod.GET)
     @ResponseBody
     public ResponseEntity<byte[]> getSaleGameImage(@RequestParam(value = "index") int index) {
-        GameVo game = this.homeService.getGameByIndex(index, true);
-        return getResponseEntity(game);
+        return getResponseEntity(index);
     }
 
-    // 이미지 응답을 메서드로 빼서 사용
-    static ResponseEntity<byte[]> getResponseEntity(GameVo game) {
-        if (game == null || game.getMainImage() == null) {
+    // 게임 인덱스를 받아서 db에서 메인이미지를 조회하여 반환하는 메서드
+    private ResponseEntity<byte[]> getResponseEntity(@RequestParam("index") int index) {
+        GameEntity game = this.gameService.getGameImg(index);
+        System.out.println(game.getMainImage());
+        if (game.getMainImage() == null || game.getMainImage().length == 0) {
             return ResponseEntity.notFound().build();
         }
+
         String eTag = String.valueOf(game.hashCode()); // ETag 설정
         return ResponseEntity
                 .ok()
                 .eTag(eTag) // ETag를 응답에 추가
-                .cacheControl(CacheControl.maxAge(10, TimeUnit.MINUTES)) // 클라이언트에게 10분 동안 캐시하도록 지시
+                .cacheControl(CacheControl.maxAge(30, TimeUnit.MINUTES)) // 클라이언트에게 30분 동안 캐시하도록 지시
                 .header("Content-Type", "image/jpeg")
                 .body(game.getMainImage());
     }

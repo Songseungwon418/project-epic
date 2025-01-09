@@ -24,8 +24,8 @@ public class HomeService {
     }
 
     public GameVo getGameByIndex(int index, boolean isSale) {
-        GameVo[] newGames = this.homeMapper.selectNewGames();
-        GameVo[] saleGames = this.homeMapper.selectSaleGames();
+        GameVo[] newGames = getNewGames();
+        GameVo[] saleGames = getSaleGames();
 
         if (isSale) {
             if (index < saleGames.length) {
