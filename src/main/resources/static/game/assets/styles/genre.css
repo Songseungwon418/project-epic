@@ -184,7 +184,7 @@
   outline: none;
   border: none;
   z-index: 1;
-  display: flex;
+  display: none;
   align-items: center;
   justify-content: center;
   opacity: 0;
@@ -201,6 +201,7 @@
 }
 #main > .mainSection > .gameSection > .game-container > .allGame > .game-wrapper > .game > .mainImage:hover .wishlist {
   opacity: 1;
+  display: flex;
 }
 #main > .mainSection > .gameSection > .game-container > .allGame > .game-wrapper > .game > .mainImage .wishlist:hover + .tooltip {
   display: block;

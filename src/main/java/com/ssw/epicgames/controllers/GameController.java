@@ -391,8 +391,17 @@ public class GameController {
     }
     //endregion
 
+    //region 게임 추가 관련
+    /** 게임 추가 화면 페이지*/
+    @GetMapping(value = "/addGame", produces = MediaType.TEXT_HTML_VALUE)
+    public ModelAndView addGame() {
+        ModelAndView mav = new ModelAndView();
+        mav.setViewName("game/addGame");
+        return mav;
+    }
+
     /** 게임 등록 */
-    @PostMapping(value = "/add", produces = MediaType.TEXT_HTML_VALUE)
+    @PostMapping(value = "/addGame", produces = MediaType.TEXT_HTML_VALUE)
     public String postAddGame(
             Model model,
             GameEntity game,
@@ -439,7 +448,6 @@ public class GameController {
         }
         return "game/addGame";
     }
-
     //endregion
 
 }

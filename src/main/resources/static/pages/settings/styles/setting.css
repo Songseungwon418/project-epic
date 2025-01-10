@@ -243,8 +243,12 @@ body::-webkit-scrollbar-track {
 }
 .container > .main > .user-purchaseList > ._text {
   display: block;
-  margin-bottom: 5px;
   padding: 5px 10px;
+  font-size: 12px;
+}
+.container > .main > .user-purchaseList > ._text.-red {
+  font-size: 14px;
+  font-weight: 600;
   color: #ff4747;
 }
 .container > .main > .user-purchaseList > .purchase-table {

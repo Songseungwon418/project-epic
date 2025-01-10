@@ -292,9 +292,14 @@ body {
 
       > ._text {
         display: block;
-        margin-bottom: 5px;
         padding: 5px 10px;
-        color: #ff4747;
+        font-size: 12px;
+
+        &.-red {
+          font-size: 14px;
+          font-weight: 600;
+          color: #ff4747;
+        }
       }
 
       > .purchase-table {

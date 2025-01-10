@@ -103,7 +103,8 @@
         </div>
         <div class="content user-purchaseList" th:classappend="${showPurchaseList ? '-visible' : ''}" rel="user.purchaseList">
             <h2 class="title">거래</h2>
-            <span class="_text">※ 환불은 구매일로부터 72시간이내로 가능합니다.</span>
+            <span class="_text -red">※ 환불은 구매일로부터 72시간이내로 가능합니다.</span>
+            <span class="_text">- 무료 게임은 환불 불가 -</span>
             <table class="purchase-table" id="purchase-table" th:if="${paylist != null && paylist.size() > 0}">
                 <thead>
                 <tr>

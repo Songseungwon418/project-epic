@@ -8,7 +8,6 @@ import org.springframework.cache.annotation.EnableCaching;
 @SpringBootApplication(exclude = {SecurityAutoConfiguration.class})
 @EnableCaching
 public class EpicgamesApplication {
-
     public static void main(String[] args) {
         SpringApplication.run(EpicgamesApplication.class, args);
     }
