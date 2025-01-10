@@ -228,11 +228,11 @@
   outline: none;
   border: none;
   z-index: 1;
-  display: flex;
+  display: none;
   align-items: center;
   justify-content: center;
   opacity: 0;
-  transition-property: opacity;
+  transition-property: opacity, display;
   transition-duration: 0.3s;
   transition-timing-function: ease;
 }
@@ -245,6 +245,7 @@
 }
 #main > .mainSection > .game-container > .allGame > .game-wrapper > .game > .mainImage:hover .wishlist {
   opacity: 1;
+  display: flex !important;
 }
 #main > .mainSection > .game-container > .allGame > .game-wrapper > .game > .mainImage .wishlist:hover + .tooltip {
   display: block;
