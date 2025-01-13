@@ -138,7 +138,9 @@ public class PageService {
         userEntity.setName(user.getName());
         userEntity.setNickname(user.getNickname());
         userEntity.setPhone(user.getPhone());
+        userEntity.setPostcode(user.getPostcode());
         userEntity.setAddr(user.getAddr());
+        userEntity.setDetailAddress(user.getDetailAddress());
         userEntity.setBirthdate(user.getBirthdate());
         userEntity.setUpdatedAt(LocalDateTime.now());
 
@@ -166,12 +168,6 @@ public class PageService {
         dbUser.setDeletedDate(LocalDateTime.now());
 
         return this.userMapper.updateUser(dbUser) > 0 ? CommonResult.SUCCESS : CommonResult.FAILURE;
-    }
-    //endregion
-
-    //region dbUser select
-    public UserEntity getUserByEmail(String email) {
-        return this.userMapper.selectUserByEmail(email);
     }
     //endregion
 

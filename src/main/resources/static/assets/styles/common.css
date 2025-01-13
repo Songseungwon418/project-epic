@@ -670,7 +670,6 @@ button {
     box-sizing: border-box;
     border-radius: 0.5rem;
 }
-
 #main > .search-container > .area > .link-container > .list > .item:hover {
     color: #FFFFFF;
 }
@@ -679,6 +678,19 @@ button {
     transition-property: border;
     transition-duration: 250ms;
     transition-timing-function: ease;
+}
+#main > .search-container > .area > .link-container > .list > .cartCount-wrapper {
+    background-color: #26BBFF;
+    height: 2rem;
+    line-height: 2rem;
+    border-radius: 1rem;
+    margin-left: -1.5rem;
+}
+#main > .search-container > .area > .link-container > .list > .cartCount-wrapper > .cartCount {
+    color: #000000;
+    font-weight: bold;
+    padding: 0.35rem 1.2rem;
+    transition: transform 0.4s ease-in-out;
 }
 #main > .logout {
     width: 100%;
@@ -901,6 +913,7 @@ button {
     word-wrap: break-word;
     word-break: keep-all;
     letter-spacing: normal;
+    font-size: 1.5rem;
 }
 #footer > .legal-container {
     display: flex;

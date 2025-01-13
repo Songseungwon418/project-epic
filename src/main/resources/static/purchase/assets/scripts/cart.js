@@ -78,7 +78,6 @@ if($openModalBtn !== null){
                 }
                 else if(response.result === 'success'){
                     document.body.style.cursor = 'not-allowed';
-                    Loading.show();
                     location.reload();
                 }
             };

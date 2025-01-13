@@ -27,6 +27,11 @@ body {
   border-radius: 1.5rem;
   padding: 48px;
   background-color: #18181c;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  position: fixed;
+
 
   > .login-form {
     display: flex;

@@ -74,18 +74,6 @@ $loginForm.onsubmit = (e) => {
             } else {
                 location.href = '/'; // 이전 페이지 정보가 없으면 홈 페이지로
             }
-
-            // // 현재 호스트가 localhost:8080이 아닌 경우, 홈페이지로 리디렉션
-            // if (window.location.hostname !== 'www.hyejis.com' || window.location.hostname !== 'www.stopsoo.com' || window.location.hostname !== 'www.songseungwon.com') {
-            //     location.href = '/'; // 홈페이지로 리디렉션
-            // } else {
-            //     // localhost:8080에서 접근한 경우, 이전 페이지로 리디렉션
-            //     if (previousUrl && previousUrl.indexOf('forgot-password') && previousUrl.indexOf('recover-password') === -1) {
-            //         location.href = previousUrl; // 이전 페이지로 리디렉션
-            //     } else {
-            //         location.href = '/'; // 이전 페이지 정보가 없으면 홈페이지로
-            //     }
-            // }
         }
     };
     xhr.open('POST', '/user/');

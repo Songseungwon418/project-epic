@@ -335,6 +335,112 @@
             </div>
         </section>
 
+        <section class="gameList">
+            <ul class="list">
+                <li class="item first">
+                    <div class="title-wrapper">
+                        <div class="title">
+                            <div class="link">
+                                <span class="text">에픽게임즈 베스트셀러</span>
+                                <svg class="icon" width="24" height="24"
+                                     viewBox="0 0 24 24">
+                                    <path d="M8.97 4.47a.75.75 0 0 1 1.06 0L17.56 12l-7.53 7.53a.75.75 0 1 1-1.06-1.06L15.44 12 8.97 5.53a.75.75 0 0 1 0-1.06"
+                                          clip-rule="evenodd" fill-rule="evenodd"></path>
+                                </svg>
+                            </div>
+                        </div>
+                    </div>
+                    <ul class="bestGame-container">
+                        <li class="bestGame-wrapper" th:each="game, iterStat : ${popularGames}">
+                            <a class="bestGame" th:href="@{'/game/page'(index=${game.getIndex()})}" target="_self">
+                                <div class="image-wrapper">
+                                    <img th:src="@{'/popular-game-image?index=' + ${iterStat.index}}" alt="게임포스터">
+                                </div>
+
+                                <div class="text-wrapper">
+                                    <span class="title" th:text="${game.name}"></span>
+                                    <span class="game-price" th:if="${!#lists.contains(onSaleGames, game)}" th:text="${game.price}"></span>
+                                    <div class="sale-info" th:if="${#lists.contains(onSaleGames, game)}">
+                                        <div class="sale-percentage">
+                                            <span class="text">-10%</span>
+                                        </div>
+                                        <del class="origin-price" th:text="${game.price}"></del>
+                                        <span class="sale-price" th:text="${game.price * 0.9}"></span>
+                                    </div>
+                                </div>
+                            </a>
+                        </li>
+
+                    </ul>
+                </li>
+
+                <li class="item first">
+                    <div class="title-wrapper">
+                        <div class="title">
+                            <div class="link">
+                                <span class="text">가장 많이 플레이된 게임</span>
+                                <svg class="icon" width="24" height="24"
+                                     viewBox="0 0 24 24">
+                                    <path d="M8.97 4.47a.75.75 0 0 1 1.06 0L17.56 12l-7.53 7.53a.75.75 0 1 1-1.06-1.06L15.44 12 8.97 5.53a.75.75 0 0 1 0-1.06"
+                                          clip-rule="evenodd" fill-rule="evenodd"></path>
+                                </svg>
+                            </div>
+                        </div>
+                    </div>
+                    <ul class="bestGame-container">
+                        <li class="bestGame-wrapper" th:each="game, iterStat : ${playGames}">
+                            <a class="bestGame" th:href="@{'/game/page'(index=${game.getIndex()})}" target="_self">
+                                <div class="image-wrapper">
+                                    <img th:src="@{'/play-game-image?index=' + ${iterStat.index}}" alt="게임포스터">
+                                </div>
+
+                                <div class="text-wrapper">
+                                    <span class="title" th:text="${game.name}"></span>
+                                    <span class="game-price" th:if="${!#lists.contains(onSaleGames, game)}" th:text="${game.price}"></span>
+                                    <div class="sale-info" th:if="${#lists.contains(onSaleGames, game)}">
+                                        <div class="sale-percentage">
+                                            <span class="text">-10%</span>
+                                        </div>
+                                        <del class="origin-price" th:text="${game.price}"></del>
+                                        <span class="sale-price" th:text="${game.price * 0.9}"></span>
+                                    </div>
+                                </div>
+                            </a>
+                        </li>
+                    </ul>
+                </li>
+
+                <li class="item second">
+                    <div class="title-wrapper">
+                        <div class="title">
+                            <div class="link">
+                                <span class="text">최고 인기 무료 플레이</span>
+                                <svg class="icon" width="24" height="24"
+                                     viewBox="0 0 24 24">
+                                    <path d="M8.97 4.47a.75.75 0 0 1 1.06 0L17.56 12l-7.53 7.53a.75.75 0 1 1-1.06-1.06L15.44 12 8.97 5.53a.75.75 0 0 1 0-1.06"
+                                          clip-rule="evenodd" fill-rule="evenodd"></path>
+                                </svg>
+                            </div>
+                        </div>
+                    </div>
+                    <ul class="freeGame-container">
+                        <li class="freeGame-wrapper" th:each="game, iterStat : ${freeGames}">
+                            <a class="freeGame" th:href="@{'/game/page'(index=${game.getIndex()})}" target="_self">
+                                <div class="image-wrapper">
+                                    <img th:src="@{'/free-game-image?index=' + ${iterStat.index}}" alt="게임포스터">
+                                </div>
+
+                                <div class="text-wrapper">
+                                    <span class="title" th:text="${game.name}"></span>
+                                    <span class="free">무료</span>
+                                </div>
+                            </a>
+                        </li>
+                    </ul>
+                </li>
+            </ul>
+        </section>
+
         <section class="dealSection">
             <div class="deal-container">
                 <div class="first deal">

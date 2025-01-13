@@ -7,13 +7,13 @@ const $games = Array.from($gameList.querySelectorAll('.game-card'));
 
 //region 필터관련
 // 장르 목록 서버에서 가져오기
-if(document.querySelector('.filter-list-content') != null) {
+if (document.querySelector('.filter-list-content') != null) {
     const $genreList = document.querySelector('.filter-list-content');
     filterGenre($genreList);
 }
 
 // 필터 목록들 접고 펴기
-document.addEventListener('DOMContentLoaded', function() {
+document.addEventListener('DOMContentLoaded', function () {
     const $buttons = document.querySelectorAll('.filter-toggle-button');
 
     $buttons.forEach(button => {
@@ -39,10 +39,10 @@ document.addEventListener('DOMContentLoaded', function() {
     const $filterListContents = document.querySelectorAll('.filter-list-content');
     const selectedFilters = [];  // 선택된 필터를 저장할 배열
 
-    $filterListContents.forEach( $filterListContent => {
+    $filterListContents.forEach($filterListContent => {
         $filterListContent.addEventListener('click', (e) => {
             const $checkbox = e.target.closest('.checkbox');
-            if($checkbox) {
+            if ($checkbox) {
                 const isChecked = $checkbox.getAttribute('aria-checked') === 'true';
                 // aria-checked 값을 반전시킴
                 $checkbox.setAttribute('aria-checked', !isChecked);
@@ -71,7 +71,7 @@ document.addEventListener('DOMContentLoaded', function() {
                 if (selectedFilters.length > 0) {
                     console.log(selectedFilters);
                     checkboxFilter(selectedFilters);// 필터링 함수 호출
-                }else {
+                } else {
                     $filterBtn.click();
                 }
             }
@@ -112,10 +112,10 @@ document.addEventListener('DOMContentLoaded', function() {
                 // 하나의 게임에 플랫폼이 여러개 있을 수 있으니까 하나씩 비교함
                 $os.forEach((os) => {
                     let osResult = os.textContent.trim().replace(/\s+/g, '').toLowerCase(); // 게임의 os 문자열을 가져옴
-                    if(filter.includes('windows') && !filter.includes(osResult)) {
+                    if (filter.includes('windows') && !filter.includes(osResult)) {
                         isVisible = false; // windows가 아니면 숨김
                     }
-                    if(filter.includes('mac') && !filter.includes(osResult)) {
+                    if (filter.includes('mac') && !filter.includes(osResult)) {
                         isVisible = false; // mac이 아니면 숨김
                     }
                 });
@@ -200,7 +200,7 @@ function toggleFilterList(btn) {
     // aria-expanded 값 변경 (열리거나 닫히도록)
     btn.setAttribute('aria-expanded', !isExpanded);
 
-    if($filterListContainer) {
+    if ($filterListContainer) {
         $filterListContainer.style.display = isExpanded ? 'none' : 'block';
     }
 }
@@ -318,11 +318,11 @@ sortGameList(starfilterName); //정렬함
 
         const xhr = new XMLHttpRequest();
         xhr.onreadystatechange = () => {
-            if(xhr.readyState !== XMLHttpRequest.DONE){
+            if (xhr.readyState !== XMLHttpRequest.DONE) {
                 return;
             }
             $loading.style.display = 'none'; // 로딩화면 제거
-            if (xhr.status < 200 || xhr.status >= 300){
+            if (xhr.status < 200 || xhr.status >= 300) {
                 Swal.fire({
                     title: "서버가 알 수 없는 응답을 반환하였습니다.",
                     text: "잠시 후 시도해 주세요.",
@@ -331,21 +331,19 @@ sortGameList(starfilterName); //정렬함
                 return;
             }
             const response = JSON.parse(xhr.responseText);
-            if (response.result === 'failure'){
+            if (response.result === 'failure') {
                 Swal.fire({
                     title: "실패",
                     text: "제거에 실패하였습니다.",
                     icon: "error"
                 });
-            }
-            else if(response.result === 'failure_not_found'){
+            } else if (response.result === 'failure_not_found') {
                 Swal.fire({
                     title: "실패",
                     text: "이미 위시리스트에 없어서 제거에 실패하였습니다.",
                     icon: "error"
                 });
-            }
-            else if(response.result === 'success'){
+            } else if (response.result === 'success') {
                 const $removeContainer = document.createElement('div');
                 $removeContainer.classList.add('remove-container');
                 const $removeWrapper = document.createElement('div');
@@ -374,12 +372,12 @@ sortGameList(starfilterName); //정렬함
                     console.log(wishlistIndex)
                     const xhr = new XMLHttpRequest();
                     xhr.onreadystatechange = () => {
-                        if(xhr.readyState !== XMLHttpRequest.DONE){
+                        if (xhr.readyState !== XMLHttpRequest.DONE) {
                             return;
                         }
                         document.body.style.cursor = 'default';
                         document.body.style.userSelect = 'all';
-                        if (xhr.status < 200 || xhr.status >= 300){
+                        if (xhr.status < 200 || xhr.status >= 300) {
                             Swal.fire({
                                 title: "서버가 알 수 없는 응답을 반환하였습니다.",
                                 text: "잠시 후 시도해 주세요.",
@@ -388,28 +386,25 @@ sortGameList(starfilterName); //정렬함
                             return;
                         }
                         const response = JSON.parse(xhr.responseText);
-                        if (response.result === 'failure'){
+                        if (response.result === 'failure') {
                             Swal.fire({
                                 title: "실패",
                                 text: "잘못된 요청입니다.",
                                 icon: "error"
                             });
-                        }
-                        else if(response.result === 'failure_not_found'){
+                        } else if (response.result === 'failure_not_found') {
                             Swal.fire({
                                 title: "실패",
                                 text: "찾을 수 없습니다.",
                                 icon: "error"
                             });
-                        }
-                        else if (response.result === 'failure_duplicate_wishlist'){
+                        } else if (response.result === 'failure_duplicate_wishlist') {
                             Swal.fire({
                                 title: "실패",
                                 text: "이미 실행 취소된 목록입니다.",
                                 icon: "error"
                             });
-                        }
-                        else if(response.result === 'success'){
+                        } else if (response.result === 'success') {
                             $removeContainer.remove(); // 제거됨부분 없앰
                             $gameCard.removeHide(); // 해당 게임 목록 다시 보여줌
                         } else {
@@ -473,13 +468,12 @@ sortGameList(starfilterName); //정렬함
 
         const xhr = new XMLHttpRequest();
         xhr.onreadystatechange = () => {
-            if(xhr.readyState !== XMLHttpRequest.DONE){
+            if (xhr.readyState !== XMLHttpRequest.DONE) {
                 return;
             }
             document.body.style.cursor = 'default';
             document.body.userSelect = 'all';
-            Loading.hide();
-            if (xhr.status < 200 || xhr.status >= 300){
+            if (xhr.status < 200 || xhr.status >= 300) {
                 Swal.fire({
                     title: "서버가 알 수 없는 응답을 반환하였습니다.",
                     text: "잠시 후 시도해 주세요.",
@@ -488,46 +482,42 @@ sortGameList(starfilterName); //정렬함
                 return;
             }
             const response = JSON.parse(xhr.responseText);
-            if (response.result === 'failure'){
+            if (response.result === 'failure') {
                 Swal.fire({
                     title: "실패",
                     text: "장바구니 담기에 실패하였습니다.",
                     icon: "error"
                 });
-            }
-            else if(response.result === 'failure_duplicate_cart'){
+            } else if (response.result === 'failure_duplicate_cart') {
                 Swal.fire({
                     title: "실패",
                     text: "이미 장바구니에 있습니다.",
                     icon: "error"
                 });
-            }
-            else if(response.result === 'failure_not_found'){
+            } else if (response.result === 'failure_not_found') {
                 Swal.fire({
                     title: "실패",
                     text: "찾을 수 없습니다.",
                     icon: "error"
                 });
-            }
-            else if(response.result === 'failure_age_limit'){
+            } else if (response.result === 'failure_age_limit') {
                 Swal.fire({
                     title: "실패",
                     text: "구매할 수 없는 나이의 게임이라서 장바구니 담기에 실패하였습니다.",
                     icon: "error"
                 });
-            }
-            else if(response.result === 'success'){
-                btn.querySelector(':scope > .text').innerText = '장바구니 보기';
-                btn.onclick = () => {
-                    window.location.href = '/purchase/cart';
-                };
+            } else if (response.result === 'success') {
+                // btn.querySelector(':scope > .text').innerText = '장바구니 보기';
+                // btn.onclick = () => {
+                //     window.location.href = '/purchase/cart';
+                // };
+                location.reload();
             }
         };
         xhr.open('POST', '/purchase/cart/add'); // 장바구니에 추가
         xhr.send(formData);
         document.body.style.cursor = 'not-allowed';
         document.body.userSelect = 'none';
-        Loading.show();
     });
 }
 //endregion

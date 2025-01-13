@@ -255,6 +255,45 @@ body {
       color: #ffffff;
     }
 
+    > .addr-wrapper {
+      width: 100%;
+      height: auto;
+      display: flex;
+      flex-direction: column;
+      align-items: flex-start;
+      justify-content: flex-start;
+      gap: 0.5rem;
+
+      > .text {
+        text-align: left;
+        font-size: 1.2rem;
+        font-weight: 400;
+        letter-spacing: 0.02em;
+        color: #ffffffA6;
+      }
+
+      > .addr-label {
+        width: 100%;
+        height: auto;
+        display: flex;
+        flex-direction: row;
+        align-items: flex-start;
+        justify-content: flex-start;
+        gap: 2rem;
+
+        > .input {
+          width: 100%;
+          padding: 13px 20px 12px;
+          border-radius: 1rem;
+        }
+      }
+
+      .addr-label:nth-of-type(1) {
+        width: 50%;
+      }
+    }
+
+
     > .label {
       width: 100%;
       display: flex;

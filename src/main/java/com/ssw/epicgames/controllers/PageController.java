@@ -201,8 +201,7 @@ public class PageController {
         List<PayDTO> paylist = this.purchaseService.getPurchasesByUser(user);
 
         ModelAndView modelAndView = new ModelAndView();
-        UserEntity dbUser = this.pageService.getUserByEmail(user.getEmail());
-        modelAndView.addObject("user", dbUser);
+        modelAndView.addObject("user", user);
         modelAndView.addObject("paylist", paylist); // 결제 및 구매 내역 뷰에 넘겨줌
         modelAndView.addObject("showPurchaseList", showPurchaseList); // 결제내역페이지 보여주기 유무
 

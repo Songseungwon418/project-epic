@@ -58,8 +58,8 @@ body {
             justify-content: flex-start;
 
             > .text {
-            color: #f5f5f599;
-            line-height: 14px;
+              color: #f5f5f599;
+              line-height: 14px;
             }
 
             > .sorting-filter-btn {
@@ -1169,6 +1169,21 @@ body {
   }
 }
 
+@media (max-width: 913px) {
+  .view-content-container {
+    &.-wishlist {
+      display: flex;
+      flex-direction: column-reverse !important;
+      align-items: stretch;
+      justify-content: stretch;
+
+      > .wishlist-filter-sidebar {
+        width: 100% !important;
+      }
+    }
+  }
+}
+
 @media (min-width: 1024px) and (max-width: 1279px) {
   .view-content-container {
     flex-wrap: nowrap;
@@ -1178,7 +1193,7 @@ body {
       max-width: 70%;
 
       &.empty > .empty-wrapper {
-          max-width: 65%;
+        max-width: 65%;
       }
 
       .game-card {

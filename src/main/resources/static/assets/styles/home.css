@@ -411,7 +411,6 @@
   z-index: 6;
   width: 100%;
   height: 100%;
-  border-radius: 1rem;
   background-color: #404044;
 }
 #main > .mainSection > .rolling-banner > .side-banner > .side.-selected > .value .image > img {
@@ -817,6 +816,201 @@
   font-size: 1.38rem;
   font-weight: bold;
 }
+#main > .mainSection > .gameList {
+  width: 100%;
+  position: relative;
+  margin-bottom: 6rem;
+}
+#main > .mainSection > .gameList > .list {
+  width: 100%;
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  justify-content: flex-start;
+}
+#main > .mainSection > .gameList > .list > .item {
+  width: 33.3333333333%;
+  margin: 0 1rem;
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  justify-content: flex-start;
+}
+#main > .mainSection > .gameList > .list > .item > .title-wrapper {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  justify-content: flex-start;
+  margin-top: 0.5rem;
+  margin-bottom: 1.5rem;
+}
+#main > .mainSection > .gameList > .list > .item > .title-wrapper > .title > .link {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  justify-content: center;
+  font-size: 2.5rem;
+}
+#main > .mainSection > .gameList > .list > .item > .title-wrapper > .title > .link > .text {
+  font-size: 1.8rem;
+  font-weight: 600;
+  letter-spacing: 0.1rem;
+  color: #ffffff;
+  text-align: center;
+}
+#main > .mainSection > .gameList > .list > .item > .title-wrapper > .title > .link > .icon {
+  fill: #ffffff;
+  vertical-align: middle;
+  padding-bottom: 0.2rem;
+  margin-left: 0;
+  transition-property: margin-left;
+  transition-duration: 0.1s;
+  transition-timing-function: linear;
+}
+#main > .mainSection > .gameList > .list > .item > .title-wrapper > .title > .link > .icon:hover {
+  margin-left: 0.5rem;
+}
+#main > .mainSection > .gameList > .list > .item > .bestGame-container {
+  width: 95%;
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  justify-content: flex-start;
+}
+#main > .mainSection > .gameList > .list > .item > .bestGame-container > .bestGame-wrapper {
+  width: 100%;
+  border-radius: 1rem;
+}
+#main > .mainSection > .gameList > .list > .item > .bestGame-container > .bestGame-wrapper > .bestGame {
+  padding: 1.2rem;
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  justify-content: flex-start;
+  gap: 2.5rem;
+}
+#main > .mainSection > .gameList > .list > .item > .bestGame-container > .bestGame-wrapper > .bestGame > .image-wrapper {
+  width: 25%;
+  border-radius: 1rem;
+  overflow: hidden;
+}
+#main > .mainSection > .gameList > .list > .item > .bestGame-container > .bestGame-wrapper > .bestGame > .image-wrapper > img {
+  width: 100%;
+}
+#main > .mainSection > .gameList > .list > .item > .bestGame-container > .bestGame-wrapper > .bestGame > .text-wrapper {
+  width: 75%;
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  justify-content: flex-start;
+  gap: 1.5rem;
+}
+#main > .mainSection > .gameList > .list > .item > .bestGame-container > .bestGame-wrapper > .bestGame > .text-wrapper > .title {
+  color: #ffffff;
+  font-size: 1.6rem;
+  font-weight: bold;
+  letter-spacing: normal;
+}
+#main > .mainSection > .gameList > .list > .item > .bestGame-container > .bestGame-wrapper > .bestGame > .text-wrapper > .game-price {
+  color: #ffffff;
+  font-size: 1.4rem;
+  font-weight: bold;
+}
+#main > .mainSection > .gameList > .list > .item > .bestGame-container > .bestGame-wrapper > .bestGame > .text-wrapper > .sale-info {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  justify-content: center;
+  gap: 1rem;
+}
+#main > .mainSection > .gameList > .list > .item > .bestGame-container > .bestGame-wrapper > .bestGame > .text-wrapper > .sale-info > .sale-percentage {
+  width: 4.5rem;
+  height: 1.8rem;
+  border-radius: 2rem;
+  background-color: #26BBFF;
+  text-align: center;
+  line-height: 1.2;
+}
+#main > .mainSection > .gameList > .list > .item > .bestGame-container > .bestGame-wrapper > .bestGame > .text-wrapper > .sale-info > .sale-percentage > .text {
+  color: #000000;
+  font-weight: 500;
+  letter-spacing: 0.05rem;
+  font-size: 1.2rem;
+}
+#main > .mainSection > .gameList > .list > .item > .bestGame-container > .bestGame-wrapper > .bestGame > .text-wrapper > .sale-info > .origin-price {
+  color: rgba(255, 255, 255, 0.6509803922);
+  font-size: 1.38rem;
+}
+#main > .mainSection > .gameList > .list > .item > .bestGame-container > .bestGame-wrapper > .bestGame > .text-wrapper > .sale-info > .sale-price {
+  color: #ffffff;
+  font-size: 1.38rem;
+  font-weight: bold;
+}
+#main > .mainSection > .gameList > .list > .item > .bestGame-container > .bestGame-wrapper:hover {
+  background-color: #202024;
+}
+#main > .mainSection > .gameList > .list > .item > .bestGame-container > .bestGame-wrapper:hover > .bestGame > .image-wrapper {
+  animation-name: grow-shrink;
+  animation-duration: 1s;
+  animation-timing-function: ease;
+}
+#main > .mainSection > .gameList > .list > .item > .freeGame-container {
+  width: 97%;
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  justify-content: flex-start;
+}
+#main > .mainSection > .gameList > .list > .item > .freeGame-container > .freeGame-wrapper {
+  width: 100%;
+  border-radius: 1rem;
+}
+#main > .mainSection > .gameList > .list > .item > .freeGame-container > .freeGame-wrapper > .freeGame {
+  padding: 1.2rem;
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  justify-content: flex-start;
+  gap: 2.5rem;
+}
+#main > .mainSection > .gameList > .list > .item > .freeGame-container > .freeGame-wrapper > .freeGame > .image-wrapper {
+  width: 25%;
+  border-radius: 1rem;
+  overflow: hidden;
+}
+#main > .mainSection > .gameList > .list > .item > .freeGame-container > .freeGame-wrapper > .freeGame > .image-wrapper > img {
+  width: 100%;
+}
+#main > .mainSection > .gameList > .list > .item > .freeGame-container > .freeGame-wrapper > .freeGame > .text-wrapper {
+  width: 75%;
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  justify-content: flex-start;
+  gap: 1.5rem;
+}
+#main > .mainSection > .gameList > .list > .item > .freeGame-container > .freeGame-wrapper > .freeGame > .text-wrapper > .title {
+  color: #ffffff;
+  font-size: 1.6rem;
+  font-weight: bold;
+  letter-spacing: normal;
+}
+#main > .mainSection > .gameList > .list > .item > .freeGame-container > .freeGame-wrapper > .freeGame > .text-wrapper > .free {
+  color: #ffffff;
+  font-size: 1.4rem;
+  font-weight: bold;
+}
+#main > .mainSection > .gameList > .list > .item > .freeGame-container > .freeGame-wrapper:hover {
+  background-color: #202024;
+}
+#main > .mainSection > .gameList > .list > .item > .freeGame-container > .freeGame-wrapper:hover > .freeGame > .image-wrapper {
+  animation-name: grow-shrink;
+  animation-duration: 1s;
+  animation-timing-function: ease;
+}
+#main > .mainSection > .gameList > .list > .item.first {
+  border-right: 0.0625rem solid rgb(64, 64, 68);
+}
 #main > .mainSection > .dealSection {
   margin-bottom: 6rem;
   width: 100%;
@@ -905,6 +1099,15 @@
     width: calc(50% - 1rem);
   }
   #main > .mainSection > .event-container > .event:nth-of-type(3) {
+    display: none;
+  }
+  #main > .mainSection > .gameList > .list > .item.first {
+    width: 50%;
+  }
+  #main > .mainSection > .gameList > .list > .item.first:nth-of-type(2) {
+    border-right: none;
+  }
+  #main > .mainSection > .gameList > .list > .item.second {
     display: none;
   }
 }

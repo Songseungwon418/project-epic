@@ -15,6 +15,7 @@ import com.ssw.epicgames.utils.CryptoUtils;
 import jakarta.mail.MessagingException;
 import jakarta.mail.internet.MimeMessage;
 import jakarta.servlet.http.HttpServletRequest;
+import lombok.extern.slf4j.Slf4j;
 import org.apache.ibatis.transaction.TransactionException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.mail.javamail.JavaMailSender;
@@ -28,6 +29,7 @@ import org.thymeleaf.spring6.SpringTemplateEngine;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
 
+@Slf4j
 @Service
 public class UserService {
     private final EmailTokenMapper emailTokenMapper;
@@ -50,8 +52,8 @@ public class UserService {
     //region 로그인
     public Result login(UserEntity user) {
         if(user == null ||
-        user.getEmail() == null || user.getEmail().length() < 8 || user.getEmail().length() > 50 ||
-        user.getPassword() == null || user.getPassword().length() < 6 || user.getPassword().length() > 50) {
+                user.getEmail() == null || user.getEmail().length() < 8 || user.getEmail().length() > 50 ||
+                user.getPassword() == null || user.getPassword().length() < 6 || user.getPassword().length() > 50) {
             return CommonResult.FAILURE;
         }
         UserEntity dbUser = this.userMapper.selectUserByEmail(user.getEmail());
@@ -70,7 +72,9 @@ public class UserService {
         user.setBirthdate(dbUser.getBirthdate());
         user.setNickname(dbUser.getNickname());
         user.setPhone(dbUser.getPhone());
+        user.setPostcode(dbUser.getPostcode());
         user.setAddr(dbUser.getAddr());
+        user.setDetailAddress(dbUser.getDetailAddress());
         user.setRegisterDate(dbUser.getRegisterDate());
         user.setDeletedDate(dbUser.getDeletedDate());
         user.setVerified(dbUser.isVerified());
@@ -117,15 +121,12 @@ public class UserService {
 
         BCryptPasswordEncoder encoder = new BCryptPasswordEncoder();
         user.setPassword(encoder.encode(user.getPassword()));
-        user.setName(user.getName());
-        user.setBirthdate(user.getBirthdate());
-        user.setNickname(user.getNickname());
-        user.setPhone(user.getPhone());
-        user.setAddr(user.getAddr());
         user.setRegisterDate(LocalDateTime.now());
         user.setUpdatedAt(LocalDateTime.now());
         user.setDeletedDate(null);
         user.setVerified(false);
+        System.out.println(user.getPostcode());
+        System.out.println(user.getDetailAddress());
         if(this.userMapper.insertUser(user) == 0) {
             throw new TransactionException();
         }
@@ -154,7 +155,7 @@ public class UserService {
         String mailText = this.templateEngine.process("email/registerEmail", context);
         MimeMessage mimeMessage = this.mailSender.createMimeMessage();
         MimeMessageHelper mimeMessageHelper = new MimeMessageHelper(mimeMessage);
-        mimeMessageHelper.setFrom("ttig0614@gamil.com");
+        mimeMessageHelper.setFrom("ttig0614@gmail.com");
         mimeMessageHelper.setTo(emailToken.getUserEmail());
         mimeMessageHelper.setSubject("[EPIC] 회원가입 인증 링크");
         mimeMessageHelper.setText(mailText, true);
@@ -197,7 +198,7 @@ public class UserService {
         String mailText = this.templateEngine.process("email/recoverPassword", context);
         MimeMessage mimeMessage = this.mailSender.createMimeMessage();
         MimeMessageHelper mimeMessageHelper = new MimeMessageHelper(mimeMessage);
-        mimeMessageHelper.setFrom("ttig0614@gamil.com");
+        mimeMessageHelper.setFrom("ttig0614@gmail.com");
         mimeMessageHelper.setTo(emailToken.getUserEmail());
         mimeMessageHelper.setSubject("[EPIC] 비밀번호 재설정 인증 링크");
         mimeMessageHelper.setText(mailText, true);
@@ -241,8 +242,8 @@ public class UserService {
     @Transactional
     public Result validateEmailToken(EmailTokenEntity emailToken) {
         if(emailToken == null ||
-        emailToken.getUserEmail() == null || emailToken.getUserEmail().length() < 8 || emailToken.getUserEmail().length() > 50 ||
-        emailToken.getKey() == null || emailToken.getKey().length() != 128) {
+                emailToken.getUserEmail() == null || emailToken.getUserEmail().length() < 8 || emailToken.getUserEmail().length() > 50 ||
+                emailToken.getKey() == null || emailToken.getKey().length() != 128) {
             return CommonResult.FAILURE;
         }
         EmailTokenEntity dbEmailToken = this.emailTokenMapper.selectEmailTokenByUserEmailAndKey(emailToken.getUserEmail(), emailToken.getKey());
