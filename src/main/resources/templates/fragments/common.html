@@ -422,7 +422,9 @@
             <span class="spring"></span>
             <ul class="list" th:if="${isLoggedIn}">
                 <li class="item wishlist"><a th:href="@{'/purchase/wishlist'}" target="_self">위시리스트</a></li>
-                <li class="item cart" style="font-size: 1.7rem"><a th:href="@{'/purchase/cart'}" target="_self">장바구니</a>
+                <li class="item cart" style="font-size: 1.7rem"><a th:href="@{'/purchase/cart'}" target="_self">장바구니</a></li>
+                <li class="cartCount-wrapper" id="cartCountWrapper" th:if="${cartCount != 0}">
+                    <span class="cartCount" id="cartCount" th:text="${cartCount}"></span>
                 </li>
             </ul>
         </div>

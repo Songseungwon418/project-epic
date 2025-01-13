@@ -681,11 +681,25 @@ button {
 #main > .search-container > .area > .link-container > .list > .item:hover {
     color: #FFFFFF;
 }
+
 #main > .search-container > .area > .link-container > .list > .item:active {
     border: 0.0625rem solid #ffffff;
     transition-property: border;
     transition-duration: 250ms;
     transition-timing-function: ease;
+}
+#main > .search-container > .area > .link-container > .list > .cartCount-wrapper {
+    background-color: #26BBFF;
+    height: 2rem;
+    line-height: 2rem;
+    border-radius: 1rem;
+    margin-left: -1.5rem;
+}
+#main > .search-container > .area > .link-container > .list > .cartCount-wrapper > .cartCount {
+    color: #000000;
+    font-weight: bold;
+    padding: 0.35rem 1.2rem;
+    transition: transform 0.4s ease-in-out;
 }
 #main > .logout {
     width: 100%;
@@ -963,73 +977,73 @@ button {
 }
 
 /* region 로딩바 관련 */
-.---loading {
-    align-items: center;
-    display: flex;
-    flex-direction: column;
-    gap: 1.25rem;
-    justify-content: center;
-    top: 0;
-    left: 0;
-    width: 100%;
-    height: 100%;
-    backdrop-filter: blur(2.5rem);
-    background-color: rgba(33, 33, 33, 0.7529411765);
-    opacity: 0;
-    pointer-events: none;
-    position: fixed;
-    transition-duration: 250ms;
-    transition-property: opacity;
-    transition-timing-function: ease;
-    user-select: none;
-    z-index: 99999;
-}
-.---loading > .-spring {
-    flex-grow: 1;
-    flex-shrink: 1;
-}
-.---loading.-visible {
-    opacity: 1;
-    pointer-events: all;
-}
-.---loading.-visible > ._icon {
-    top: 0;
-    opacity: 1;
-    transition-delay: 125ms;
-}
-.---loading.-visible > ._text {
-    top: 0;
-    opacity: 1;
-    transition-delay: 450ms;
-}
-.---loading > ._icon {
-    top: 0.5rem;
-    width: 8rem;
-    animation-name: anim;
-    animation-duration: 1s;
-    animation-iteration-count: infinite;
-    animation-timing-function: linear;
-    opacity: 0;
-    position: relative;
-    transition-duration: 250ms;
-    transition-property: top, opacity;
-    transition-timing-function: ease;
-}
-@keyframes anim {
-    from {
-        transform: rotateZ(0deg);
-    }
-    to {
-        transform: rotateZ(360deg);
-    }
-}
-.---loading > ._text {
-    top: 0.5rem;
-    font-size: 1.5rem;
-    opacity: 0;
-    position: relative;
-    transition-duration: 250ms;
-    transition-property: top, opacity;
-    transition-timing-function: ease;
-}
+/*.---loading {*/
+/*    align-items: center;*/
+/*    display: flex;*/
+/*    flex-direction: column;*/
+/*    gap: 1.25rem;*/
+/*    justify-content: center;*/
+/*    top: 0;*/
+/*    left: 0;*/
+/*    width: 100%;*/
+/*    height: 100%;*/
+/*    backdrop-filter: blur(2.5rem);*/
+/*    background-color: rgba(33, 33, 33, 0.7529411765);*/
+/*    opacity: 0;*/
+/*    pointer-events: none;*/
+/*    position: fixed;*/
+/*    transition-duration: 250ms;*/
+/*    transition-property: opacity;*/
+/*    transition-timing-function: ease;*/
+/*    user-select: none;*/
+/*    z-index: 99999;*/
+/*}*/
+/*.---loading > .-spring {*/
+/*    flex-grow: 1;*/
+/*    flex-shrink: 1;*/
+/*}*/
+/*.---loading.-visible {*/
+/*    opacity: 1;*/
+/*    pointer-events: all;*/
+/*}*/
+/*.---loading.-visible > ._icon {*/
+/*    top: 0;*/
+/*    opacity: 1;*/
+/*    transition-delay: 125ms;*/
+/*}*/
+/*.---loading.-visible > ._text {*/
+/*    top: 0;*/
+/*    opacity: 1;*/
+/*    transition-delay: 450ms;*/
+/*}*/
+/*.---loading > ._icon {*/
+/*    top: 0.5rem;*/
+/*    width: 8rem;*/
+/*    animation-name: anim;*/
+/*    animation-duration: 1s;*/
+/*    animation-iteration-count: infinite;*/
+/*    animation-timing-function: linear;*/
+/*    opacity: 0;*/
+/*    position: relative;*/
+/*    transition-duration: 250ms;*/
+/*    transition-property: top, opacity;*/
+/*    transition-timing-function: ease;*/
+/*}*/
+/*@keyframes anim {*/
+/*    from {*/
+/*        transform: rotateZ(0deg);*/
+/*    }*/
+/*    to {*/
+/*        transform: rotateZ(360deg);*/
+/*    }*/
+/*}*/
+/*.---loading > ._text {*/
+/*    top: 0.5rem;*/
+/*    font-size: 1.5rem;*/
+/*    opacity: 0;*/
+/*    position: relative;*/
+/*    transition-duration: 250ms;*/
+/*    transition-property: top, opacity;*/
+/*    transition-timing-function: ease;*/
+/*}*/
 /* endregion*/

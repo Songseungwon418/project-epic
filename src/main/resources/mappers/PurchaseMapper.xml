@@ -53,6 +53,7 @@
         WHERE `index` = #{index}
         LIMIT 1
     </select>
+
 <!-- endregion -->
 
 <!--  region 위시리스트 관련 -->
@@ -123,7 +124,7 @@
         WHERE `index` = #{index}
         LIMIT 1
     </select>
-    <!-- endregion -->
+<!-- endregion -->
 
 <!--  region 결제 관련 -->
     <!--  하나의 주문 내역(게임 하나) 삽입  -->
@@ -281,19 +282,10 @@
         WHERE p.user_email = #{userEmail}
     </select>
 
-    <!--    <select id="selectPurchaseByUserEmail" resultType="com.ssw.epicgames.entities.PurchaseEntity">-->
-<!--        SELECT `index` AS `index`,-->
-<!--               user_email AS `userEmail`,-->
-<!--               game_index AS `gameIndex`,-->
-<!--               date AS `date`,-->
-<!--               game_price AS `gamePrice`,-->
-<!--               discount_amount AS `discountAmount`,-->
-<!--               final_price AS `finalPrice`,-->
-<!--               addr AS `addr`,-->
-<!--               deleted_at AS `deletedAt`-->
-<!--        FROM epic_games.purchase-->
-<!--        WHERE user_email = #{user_email}-->
-<!--    </select>-->
-
+    <select id="selectCount" resultType="_int">
+        SELECT COUNT(0)
+        FROM `epic_games`.`cart`
+        WHERE `user_email` = #{userEmail}
+    </select>
 
 </mapper>
