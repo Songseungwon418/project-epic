@@ -1,6 +1,7 @@
 package com.ssw.epicgames.controllers;
 
 import com.ssw.epicgames.DTO.PayDTO;
+import com.ssw.epicgames.entities.GameEntity;
 import com.ssw.epicgames.entities.UserEntity;
 import com.ssw.epicgames.services.GameService;
 import com.ssw.epicgames.services.HomeService;
@@ -38,24 +39,26 @@ public class HomeController {
         this.gameService = gameService;
     }
 
-    // 최신 게임 이미지 반환
-    @RequestMapping(value = "/new-game-image", method = RequestMethod.GET)
-    @ResponseBody
-    public ResponseEntity<byte[]> getNewGameImage(@RequestParam(value = "index") int index) {
-        GameVo game = this.homeService.getGameByIndex(index, false);
-        if (game == null || game.getMainImage() == null) {
-            return ResponseEntity.notFound().build();
-        }
+    // GameVo를 받아서 이미지 반환하는 메서드(중복코드 하나로)
+    private ResponseEntity<byte[]> getResponseEntity(GameVo game) {
         String eTag = String.valueOf(game.hashCode()); // ETag 설정
         return ResponseEntity
                 .ok()
                 .eTag(eTag) // ETag를 응답에 추가
-                .cacheControl(CacheControl.maxAge(30, TimeUnit.MINUTES)) // 클라이언트에게 30분 동안 캐시하도록 지시
+                .cacheControl(CacheControl.maxAge(10, TimeUnit.MINUTES)) // 클라이언트에게 10분 동안 캐시하도록 지시
                 .header("Content-Type", "image/jpeg")
                 .body(game.getMainImage());
     }
 
-    // 최신 게임 이미지 반환
+    // 최신 게임 메인 이미지 반환
+    @RequestMapping(value = "/new-game-image", method = RequestMethod.GET)
+    @ResponseBody
+    public ResponseEntity<byte[]> getNewGameImage(@RequestParam(value = "index") int index) {
+        GameVo game = this.homeService.getGameByIndex(index, false);
+        return getResponseEntity(game);
+    }
+
+    // 세일 게임 메인 이미지 반환
     @RequestMapping(value = "/sale-game-image", method = RequestMethod.GET)
     @ResponseBody
     public ResponseEntity<byte[]> getSaleGameImage(@RequestParam(value = "index") int index) {
@@ -63,57 +66,8 @@ public class HomeController {
         if (game == null || game.getMainImage() == null) {
             return ResponseEntity.notFound().build();
         }
-        String eTag = String.valueOf(game.hashCode()); // ETag 설정
-        return ResponseEntity
-                .ok()
-                .eTag(eTag) // ETag를 응답에 추가
-                .cacheControl(CacheControl.maxAge(30, TimeUnit.MINUTES)) // 클라이언트에게 30분 동안 캐시하도록 지시
-                .header("Content-Type", "image/jpeg")
-                .body(game.getMainImage());
+        return getResponseEntity(game);
     }
-
-    //region DB에서 이미지 하나만 검색
-    // 최신 게임 이미지 반환
-//    @RequestMapping(value = "/new-game-image", method = RequestMethod.GET)
-//    @ResponseBody
-//    public ResponseEntity<byte[]> getNewGameImage(@RequestParam(value = "index") int index) {
-//        GameVo game = this.homeService.getGameByIndex(index, false);
-//        if (game == null || game.getMainImage() == null) {
-//            return ResponseEntity.notFound().build();
-//        }
-//        String eTag = String.valueOf(game.hashCode()); // ETag 설정
-//        return ResponseEntity
-//                .ok()
-//                .eTag(eTag) // ETag를 응답에 추가
-//                .cacheControl(CacheControl.maxAge(30, TimeUnit.MINUTES)) // 클라이언트에게 30분 동안 캐시하도록 지시
-//                .header("Content-Type", "image/jpeg")
-//                .body(game.getMainImage());
-//    }
-
-    // 세일하는 게임 이미지 반환
-//    @RequestMapping(value = "/sale-game-image", method = RequestMethod.GET)
-//    @ResponseBody
-//    public ResponseEntity<byte[]> getSaleGameImage(@RequestParam(value = "index") int index) {
-//        return getResponseEntity(index);
-//    }
-
-    // 게임 인덱스를 받아서 db에서 메인이미지를 조회하여 반환하는 메서드
-//    private ResponseEntity<byte[]> getResponseEntity(@RequestParam("index") int index) {
-//        GameEntity game = this.gameService.getGameImg(index);
-//        System.out.println(game.getMainImage());
-//        if (game.getMainImage() == null || game.getMainImage().length == 0) {
-//            return ResponseEntity.notFound().build();
-//        }
-//
-//        String eTag = String.valueOf(game.hashCode()); // ETag 설정
-//        return ResponseEntity
-//                .ok()
-//                .eTag(eTag) // ETag를 응답에 추가
-//                .cacheControl(CacheControl.maxAge(30, TimeUnit.MINUTES)) // 클라이언트에게 30분 동안 캐시하도록 지시
-//                .header("Content-Type", "image/jpeg")
-//                .body(game.getMainImage());
-//    }
-//endregion
 
     @RequestMapping(value = "/popular-game-image", method = RequestMethod.GET)
     @ResponseBody
@@ -124,14 +78,7 @@ public class HomeController {
         if (game == null || game.getMainImage() == null) {
             return ResponseEntity.notFound().build();
         }
-
-        String eTag = String.valueOf(game.hashCode()); // ETag 설정
-        return ResponseEntity
-                .ok()
-                .eTag(eTag) // ETag를 응답에 추가
-                .cacheControl(CacheControl.maxAge(30, TimeUnit.MINUTES)) // 클라이언트에게 30분 동안 캐시하도록 지시
-                .header("Content-Type", "image/jpeg")
-                .body(game.getMainImage());
+        return getResponseEntity(game);
     }
 
     @RequestMapping(value = "/play-game-image", method = RequestMethod.GET)
@@ -144,13 +91,7 @@ public class HomeController {
             return ResponseEntity.notFound().build();
         }
 
-        String eTag = String.valueOf(game.hashCode()); // ETag 설정
-        return ResponseEntity
-                .ok()
-                .eTag(eTag) // ETag를 응답에 추가
-                .cacheControl(CacheControl.maxAge(30, TimeUnit.MINUTES)) // 클라이언트에게 30분 동안 캐시하도록 지시
-                .header("Content-Type", "image/jpeg")
-                .body(game.getMainImage());
+        return getResponseEntity(game);
     }
 
     @RequestMapping(value = "/free-game-image", method = RequestMethod.GET)
@@ -163,13 +104,7 @@ public class HomeController {
             return ResponseEntity.notFound().build();
         }
 
-        String eTag = String.valueOf(game.hashCode()); // ETag 설정
-        return ResponseEntity
-                .ok()
-                .eTag(eTag) // ETag를 응답에 추가
-                .cacheControl(CacheControl.maxAge(30, TimeUnit.MINUTES)) // 클라이언트에게 30분 동안 캐시하도록 지시
-                .header("Content-Type", "image/jpeg")
-                .body(game.getMainImage());
+        return getResponseEntity(game);
     }
 
     @RequestMapping(value = "/", method = RequestMethod.GET, produces = MediaType.TEXT_HTML_VALUE)

@@ -55,7 +55,10 @@ public class UserService {
             return CommonResult.FAILURE;
         }
         UserEntity dbUser = this.userMapper.selectUserByEmail(user.getEmail());
-        if(dbUser == null || dbUser.getDeletedDate() != null) {
+        if (dbUser == null) {
+            return CommonResult.FAILURE;
+        }
+        if(dbUser.getDeletedDate() != null) {
             return LoginResult.FAILURE_DELETED;
         }
         BCryptPasswordEncoder encoder = new BCryptPasswordEncoder();
@@ -154,7 +157,7 @@ public class UserService {
         String mailText = this.templateEngine.process("email/registerEmail", context);
         MimeMessage mimeMessage = this.mailSender.createMimeMessage();
         MimeMessageHelper mimeMessageHelper = new MimeMessageHelper(mimeMessage);
-        mimeMessageHelper.setFrom("mnuw2626@gmail.com");
+        mimeMessageHelper.setFrom("test@epic.com");
         mimeMessageHelper.setTo(emailToken.getUserEmail());
         mimeMessageHelper.setSubject("[EPIC] 회원가입 인증 링크");
         mimeMessageHelper.setText(mailText, true);
@@ -197,7 +200,7 @@ public class UserService {
         String mailText = this.templateEngine.process("email/recoverPassword", context);
         MimeMessage mimeMessage = this.mailSender.createMimeMessage();
         MimeMessageHelper mimeMessageHelper = new MimeMessageHelper(mimeMessage);
-        mimeMessageHelper.setFrom("mnuw2626@gmail.com");
+        mimeMessageHelper.setFrom("test@epic.com");
         mimeMessageHelper.setTo(emailToken.getUserEmail());
         mimeMessageHelper.setSubject("[EPIC] 비밀번호 재설정 인증 링크");
         mimeMessageHelper.setText(mailText, true);

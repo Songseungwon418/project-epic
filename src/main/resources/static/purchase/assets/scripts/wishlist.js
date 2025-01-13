@@ -521,10 +521,11 @@ sortGameList(starfilterName); //정렬함
                 });
             }
             else if(response.result === 'success'){
-                btn.querySelector(':scope > .text').innerText = '장바구니 보기';
-                btn.onclick = () => {
-                    window.location.href = '/purchase/cart';
-                };
+                // btn.querySelector(':scope > .text').innerText = '장바구니 보기';
+                // btn.onclick = () => {
+                //     window.location.href = '/purchase/cart';
+                // };
+                location.reload();
             }
         };
         xhr.open('POST', '/purchase/cart/add'); // 장바구니에 추가

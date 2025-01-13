@@ -46,17 +46,17 @@ public class PageService {
     //regin 친구 추가
     public Result insertFriend(FriendsEntity friend) {
         if(friend == null ||
-        friend.getUser_email() == null || friend.getUser_email().length() < 8 || friend.getUser_email().length() > 50 ||
-        friend.getFriend_email() == null || friend.getFriend_email().length() < 8 || friend.getFriend_email().length() > 50) {
+            friend.getUser_email() == null || friend.getUser_email().length() < 8 || friend.getUser_email().length() > 50 ||
+            friend.getFriend_email() == null || friend.getFriend_email().length() < 8 || friend.getFriend_email().length() > 50) {
             return CommonResult.FAILURE;
         }
 
         FriendsEntity[] friendEntity = this.friendMapper.selectUserFriends(friend.getUser_email(), friend.getFriend_email());
-                for(FriendsEntity friendList : friendEntity) {
-                    if(friendList.getFriend_email().equals(friend.getFriend_email())) {
-                        return FriendsResult.FRIENDSHIP_EXISTS;
-                    }
-                }
+        for(FriendsEntity friendList : friendEntity) {
+            if(friendList.getFriend_email().equals(friend.getFriend_email())) {
+                return FriendsResult.FRIENDSHIP_EXISTS;
+            }
+        }
 
         if(this.userMapper.selectUserByEmail(friend.getFriend_email()) == null) {
             return FriendsResult.USER_NOT_FOUND;

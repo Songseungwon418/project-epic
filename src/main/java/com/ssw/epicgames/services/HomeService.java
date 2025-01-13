@@ -23,6 +23,18 @@ public class HomeService {
         return this.homeMapper.selectSaleGames();
     }
 
+    public GameVo[] getPopularGames() {
+        return this.homeMapper.selectPopularGames();
+    }
+
+    public GameVo[] getPlayGames() {
+        return this.homeMapper.selectPlayGames();
+    }
+
+    public GameVo[] getFreeGames() {
+        return this.homeMapper.selectFreeGames();
+    }
+
     public GameVo getGameByIndex(int index, boolean isSale) {
         GameVo[] newGames = getNewGames();
         GameVo[] saleGames = getSaleGames();
