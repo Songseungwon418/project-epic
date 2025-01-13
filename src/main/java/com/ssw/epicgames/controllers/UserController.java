@@ -50,9 +50,6 @@ public class UserController {
     @RequestMapping(value = "/", method = RequestMethod.POST, produces = MediaType.APPLICATION_JSON_VALUE)
     @ResponseBody
     public String postLogin(HttpSession session, UserEntity user) {
-//        if(session.getAttribute("user") != null) {
-//            return "이미 로그인 되어있습니다.";
-//        }
 
         Result result = this.userService.login(user);
         if (result == CommonResult.SUCCESS) {
@@ -99,7 +96,7 @@ public class UserController {
     @RequestMapping(value = "/forgot-password", method = RequestMethod.POST, produces = MediaType.APPLICATION_JSON_VALUE)
     @ResponseBody
     public String postForgotPassword(HttpServletRequest request,
-                                 @RequestParam(value = "email", required = false) String email) throws MessagingException {
+                                     @RequestParam(value = "email", required = false) String email) throws MessagingException {
         Result result = this.userService.provokeForgotPassword(request, email);
         JSONObject response = new JSONObject();
         response.put(Result.NAME, result.nameToLower());

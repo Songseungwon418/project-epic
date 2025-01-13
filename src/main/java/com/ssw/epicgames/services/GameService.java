@@ -4,16 +4,28 @@ import com.ssw.epicgames.DTO.GameDTO;
 import com.ssw.epicgames.entities.*;
 import com.ssw.epicgames.exceptions.TransactionalException;
 import com.ssw.epicgames.mappers.GameMapper;
+import com.ssw.epicgames.mappers.GenreMapper;
 import com.ssw.epicgames.resutls.CommonResult;
 import com.ssw.epicgames.resutls.Result;
 import com.ssw.epicgames.vos.GameVo;
+import org.json.JSONArray;
+import org.json.JSONObject;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.cache.annotation.Cacheable;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.multipart.MultipartFile;
 
 import java.io.IOException;
+import java.net.URI;
+import java.net.URLEncoder;
+import java.net.http.HttpClient;
+import java.net.http.HttpRequest;
+import java.net.http.HttpResponse;
+import java.nio.charset.StandardCharsets;
+import java.time.LocalDateTime;
 import java.util.List;
+import java.util.stream.Collectors;
 import java.util.Arrays;
 
 @Service
@@ -89,20 +101,9 @@ public class GameService {
     public Result addGame(GameEntity game, List<MultipartFile> images, String tag1, String tag2) throws IOException {
         // 데이터 유효성 검사
         if (game == null ||
-                game.getName().length() > 100 || game.getCompany().length() > 50 || game.getMinOs().length() > 50 || game.getMinCpu().length() > 255 || game.getMinRam().length() > 50 || game.getMinStorage().length() > 50 || game.getMinGpu().length() > 255 || game.getRecOs().length() > 50 || game.getRecCpu().length() > 255 || game.getRecRam().length() > 50 || game.getRecStorage().length() > 50 || game.getRecGpu().length() > 255 ||
-                tag1 == null || tag2 == null || tag1.isEmpty() || tag2.isEmpty() ||
-                images == null || images.isEmpty()) {
+            tag1 == null || tag2 == null || tag1.isEmpty() || tag2.isEmpty() ||
+            images == null || images.isEmpty()) {
             return CommonResult.FAILURE;
-        }
-
-        //게임 중복 검사(이름과 회사가 둘 다 일치할 시 삽입 불가)
-        GameEntity[] dbGames = this.gameMapper.selectAllGames();
-        if (dbGames != null || dbGames.length > 0) {
-            for (GameEntity dbgame : dbGames) {
-                if(dbgame.getName().equals(game.getName()) || dbgame.equals(game.getCompany())) {
-                    return CommonResult.FAILURE_DUPLICATE;
-                }
-            }
         }
 
         // 게임 등록
@@ -114,18 +115,11 @@ public class GameService {
         // no 값이 잘 설정되었는지 확인
         System.out.println("생성된 game index: " + gameIndex);
 
-        long maxSize = 104857600L; // 100MB (100 * 1024 * 1024)
-
         for (MultipartFile image : images) {
             // 각 이미지 데이터 유효성 검사
             if (image.isEmpty()) {
                 throw new TransactionalException("이미지가 비어 있습니다.");
             }
-            // 각 이미지 크기 확인
-            else if (image.getSize() > maxSize) {
-                throw new TransactionalException("100MB 초과, 이미지 크기를 확인하세요.");
-            }
-
             // 이미지 파일의 바이트를 확인
             byte[] imageBytes = image.getBytes();
             if (imageBytes.length == 0) {
@@ -158,37 +152,7 @@ public class GameService {
             throw new TransactionalException("게임과 분류 맵핑 실패");
         }
         //endregion
-
-        // 언어 매칭 테이블 삽입
-        List<Integer> languageIds = this.gameMapper.selectLanguageId(); // 언어테이블에서 언어 id 전체를 가져옴
-        // 배치 처리로 한 번에 언어 삽입
-        if (this.gameMapper.insertGameLanguageMapping(gameIndex, languageIds) <= 0) {
-            throw new TransactionalException("게임과 언어 맵핑 실패");
-        }
-
-        // 할인 정보 삽입 - 현재는 게임 인덱스가 홀수면 홀수, 짝수면 짝수로 매칭하는데 나중에 다른 방식으로 수정 필요
-        List<Integer> discountsIDs; // 할인 id 담을 리스트, db에서 가져오는 건 방식 바꿀 때 같이 수정
-        // 게임 인덱스가 짝수, 홀수 구분
-        if (gameIndex % 2 == 0) {
-            // 짝수일 경우
-            discountsIDs = Arrays.asList(2, 4, 6, 8);
-        } else {
-            // 홀수일 경우
-            discountsIDs= Arrays.asList(1, 3, 5, 7);
-        }
-        // 할인리스트가 없을 경우
-        if (discountsIDs != null && !discountsIDs.isEmpty()) {
-            // db에 삽입 시도
-            if (this.gameMapper.insertGameDiscountsMapping(gameIndex, discountsIDs) <= 0) {
-                throw new TransactionalException("게임과 언어 맵핑 실패");
-            }
-        }
-
         System.out.println("게임 생성 완료");
         return CommonResult.SUCCESS;
-    }
-
-    public GameEntity getGameImg(int index) {
-        return this.gameMapper.selectGameImgByindex(index);
     }
 }

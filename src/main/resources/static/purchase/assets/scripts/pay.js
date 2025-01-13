@@ -107,7 +107,7 @@ $closeBtn.onclick = () => {
     // 결재 진행
     function payment() {
         let requestData;
-        name = name.length > 10 ? `${name}... 그 외` : `${name} 그 외`; // 주문명 생성 -> 게임이 1개가 아닐 시 설정하게 조건 추가 필요
+        name = name.length > 10 ? `${name}...그 외` : `${name}그 외`; // 주문명 생성 -> 게임이 1개가 아닐 시 설정하게 조건 추가 필요
         try{
             requestData = {
                 ...user,
