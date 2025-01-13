@@ -13,8 +13,6 @@ import java.util.List;
 public interface PurchaseMapper {
     //region 장바구니 관련
 
-    int selectCount(@Param("userEmail") String userEmail);
-
     /**
      * 장바구니 담기(DB 삽입)
      */

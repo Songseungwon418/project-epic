@@ -153,8 +153,12 @@ document.addEventListener('DOMContentLoaded', () => {
 const $pageup = document.body.querySelector('[name="pageup"]');
 if ($pageup != null) {
     $pageup.onclick = () => {
-        // 페이지 최상단으로 즉시 이동
-        window.scrollTo(0, 0);
+        window.scrollTo(0, 0);  // 페이지 맨 위로 이동
+
+        const topElement = document.getElementById('main');
+        if (topElement) {
+            topElement.scrollIntoView({behavior: 'smooth'});  // 해당 요소로 부드럽게 이동
+        }
     }
 }
 //endregion

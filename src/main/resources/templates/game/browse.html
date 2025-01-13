@@ -222,9 +222,7 @@
                             </div>
                             <span class="gameGenre" th:text="${game.getGenre()}" style="display: none"></span>
                             <span class="gameAge" th:text="${game.getGrGrac()}" style="display: none"></span>
-                            <label th:if="${isLoggedIn}">
-                                <input id="userEmail" th:value="${userEmail}" type="hidden">
-                            </label>
+                            <input id="userEmail" th:value="${userEmail}" type="hidden">
                         </div>
                     </a>
                 </div>
