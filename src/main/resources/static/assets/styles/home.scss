@@ -773,6 +773,16 @@
               letter-spacing: 0.1rem;
               color: #ffffff;
               text-align: center;
+
+              display: flex;
+              flex-direction: row;
+              align-items: center;
+              justify-content: flex-start;
+              gap: 0.3rem;
+
+              > .image {
+                width: 2.7rem;
+              }
             }
 
             > .icon {
@@ -917,7 +927,7 @@
                 border-radius: 1rem;
                 color: #ffffff;
                 font-size: 1.5rem;
-                line-height: 1.5;
+                line-height: 1.6;
                 top: 1rem;
                 left: 2rem;
                 text-align: center;

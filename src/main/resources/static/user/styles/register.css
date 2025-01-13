@@ -114,7 +114,6 @@ body {
   transform: translate(-50%, -50%);
   max-width: 470px;
   width: 80%;
-  height: 80%;
   background-color: #18181c;
   border-radius: 10px;
   padding: 20px;
@@ -122,7 +121,7 @@ body {
   z-index: 30;
   display: none;
   letter-spacing: 0.05rem;
-  line-height: 1.2;
+  line-height: 1.4;
   gap: 1rem;
 }
 .agree::-webkit-scrollbar {
@@ -154,7 +153,6 @@ body {
   line-height: 1.5;
 }
 .agree .back-button {
-  margin-bottom: 20px;
   color: #65caf8;
   text-decoration: none;
 }

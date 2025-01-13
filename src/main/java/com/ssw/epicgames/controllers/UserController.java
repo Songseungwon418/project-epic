@@ -96,7 +96,7 @@ public class UserController {
     @RequestMapping(value = "/forgot-password", method = RequestMethod.POST, produces = MediaType.APPLICATION_JSON_VALUE)
     @ResponseBody
     public String postForgotPassword(HttpServletRequest request,
-                                 @RequestParam(value = "email", required = false) String email) throws MessagingException {
+                                     @RequestParam(value = "email", required = false) String email) throws MessagingException {
         Result result = this.userService.provokeForgotPassword(request, email);
         JSONObject response = new JSONObject();
         response.put(Result.NAME, result.nameToLower());

@@ -25,7 +25,7 @@
                  LEFT JOIN `epic_games`.`game` AS `TG` ON `TP`.`game_index` = `TG`.`index`
                  LEFT JOIN `epic_games`.`user_achievements_mapping` AS `TM` ON `TP`.`index` = `TM`.`purchase_index`
                  LEFT JOIN `epic_games`.`achievements` AS `TA` ON `TM`.`achievements_id` = `TA`.`id`
-        WHERE `TP`.`user_email` = #{userEmail} AND `TP`.`deleted_at` IS NULL
+        WHERE `TP`.`user_email` = #{userEmail} AND TP.`deleted_at` IS NULL
     </select>
 
     <select id="getAchievementByIndex" resultType="com.ssw.epicgames.entities.AchievementEntity">

@@ -9,4 +9,9 @@ public interface HomeMapper {
 
     GameVo[] selectSaleGames();
 
+    GameVo[] selectPopularGames();
+
+    GameVo[] selectPlayGames();
+
+    GameVo[] selectFreeGames();
 }

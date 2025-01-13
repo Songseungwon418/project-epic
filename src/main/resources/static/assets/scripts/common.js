@@ -131,16 +131,30 @@ if ($searchContainer) {
 }
 //endregion
 
-//region footer 화살표 누르면 페이지 상단으로 바로 이동
+// region header 언어버튼 클릭 시 나타나는 영역
+document.addEventListener('DOMContentLoaded', () => {
+    const languageToggle = document.querySelector('.language');
+    const button = document.querySelector('.global.icon');
+
+    button.addEventListener('click', (e) => {
+        e.stopPropagation();
+        languageToggle.classList.toggle('active');
+    });
+
+    document.addEventListener('click', (e) => {
+        if (!languageToggle.contains(e.target)) {
+            languageToggle.classList.remove('active');
+        }
+    });
+});
+//endregion
+
+// region footer 화살표 누르면 페이지 상단으로 바로 이동
 const $pageup = document.body.querySelector('[name="pageup"]');
 if ($pageup != null) {
     $pageup.onclick = () => {
-        window.scrollTo(0, 0);  // 페이지 맨 위로 이동
-
-        const topElement = document.getElementById('main');
-        if (topElement) {
-            topElement.scrollIntoView({ behavior: 'smooth' });  // 해당 요소로 부드럽게 이동
-        }
+        // 페이지 최상단으로 즉시 이동
+        window.scrollTo(0, 0);
     }
 }
 //endregion
@@ -178,10 +192,10 @@ if ($pageup != null) {
 function filterGenre(element) {
     const xhr = new XMLHttpRequest();
     xhr.onreadystatechange = () => {
-        if(xhr.readyState !== XMLHttpRequest.DONE){
+        if (xhr.readyState !== XMLHttpRequest.DONE) {
             return;
         }
-        if (xhr.status < 200 || xhr.status >= 300){
+        if (xhr.status < 200 || xhr.status >= 300) {
             Swal.fire({
                 title: "게임 분류 목록을 불러오는데 실패하였습니다.",
                 text: "잠시 후 시도해 주세요.",
@@ -238,6 +252,7 @@ function filterGenre(element) {
     xhr.open('GET', '/genre/');
     xhr.send();
 }
+
 //endregion
 
 //region hide, show 및 findLabel 구현

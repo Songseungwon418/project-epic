@@ -12,6 +12,7 @@ import com.ssw.epicgames.vos.GameVo;
 import org.apache.commons.lang3.tuple.Pair;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
+import org.springframework.http.CacheControl;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
@@ -19,6 +20,7 @@ import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.ModelAndView;
 
 import java.util.*;
+import java.util.concurrent.TimeUnit;
 import java.util.stream.Collectors;
 
 @Controller
@@ -32,7 +34,7 @@ public class HomeController {
 
 
     @Autowired
-    public HomeController(HomeService homeService, PurchaseService purchaseService, WishlistService wishlistService, PurchaseService purchaseService1, GameService gameService) {
+    public HomeController(HomeService homeService, WishlistService wishlistService, PurchaseService purchaseService1, GameService gameService) {
         this.homeService = homeService;
         this.wishlistService = wishlistService;
         this.purchaseService = purchaseService1;
@@ -46,8 +48,11 @@ public class HomeController {
         if (game == null || game.getMainImage() == null) {
             return ResponseEntity.notFound().build();
         }
+        String eTag = String.valueOf(game.hashCode()); // ETag 설정
         return ResponseEntity
                 .ok()
+                .eTag(eTag) // ETag를 응답에 추가
+                .cacheControl(CacheControl.maxAge(30, TimeUnit.MINUTES)) // 클라이언트에게 30분 동안 캐시하도록 지시
                 .header("Content-Type", "image/jpeg")
                 .body(game.getMainImage());
     }
@@ -59,8 +64,68 @@ public class HomeController {
         if (game == null || game.getMainImage() == null) {
             return ResponseEntity.notFound().build();
         }
+        String eTag = String.valueOf(game.hashCode()); // ETag 설정
         return ResponseEntity
                 .ok()
+                .eTag(eTag) // ETag를 응답에 추가
+                .cacheControl(CacheControl.maxAge(30, TimeUnit.MINUTES)) // 클라이언트에게 30분 동안 캐시하도록 지시
+                .header("Content-Type", "image/jpeg")
+                .body(game.getMainImage());
+    }
+
+    @RequestMapping(value = "/popular-game-image", method = RequestMethod.GET)
+    @ResponseBody
+    public ResponseEntity<byte[]> getPopularGameImage(@RequestParam(value = "index") int index) {
+        GameVo[] games = this.homeService.getPopularGames();
+        GameVo game = games[index];
+
+        if (game == null || game.getMainImage() == null) {
+            return ResponseEntity.notFound().build();
+        }
+
+        String eTag = String.valueOf(game.hashCode()); // ETag 설정
+        return ResponseEntity
+                .ok()
+                .eTag(eTag) // ETag를 응답에 추가
+                .cacheControl(CacheControl.maxAge(30, TimeUnit.MINUTES)) // 클라이언트에게 30분 동안 캐시하도록 지시
+                .header("Content-Type", "image/jpeg")
+                .body(game.getMainImage());
+    }
+
+    @RequestMapping(value = "/play-game-image", method = RequestMethod.GET)
+    @ResponseBody
+    public ResponseEntity<byte[]> getPlayGameImage(@RequestParam(value = "index") int index) {
+        GameVo[] games = this.homeService.getPlayGames();
+        GameVo game = games[index];
+
+        if (game == null || game.getMainImage() == null) {
+            return ResponseEntity.notFound().build();
+        }
+
+        String eTag = String.valueOf(game.hashCode()); // ETag 설정
+        return ResponseEntity
+                .ok()
+                .eTag(eTag) // ETag를 응답에 추가
+                .cacheControl(CacheControl.maxAge(30, TimeUnit.MINUTES)) // 클라이언트에게 30분 동안 캐시하도록 지시
+                .header("Content-Type", "image/jpeg")
+                .body(game.getMainImage());
+    }
+
+    @RequestMapping(value = "/free-game-image", method = RequestMethod.GET)
+    @ResponseBody
+    public ResponseEntity<byte[]> getFreeGameImage(@RequestParam(value = "index") int index) {
+        GameVo[] games = this.homeService.getFreeGames();
+        GameVo game = games[index];
+
+        if (game == null || game.getMainImage() == null) {
+            return ResponseEntity.notFound().build();
+        }
+
+        String eTag = String.valueOf(game.hashCode()); // ETag 설정
+        return ResponseEntity
+                .ok()
+                .eTag(eTag) // ETag를 응답에 추가
+                .cacheControl(CacheControl.maxAge(30, TimeUnit.MINUTES)) // 클라이언트에게 30분 동안 캐시하도록 지시
                 .header("Content-Type", "image/jpeg")
                 .body(game.getMainImage());
     }
@@ -71,9 +136,15 @@ public class HomeController {
 
         GameVo[] newGames = this.homeService.getNewGames();
         GameVo[] saleGames = this.homeService.getSaleGames();
+        GameVo[] popularGames = this.homeService.getPopularGames();
+        GameVo[] playGames = this.homeService.getPlayGames();
+        GameVo[] freeGames = this.homeService.getFreeGames();
 
         modelAndView.addObject("newGames", newGames);
         modelAndView.addObject("saleGames", saleGames);
+        modelAndView.addObject("popularGames", popularGames);
+        modelAndView.addObject("playGames", playGames);
+        modelAndView.addObject("freeGames", freeGames);
 
         List<GameVo> onSaleGames = this.gameService.getOnSaleGames();
         modelAndView.addObject("onSaleGames", onSaleGames);
@@ -115,4 +186,5 @@ public class HomeController {
         modelAndView.setViewName("home");
         return modelAndView;
     }
+
 }

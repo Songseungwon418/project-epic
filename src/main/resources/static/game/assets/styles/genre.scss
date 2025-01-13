@@ -211,14 +211,9 @@
                   border: none;
                   z-index: 1;
 
-                  display: flex;
+                  display: none;
                   align-items: center;
                   justify-content: center;
-
-                  opacity: 0;
-                  transition-property: opacity;
-                  transition-duration: 0.3s;
-                  transition-timing-function: ease;
 
                   > .plus {
                     width: 24px;
@@ -230,7 +225,7 @@
                   filter: brightness(1.1);
 
                   .wishlist {
-                    opacity: 1;
+                    display: flex;
                   }
                 }
 
@@ -247,7 +242,7 @@
                   border-radius: 1rem;
                   color: #ffffff;
                   font-size: 1.5rem;
-                  line-height: 1.5;
+                  line-height: 1.6;
                   top: 1rem;
                   left: 1rem;
                   text-align: center;
