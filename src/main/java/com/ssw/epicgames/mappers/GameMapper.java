@@ -34,6 +34,7 @@ public interface GameMapper {
             @Param("gameIndex")int gameIndex,
             @Param("languageIDs") List<Integer> languageIDs
     );
+
     /** 게임 언어의 id들을 가져옴 */
     List<Integer> selectLanguageId();
 
@@ -75,5 +76,6 @@ public interface GameMapper {
     PurchaseEntity getPurchaseByEmailAndGameIndex(@Param("userEmail") String userEmail,
                                                   @Param("index") int index);
 
+    // 게임 메인이미지 하나만 조회
     GameEntity selectGameImgByindex(@Param("index") int index);
 }
