@@ -14,12 +14,6 @@ const generateStars = (starValue) => {
 }
 
 const appendComment = (review) => {
-    const formatDateTime = (dateTime) => {
-        return dateTime
-            ? dateTime.replace('T', ' ').slice(0, 16).replace(/-/g, '.')
-            : '';
-    };
-
     const $item = new DOMParser().parseFromString(`
        <li class="item">
             <div class="top">
@@ -46,8 +40,7 @@ const appendComment = (review) => {
                 <span class="content">${review['content']}</span>
             </div>
             <div class="date-wrapper">
-                <span class="datetime">${formatDateTime(review['createdAt'])}</span>
-                ${review['updatedAt'] ? `<span class="update-date">(최종수정일 : ${formatDateTime(review['updatedAt'])})</span>` : ''}
+                <span class="datetime">${review['createdAt'].replace('T', ' ')}</span>
             </div>
 
             <form class="form modify">
@@ -289,8 +282,10 @@ const updatePagination = (pageVo) => {
     }
 };
 
+
 // 처음 로드 시 리뷰 불러오기
 loadComments(currentPage);
+
 
 //endregion
 
@@ -463,10 +458,13 @@ document.addEventListener('DOMContentLoaded', () => {
                     });
                 }
             };
+
             xhr.open('DELETE', '../review/');
             xhr.send(formData);
         });
     }
+
+
 });
 //endregion
 

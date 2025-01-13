@@ -85,6 +85,26 @@ document.addEventListener('DOMContentLoaded', () => {
 });
 //endregion
 
+//region 통신 중 로딩
+document.addEventListener("DOMContentLoaded", function () {
+    // 로딩 화면 요소
+    const $loading = document.getElementById("loading");
+    const $form = document.getElementById("add-game-form");
+    // 페이지 로딩 시 로딩 화면 보이기 (이동 전 로딩화면 띄움)
+    $form.addEventListener('submit', function (e) {
+        e.preventDefault(); //폼 제출 방지
+
+        // 로딩 보이기
+        if ($loading) {
+            $loading.style.display = 'flex';  // 페이지 이동 전 로딩 화면 표시
+        }
+
+        this.submit(); //폼 제출 -통신 시작, 등록이 완료되면 게임페이지로 이동함으로 로딩화면 숨김처리 안함
+    });
+});
+
+//endregion
+
 //region CKEditor5 사용(게임 상세 설명란)
 const {
     ClassicEditor,

@@ -200,11 +200,11 @@
             </div>
             <div class="newGame-container">
                 <div class="newGame-wrapper">
-                    <a th:each="game, iterStat : ${newGames}" th:href="@{'/game/page'(index=${game.getIndex()})}"
+                    <a th:each="game : ${newGames}" th:href="@{'/game/page'(index=${game.getIndex()})}"
                        target="_self" class="game">
 
                         <div class="main-image">
-                            <img th:src="@{'/new-game-image?index=' + ${iterStat.index}}" alt="게임포스터">
+                            <img th:src="@{'/new-game-image?index=' + ${game.getIndex()}}" alt="게임포스터">
 
                             <button class="wishlist add" type="button"
                                     th:if="${newGameWishlistStatus[game.getIndex()] == null or !newGameWishlistStatus[game.getIndex()]} and !${purchasedGameIndices.contains(game.getIndex())}"
@@ -241,10 +241,7 @@
                             <del class="origin-price" th:text="${game.price}"></del>
                             <span class="sale-price" th:text="${game.price * 0.9}"></span>
                         </div>
-                        <label th:if="${isLoggedIn}">
-                            <input id="userEmail" th:value="${userEmail}" type="hidden">
-                        </label>
-
+                        <input id="userEmail" th:value="${userEmail}" type="hidden">
                     </a>
                 </div>
             </div>
@@ -254,7 +251,7 @@
             <div class="title-wrapper">
                 <div class="title">
                     <div class="link">
-                        <span class="text">SPECIAL SALE<img class="image" src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAB4AAAAeCAYAAAA7MK6iAAAACXBIWXMAAAsTAAALEwEAmpwYAAACb0lEQVR4nNWXz2sTQRTHA/4fIv66WFqlebPqwXZ38gM99NASf4CKWLQVEbGpSEVaUIigKPgLxYIYQXpQ8CBCTh566KGHYtGohWBEq71p6sz+yq8nM2liG5JNXbLGfuHBztuZ+cy893Z31udba2JU6Rb2b6FBfxun8INrsMiDsL3pAIxE1jGNJBiFIZP6NwqfEehczyjMc0pQmLgWPnFP9BF9xRgx1jWYq6SjDCgZzHJKUit90lJL9/74VNLhGvwrAKdqQFZlugaDrsGMwhO3YKZB/C9zqrSL1YqBsnhcgsVYMUdpLqXdMeeiKFyDGkaAJBzAEPUMTGGoLjijdm7yCrwYULY45plTSHoAfucINbuUDYxCuvJI9IbQfnQfretXkAcU6TOO7Ufr6lhlUnv8buXaONon28LM4dPLw5wWc9fOb9Dfxih8Xb7S3KsX0gpzH9AauyB92ecTiKaBfN8e2RYq9zdHz2PhYxKtyyNonDxclWOywKl/x0ooVbq5RjLVIbIf3ML82zdoDByp+Apf0pifmpSQmuDPn+SO9UM9NUIOjKsk1BCs92hoXjyHxYVvaJ49IXdR/D6PucnXmEu8dNyx3htuDK4X6vz0FNoP72B+dgat2Chm4+OYn5nG7LOnWMz8RB7aJcHWzRial6IlcGpOto0z/Y1DXbe4+sKyuOzb15CHd6N1I4bG8QNLRXUP9chezE7EpUlY/8FKWyxkVcVVFtfgffMfJ0j6nJTp2rnZsxcIha11wVwlw16BmQbR/+8jga36LFZLwt3v8LHPrXQNBt2CdY0MrL3DHrbqeFtPTIVtnh7ofQ5qyS9MM/QbUcr9MGHZqWQAAAAASUVORK5CYII=" alt="sale--v1"></span>
+                        <span class="text">SPECIAL SALE🎉</span>
                         <svg class="icon" width="24" height="24"
                              viewBox="0 0 24 24">
                             <path d="M8.97 4.47a.75.75 0 0 1 1.06 0L17.56 12l-7.53 7.53a.75.75 0 1 1-1.06-1.06L15.44 12 8.97 5.53a.75.75 0 0 1 0-1.06"
@@ -284,14 +281,14 @@
             </div>
             <div class="saleGame-container">
                 <div class="saleGame-wrapper">
-                    <a th:each="game, iterStat : ${saleGames}"
+                    <a th:each="game : ${saleGames}"
                        th:href="@{'/game/page'(index=${game.getIndex()})}"
                        data-user-email="${userEmail}"
                        target="_self"
                        class="sale-game">
 
                         <div class="main-image">
-                            <img th:src="@{'/sale-game-image?index=' + ${iterStat.index}}" alt="게임포스터">
+                            <img th:src="@{'/sale-game-image?index=' + ${game.getIndex()}}" alt="게임포스터">
 
                             <!-- 위시리스트 추가 버튼 -->
                             <button class="wishlist add" type="button"
@@ -336,112 +333,6 @@
                     </a>
                 </div>
             </div>
-        </section>
-
-        <section class="gameList">
-            <ul class="list">
-                <li class="item first">
-                    <div class="title-wrapper">
-                        <div class="title">
-                            <div class="link">
-                                <span class="text">에픽게임즈 베스트셀러</span>
-                                <svg class="icon" width="24" height="24"
-                                     viewBox="0 0 24 24">
-                                    <path d="M8.97 4.47a.75.75 0 0 1 1.06 0L17.56 12l-7.53 7.53a.75.75 0 1 1-1.06-1.06L15.44 12 8.97 5.53a.75.75 0 0 1 0-1.06"
-                                          clip-rule="evenodd" fill-rule="evenodd"></path>
-                                </svg>
-                            </div>
-                        </div>
-                    </div>
-                    <ul class="bestGame-container">
-                        <li class="bestGame-wrapper" th:each="game, iterStat : ${popularGames}">
-                            <a class="bestGame" th:href="@{'/game/page'(index=${game.getIndex()})}" target="_self">
-                                <div class="image-wrapper">
-                                    <img th:src="@{'/popular-game-image?index=' + ${iterStat.index}}" alt="게임포스터">
-                                </div>
-
-                                <div class="text-wrapper">
-                                    <span class="title" th:text="${game.name}"></span>
-                                    <span class="game-price" th:if="${!#lists.contains(onSaleGames, game)}" th:text="${game.price}"></span>
-                                    <div class="sale-info" th:if="${#lists.contains(onSaleGames, game)}">
-                                        <div class="sale-percentage">
-                                            <span class="text">-10%</span>
-                                        </div>
-                                        <del class="origin-price" th:text="${game.price}"></del>
-                                        <span class="sale-price" th:text="${game.price * 0.9}"></span>
-                                    </div>
-                                </div>
-                            </a>
-                        </li>
-
-                    </ul>
-                </li>
-
-                <li class="item first">
-                    <div class="title-wrapper">
-                        <div class="title">
-                            <div class="link">
-                                <span class="text">가장 많이 플레이된 게임</span>
-                                <svg class="icon" width="24" height="24"
-                                     viewBox="0 0 24 24">
-                                    <path d="M8.97 4.47a.75.75 0 0 1 1.06 0L17.56 12l-7.53 7.53a.75.75 0 1 1-1.06-1.06L15.44 12 8.97 5.53a.75.75 0 0 1 0-1.06"
-                                          clip-rule="evenodd" fill-rule="evenodd"></path>
-                                </svg>
-                            </div>
-                        </div>
-                    </div>
-                    <ul class="bestGame-container">
-                        <li class="bestGame-wrapper" th:each="game, iterStat : ${playGames}">
-                            <a class="bestGame" th:href="@{'/game/page'(index=${game.getIndex()})}" target="_self">
-                                <div class="image-wrapper">
-                                    <img th:src="@{'/play-game-image?index=' + ${iterStat.index}}" alt="게임포스터">
-                                </div>
-
-                                <div class="text-wrapper">
-                                    <span class="title" th:text="${game.name}"></span>
-                                    <span class="game-price" th:if="${!#lists.contains(onSaleGames, game)}" th:text="${game.price}"></span>
-                                    <div class="sale-info" th:if="${#lists.contains(onSaleGames, game)}">
-                                        <div class="sale-percentage">
-                                            <span class="text">-10%</span>
-                                        </div>
-                                        <del class="origin-price" th:text="${game.price}"></del>
-                                        <span class="sale-price" th:text="${game.price * 0.9}"></span>
-                                    </div>
-                                </div>
-                            </a>
-                        </li>
-                    </ul>
-                </li>
-
-                <li class="item second">
-                    <div class="title-wrapper">
-                        <div class="title">
-                            <div class="link">
-                                <span class="text">최고 인기 무료 플레이</span>
-                                <svg class="icon" width="24" height="24"
-                                     viewBox="0 0 24 24">
-                                    <path d="M8.97 4.47a.75.75 0 0 1 1.06 0L17.56 12l-7.53 7.53a.75.75 0 1 1-1.06-1.06L15.44 12 8.97 5.53a.75.75 0 0 1 0-1.06"
-                                          clip-rule="evenodd" fill-rule="evenodd"></path>
-                                </svg>
-                            </div>
-                        </div>
-                    </div>
-                    <ul class="freeGame-container">
-                        <li class="freeGame-wrapper" th:each="game, iterStat : ${freeGames}">
-                            <a class="freeGame" th:href="@{'/game/page'(index=${game.getIndex()})}" target="_self">
-                                <div class="image-wrapper">
-                                    <img th:src="@{'/free-game-image?index=' + ${iterStat.index}}" alt="게임포스터">
-                                </div>
-
-                                <div class="text-wrapper">
-                                    <span class="title" th:text="${game.name}"></span>
-                                    <span class="free">무료</span>
-                                </div>
-                            </a>
-                        </li>
-                    </ul>
-                </li>
-            </ul>
         </section>
 
         <section class="dealSection">

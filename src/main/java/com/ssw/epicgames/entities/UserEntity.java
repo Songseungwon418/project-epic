@@ -17,9 +17,7 @@ public class UserEntity {
     private LocalDate birthdate;
     private String nickname;
     private String phone;
-    private String postcode;
     private String addr;
-    private String detailAddress;
     private LocalDateTime registerDate;
     private LocalDateTime updatedAt;
     private LocalDateTime deletedDate;
