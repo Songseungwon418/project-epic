@@ -35,6 +35,28 @@
             (#{gameIndex}, #{tag})
         </foreach>
     </insert>
+    <!-- 게임 언어 맵핑 테이블  -->
+    <insert id="insertGameLanguageMapping">
+        INSERT INTO `epic_games`.`game_language_mapping` (`game_index`, `language_id`)
+        VALUES
+        <foreach collection="languageIDs" item="languageId" separator=",">
+            (#{gameIndex}, #{languageId})
+        </foreach>
+    </insert>
+    <!--  게임 언어의 id 전체 들고옴  -->
+    <select id="selectLanguageId" resultType="_int">
+        SELECT `id`
+        FROM `epic_games`.`language`
+    </select>
+
+    <!-- 게임 할인 맵핑 테이블  -->
+    <insert id="insertGameDiscountsMapping">
+        INSERT INTO `epic_games`.`game_discounts_mapping` (`game_index`, `discounts_id`)
+        VALUES
+        <foreach collection="discountsIDs" item="discountsId" separator=",">
+            (#{gameIndex}, #{discountsId})
+        </foreach>
+    </insert>
 <!--  endregion  -->
 
     <select id="selectAllGames" resultType="com.ssw.epicgames.vos.GameVo">
@@ -216,6 +238,17 @@
           AND `game_index` = #{index}
         AND `deleted_at` IS NULL
         LIMIT 1
+    </select>
+
+
+    <!--  게임 인덱스로 메인이미지 반환  -->
+    <resultMap id="gameImageResultMap" type="com.ssw.epicgames.entities.GameEntity">
+        <result property="mainImage" column="main_image" jdbcType="BLOB"/>
+    </resultMap>
+    <select id="selectGameImgByindex" resultMap="gameImageResultMap">
+        SELECT `main_image`
+        FROM `epic_games`.`game`
+        WHERE `index` = #{index}
     </select>
 
 

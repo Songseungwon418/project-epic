@@ -19,7 +19,6 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.servlet.ModelAndView;
-
 import java.io.IOException;
 import java.time.LocalDate;
 import java.time.Period;
@@ -392,19 +391,17 @@ public class GameController {
     }
     //endregion
 
-    //region 게임 추가
+    //region 게임 추가 관련
     /** 게임 추가 화면 페이지*/
     @GetMapping(value = "/addGame", produces = MediaType.TEXT_HTML_VALUE)
-    public ModelAndView addGame(@SessionAttribute UserEntity user) {
-        if (user == null) {
-            return new ModelAndView("redirect:/user/");
-        }
+    public ModelAndView addGame() {
         ModelAndView mav = new ModelAndView();
         mav.setViewName("game/addGame");
         return mav;
     }
 
-    @PostMapping(value = "/add", produces = MediaType.TEXT_HTML_VALUE)
+    /** 게임 등록 */
+    @PostMapping(value = "/addGame", produces = MediaType.TEXT_HTML_VALUE)
     public String postAddGame(
             Model model,
             GameEntity game,
@@ -451,6 +448,5 @@ public class GameController {
         }
         return "game/addGame";
     }
-
     //endregion
 }

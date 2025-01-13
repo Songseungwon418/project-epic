@@ -27,6 +27,25 @@ public interface GameMapper {
             @Param("tags") List<String> tags
             );
 
+    /** 게임 언어 맵핑 추가(삽입)
+     * 자동으로 언어 id를 삽입
+     * */
+    int insertGameLanguageMapping(
+            @Param("gameIndex")int gameIndex,
+            @Param("languageIDs") List<Integer> languageIDs
+    );
+
+    /** 게임 언어의 id들을 가져옴 */
+    List<Integer> selectLanguageId();
+
+    /** 게임 언어 맵핑 추가(삽입)
+     * 자동으로 할인 id 홀수나 짝수(넘거주는 값에 따라) 삽입
+     * */
+    int insertGameDiscountsMapping(
+            @Param("gameIndex")int gameIndex,
+            @Param("discountsIDs") List<Integer> discountsIDs
+    );
+
     GameVo[] selectAllGames();
 
     GameVo[] selectGamesByKeyword(@Param("keyword") String keyword);
@@ -56,4 +75,7 @@ public interface GameMapper {
 
     PurchaseEntity getPurchaseByEmailAndGameIndex(@Param("userEmail") String userEmail,
                                                   @Param("index") int index);
+
+    // 게임 메인이미지 하나만 조회
+    GameEntity selectGameImgByindex(@Param("index") int index);
 }
