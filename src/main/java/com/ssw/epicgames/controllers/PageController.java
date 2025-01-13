@@ -99,7 +99,6 @@ public class PageController {
             modelAndView.setViewName("redirect:/user/");
             return modelAndView;
         }
-
         if (email != null) {
             user = this.userService.getUserByEmail(email);
             if (user == null) {
