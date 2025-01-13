@@ -106,7 +106,7 @@ document.addEventListener('DOMContentLoaded', function () {
 
 //endregion
 
-// registerform에서 input을 누르고 뗏을때 필수 나타나게,
+//region registerform에서 input을 누르고 뗏을때 필수 나타나게,
 document.addEventListener('DOMContentLoaded', function () {
     const inputs = document.querySelectorAll('.register-form .input');
 
@@ -130,7 +130,7 @@ document.addEventListener('DOMContentLoaded', function () {
         });
     });
 });
-
+//endregion
 
 const $registerForm = document.getElementById("registerForm");
 
@@ -143,7 +143,9 @@ $registerForm.onsubmit = (e) => {
     formData.append('name', $registerForm['name'].value);
     formData.append('nickname', $registerForm['nickname'].value);
     formData.append('birthdate', $registerForm['birthdate'].value);
-    formData.append('addr', $registerForm['addr'].value);
+    formData.append('postcode', $registerForm['postcode'].value);   // 우편번호
+    formData.append('addr', $registerForm['addr'].value);   // 도로명 주소
+    formData.append('detailAddress', $registerForm['detail_address'].value);    // 상세주소
     formData.append('phone', $registerForm['phone'].value);
     formData.append('password', $registerForm['password'].value);
     xhr.onreadystatechange = () => {

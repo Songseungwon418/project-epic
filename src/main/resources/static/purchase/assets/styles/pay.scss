@@ -20,7 +20,7 @@ body {
 
 #main-container {
   position: relative;
-  display: none;
+  display: flex;
   flex-wrap: nowrap;
   padding-left: 20px;
 
@@ -400,11 +400,6 @@ body {
         font-size: 14px;
         margin-top: 12px;
         text-align: center;
-        align-items: stretch;
-        display: flex;
-        flex-direction: column;
-        gap: 10px;
-        justify-content: space-evenly;
 
         > span > a {
           cursor: pointer;

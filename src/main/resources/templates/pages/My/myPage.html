@@ -106,7 +106,8 @@
                             <span class="text">업적</span>
                             <div class="achievement-img-wrapper">
                                 <div class="achievement-image" th:each="achievement : ${gameMap.get(game)}">
-                                    <span th:if="${achievement.getAchievementId() == null}" style="font-size: 15px; font-weight: 600">달성한 업적이 없습니다.</span>
+                                <span th:if="${achievement.getAchievementId() == null}"
+                                      style="font-size: 15px; font-weight: 600">달성한 업적이 없습니다.</span>
                                     <img class="image" th:if="${achievement.getAchievementId() != null}"
                                          th:src="@{/page/achievement-cover (index = ${achievement.getAchievementId()})}"
                                          th:title="${achievement.getAchievementName()}">

@@ -36,6 +36,14 @@ public class PurchaseService {
     private final PriceService priceService;
 
 //region 장바구니 관련
+
+    public int getCartCount(UserEntity user) {
+        if (user == null) {
+            return 0;
+        }
+        return purchaseMapper.selectCount(user.getEmail());
+    }
+
     /** 유저에 해당하는 장바구니 목록들 조회 */
     public CartDTO[] getCarts(UserEntity user) {
         // 유저 유효성 검사(로그인 유뮤)

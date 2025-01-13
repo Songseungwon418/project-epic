@@ -32,19 +32,6 @@
             }
         });
     </script>
-    <script th:if="${result == 'failure_duplicate'}">
-        Swal.fire({
-            icon: "error",
-            title: "게임 등록 실패",
-            text: "이미 등록된 게임이라서 등록 할 수 없습니다."
-        }).then(() => {
-            if (history.length === 1) {
-                window.close();
-            } else {
-                history.back();
-            }
-        });
-    </script>
 </head>
 <body>
 <th:block th:replace="~{fragments/loading.html :: loading}"></th:block>
@@ -119,7 +106,7 @@
                 </label>
                 <span class="info-wrapper">
                     <span class="tip">* 메인 이미지의 확장자는 <code>jpeg</code>이어야 합니다.</span>
-                    <span class="tip">* 메인 이미지의 파일 크기는 10MB를 초과하지 않아야 합니다.</span>
+                    <span class="tip">* 메인 이미지의 파일 크기는 1MB를 초과하지 않아야 합니다.</span>
                 </span>
             </span>
         </div>
@@ -133,7 +120,7 @@
                 </label>
                 <span class="info-wrapper">
                     <span class="tip">* 메인 로고의 확장자는 <code>png</code>이어야 합니다.</span>
-                    <span class="tip">* 메인 로고의 파일 크기는 10MB를 초과하지 않아야 합니다.</span>
+                    <span class="tip">* 메인 로고의 파일 크기는 1MB를 초과하지 않아야 합니다.</span>
                 </span>
             </span>
         </div>
@@ -164,7 +151,7 @@
             </span>
             <span class="info-wrappers">
                 <span class="tip">* 추가 이미지의 확장자는 <code>jpeg</code>이어야 합니다.</span>
-                <span class="tip">* 추가 이미지의 파일 크기는 100MB를 초과하지 않아야 합니다.</span>
+                <span class="tip">* 추가 이미지의 파일 크기는 1MB를 초과하지 않아야 합니다.</span>
                 <span class="tip">* 추가 이미지는 최소 1개에서 최대 4개까지 가능합니다.</span>
             </span>
         </div>
