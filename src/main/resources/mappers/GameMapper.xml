@@ -250,6 +250,4 @@
         FROM `epic_games`.`game`
         WHERE `index` = #{index}
     </select>
-
-
 </mapper>

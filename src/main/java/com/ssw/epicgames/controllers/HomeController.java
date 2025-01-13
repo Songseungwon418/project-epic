@@ -1,7 +1,6 @@
 package com.ssw.epicgames.controllers;
 
 import com.ssw.epicgames.DTO.PayDTO;
-
 import com.ssw.epicgames.entities.UserEntity;
 import com.ssw.epicgames.services.GameService;
 import com.ssw.epicgames.services.HomeService;
@@ -39,7 +38,7 @@ public class HomeController {
         this.gameService = gameService;
     }
 
-
+    // 최신 게임 이미지 반환
     @RequestMapping(value = "/new-game-image", method = RequestMethod.GET)
     @ResponseBody
     public ResponseEntity<byte[]> getNewGameImage(@RequestParam(value = "index") int index) {
@@ -56,6 +55,7 @@ public class HomeController {
                 .body(game.getMainImage());
     }
 
+    // 최신 게임 이미지 반환
     @RequestMapping(value = "/sale-game-image", method = RequestMethod.GET)
     @ResponseBody
     public ResponseEntity<byte[]> getSaleGameImage(@RequestParam(value = "index") int index) {
@@ -72,7 +72,7 @@ public class HomeController {
                 .body(game.getMainImage());
     }
 
-//region DB에서 이미지 하나만 검색
+    //region DB에서 이미지 하나만 검색
     // 최신 게임 이미지 반환
 //    @RequestMapping(value = "/new-game-image", method = RequestMethod.GET)
 //    @ResponseBody

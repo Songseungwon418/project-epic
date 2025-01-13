@@ -6,9 +6,9 @@
 
 
     <insert id="insertUser" parameterType="com.ssw.epicgames.entities.UserEntity">
-        INSERT INTO `epic_games`.`user`(`email`, `password`, `name`, `birthdate`, `nickname`, `phone`, `postcode`, `addr`, `detail_address`,
+        INSERT INTO `epic_games`.`user`(`email`, `password`, `name`, `birthdate`, `nickname`, `phone`, `addr`,
                                         `register_date`, `updated_at`, `deleted_date`, is_verified)
-        VALUES (#{email}, #{password}, #{name}, #{birthdate}, #{nickname}, #{phone}, #{postcode}, #{addr}, #{detailAddress} , #{registerDate},
+        VALUES (#{email}, #{password}, #{name}, #{birthdate}, #{nickname}, #{phone}, #{addr}, #{registerDate},
                 #{updatedAt}, #{deletedDate}, #{isVerified})
     </insert>
 
@@ -19,9 +19,7 @@
                `birthdate` AS `birthdate`,
                `nickname` AS `nickname`,
                `phone` AS `phone`,
-               `postcode` AS `postcode`,
                `addr` AS `addr`,
-               `detail_address` AS `detailAddress`,
                `register_date` AS `registerDate`,
                `updated_at` AS `updatedAt`,
                `deleted_date` AS `deletedDate`,
@@ -38,9 +36,7 @@
                `birthdate` AS `birthdate`,
                `nickname` AS `nickname`,
                `phone` AS `phone`,
-               `postcode` AS `postcode`,
                `addr` AS `addr`,
-               `detail_address` AS `detailAddress`,
                `register_date` AS `registerDate`,
                `updated_at` AS `updatedAt`,
                `deleted_date` AS `deletedDate`,
@@ -57,9 +53,7 @@
                `birthdate` AS `birthdate`,
                `nickname` AS `nickname`,
                `phone` AS `phone`,
-               `postcode` AS `postcode`,
                `addr` AS `addr`,
-               `detail_address` AS `detailAddress`,
                `register_date` AS `registerDate`,
                `updated_at` AS `updatedAt`,
                `deleted_date` AS `deletedDate`,
@@ -87,9 +81,7 @@
             `birthdate`     = #{birthdate},
             `nickname`      = #{nickname},
             `phone`         = #{phone},
-            `postcode`      = #{postcode},
             `addr`          = #{addr},
-            `detail_address`= #{detailAddress},
             `register_date` = #{registerDate},
             `updated_at`    = #{updatedAt},
             `deleted_date`  = #{deletedDate},

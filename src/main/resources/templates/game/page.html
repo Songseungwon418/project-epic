@@ -360,7 +360,7 @@
                             </div>
                         </div>
                     </section>
-                    <aside class="sideBar">
+                    <section class="sideBar">
                         <div class="bar-nav">
                             <div class="logo-wrapper">
                                 <img th:src="@{'/game/image?index=' + ${gameDetails.game.index} + '&type=gameLogo'}"
@@ -450,8 +450,8 @@
                             </div>
                             <label>
                                 <input type="text" id="userEmail" th:value="${userEmail}" hidden="hidden">
-                                <input type="text" id="cartIndex" th:if="${cartIndex != null}" th:value="${cartIndex}" hidden="hidden">
-                                <input type="text" id="wishlistIndex" th:if="${wishlistIndex != null}" th:value="${wishlistIndex}" hidden="hidden">
+                                <input type="text" id="cartIndex" th:value="${cartIndex}" hidden="hidden">
+                                <input type="text" id="wishlistIndex" th:value="${wishlistIndex}" hidden="hidden">
                             </label>
                             <div class="info-wrapper">
                                 <div class="info">
@@ -478,7 +478,7 @@
 
                             </div>
                         </div>
-                    </aside>
+                    </section>
                 </div>
             </div>
         </div>
