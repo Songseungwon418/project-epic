@@ -3,9 +3,6 @@ const $deleteDialog = document.getElementById('deleteDialog');
 const $recoverPassword = document.getElementById('recoverPassword');
 const $loading = document.getElementById("loading");
 
-
-
-
 //region 계정 수정
 $mainContainer.onsubmit = (e) => {
     e.preventDefault();
@@ -15,8 +12,6 @@ $mainContainer.onsubmit = (e) => {
     formData.append('name', $mainContainer['name'].value);
     formData.append('nickname', $mainContainer['nickname'].value);
     formData.append('birthdate', $mainContainer['birthdate'].value);
-    formData.append('postcode', $mainContainer['postcode'].value);
-    formData.append('detailAddress', $mainContainer['detail_address'].value);
     formData.append('addr', $mainContainer['addr'].value);
     formData.append('phone', $mainContainer['phone'].value);
     xhr.onreadystatechange = () => {

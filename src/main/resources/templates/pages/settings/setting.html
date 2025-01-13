@@ -9,7 +9,6 @@
     <link rel="shortcut icon" th:href="@{'/assets/images/favicon.png'}">
     <link rel="stylesheet" th:href="@{'/assets/styles/loading.css'}">
     <script th:src="@{'/assets/scripts/loading.js'}"></script>
-    <script src="//t1.daumcdn.net/mapjsapi/bundle/postcode/prod/postcode.v2.js"></script> <!--주소 API-->
     <link rel="stylesheet" type="text/css" th:href="@{'/assets/styles/common.css'}">
     <link rel="stylesheet" th:href="@{'/pages/settings/styles/setting.css'}" type="text/css">
     <script src="https://cdn.jsdelivr.net/npm/sweetalert2@9"></script>
@@ -17,63 +16,6 @@
     <script defer type="text/javascript" th:src="@{'/assets/scripts/common.js'}"></script>
     <script src="https://kit.fontawesome.com/856af35d3d.js" crossorigin="anonymous"></script>
     <script defer th:src="@{'/purchase/assets/scripts/purchase_common.js'}"></script>
-    <script>
-        //본 예제에서는 도로명 주소 표기 방식에 대한 법령에 따라, 내려오는 데이터를 조합하여 올바른 주소를 구성하는 방법을 설명합니다.
-        function sample4_execDaumPostcode() {
-            new daum.Postcode({
-                oncomplete: function (data) {
-                    // 팝업에서 검색결과 항목을 클릭했을때 실행할 코드를 작성하는 부분.
-
-                    // 도로명 주소의 노출 규칙에 따라 주소를 표시한다.
-                    // 내려오는 변수가 값이 없는 경우엔 공백('')값을 가지므로, 이를 참고하여 분기 한다.
-                    var roadAddr = data.roadAddress; // 도로명 주소 변수
-                    var extraRoadAddr = ''; // 참고 항목 변수
-
-                    // 법정동명이 있을 경우 추가한다. (법정리는 제외)
-                    // 법정동의 경우 마지막 문자가 "동/로/가"로 끝난다.
-                    if (data.bname !== '' && /[동|로|가]$/g.test(data.bname)) {
-                        extraRoadAddr += data.bname;
-                    }
-                    // 건물명이 있고, 공동주택일 경우 추가한다.
-                    if (data.buildingName !== '' && data.apartment === 'Y') {
-                        extraRoadAddr += (extraRoadAddr !== '' ? ', ' + data.buildingName : data.buildingName);
-                    }
-                    // 표시할 참고항목이 있을 경우, 괄호까지 추가한 최종 문자열을 만든다.
-                    if (extraRoadAddr !== '') {
-                        extraRoadAddr = ' (' + extraRoadAddr + ')';
-                    }
-
-                    // 우편번호와 주소 정보를 해당 필드에 넣는다.
-                    document.getElementById('sample4_postcode').value = data.zonecode;
-                    document.getElementById("sample4_roadAddress").value = roadAddr;
-                    document.getElementById("sample4_jibunAddress").value = data.jibunAddress;
-
-                    // 참고항목 문자열이 있을 경우 해당 필드에 넣는다.
-                    if (roadAddr !== '') {
-                        document.getElementById("sample4_extraAddress").value = extraRoadAddr;
-                    } else {
-                        document.getElementById("sample4_extraAddress").value = '';
-                    }
-
-                    var guideTextBox = document.getElementById("guide");
-                    // 사용자가 '선택 안함'을 클릭한 경우, 예상 주소라는 표시를 해준다.
-                    if (data.autoRoadAddress) {
-                        var expRoadAddr = data.autoRoadAddress + extraRoadAddr;
-                        guideTextBox.innerHTML = '(예상 도로명 주소 : ' + expRoadAddr + ')';
-                        guideTextBox.style.display = 'block';
-
-                    } else if (data.autoJibunAddress) {
-                        var expJibunAddr = data.autoJibunAddress;
-                        guideTextBox.innerHTML = '(예상 지번 주소 : ' + expJibunAddr + ')';
-                        guideTextBox.style.display = 'block';
-                    } else {
-                        guideTextBox.innerHTML = '';
-                        guideTextBox.style.display = 'none';
-                    }
-                }
-            }).open();
-        }
-    </script>
 </head>
 <body>
 <th:block th:replace="~{fragments/loading.html :: loading}"></th:block>
@@ -130,21 +72,10 @@
                         <input class="input" maxlength="10" minlength="1" name="name" type="text"
                                th:value="${user.name}">
                     </label>
-                    <label class="label">
+                    <label class="label addr-wrp">
                         <span class="text">주소</span>
-                        <label class="addr-wrp">
-                            <input class="input" name="postcode" type="text" th:value="${user.postcode}"
-                                   id="sample4_postcode">
-                            <input class="input" type="button" onclick="sample4_execDaumPostcode()" value="우편번호 찾기">
-                        </label>
-                    </label>
-                    <label class="label">
-                        <input class="input" name="addr" type="text" th:value="${user.addr}" id="sample4_roadAddress">
-                        <input hidden="hidden" type="text" id="sample4_jibunAddress" placeholder="지번주소">
-                        <span id="guide" style="color:#999;display:none"></span>
-                        <input class="input" name="detail_address" type="text" th:value="${user.detailAddress}"
-                               id="sample4_detailAddress">
-                        <input hidden="hidden" type="text" id="sample4_extraAddress" placeholder="참고항목">
+                        <input class="input" maxlength="100" minlength="5" name="addr" type="text"
+                               th:value="${user.addr}">
                     </label>
                     <label class="label">
                         <span class="text">생년월일</span>
@@ -170,9 +101,10 @@
                 <button class="button" type="button" id="deleteRequestBtn">계정 삭제 요청</button>
             </div>
         </div>
-        <div class="content user-purchaseList" th:classappend="${showPurchaseList ? '-visible' : ''}"
-             rel="user.purchaseList">
+        <div class="content user-purchaseList" th:classappend="${showPurchaseList ? '-visible' : ''}" rel="user.purchaseList">
             <h2 class="title">거래</h2>
+            <span class="_text -red">※ 환불은 구매일로부터 72시간이내로 가능합니다.</span>
+            <span class="_text">- 무료 게임은 환불 불가 -</span>
             <table class="purchase-table" id="purchase-table" th:if="${paylist != null && paylist.size() > 0}">
                 <thead>
                 <tr>
@@ -185,24 +117,14 @@
                 </thead>
                 <tbody th:each="pay : ${paylist}">
                 <tr class="title">
-                    <td class="line"
-                        th:text="${#temporals.format(pay.getPay().getPaidAt(), 'yyyy-MM-dd HH:mm:ss')}"></td>
+                    <td class="line" th:text="${#temporals.format(pay.getPay().getPaidAt(), 'yyyy-MM-dd HH:mm:ss')}"></td>
                     <td class="title content" th:text="${pay.getPay().getTitle()}"></td>
-                    <td class="price price-info" th:if="${pay.getPay().getRefundAmount() == 0}">
-                        [[${pay.getPay().getAmount()}]]
-                    </td>
-                    <td class="price price-info" th:if="${pay.getPay().getRefundAmount() > 0}">
-                        [[${pay.getPay().getAmount()-pay.getPay().getRefundAmount()}]]
-                    </td>
-                    <td class="status"
-                        th:text="${pay.getPay().getStatus() == 'paid' ? '구매' : (pay.getPay().getStatus().equals('partial') ? '부분환불' : '환불')}"></td>
+                    <td class="price price-info" th:if="${pay.getPay().getRefundAmount() == 0}">[[${pay.getPay().getAmount()}]]</td>
+                    <td class="price price-info" th:if="${pay.getPay().getRefundAmount() > 0}">[[${pay.getPay().getAmount()-pay.getPay().getRefundAmount()}]]</td>
+                    <td class="status" th:text="${pay.getPay().getStatus() == 'paid' ? '구매' : (pay.getPay().getStatus().equals('partial') ? '부분환불' : '환불')}"></td>
                     <td class="refund-container">
-                        <button class="refund-btn" data-id="all"
-                                th:if="${pay.isRefund() && pay.getPay().getAmount() > pay.getPay().getRefundAmount()}">
-                            전체환불
-                        </button>
-                        <span th:if="${pay.getPay().getStatus().equals('cancelled')}"
-                              th:text="${#temporals.format(pay.getPay().getUpdatedAt(), 'yyyy-MM-dd HH:mm:ss')}"></span>
+                        <button class="refund-btn" data-id="all" th:if="${pay.isRefund() && pay.getPay().getAmount() > pay.getPay().getRefundAmount()}">전체환불</button>
+                        <span th:if="${pay.getPay().getStatus().equals('cancelled')}" th:text="${#temporals.format(pay.getPay().getUpdatedAt(), 'yyyy-MM-dd HH:mm:ss')}"></span>
                     </td>
                 </tr>
                 <tr class="purchase-id">
@@ -229,16 +151,11 @@
                             <span class="price -current">[[${purchase.getPrice().currentPrice}]]</span>
                         </div>
                     </td>
-                    <td class="line-bottom status"
-                        th:text="${purchase.getPurchase().getDeletedAt() == null? '구매' : '환불'}"></td>
+                    <td class="line-bottom status" th:text="${purchase.getPurchase().getDeletedAt() == null? '구매' : '환불'}"></td>
                     <td class="line-bottom refund-container">
-                        <button class="refund-btn" data-id="partial"
-                                th:if="${purchase.getPurchase().getDeletedAt == null && pay.isRefund() && purchase.getPrice().currentPrice != 0}">
-                            환불
-                        </button>
+                        <button class="refund-btn" data-id="partial" th:if="${purchase.getPurchase().getDeletedAt == null && pay.isRefund() && purchase.getPrice().currentPrice != 0}">환불</button>
                         <span class="gameIndex" hidden="hidden" th:text="${purchase.getGame().getIndex()}"></span>
-                        <span th:if="${purchase.getPurchase().getDeletedAt() != null}"
-                              th:text="${#temporals.format(purchase.getPurchase().getDeletedAt(), 'yyyy-MM-dd HH:mm:ss')}"></span>
+                        <span th:if="${purchase.getPurchase().getDeletedAt() != null}" th:text="${#temporals.format(purchase.getPurchase().getDeletedAt(), 'yyyy-MM-dd HH:mm:ss')}"></span>
                     </td>
                 </tr>
                 <tr class="sub-title total-price">
@@ -257,13 +174,11 @@
                             <span class="text -minus">총 환불한 금액: </span>
                             <span class="price -minus">[[${pay.getPay().getRefundAmount()}]]</span>
                         </div>
-                        <div class="info"
-                             th:if="${pay.getPay().getAmount() != 0 && pay.getPay().getRefundAmount() == 0}">
+                        <div class="info" th:if="${pay.getPay().getAmount() != 0 && pay.getPay().getRefundAmount() == 0}">
                             <span class="text">총 구매가격: </span>
                             <span class="price">[[${pay.getPay().getAmount()}]]</span>
                         </div>
-                        <div class="info"
-                             th:if="${pay.getPay().getAmount() != 0 && pay.getPay().getRefundAmount() != 0}">
+                        <div class="info" th:if="${pay.getPay().getAmount() != 0 && pay.getPay().getRefundAmount() != 0}">
                             <span class="text">총 구매가격: </span>
                             <span class="price">[[${pay.getPay().getAmount() - pay.getPay().getRefundAmount()}]]</span>
                         </div>
@@ -277,11 +192,7 @@
                 <div class="empty-wrapper">
                     <span class="logo">
                         <svg xmlns="http://www.w3.org/2000/svg" class="svg" viewBox="0 0 45 52">
-                            <g fill="none" fill-rule="evenodd"><path
-                                    d="M4.058 0C1.094 0 0 1.098 0 4.075v35.922c0 .338.013.65.043.94.068.65-.043 1.934 2.285 2.96 1.553.683 7.62 3.208 18.203 7.573 1.024.428 1.313.529 2.081.529.685.013 1.137-.099 2.072-.53 10.59-4.227 16.66-6.752 18.213-7.573 2.327-1.23 2.097-3.561 2.097-3.899V4.075C44.994 1.098 44.13 0 41.166 0H4.058z"
-                                    fill="#404044"></path><path stroke="#FFF" stroke-width="2" stroke-linecap="round"
-                                                                stroke-linejoin="round"
-                                                                d="M14 18l4.91 2.545-2.455 4M25.544 28.705c-1.056-.131-1.806-.14-2.25-.025-.444.115-1.209.514-2.294 1.197M29.09 21.727L25 19.5l2.045-3.5"></path></g>
+                            <g fill="none" fill-rule="evenodd"><path d="M4.058 0C1.094 0 0 1.098 0 4.075v35.922c0 .338.013.65.043.94.068.65-.043 1.934 2.285 2.96 1.553.683 7.62 3.208 18.203 7.573 1.024.428 1.313.529 2.081.529.685.013 1.137-.099 2.072-.53 10.59-4.227 16.66-6.752 18.213-7.573 2.327-1.23 2.097-3.561 2.097-3.899V4.075C44.994 1.098 44.13 0 41.166 0H4.058z" fill="#404044"></path><path stroke="#FFF" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" d="M14 18l4.91 2.545-2.455 4M25.544 28.705c-1.056-.131-1.806-.14-2.25-.025-.444.115-1.209.514-2.294 1.197M29.09 21.727L25 19.5l2.045-3.5"></path></g>
                         </svg>
                     </span>
                     <h1 class="info_text">
