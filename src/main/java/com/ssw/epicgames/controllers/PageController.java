@@ -99,6 +99,7 @@ public class PageController {
             modelAndView.setViewName("redirect:/user/");
             return modelAndView;
         }
+
         if (email != null) {
             user = this.userService.getUserByEmail(email);
             if (user == null) {
@@ -255,7 +256,7 @@ public class PageController {
     }
     //endregion
 
-        @RequestMapping(value = "/privacyPolicy", method = RequestMethod.GET, produces = MediaType.TEXT_HTML_VALUE)
+    @RequestMapping(value = "/privacyPolicy", method = RequestMethod.GET, produces = MediaType.TEXT_HTML_VALUE)
     public ModelAndView getPrivacyPolicyPage() {
         ModelAndView modelAndView = new ModelAndView();
         modelAndView.setViewName("pages/privacyPolicy");

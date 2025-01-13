@@ -281,6 +281,12 @@
         WHERE p.user_email = #{userEmail}
     </select>
 
+    <select id="selectCount" resultType="_int">
+        SELECT COUNT(0)
+        FROM `epic_games`.`cart`
+        WHERE `user_email` = #{userEmail}
+    </select>
+
     <!--    <select id="selectPurchaseByUserEmail" resultType="com.ssw.epicgames.entities.PurchaseEntity">-->
 <!--        SELECT `index` AS `index`,-->
 <!--               user_email AS `userEmail`,-->

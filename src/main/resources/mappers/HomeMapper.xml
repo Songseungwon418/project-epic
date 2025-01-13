@@ -31,7 +31,37 @@
         WHERE
             NOW() BETWEEN d.start_date AND d.end_date
           AND d.`active` = 1 AND g.`price` != 0
-        ORDER BY `open_date`;
+        ORDER BY `open_date`
+        LIMIT 8
+    </select>
+
+    <select id="selectPopularGames" resultType="com.ssw.epicgames.vos.GameVo">
+        SELECT `index` AS `index`,
+               `name` AS `name`,
+               `price` AS `price`,
+               `main_image` AS `mainImage`
+        FROM `epic_games`.`game`
+        WHERE `index` = 5 OR `index` = 31 OR `index` = 32
+    </select>
+
+    <select id="selectPlayGames" resultType="com.ssw.epicgames.vos.GameVo">
+        SELECT `index` AS `index`,
+               `name` AS `name`,
+               `price` AS `price`,
+               `main_image` AS `mainImage`
+        FROM `epic_games`.`game`
+        WHERE `index` = 6 OR `index` = 12 OR `index` = 18
+    </select>
+
+    <select id="selectFreeGames" resultType="com.ssw.epicgames.vos.GameVo">
+        SELECT `index` AS `index`,
+               `name` AS `name`,
+               `price` AS `price`,
+               `main_image` AS `mainImage`
+        FROM `epic_games`.`game`
+        WHERE `price` = 0
+        ORDER BY `open_date` DESC
+        LIMIT 3
     </select>
 
 </mapper>

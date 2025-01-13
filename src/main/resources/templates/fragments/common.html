@@ -383,7 +383,7 @@
                     </svg>
                 </button>
                 <label class="label">
-                    <input name="keyword" class="search" placeholder="스토어 검색" autocomplete="off" spellcheck="false"
+                    <input name="keyword" class="search" id="searchInput" placeholder="스토어 검색" autocomplete="off" spellcheck="false"
                            type="search" th:value="${keyword}">
                 </label>
             </form>
@@ -418,7 +418,9 @@
             <span class="spring"></span>
             <ul class="list" th:if="${isLoggedIn}">
                 <li class="item wishlist"><a th:href="@{'/purchase/wishlist'}" target="_self">위시리스트</a></li>
-                <li class="item cart" style="font-size: 1.7rem"><a th:href="@{'/purchase/cart'}" target="_self">장바구니</a>
+                <li class="item cart" style="font-size: 1.7rem"><a th:href="@{'/purchase/cart'}" target="_self">장바구니</a></li>
+                <li class="cartCount-wrapper" id="cartCountWrapper" th:if="${cartCount != 0}">
+                    <span class="cartCount" id="cartCount" th:text="${cartCount}"></span>
                 </li>
             </ul>
         </div>
@@ -541,7 +543,7 @@
 
     <div class="copyright">
         <span class="text">
-           이 홈페이지는 개발자 양성과정의 테스트 페이지 임으로 실제 EPIC GAMES의 홈페이지와는 다른 페이지입니다.
+            해당 사이트는 개발자 양성 과정 프로젝트용 사이트이며, 실제 EPIC GAMES 사이트와는 다른 사이트이므로 착오 없으시길 바랍니다.
         </span>
     </div>
 

@@ -14,6 +14,12 @@ const generateStars = (starValue) => {
 }
 
 const appendComment = (review) => {
+    const formatDateTime = (dateTime) => {
+        return dateTime
+            ? dateTime.replace('T', ' ').slice(0, 16).replace(/-/g, '.')
+            : '';
+    };
+
     const $item = new DOMParser().parseFromString(`
        <li class="item">
             <div class="top">
@@ -40,7 +46,8 @@ const appendComment = (review) => {
                 <span class="content">${review['content']}</span>
             </div>
             <div class="date-wrapper">
-                <span class="datetime">${review['createdAt'].replace('T', ' ')}</span>
+                <span class="datetime">${formatDateTime(review['createdAt'])}</span>
+                ${review['updatedAt'] ? `<span class="update-date">(최종수정일 : ${formatDateTime(review['updatedAt'])})</span>` : ''}
             </div>
 
             <form class="form modify">
@@ -118,7 +125,7 @@ const appendComment = (review) => {
                     case 'failure':
                         Swal.fire({
                             title: "실패",
-                            text: "댓글을 수정하지 못하였습니다. 잠시 후 다시 시도해 주세요.",
+                            text: "리뷰를 수정하지 못하였습니다. 잠시 후 다시 시도해 주세요.",
                             icon: "error"
                         });
                         break;
@@ -126,7 +133,7 @@ const appendComment = (review) => {
                         Swal.fire({
                             icon: "success",
                             title: "성공",
-                            text: "댓글을 수정하였습니다."
+                            text: "리뷰를 수정하였습니다."
                         }).then(() => {
                             loadComments(currentPage)
                         });
@@ -158,7 +165,7 @@ const appendComment = (review) => {
 }
 
 
-//region 댓글 불러오기
+//region 리뷰 불러오기
 let currentPage = 1;
 
 const loadComments = (page = 1) => {
@@ -181,7 +188,7 @@ const loadComments = (page = 1) => {
             const reviews = response.reviews || [];
             const pageVo = response.pageVo;
 
-            $list.innerHTML = ''; // 댓글 리스트 초기화
+            $list.innerHTML = ''; // 리뷰 리스트 초기화
             if (reviews.length === 0) {
                 const $noReviews = document.createElement('div');
                 $noReviews.className = 'nothing';
@@ -200,7 +207,7 @@ const loadComments = (page = 1) => {
                 $list.append($noReviews);
             } else {
                 reviews.forEach(comment => {
-                    appendComment(comment); // 댓글 추가
+                    appendComment(comment); // 리뷰 추가
                 });
             }
 
@@ -211,7 +218,7 @@ const loadComments = (page = 1) => {
         } else {
             Swal.fire({
                 title: "실패",
-                text: "댓글을 불러오지 못하였습니다. 잠시 후 다시 시도해 주세요.",
+                text: "리뷰를 불러오지 못하였습니다. 잠시 후 다시 시도해 주세요.",
                 icon: "error"
             });
         }
@@ -282,14 +289,12 @@ const updatePagination = (pageVo) => {
     }
 };
 
-
-// 처음 로드 시 댓글 불러오기
+// 처음 로드 시 리뷰 불러오기
 loadComments(currentPage);
-
 
 //endregion
 
-//endregion 댓글 전송
+//endregion 리뷰 전송
 const $commentForm = document.getElementById('commentForm');
 const postComment = ($form) => {
     const $userEmail = document.getElementById('userEmail');
@@ -366,7 +371,7 @@ if ($commentForm) {
 }
 //endregion
 
-//region 댓글 수정 버튼 동작
+//region 리뷰 수정 버튼 동작
 document.addEventListener('DOMContentLoaded', () => {
     // 수정 버튼 처리
     $list.addEventListener('change', (event) => {
@@ -399,7 +404,7 @@ document.addEventListener('DOMContentLoaded', () => {
 });
 //endregion
 
-//region 댓글 삭제 버튼 동작
+//region 리뷰 삭제 버튼 동작
 document.addEventListener('DOMContentLoaded', () => {
     // 삭제 취소 버튼 클릭 시
     const $deleteCancelButton = document.querySelector('[name="DeleteCancel"]');
@@ -442,7 +447,7 @@ document.addEventListener('DOMContentLoaded', () => {
                     Swal.fire({
                         icon: "success",
                         title: "성공",
-                        text: "댓글을 삭제했습니다."
+                        text: "리뷰를 삭제했습니다."
                     }).then(() => {
                         if ($list.children.length === 1 && currentPage > 1) {
                             currentPage--;
@@ -458,13 +463,10 @@ document.addEventListener('DOMContentLoaded', () => {
                     });
                 }
             };
-
             xhr.open('DELETE', '../review/');
             xhr.send(formData);
         });
     }
-
-
 });
 //endregion
 
