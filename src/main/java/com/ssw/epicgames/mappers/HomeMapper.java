@@ -14,5 +14,4 @@ public interface HomeMapper {
     GameVo[] selectPlayGames();
 
     GameVo[] selectFreeGames();
-
 }

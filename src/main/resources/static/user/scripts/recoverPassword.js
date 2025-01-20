@@ -2,7 +2,7 @@ const $recoverForm = document.getElementById("recoverForm");
 
 $recoverForm.onsubmit = (e) => {
     e.preventDefault();
-    
+
     const xhr = new XMLHttpRequest();
     const formData = new FormData();
     formData.append('userEmail', $recoverForm['userEmail'].value);

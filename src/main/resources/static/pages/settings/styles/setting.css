@@ -1,3 +1,6 @@
+body #main {
+  max-width: 100vw !important;
+}
 body::-webkit-scrollbar {
   width: 10px;
   background: #141414;
@@ -11,10 +14,6 @@ body::-webkit-scrollbar-thumb:hover {
 }
 body::-webkit-scrollbar-track {
   background: #141414;
-}
-
-#main {
-  max-width: 100vw !important;
 }
 
 .overlay {
@@ -86,7 +85,6 @@ body::-webkit-scrollbar-track {
 }
 .container > .main > .user-setting {
   display: none;
-  width: 100%;
 }
 .container > .main > .user-setting.-visible {
   display: block;

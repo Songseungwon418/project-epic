@@ -1,4 +1,5 @@
 const $forgotForm = document.getElementById("forgotForm");
+const $loading = document.getElementById("loading");
 
 $forgotForm.onsubmit = (e) => {
     e.preventDefault();
@@ -8,6 +9,7 @@ $forgotForm.onsubmit = (e) => {
         if (xhr.readyState !== XMLHttpRequest.DONE) {
             return;
         }
+        $loading.style.display = 'none';
         if (xhr.status < 200 || xhr.status >= 300) {
             Swal.fire({
                 title: "서버가 알 수 없는 응답을 반환하였습니다.",
@@ -35,4 +37,5 @@ $forgotForm.onsubmit = (e) => {
     };
     xhr.open('POST', `/user/forgot-password?email=${$forgotForm['email'].value}`);
     xhr.send();
+    $loading.style.display = 'flex';
 }

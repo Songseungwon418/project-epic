@@ -18,4 +18,6 @@ public interface CommentMapper {
 
     int selectCommentCount(@Param("index") int index);
 
+    CommentEntity[] selectSubCommentsByIndex(@Param("index") int index);
+
 }

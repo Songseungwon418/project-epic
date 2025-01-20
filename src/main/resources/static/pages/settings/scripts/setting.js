@@ -12,6 +12,8 @@ $mainContainer.onsubmit = (e) => {
     formData.append('name', $mainContainer['name'].value);
     formData.append('nickname', $mainContainer['nickname'].value);
     formData.append('birthdate', $mainContainer['birthdate'].value);
+    formData.append('postcode', $mainContainer['postcode'].value);
+    formData.append('detailAddress', $mainContainer['detail_address'].value);
     formData.append('addr', $mainContainer['addr'].value);
     formData.append('phone', $mainContainer['phone'].value);
     xhr.onreadystatechange = () => {
@@ -207,43 +209,72 @@ const $navItems = Array.from($nav.querySelectorAll(':scope > .menu > .item[rel]'
 const $main = document.getElementById('main');
 const $mainContents = Array.from($main.querySelectorAll(':scope > .content[rel]'));
 
+
 //region 옆 메뉴 동작
 $navItems.forEach(($navItem) => {
     $navItem.onclick = () => {
         // alert($navItem.innerText); // 잘되는지 확인용
         const rel = $navItem.getAttribute('rel');
 
-        const $mainContent = $mainContents.find((x) => x.getAttribute('rel') === rel);
+        // 게임 등록 항목이 선택되면 localStorage 저장하지 않음
+        if (rel === "user.gameAdd") {
+            return; // 게임 등록 선택 시, localStorage 값을 저장하지 않음
+        }
+
+        // localStorage 선택된 항목 저장
+        localStorage.setItem('selectedRel', rel);
+        console.log('선택 ' + rel)
 
         $mainContents.forEach(($mainContent) => $mainContent.classList.remove('-visible')); // 전체 -visible 클래스 제거 -> 초기화
 
-        $mainContent.classList.add('-visible'); // 선택한 메뉴에 -visible 클래스 추가
-
         $navItems.forEach((x) => x.classList.remove('-selected')); // 초기화
-        $navItem.classList.add('-selected'); // 선택된 네비메뉴에 -selected 추가
 
-        // 선택된 항목을 localStorage에 저장
-        localStorage.setItem('selectedRel', rel);
+        const $mainContent = $mainContents.find((x) => x.getAttribute('rel') === rel);
+        if ($mainContent) {
+            $mainContent.classList.add('-visible'); // 선택한 메뉴에 -visible 클래스 추가
+        }
+
+        $navItem.classList.add('-selected'); // 선택된 네비메뉴에 -selected 추가
     };
 });
 //endregion
 
 //region 페이지 새로고침 시 선택한 페이지 새로고침
 document.addEventListener('DOMContentLoaded', () => {
+    // 처음 로드 시 선택 사항 저장
+    window.onload = () => {
+        const $selectedNavItem = document.querySelector('.menu .item.-selected');
+        const rel = $selectedNavItem.getAttribute('rel');
+        console.log('처음 로드 : ' + rel);
+
+        // localStorage에 selectedRel이 이미 존재하면 실행하지 않음 - 처음으로 로드 시
+        if (!localStorage.getItem('selectedRel')) {
+            // "item -selected" 클래스를 가진 항목 찾기
+            if ($selectedNavItem) {
+                // localStorage에 선택된 항목 저장
+                localStorage.setItem('selectedRel', rel);
+            }
+        }else if (localStorage.getItem('selectedRel') !== rel) {
+            localStorage.setItem('selectedRel', rel);
+        }
+    }
+
     // 페이지 새로고침 여부를 체크
     const navigationType = performance.getEntriesByType("navigation")[0]?.type;
     if (navigationType === "reload") {
         // 저장된 선택 항목 복원
         const selectedRel = localStorage.getItem('selectedRel');
+        console.log('새로고침 시도 ' + selectedRel)
 
         // 화면 초기화 (-visible 클래스 제거)
         $mainContents.forEach(($mainContent) => $mainContent.classList.remove('-visible'));
         // 네비 선택 초기화
         $navItems.forEach((x) => x.classList.remove('-selected'));
 
-        // localStorage에 값이 있으면 저장된 항목을 복원
+        // localStorage 값이 있으면 저장된 항목을 복원
         if (selectedRel) {
             const $selectedContent = Array.from($mainContents).find((x) => x.getAttribute('rel') === selectedRel);
+
             if ($selectedContent) {
                 $selectedContent.classList.add('-visible');
             }

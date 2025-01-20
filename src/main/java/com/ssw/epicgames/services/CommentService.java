@@ -47,7 +47,24 @@ public class CommentService {
             return CommonResult.FAILURE;
         }
         dbComment.setDeletedAt(LocalDateTime.now());
-        return this.commentMapper.updateComment(dbComment) > 0 ? CommonResult.SUCCESS : CommonResult.FAILURE;
+        int updateCount = this.commentMapper.updateComment(dbComment);
+        updateCount += deleteSubComment(index);
+
+        return updateCount > 0 ? CommonResult.SUCCESS : CommonResult.FAILURE;
+    }
+
+    private int deleteSubComment(int index) {
+        int updateCount = 0;
+
+        CommentEntity[] comments = this.commentMapper.selectSubCommentsByIndex(index);
+        for (CommentEntity comment : comments) {
+            if (comment.getDeletedAt() == null) {
+                comment.setDeletedAt(LocalDateTime.now());
+                updateCount += this.commentMapper.updateComment(comment);
+                updateCount += deleteSubComment(comment.getIndex());
+            }
+        }
+        return updateCount;
     }
 
     public CommentVo[] getCommentsByArticleIndex(int articleIndex) {
