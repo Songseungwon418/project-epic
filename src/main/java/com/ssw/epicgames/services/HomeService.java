@@ -3,6 +3,7 @@ package com.ssw.epicgames.services;
 import com.ssw.epicgames.mappers.HomeMapper;
 import com.ssw.epicgames.vos.GameVo;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.cache.annotation.Cacheable;
 import org.springframework.stereotype.Service;
 
 @Service

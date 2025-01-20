@@ -455,7 +455,6 @@
     > .gameArea {
       width: 100%;
       height: auto;
-      margin-bottom: 6rem;
 
       display: flex;
       flex-direction: column;
@@ -1146,7 +1145,8 @@
             width: 30%;
             height: auto;
             position: sticky;
-            top: 0;
+            top: 9rem;
+            margin-bottom: 4rem;
 
             display: flex;
             flex-direction: column;
@@ -1437,7 +1437,7 @@
     > .comment {
       width: 100%;
       height: auto;
-      margin: 4rem 0;
+      margin-bottom: 6rem;
 
       > .commentArea {
         width: 100%;
@@ -1790,7 +1790,18 @@
               }
 
               > .date-wrapper {
+                display: flex;
+                flex-direction: row;
+                align-items: center;
+                justify-content: flex-start;
+                gap: 0.5rem;
+
                 > .datetime {
+                  font-size: 1.2rem;
+                  color: #999999;
+                }
+
+                > .update-date {
                   font-size: 1.2rem;
                   color: #999999;
                 }

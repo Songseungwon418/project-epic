@@ -22,9 +22,11 @@
         // 선택된 배너를 업데이트하는 함수
         function updateSelected(newIndex) {
             if (newIndex === currentSelected) return; // 이미 선택된 항목은 처리하지 않음
+
             // 기존 -selected 클래스 제거
             $sideBanners[currentSelected]?.classList.remove("-selected");
             $mainBanners[currentSelected]?.classList.remove("-selected");
+
             // 새 항목에 -selected 클래스 추가
             currentSelected = newIndex;
             $sideBanners[currentSelected]?.classList.add("-selected");
@@ -62,6 +64,7 @@
         updateSelected(currentSelected); // 초기 선택 상태 반영
         startInterval(); // 타이머 시작
     });
+
 }
 
 
@@ -129,6 +132,7 @@
                 updateSlider();
             }
         });
+
         initSlider();
     });
 }
@@ -226,7 +230,6 @@
             updateSliders();
             $prevButton.style.pointerEvents = 'none'; // 초기 이전 버튼 비활성화
             $pSvgPath.style.stroke = '#818181';
-
         }
 
         // 화면 크기 변화 시 슬라이드 너비 재계산
@@ -263,6 +266,7 @@
         // 초기화 실행
         initSliders();
     });
+
 }
 //endregion
 
@@ -457,6 +461,4 @@ if ($saleWishlistDeleteButtons.length > 0) {
     });
 }
 //endregion
-
-
 

@@ -44,7 +44,20 @@
         SELECT COUNT(0)
         FROM `epic_games`.`comments`
         WHERE `article_index` = #{index}
-        AND `deleted_at` IS NULL
+          AND `deleted_at` IS NULL
+    </select>
+
+    <select id="selectSubCommentsByIndex" resultType="com.ssw.epicgames.entities.CommentEntity">
+        SELECT `index` AS `index`,
+               `article_index` AS `articleIndex`,
+               `comment_index` AS `commentIndex`,
+               `user_email` AS `userEmail`,
+               `content` AS `content`,
+               `created_at` AS `createdAt`,
+               `updated_at` AS `updatedAt`,
+               `deleted_at` AS `deletedAt`
+        FROM `epic_games`.`comments`
+        WHERE `comment_index` = #{index}
     </select>
 
     <update id="updateComment" parameterType="com.ssw.epicgames.entities.CommentEntity">

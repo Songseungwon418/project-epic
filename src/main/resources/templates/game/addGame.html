@@ -54,7 +54,7 @@
     <th:block th:replace="~{fragments/common.html :: mainSearch}"></th:block>
     <th:block th:replace="~{fragments/common.html :: logout}"></th:block>
 
-    <form id="add-game-form" th:action="@{'/game/add'}" th:method="post" enctype="multipart/form-data">
+    <form id="add-game-form" th:action="@{'/game/addGame'}" th:method="post" enctype="multipart/form-data">
         <h2 class="title">게임 등록</h2>
         <label class="--label">
             <span class="title">게임 이름</span>

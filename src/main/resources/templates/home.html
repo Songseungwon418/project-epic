@@ -202,6 +202,7 @@
                 <div class="newGame-wrapper">
                     <a th:each="game, iterStat : ${newGames}" th:href="@{'/game/page'(index=${game.getIndex()})}"
                        target="_self" class="game">
+
                         <div class="main-image">
                             <img th:src="@{'/new-game-image?index=' + ${iterStat.index}}" alt="게임포스터">
 
@@ -243,6 +244,7 @@
                         <label th:if="${isLoggedIn}">
                             <input id="userEmail" th:value="${userEmail}" type="hidden">
                         </label>
+
                     </a>
                 </div>
             </div>

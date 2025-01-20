@@ -157,7 +157,7 @@ public class UserService {
         String mailText = this.templateEngine.process("email/registerEmail", context);
         MimeMessage mimeMessage = this.mailSender.createMimeMessage();
         MimeMessageHelper mimeMessageHelper = new MimeMessageHelper(mimeMessage);
-        mimeMessageHelper.setFrom("test@epic.com");
+        mimeMessageHelper.setFrom("stopsoo103@gmail.com");
         mimeMessageHelper.setTo(emailToken.getUserEmail());
         mimeMessageHelper.setSubject("[EPIC] 회원가입 인증 링크");
         mimeMessageHelper.setText(mailText, true);
@@ -200,7 +200,7 @@ public class UserService {
         String mailText = this.templateEngine.process("email/recoverPassword", context);
         MimeMessage mimeMessage = this.mailSender.createMimeMessage();
         MimeMessageHelper mimeMessageHelper = new MimeMessageHelper(mimeMessage);
-        mimeMessageHelper.setFrom("test@epic.com");
+        mimeMessageHelper.setFrom("stopsoo103@gmail.com");
         mimeMessageHelper.setTo(emailToken.getUserEmail());
         mimeMessageHelper.setSubject("[EPIC] 비밀번호 재설정 인증 링크");
         mimeMessageHelper.setText(mailText, true);
