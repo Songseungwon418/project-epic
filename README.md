@@ -91,6 +91,7 @@
 
 ## 💡 주요 기능
 
+<img alt="주요기능들.gif" src="img/%EC%A3%BC%EC%9A%94%EA%B8%B0%EB%8A%A5%EB%93%A4.gif" width="800"/>
 
 ### 로그인 / 회원 가입 기능
 
@@ -103,10 +104,10 @@
   </tr>
   <tr>
     <td>
-      <img alt="pay.gif" src="img/pay.gif" width="500"/>  
+      <img alt="pay.gif" src="img/pay.gif" width="385"/>  
     </td>
     <td>
-      <img alt="refound.gif" src="img/refound.gif" width="500"/>
+      <img alt="refound.gif" src="img/refound.gif" width="385"/>
     </td>
   </tr>
 </table>
