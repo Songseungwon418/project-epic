@@ -111,6 +111,16 @@
     </td>
   </tr>
 </table>
+<table>
+  <tr>
+    <th>위시리스트 & 장바구니 기능</th>
+  </tr>
+  <tr>
+    <td>
+      <img alt="wishlist_cart.gif" src="img/wishlist_cart.gif" width="800"/>
+    </td>
+  </tr>
+</table>
 
 ### 리뷰 기능
 
