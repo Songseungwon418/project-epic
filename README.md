@@ -41,8 +41,14 @@
 
 **장지수**
 - 깃허브 주소
+--- [https://github.com/stopsooo](https://github.com/stopsooo)
+
 - 포토폴리오 주소
+--- [https://stopsoo.com](https://stopsoo.com)
+
 - 배포 주소
+--- [https://epic.stopsoo.com](https://epic.stopsoo.com)
+
 
 ## 🛠️ 개발 환경
 
